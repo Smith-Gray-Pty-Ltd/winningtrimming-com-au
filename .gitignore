@@ -1,0 +1,14 @@
+wp-admin/
+wp-includes/
+wp-*.php
+index.php
+xmlrpc.php
+license.txt
+readme.html
+wp-content/uploads/
+wp-content/cache/
+.env
+*.log
+wp-config.php
+.DS_Store
+Thumbs.db

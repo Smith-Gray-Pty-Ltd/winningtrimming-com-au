@@ -1,0 +1,64 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: winningtrimming-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: winningtrimming-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+
+  wordpress:
+    image: wordpress:latest
+    container_name: winningtrimming-wordpress
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', '${WP_HOME}');
+        define('WP_SITEURL', '${WP_SITEURL}');
+        define('WP_ENVIRONMENT_TYPE', '${WP_ENVIRONMENT}');
+        define('DISALLOW_FILE_EDIT', true);
+        define('WP_POST_REVISIONS', 10);
+        define('WP_MEMORY_LIMIT', '256M');
+        ${REDIS_PASSWORD:+define('WP_REDIS_PASSWORD', '${REDIS_PASSWORD}');}
+    volumes:
+      - wp_data:/var/www/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.winningtrimming.rule=Host(`winningtrimming.com.au`) || Host(`www.winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming.entrypoints=websecure"
+      - "traefik.http.routers.winningtrimming.tls=true"
+      - "traefik.http.routers.winningtrimming.tls.certresolver=letsencrypt"
+      - "traefik.http.services.winningtrimming.loadbalancer.server.port=80"
+      - "traefik.http.routers.winningtrimming.middlewares=secHeaders-wt,strip-server-headers@file"
+      - "traefik.http.middlewares.secHeaders-wt.headers.customFrameOptionsValue=SAMEORIGIN"
+      - "traefik.http.middlewares.secHeaders-wt.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.secHeaders-wt.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.stsPreload=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.contentSecurityPolicy=upgrade-insecure-requests"
+      - "traefik.http.middlewares.secHeaders-wt.headers.permissionsPolicy=camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
+
+volumes:
+  db_data:
+  wp_data:
+  redis_data:
