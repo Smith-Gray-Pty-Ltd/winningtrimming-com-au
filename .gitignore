@@ -19,3 +19,4 @@ Thumbs.db
 *.sql
 *.sql.gz
 infra/letsencrypt/
+infra/docker-compose.override.yml

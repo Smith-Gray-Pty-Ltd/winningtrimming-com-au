@@ -192,7 +192,7 @@ mkdir -p /docker/winningtrimming && cd /docker/winningtrimming
 git clone git@github.com:Smith-Gray-Pty-Ltd/winningtrimming-com-au.git .
 cp infra/.env.example infra/.env
 # Edit .env with production credentials
-docker compose -f infra/docker-compose.yml up -d
+docker compose -f infra/docker-compose.yml -f infra/docker-compose.prod.yml up -d
 ```
 
 ### 4. Configure DNS

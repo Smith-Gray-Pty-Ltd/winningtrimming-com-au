@@ -16,26 +16,36 @@ add_action("wp_head", function() {
   "name": "Winning Trimming",
   "description": "Marine, RV, and Trade upholstery & covers in the Hunter Region, NSW.",
   "url": "https://winningtrimming.com.au",
-  "telephone": "+61-400-000-000",
+  "telephone": "+61-1300-799-882",
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Lake Macquarie",
+    "streetAddress": "Shop 2, 25 Sara Street",
+    "addressLocality": "Toronto",
     "addressRegion": "NSW",
+    "postalCode": "2283",
     "addressCountry": "AU"
   },
   "areaServed": [
     "Lake Macquarie",
-    "Central Coast",
     "Newcastle",
     "Hunter Valley",
+    "Central Coast",
     "Hunter Region"
   ],
-  "openingHoursSpecification": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    "opens": "08:00",
-    "closes": "17:00"
-  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "16:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "08:00",
+      "closes": "12:00"
+    }
+  ],
   "sameAs": []
 }
 </script>
@@ -45,5 +55,5 @@ add_action("wp_head", function() {
 // Add geo meta tags for local SEO
 add_action("wp_head", function() {
     echo '<meta name="geo.region" content="AU-NSW" />' . "\n";
-    echo '<meta name="geo.placename" content="Lake Macquarie" />' . "\n";
+    echo '<meta name="geo.placename" content="Toronto, NSW" />' . "\n";
 }, 2);

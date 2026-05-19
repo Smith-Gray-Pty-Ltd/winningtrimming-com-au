@@ -1,0 +1,57 @@
+# =============================================================================
+# Production override — adds Traefik labels and network for Hostinger VPS.
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# =============================================================================
+
+services:
+  wordpress:
+    ports: []
+    networks:
+      - internal
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+
+      # Primary router: winningtrimming.com.au (non-www)
+      - "traefik.http.routers.winningtrimming.rule=Host(`winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming.entrypoints=websecure"
+      - "traefik.http.routers.winningtrimming.tls=true"
+      - "traefik.http.routers.winningtrimming.tls.certresolver=letsencrypt"
+
+      # WWW redirect router: www.winningtrimming.com.au -> winningtrimming.com.au
+      - "traefik.http.routers.winningtrimming-www.rule=Host(`www.winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming-www.entrypoints=websecure"
+      - "traefik.http.routers.winningtrimming-www.tls=true"
+      - "traefik.http.routers.winningtrimming-www.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.redirect-www.redirectregex.regex=^https://www\\.winningtrimming\\.com\\.au/(.*)"
+      - "traefik.http.middlewares.redirect-www.redirectregex.replacement=https://winningtrimming.com.au/$${1}"
+      - "traefik.http.middlewares.redirect-www.redirectregex.permanent=true"
+      - "traefik.http.routers.winningtrimming-www.middlewares=redirect-www"
+
+      # HTTP -> HTTPS redirect
+      - "traefik.http.routers.winningtrimming-http.rule=Host(`winningtrimming.com.au`) || Host(`www.winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming-http.entrypoints=web"
+      - "traefik.http.routers.winningtrimming-http.middlewares=redirect-https"
+      - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-https.redirectscheme.permanent=true"
+
+      # Load balancer
+      - "traefik.http.services.winningtrimming.loadbalancer.server.port=80"
+
+      # Security headers
+      - "traefik.http.routers.winningtrimming.middlewares=secHeaders-wt,compress-wt,strip-server-headers@file"
+      - "traefik.http.middlewares.secHeaders-wt.headers.customFrameOptionsValue=SAMEORIGIN"
+      - "traefik.http.middlewares.secHeaders-wt.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.secHeaders-wt.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.stsPreload=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.secHeaders-wt.headers.contentSecurityPolicy=upgrade-insecure-requests"
+      - "traefik.http.middlewares.secHeaders-wt.headers.permissionsPolicy=camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
+
+      # Compression
+      - "traefik.http.middlewares.compress-wt.compress=true"
+
+networks:
+  traefik-public:
+    external: true
