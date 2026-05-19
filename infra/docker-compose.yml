@@ -1,8 +1,14 @@
 services:
   db:
-    image: mariadb:11
+    image: mariadb:${MARIADB_VERSION:-11}
     container_name: winningtrimming-db
     restart: unless-stopped
+    # Resource limits (adjust for your VPS):
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 512M
+    #       cpus: "1.0"
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MARIADB_DATABASE: wordpress
@@ -10,22 +16,50 @@ services:
       MARIADB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - internal
 
   redis:
-    image: redis:7-alpine
+    image: redis:${REDIS_VERSION:-7-alpine}
     container_name: winningtrimming-redis
     restart: unless-stopped
-    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    # Resource limits:
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 128M
+    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 256mb --maxmemory-policy allkeys-lru --save 60 1
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - internal
 
   wordpress:
-    image: wordpress:latest
+    image: wordpress:${WORDPRESS_VERSION:-6.7-php8.3-apache}
     container_name: winningtrimming-wordpress
     restart: unless-stopped
+    # Resource limits:
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 512M
+    #       cpus: "1.0"
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_NAME: wordpress
@@ -37,18 +71,54 @@ services:
         define('WP_ENVIRONMENT_TYPE', '${WP_ENVIRONMENT}');
         define('DISALLOW_FILE_EDIT', true);
         define('WP_POST_REVISIONS', 10);
-        define('WP_MEMORY_LIMIT', '256M');
-        ${REDIS_PASSWORD:+define('WP_REDIS_PASSWORD', '${REDIS_PASSWORD}');}
+        define('WP_MEMORY_LIMIT', '${WP_MEMORY_LIMIT}');
+        define('WP_REDIS_PASSWORD', '${REDIS_PASSWORD}');
     volumes:
       - wp_data:/var/www/html
+      # Local dev hot-reload mounts (uncomment for OrbStack):
+      # - ../wp-content/themes/winningtrimming:/var/www/html/wp-content/themes/winningtrimming
+      # - ../wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+      # - ../wp-content/plugins:/var/www/html/wp-content/plugins
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/wp-admin/images/wordpress-logo.svg"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - internal
+      - traefik-public
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.winningtrimming.rule=Host(`winningtrimming.com.au`) || Host(`www.winningtrimming.com.au`)"
+
+      # Primary router: winningtrimming.com.au (non-www)
+      - "traefik.http.routers.winningtrimming.rule=Host(`winningtrimming.com.au`)"
       - "traefik.http.routers.winningtrimming.entrypoints=websecure"
       - "traefik.http.routers.winningtrimming.tls=true"
       - "traefik.http.routers.winningtrimming.tls.certresolver=letsencrypt"
-      - "traefik.http.services.winningtrimming.loadbalancer.server.port=80"
       - "traefik.http.routers.winningtrimming.middlewares=secHeaders-wt,strip-server-headers@file"
+
+      # WWW redirect router: www.winningtrimming.com.au -> winningtrimming.com.au
+      - "traefik.http.routers.winningtrimming-www.rule=Host(`www.winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming-www.entrypoints=websecure"
+      - "traefik.http.routers.winningtrimming-www.tls=true"
+      - "traefik.http.routers.winningtrimming-www.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.redirect-www.redirectregex.regex=^https://www\\.winningtrimming\\.com\\.au/(.*)"
+      - "traefik.http.middlewares.redirect-www.redirectregex.replacement=https://winningtrimming.com.au/$${1}"
+      - "traefik.http.middlewares.redirect-www.redirectregex.permanent=true"
+      - "traefik.http.routers.winningtrimming-www.middlewares=redirect-www"
+
+      # HTTP -> HTTPS redirect (optional, if Traefik doesn't handle globally)
+      - "traefik.http.routers.winningtrimming-http.rule=Host(`winningtrimming.com.au`) || Host(`www.winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming-http.entrypoints=web"
+      - "traefik.http.routers.winningtrimming-http.middlewares=redirect-https"
+      - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-https.redirectscheme.permanent=true"
+
+      # Load balancer
+      - "traefik.http.services.winningtrimming.loadbalancer.server.port=80"
+
+      # Security headers
       - "traefik.http.middlewares.secHeaders-wt.headers.customFrameOptionsValue=SAMEORIGIN"
       - "traefik.http.middlewares.secHeaders-wt.headers.stsSeconds=31536000"
       - "traefik.http.middlewares.secHeaders-wt.headers.stsIncludeSubdomains=true"
@@ -58,7 +128,17 @@ services:
       - "traefik.http.middlewares.secHeaders-wt.headers.contentSecurityPolicy=upgrade-insecure-requests"
       - "traefik.http.middlewares.secHeaders-wt.headers.permissionsPolicy=camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
 
+      # Compression
+      - "traefik.http.middlewares.compress-wt.compress=true"
+      - "traefik.http.routers.winningtrimming.middlewares=secHeaders-wt,compress-wt,strip-server-headers@file"
+
 volumes:
   db_data:
   wp_data:
   redis_data:
+
+networks:
+  internal:
+    driver: bridge
+  traefik-public:
+    external: true

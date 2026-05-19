@@ -7,8 +7,15 @@ license.txt
 readme.html
 wp-content/uploads/
 wp-content/cache/
+wp-content/wflogs/
 .env
+.env.*
+!.env.example
 *.log
 wp-config.php
+wp-config-local.php
 .DS_Store
 Thumbs.db
+*.sql
+*.sql.gz
+infra/letsencrypt/
