@@ -74,6 +74,7 @@ services:
         define('DISALLOW_FILE_EDIT', true);
         define('WP_POST_REVISIONS', 10);
         define('WP_MEMORY_LIMIT', '${WP_MEMORY_LIMIT}');
+        define('DISABLE_WP_CRON', true);
         define('WP_REDIS_HOST', 'redis');
         define('WP_REDIS_PASSWORD', '${REDIS_PASSWORD}');
     volumes:
