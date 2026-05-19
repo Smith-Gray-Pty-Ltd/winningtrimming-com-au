@@ -12,4 +12,249 @@
  Text Domain:  winningtrimming
 */
 
-/* Add custom styles below */
+/* ==========================================================================
+   Design tokens — matching Squarespace site
+   ========================================================================== */
+
+:root {
+    --wt-green: #3d7a00;
+    --wt-green-rgb: 61, 122, 0;
+    --wt-teal: #0f9db5;
+    --wt-teal-rgb: 15, 157, 181;
+    --wt-dark: #1a1a1a;
+    --wt-light: #fafafa;
+    --wt-white: #ffffff;
+    --wt-radius: 6px;
+}
+
+/* Enqueue Poppins via functions.php */
+
+/* Global typography */
+body,
+button,
+input,
+select,
+textarea,
+.ast-button,
+.ast-custom-button,
+.wp-block-button__link {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--wt-dark);
+}
+
+h1, h2, h3, h4, h5, h6,
+.entry-content h1, .entry-content h2,
+.entry-content h3, .entry-content h4 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--wt-dark);
+}
+
+h1 { font-size: 3rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.8rem; }
+h4 { font-size: 1.4rem; }
+
+/* Links */
+a, .entry-content a {
+    color: var(--wt-teal);
+    text-decoration: none;
+}
+a:hover, .entry-content a:hover {
+    color: var(--wt-green);
+}
+
+/* Primary buttons */
+.ast-custom-button,
+.wp-block-button__link,
+button.ast-button,
+.button,
+input[type="submit"] {
+    background-color: var(--wt-green) !important;
+    color: var(--wt-white) !important;
+    border-radius: var(--wt-radius) !important;
+    border: none !important;
+    padding: 0.85em 2em !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.02em !important;
+    text-transform: none !important;
+    transition: background-color 0.2s ease;
+}
+.ast-custom-button:hover,
+.wp-block-button__link:hover,
+.button:hover,
+input[type="submit"]:hover {
+    background-color: #2d5c00 !important;
+}
+
+/* Secondary / outline buttons */
+.wp-block-button.is-style-outline .wp-block-button__link {
+    background-color: transparent !important;
+    color: var(--wt-green) !important;
+    border: 1px solid var(--wt-green) !important;
+}
+
+/* Header */
+.site-header {
+    background-color: var(--wt-white);
+    border-bottom: none;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+}
+.main-header-menu .menu-link {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--wt-teal);
+    text-transform: none;
+}
+.main-header-menu .current-menu-item > .menu-link,
+.main-header-menu .menu-link:hover {
+    color: var(--wt-green);
+}
+
+/* Mobile menu toggle */
+.ast-header-break-point .main-header-bar-navigation {
+    background: var(--wt-white);
+}
+
+/* Hero / cover blocks */
+.wp-block-cover {
+    min-height: 70vh;
+}
+.wp-block-cover .wp-block-cover__inner-container {
+    max-width: 800px;
+}
+
+/* Content width */
+.ast-container, .ast-separate-container .ast-article-post,
+.ast-separate-container .ast-article-single {
+    max-width: 1200px;
+}
+
+/* Section spacing */
+.entry-content > * {
+    margin-bottom: 0;
+}
+
+/* Cards / service sections */
+.wt-service-card {
+    background: var(--wt-light);
+    border-radius: var(--wt-radius);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+}
+.wt-service-card:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.wt-service-card h3 {
+    font-size: 1.4rem;
+    margin: 1rem 0 0.5rem;
+    font-weight: 500;
+}
+.wt-service-card p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Green strip / banner */
+.wt-banner-green {
+    background-color: var(--wt-green);
+    color: var(--wt-white);
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+.wt-banner-green a {
+    color: var(--wt-white);
+    text-decoration: underline;
+}
+
+/* Light background sections */
+.wt-section-light {
+    background-color: var(--wt-light);
+    padding: 5rem 0;
+}
+.wt-section-dark {
+    background-color: var(--wt-green);
+    color: var(--wt-white);
+    padding: 5rem 0;
+}
+.wt-section-dark h2,
+.wt-section-dark h3,
+.wt-section-dark p {
+    color: var(--wt-white);
+}
+
+/* Contact form */
+.wpforms-container input[type="text"],
+.wpforms-container input[type="email"],
+.wpforms-container input[type="tel"],
+.wpforms-container textarea,
+.wpforms-container select {
+    border-radius: 5px !important;
+    border: 1px solid #ddd !important;
+    padding: 10px 15px !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 1rem !important;
+}
+.wpforms-container button[type="submit"] {
+    background-color: var(--wt-green) !important;
+    border-radius: var(--wt-radius) !important;
+    padding: 0.85em 2.5em !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--wt-dark);
+    color: rgba(255,255,255,0.75);
+    font-size: 0.9rem;
+}
+.site-footer a {
+    color: rgba(255,255,255,0.9);
+}
+.site-footer .ast-footer-widget-area {
+    padding: 3rem 0;
+}
+
+/* Project/testimonial grid */
+.wt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+    .wt-service-card {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* CTA bar at bottom */
+.wt-cta-bar {
+    background-color: var(--wt-green);
+    color: var(--wt-white);
+    text-align: center;
+    padding: 4rem 2rem;
+}
+.wt-cta-bar h2 {
+    color: var(--wt-white);
+    margin-bottom: 1.5rem;
+}
+.wt-cta-bar .ast-custom-button {
+    background-color: var(--wt-white) !important;
+    color: var(--wt-green) !important;
+}

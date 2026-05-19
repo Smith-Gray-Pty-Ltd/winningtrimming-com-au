@@ -16,13 +16,22 @@ add_action("after_switch_theme", function() {
         switch_theme(WP_DEFAULT_THEME);
         wp_die(
             sprintf(
-                "Winning Trimming is a child theme of <strong>%s</strong>. Please install and activate the %s theme first.",
-                esc_html($parent),
+                "Winning Trimming requires the <strong>%s</strong> theme. Please install and activate it first.",
                 esc_html($parent)
             )
         );
     }
 });
+
+// Enqueue Google Fonts
+add_action("wp_enqueue_scripts", function() {
+    wp_enqueue_style(
+        "wt-google-fonts",
+        "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap",
+        [],
+        null
+    );
+}, 5);
 
 // Enqueue parent and child theme styles
 add_action("wp_enqueue_scripts", function() {
@@ -35,9 +44,24 @@ add_action("wp_enqueue_scripts", function() {
     wp_enqueue_style(
         "winningtrimming-child",
         get_stylesheet_directory_uri() . "/style.css",
-        ["astra-parent"],
+        ["astra-parent", "wt-google-fonts"],
         WT_CHILD_VERSION
     );
+});
+
+// Disable Astra default Google Fonts to avoid conflicts
+add_filter("astra_google_fonts_selected", "__return_empty_array");
+add_filter("astra_enable_default_fonts", "__return_false");
+
+// Set global color palette
+add_action("after_setup_theme", function() {
+    add_theme_support("editor-color-palette", [
+        ["name" => "WT Green",   "slug" => "wt-green",  "color" => "#3d7a00"],
+        ["name" => "WT Teal",    "slug" => "wt-teal",   "color" => "#0f9db5"],
+        ["name" => "Dark",       "slug" => "wt-dark",   "color" => "#1a1a1a"],
+        ["name" => "White",      "slug" => "white",      "color" => "#ffffff"],
+        ["name" => "Light Gray", "slug" => "wt-light",  "color" => "#fafafa"],
+    ]);
 });
 
 // Register Projects custom post type
@@ -89,11 +113,11 @@ add_action("init", function() {
             "add_new_item"  => "Add New Testimonial",
             "edit_item"     => "Edit Testimonial",
         ],
-        "public"        => false,
+        "public"             => false,
         "publicly_queryable" => false,
-        "show_ui"       => true,
-        "supports"      => ["title", "editor", "thumbnail"],
-        "menu_icon"     => "dashicons-star-filled",
-        "show_in_rest"  => true,
+        "show_ui"            => true,
+        "supports"           => ["title", "editor", "thumbnail"],
+        "menu_icon"          => "dashicons-star-filled",
+        "show_in_rest"       => true,
     ]);
 });
