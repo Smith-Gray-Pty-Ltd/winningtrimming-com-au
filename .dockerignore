@@ -1,0 +1,38 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies (installed inside the container)
+node_modules
+
+# Next.js build output
+.next
+out
+
+# Local env (compose injects env via env_file; don't bake secrets into image)
+.env
+.env.local
+.env.*.local
+
+# Payload / storage
+storage
+media
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+
+# Misc
+README.railway.md
+railway.toml
+railway.build.toml

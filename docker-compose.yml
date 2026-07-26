@@ -1,0 +1,64 @@
+# =============================================================================
+# Winning Trimming — local dev stack (OrbStack / Docker Compose)
+# =============================================================================
+# Project name is `winningtrimming` (set via top-level `name:` and COMPOSE_PROJECT_NAME
+# in .env). This reclaims the OrbStack project formerly used by WordPress.
+#
+#   docker compose up -d            start postgres + app
+#   docker compose logs -f web      tail Next.js / Payload logs
+#   docker compose exec web sh      shell into the app
+#   docker compose down             stop (keeps data volumes)
+#
+# First run: visit http://localhost:3000/admin to create the first admin user,
+# then click "seed database" to populate demo content.
+# =============================================================================
+
+name: winningtrimming
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-payload}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-payload_local_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-winningtrimming}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    # Expose on host port 5434 so host-side tooling (psql, TablePlus) can reach
+    # the DB without colliding with other local Postgres instances.
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-payload} -d ${POSTGRES_DB:-winningtrimming}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      target: dev
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      # Postgres must be reached via the compose service name, not localhost.
+      POSTGRES_URI: postgresql://${POSTGRES_USER:-payload}:${POSTGRES_PASSWORD:-payload_local_pw}@db:5432/${POSTGRES_DB:-winningtrimming}
+    ports:
+      - "3000:3000"
+    volumes:
+      # Live source for hot reload.
+      - .:/app:cached
+      # Keep container-installed node_modules + Next cache isolated from host.
+      - /app/node_modules
+      - /app/.next
+      # Persist locally-stored uploads (when S3 is not configured).
+      - storage:/app/storage
+
+volumes:
+  db_data:
+  storage:

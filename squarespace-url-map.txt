@@ -1,0 +1,37 @@
+# Squarespace to WordPress URL Map for Winning Trimming
+# Crawled: 2025-05-19 | Source: sitemap.xml + wget spider
+# ============================================================
+
+# Indexed Pages (from sitemap.xml)
+/home       → /                     (Homepage — single-page with all sections)
+/contact-us → /contact              (Contact page with form + address)
+
+# Squarespace Defaults (not indexed, redirect to home)
+/cart       → /                     (Squarespace cart — no ecommerce on this site)
+
+# 301 Redirects to implement on cutover:
+# Redirect 301 /home       /
+# Redirect 301 /contact-us /contact
+# Redirect 301 /cart       /
+
+# Sections on Homepage (single-page, will become separate pages or sections):
+# - Hero: "Serving Lake Macquarie, the Central Coast, Newcastle and the Hunter Valley"
+# - "Discover the Winning difference"
+# - "Marine, Recreational and Trade" (overview)
+# - "Boats and watercraft" (list of boat types)
+# - "RVs, Caravans & Offroad" (list of RV types)
+# - "Utes, Plant & Machinery" (list of trade vehicles)
+# - "Bespoke Trimming, Upholstery & Covers"
+#   - Marine: Weather Covers, Towing Covers, Bimini Tops, Dodgers, etc.
+#   - Recreational: Storage Covers, Caravan Bras, Canopies, Awnings, etc.
+#   - Trade: Tonneau Covers, Canopies, Custom Trays, Tool Covers, etc.
+# - Footer: Address, Phone (1300 799 882), Hours, Service Areas
+
+# Business Info (from crawl):
+#   Name: Winning Trimming
+#   Address: Shop 2, 25 Sara Street, Toronto, NSW 2280
+#   Phone: 1300 799 882
+#   Hours: Mon-Fri 8am-4pm, Sat 8am-Midday
+#   ABN: 92 655 426 707
+#   Trading as: Smith & Gray Pty Ltd
+#   Service Areas: Lake Macquarie, Newcastle & Hunter, Central Coast
