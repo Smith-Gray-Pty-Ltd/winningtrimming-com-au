@@ -66,6 +66,18 @@ export const Content: Block = {
   interfaceName: 'ContentBlock',
   fields: [
     {
+      name: 'background',
+      type: 'select',
+      defaultValue: 'default',
+      options: [
+        { label: 'Default (white)', value: 'default' },
+        { label: 'Teal', value: 'teal' },
+      ],
+      admin: {
+        description: 'Full-width section background colour.',
+      },
+    },
+    {
       name: 'columns',
       type: 'array',
       fields: columnFields,

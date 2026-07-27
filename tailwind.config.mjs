@@ -107,12 +107,25 @@ export default {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            '--tw-prose-body': 'var(--text)',
-            '--tw-prose-headings': 'var(--text)',
+            '--tw-prose-body': 'hsl(var(--foreground))',
+            '--tw-prose-headings': 'hsl(var(--accent))',
+            '--tw-prose-links': 'hsl(var(--accent))',
             h1: {
-              fontSize: '3.5rem',
-              fontWeight: 'normal',
+              fontSize: '4rem',
+              fontWeight: '500',
+              letterSpacing: '-0.02em',
               marginBottom: '0.25em',
+            },
+            h2: {
+              fontSize: '3rem',
+              fontWeight: '500',
+              letterSpacing: '-0.02em',
+              marginBottom: '0.4em',
+            },
+            h3: {
+              fontSize: '1.5rem',
+              fontWeight: '500',
+              marginBottom: '0.4em',
             },
           },
         },

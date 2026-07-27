@@ -1,14 +1,17 @@
 'use client'
 
-import type { Theme } from '@/providers/Theme/types'
-
 import React, { createContext, useCallback, useContext, useState } from 'react'
 
-import canUseDOM from '@/utilities/canUseDOM'
+/**
+ * Header-only contrast mode. This is NOT a site theme and is not user-toggleable.
+ * Pages with a dark hero set the header to 'dark' so its text/logo stay legible
+ * over the imagery. There is exactly one site theme (see globals.css).
+ */
+export type HeaderThemeMode = 'dark' | 'light'
 
 export interface ContextType {
-  headerTheme?: Theme | null
-  setHeaderTheme: (theme: Theme | null) => void
+  headerTheme?: HeaderThemeMode | null
+  setHeaderTheme: (theme: HeaderThemeMode | null) => void
 }
 
 const initialContext: ContextType = {
@@ -19,11 +22,9 @@ const initialContext: ContextType = {
 const HeaderThemeContext = createContext(initialContext)
 
 export const HeaderThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [headerTheme, setThemeState] = useState<Theme | undefined | null>(
-    canUseDOM ? (document.documentElement.getAttribute('data-theme') as Theme) : undefined,
-  )
+  const [headerTheme, setThemeState] = useState<HeaderThemeMode | undefined | null>(undefined)
 
-  const setHeaderTheme = useCallback((themeToSet: Theme | null) => {
+  const setHeaderTheme = useCallback((themeToSet: HeaderThemeMode | null) => {
     setThemeState(themeToSet)
   }, [])
 

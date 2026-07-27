@@ -1,4 +1,6 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
+import fs from 'fs'
+import path from 'path'
 
 import { contactForm as contactFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
@@ -100,9 +102,8 @@ export const seed = async ({
     fetchFileByURL(
       'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post3.webp',
     ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
-    ),
+    // Winning Trimming hero photo (boat) — served from the local /public dir.
+    readLocalFile('public/winning-trimming-hero.webp', 'image/webp'),
   ])
 
   const image1Doc = await payload.create({
@@ -351,6 +352,20 @@ async function fetchFileByURL(url: string): Promise<File> {
     name: url.split('/').pop() || `file-${Date.now()}`,
     data: Buffer.from(data),
     mimetype: `image/${url.split('.').pop()}`,
+    size: data.byteLength,
+  }
+}
+
+// Read an image from the local repo (e.g. ./public/...) into the Payload File
+// shape. Used for brand assets like the hero photo that ship with the project.
+function readLocalFile(filePath: string, mimetype: string): File {
+  const abs = path.resolve(process.cwd(), filePath)
+  const data = fs.readFileSync(abs)
+
+  return {
+    name: path.basename(abs),
+    data: Buffer.from(data),
+    mimetype,
     size: data.byteLength,
   }
 }

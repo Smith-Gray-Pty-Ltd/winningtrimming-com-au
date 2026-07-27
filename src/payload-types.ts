@@ -261,6 +261,7 @@ export interface CallToActionBlock {
  * via the `definition` "ContentBlock".
  */
 export interface ContentBlock {
+  background?: ('default' | 'teal') | null;
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
@@ -821,6 +822,7 @@ export interface PagesSelect<T extends boolean = true> {
         content?:
           | T
           | {
+              background?: T;
               columns?:
                 | T
                 | {
