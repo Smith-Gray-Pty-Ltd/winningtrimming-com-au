@@ -35,10 +35,13 @@ export const RenderBlocks: React.FC<{
 
             if (Block) {
               return (
-                <div className="my-16" key={index}>
+                // No wrapper margin — each block manages its own spacing
+                // (e.g. Content bands use py-16, ArchiveBlock has my-16) so
+                // full-bleed coloured bands sit flush against each other.
+                <Fragment key={index}>
                   {/* @ts-expect-error */}
                   <Block {...block} />
-                </div>
+                </Fragment>
               )
             }
           }
