@@ -82,6 +82,8 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
         },
         {
           size: 'oneThird',
+          // @ts-ignore
+          image: '{{IMG_BOATS}}',
           richText: root([
             h('Boats and watercraft'),
             p('Yachts'),
@@ -100,6 +102,8 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
         },
         {
           size: 'oneThird',
+          // @ts-ignore
+          image: '{{IMG_RVS}}',
           richText: root([
             h('RVs, Caravans & Offroad'),
             p('Caravans'),
@@ -116,6 +120,8 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
         },
         {
           size: 'oneThird',
+          // @ts-ignore
+          image: '{{IMG_UTES}}',
           richText: root([
             h('Utes, Plant & Machinery'),
             p('Utility Beds'),
@@ -157,6 +163,8 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
         },
         {
           size: 'oneThird',
+          // @ts-ignore
+          image: '{{IMG_MARINE}}',
           richText: root([
             h('Marine'),
             p('Weather Covers'),
@@ -177,6 +185,8 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
         },
         {
           size: 'oneThird',
+          // @ts-ignore
+          image: '{{IMG_RECREATIONAL}}',
           richText: root([
             h('Recreational'),
             p('Storage Covers'),
@@ -195,6 +205,8 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
         },
         {
           size: 'oneThird',
+          // @ts-ignore
+          image: '{{IMG_TRADE}}',
           richText: root([
             h('Trade'),
             p('Tonneau Covers'),

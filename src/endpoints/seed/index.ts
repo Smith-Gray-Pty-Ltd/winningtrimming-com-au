@@ -127,6 +127,26 @@ export const seed = async ({
     file: hero1Buffer,
   })
 
+  // Winning Trimming category photos (one per home-page column).
+  payload.logger.info(`— Seeding category photos...`)
+  const categoryImages = [
+    ['boats', 'public/wt-cat-boats.webp'],
+    ['rvs', 'public/wt-cat-rvs.webp'],
+    ['utes', 'public/wt-cat-utes.webp'],
+    ['marine', 'public/wt-cat-marine.webp'],
+    ['recreational', 'public/wt-cat-recreational.webp'],
+    ['trade', 'public/wt-cat-trade.webp'],
+  ] as const
+  const categoryDocs: Record<string, (typeof image1Doc)['id']> = {}
+  for (const [key, file] of categoryImages) {
+    const doc = await payload.create({
+      collection: 'media',
+      data: image2,
+      file: readLocalFile(file, 'image/webp'),
+    })
+    categoryDocs[key] = doc.id
+  }
+
   payload.logger.info(`— Seeding categories...`)
   const technologyCategory = await payload.create({
     collection: 'categories',
@@ -242,12 +262,21 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding home page...`)
 
+  const quote = (id: unknown) =>
+    payload.db.defaultIDType === 'text' ? `"${id}"` : String(id)
+
   await payload.create({
     collection: 'pages',
     data: JSON.parse(
       JSON.stringify(home)
         .replace(/"\{\{IMAGE_1\}\}"/g, String(imageHomeID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID)),
+        .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
+        .replace(/"\{\{IMG_BOATS\}\}"/g, quote(categoryDocs.boats))
+        .replace(/"\{\{IMG_RVS\}\}"/g, quote(categoryDocs.rvs))
+        .replace(/"\{\{IMG_UTES\}\}"/g, quote(categoryDocs.utes))
+        .replace(/"\{\{IMG_MARINE\}\}"/g, quote(categoryDocs.marine))
+        .replace(/"\{\{IMG_RECREATIONAL\}\}"/g, quote(categoryDocs.recreational))
+        .replace(/"\{\{IMG_TRADE\}\}"/g, quote(categoryDocs.trade)),
     ),
   })
 

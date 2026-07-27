@@ -265,6 +265,7 @@ export interface ContentBlock {
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        image?: (number | null) | Media;
         richText?: {
           root: {
             type: string;
@@ -827,6 +828,7 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     size?: T;
+                    image?: T;
                     richText?: T;
                     enableLink?: T;
                     link?:

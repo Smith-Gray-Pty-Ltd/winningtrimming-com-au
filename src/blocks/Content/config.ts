@@ -34,6 +34,14 @@ const columnFields: Field[] = [
     ],
   },
   {
+    name: 'image',
+    type: 'relationship',
+    relationTo: 'media',
+    admin: {
+      description: 'Optional image rendered above the text in this column.',
+    },
+  },
+  {
     name: 'richText',
     type: 'richText',
     editor: lexicalEditor({
