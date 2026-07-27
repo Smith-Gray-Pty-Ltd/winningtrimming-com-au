@@ -9,7 +9,6 @@ import React from 'react'
 import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
-import { getClientSideURL } from '@/utilities/getURL'
 
 const { breakpoints } = cssVariables
 
@@ -47,7 +46,12 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource || ''
 
-    src = `${getClientSideURL()}${url}`
+    // Use the URL as Payload returns it: absolute for remote/S3 storage, and
+    // a relative path ("/api/media/file/...") for local storage. Keeping it
+    // relative for local dev means next/image optimises it same-origin instead
+    // of doing a server-side fetch to the public host port (which differs from
+    // the in-container port and would 404 the optimiser).
+    src = url || ''
   }
 
   const loading = loadingFromProps || 'lazy'

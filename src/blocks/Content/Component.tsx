@@ -51,7 +51,11 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
 
                   {richText && <RichText content={richText} enableGutter={false} />}
 
-                  {enableLink && <CMSLink {...link} />}
+                  {enableLink && (
+                    <div className={cn(size === 'full' && 'flex justify-center mt-4')}>
+                      <CMSLink {...link} />
+                    </div>
+                  )}
                 </div>
               )
             })}

@@ -23,9 +23,9 @@ cp .env.example .env
 # 2. Build + launch the stack (Postgres + Next.js)
 docker compose up -d --build
 
-# 3. Visit the app
-open http://localhost:3000          # website
-open http://localhost:3000/admin    # Payload admin panel
+# 3. Visit the app (port 3010 — 3000 was taken by another local site)
+open http://localhost:3010          # website
+open http://localhost:3010/admin    # Payload admin panel
 ```
 
 On first run the database schema is auto-pushed by Payload on boot — no manual
@@ -55,7 +55,7 @@ destructive — it clears the collections it touches.
 ```
 docker compose up
 ├── db     postgres:16-alpine     (volume: db_data, host port 5434)
-└── web    winningtrimming-web    (Next.js dev + Payload, host port 3000)
+├── web    winningtrimming-web    (Next.js dev + Payload, host port 3010)
            ├── /app          bind-mounted from repo (hot reload)
            ├── /app/node_modules   container-managed
            └── storage       local uploads (volume: storage)
