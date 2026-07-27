@@ -6,6 +6,7 @@ import { contactForm as enquiryFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
 import { home } from './home'
 import { pillarPages, ourWorkPage, aboutPage } from './pages'
+import { seedProjects } from './projects'
 import { image2 } from './image-2'
 
 const collections: CollectionSlug[] = [
@@ -13,6 +14,8 @@ const collections: CollectionSlug[] = [
   'media',
   'pages',
   'posts',
+  'projects',
+  'service-types',
   'forms',
   'form-submissions',
   'search',
@@ -64,6 +67,9 @@ export const seed = async ({
     })
     media[key] = doc.id
   }
+
+  // ---- Projects & service types -----------------------------------------
+  await seedProjects(payload, media)
 
   // Helper to resolve {{PLACEHOLDER}} IDs in page JSON (handles text/numeric IDs)
   const quote = (id: unknown) =>

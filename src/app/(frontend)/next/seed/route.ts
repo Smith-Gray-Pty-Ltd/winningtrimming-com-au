@@ -33,7 +33,8 @@ export async function POST(
     await seed({ payload, req: payloadReq })
 
     return Response.json({ success: true })
-  } catch {
+  } catch (err) {
+    payload.logger.error(err)
     return new Response('Error seeding data.')
   }
 }

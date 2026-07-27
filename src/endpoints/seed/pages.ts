@@ -154,10 +154,9 @@ export const ourWorkPage: PageSeed = {
           size: 'full',
           richText: root([
             h('Recent projects', 'h2'),
-            p('Our portfolio is organised by service area — Marine, Automotive, Caravan & RV, Trade & Industrial and Commercial. A filterable gallery of completed jobs will appear here soon. In the meantime, get in touch and we can share examples relevant to your project.'),
+            p('A selection of completed jobs across our five service areas — filter by service or work type below.'),
           ]),
         },
-        { size: 'full', enableLink: true, richText: root([]), link: { ...QUOTE_CTA } },
       ],
     },
   ],
