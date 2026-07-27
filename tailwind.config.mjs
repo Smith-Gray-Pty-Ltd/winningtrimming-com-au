@@ -111,13 +111,14 @@ export default {
             '--tw-prose-headings': 'hsl(var(--accent))',
             '--tw-prose-links': 'hsl(var(--accent))',
             h1: {
-              fontSize: '4rem',
+              fontSize: 'clamp(2rem, 5.5vw, 4rem)',
               fontWeight: '500',
               letterSpacing: '-0.02em',
+              lineHeight: '1.1',
               marginBottom: '0.25em',
             },
             h2: {
-              fontSize: '3rem',
+              fontSize: 'clamp(1.75rem, 4vw, 3rem)',
               fontWeight: '500',
               letterSpacing: '-0.02em',
               marginBottom: '0.4em',

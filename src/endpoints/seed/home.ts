@@ -10,7 +10,7 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
     // @ts-ignore
     media: '{{IMAGE_1}}',
     richText: root([
-      h('Serving Lake Macquarie, the Central Coast, Newcastle and the Hunter Valley', 'h1'),
+      h('Discover the Winning difference', 'h1'),
       p('Where quality meets craftsmanship and customer service shines.'),
     ]),
   },
