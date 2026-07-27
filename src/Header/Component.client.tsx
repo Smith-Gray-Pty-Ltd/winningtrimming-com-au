@@ -4,6 +4,7 @@ import React from 'react'
 
 import type { Header } from '@/payload-types'
 
+import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 
@@ -20,7 +21,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
         <Link href="/" className="shrink-0">
           <Logo loading="eager" priority="high" />
         </Link>
-        <HeaderNav header={header} />
+        <div className="flex items-center gap-4">
+          <HeaderNav header={header} />
+          {/* Primary CTA — prominent on desktop, lives in the mobile drawer on small screens */}
+          <Button asChild size="sm" className="hidden md:inline-flex">
+            <Link href="/contact">Request a Quote</Link>
+          </Button>
+        </div>
       </div>
     </header>
   )

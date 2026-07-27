@@ -1,64 +1,12 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
-
-// --- Lexical helpers: build richText nodes concisely for the seed -------------
-// Typed loosely (any) because these are serialised to JSON at seed time; the
-// exact Lexical node shapes are validated at runtime, not at compile time.
-type Node = any
-const txt = (t: string): Node => ({
-  type: 'text',
-  detail: 0,
-  format: 0,
-  mode: 'normal',
-  style: '',
-  text: t,
-  version: 1,
-})
-const p = (t: string): Node => ({
-  type: 'paragraph',
-  children: [txt(t)],
-  direction: 'ltr',
-  format: '',
-  indent: 0,
-  textFormat: 0,
-  version: 1,
-})
-const h = (t: string, tag: 'h1' | 'h2' | 'h3' | 'h4' = 'h3'): Node => ({
-  type: 'heading',
-  children: [txt(t)],
-  direction: 'ltr',
-  format: '',
-  indent: 0,
-  tag,
-  version: 1,
-})
-const root = (children: Node[]): any => ({
-  root: {
-    type: 'root',
-    children,
-    direction: 'ltr',
-    format: '',
-    indent: 0,
-    version: 1,
-  },
-})
-
-const BOOKING_URL = 'https://my.workshopsoftware.com.au/bookings.html#/Smith?token=ngrqms'
+import { h, p, root, QUOTE_CTA } from './helpers'
 
 export const home: RequiredDataFromCollectionSlug<'pages'> = {
   slug: 'home',
   _status: 'published',
   hero: {
     type: 'highImpact',
-    links: [
-      {
-        link: {
-          type: 'custom',
-          appearance: 'default',
-          label: 'Book a Call/Inspection',
-          url: BOOKING_URL,
-        },
-      },
-    ],
+    links: [{ link: { ...QUOTE_CTA } }],
     // @ts-ignore
     media: '{{IMAGE_1}}',
     richText: root([
@@ -67,177 +15,82 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
     ]),
   },
   layout: [
-    // ---- Band 1: teal — "Marine, Recreational and Trade" ------------------
+    // ---- Intro to the service pillars -----------------------------------
     {
-      blockName: 'Service categories',
-      blockType: 'content',
-      background: 'teal',
-      columns: [
-        {
-          size: 'full',
-          richText: root([
-            h('Marine, Recreational and Trade', 'h2'),
-            p('At Winning Trimming, we specialise in providing top-quality trimming, upholstery, and cover solutions for marine, recreational and trade.'),
-          ]),
-        },
-        {
-          size: 'oneThird',
-          // @ts-ignore
-          image: '{{IMG_BOATS}}',
-          richText: root([
-            h('Boats and watercraft'),
-            p('Yachts'),
-            p('Catamarans'),
-            p('Inflatable Boats (RIBS)'),
-            p('Jet Skis'),
-            p('Outboard Motors'),
-            p('Pontoons'),
-            p('Power Boats'),
-            p('Row Boats'),
-            p('Sail Boats'),
-            p('Fishing Boats'),
-            p('Tenders'),
-            p('Tinnies'),
-          ]),
-        },
-        {
-          size: 'oneThird',
-          // @ts-ignore
-          image: '{{IMG_RVS}}',
-          richText: root([
-            h('RVs, Caravans & Offroad'),
-            p('Caravans'),
-            p('RVs'),
-            p('Motorhomes'),
-            p('Campervans'),
-            p('Camping Trailers'),
-            p('Offroad'),
-            p('4x4'),
-            p('5th Wheelers'),
-            p('Trailers'),
-            p('Motorcycles'),
-          ]),
-        },
-        {
-          size: 'oneThird',
-          // @ts-ignore
-          image: '{{IMG_UTES}}',
-          richText: root([
-            h('Utes, Plant & Machinery'),
-            p('Utility Beds'),
-            p('Trays'),
-            p('Tools'),
-            p('Hiabs/Cranes'),
-            p('Trailers'),
-            p('Mini/Small Equipment'),
-            p('Tractors'),
-            p('Mowers'),
-            p('Equipment'),
-          ]),
-        },
-        {
-          size: 'full',
-          enableLink: true,
-          richText: root([]),
-          link: {
-            type: 'custom',
-            appearance: 'default',
-            label: 'Book a Call/Inspection',
-            url: BOOKING_URL,
-          },
-        },
-      ],
-    },
-    // ---- Band 2: white — "Bespoke Trimming, Upholstery & Covers" ----------
-    {
-      blockName: 'Bespoke services',
+      blockName: 'Service overview',
       blockType: 'content',
       background: 'default',
       columns: [
         {
           size: 'full',
           richText: root([
-            h('Bespoke Trimming, Upholstery & Covers', 'h2'),
-            p('Custom-crafted covers, upholstery and trim, built to last in the harsh Australian conditions.'),
+            h('Marine, Automotive, Caravan & RV, Trade and Commercial', 'h2'),
+            p('Winning Trimming crafts and repairs covers, canvas and upholstery across five service areas — built to handle the harsh Australian conditions. Explore each area below, or request a quote and we will help you find the right solution.'),
           ]),
         },
+      ],
+    },
+    // ---- Teal band: the five pillars ------------------------------------
+    {
+      blockName: 'Service pillars',
+      blockType: 'content',
+      background: 'teal',
+      columns: [
         {
           size: 'oneThird',
-          // @ts-ignore
-          image: '{{IMG_MARINE}}',
           richText: root([
             h('Marine'),
-            p('Weather Covers'),
-            p('Towing Covers'),
-            p('Bimini Tops'),
-            p('Dodgers'),
-            p('Flybridge Enclosures'),
-            p('Cockpit Enclosures'),
-            p('Sail Covers'),
-            p('Sun beds'),
-            p('Seats'),
-            p('Cushions'),
-            p('Mattresses'),
-            p('Interior Panels'),
-            p('Carpet'),
-            p('Hull Lining'),
+            p('Boats and watercraft — biminis, Dodgers, enclosures, sail covers, cushions and full refits.'),
           ]),
         },
         {
           size: 'oneThird',
-          // @ts-ignore
-          image: '{{IMG_RECREATIONAL}}',
           richText: root([
-            h('Recreational'),
-            p('Storage Covers'),
-            p('Caravan Bras'),
-            p('Canopies'),
-            p('Awnings'),
-            p('Pop-Tops'),
-            p('Seats'),
-            p('Saddles'),
-            p('Cushions'),
-            p('Mattresses'),
-            p('Interior Panels'),
-            p('Carpet'),
-            p('Wall Lining'),
+            h('Automotive'),
+            p('Cars, vans, 4x4s and motorcycles / scooters — tonneaus, seats, trims and repairs.'),
           ]),
         },
         {
           size: 'oneThird',
-          // @ts-ignore
-          image: '{{IMG_TRADE}}',
           richText: root([
-            h('Trade'),
-            p('Tonneau Covers'),
-            p('Canopies'),
-            p('Custom Trays'),
-            p('Tool Covers'),
-            p('Machinery Covers'),
-            p('Equipment Covers'),
-            p('Soft Cabs'),
-            p('Trailer Covers'),
-            p('Tractor Covers'),
-            p('Mower Covers'),
+            h('Caravan & RV'),
+            p('Caravans, motorhomes and campervans — annexes, cushions, mattresses and trim.'),
           ]),
         },
         {
-          size: 'full',
+          size: 'oneThird',
+          richText: root([
+            h('Trade & Industrial'),
+            p('Utes, plant and machinery — covers, canopies and operator trim built tough.'),
+          ]),
+        },
+        {
+          size: 'oneThird',
+          richText: root([
+            h('Commercial'),
+            p('Commercial upholstery for furniture, hospitality, office and contract work.'),
+          ]),
+        },
+        {
+          size: 'oneThird',
+          richText: root([
+            h('See our work'),
+            p('Browse recent projects across every service area.'),
+            // @ts-ignore
+          ]),
+          // @ts-ignore
+          image: '{{IMG_OUR_WORK}}',
           enableLink: true,
-          richText: root([]),
-          link: {
-            type: 'custom',
-            appearance: 'default',
-            label: 'Book a Call/Inspection',
-            url: BOOKING_URL,
-          },
+          // @ts-ignore
+          link: { type: 'reference', label: 'View Our Work', reference: { relationTo: 'pages', value: '{{PAGE_OUR_WORK}}' } },
         },
+        { size: 'full', enableLink: true, richText: root([]), link: { ...QUOTE_CTA } },
       ],
     },
   ],
   meta: {
     description:
-      'Marine, recreational and trade trimming, upholstery and covers. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast.',
+      'Marine, automotive, caravan & RV, trade and commercial trimming, upholstery and covers. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast.',
     // @ts-ignore
     image: '{{IMAGE_1}}',
     title: 'Home',

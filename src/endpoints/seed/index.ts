@@ -2,14 +2,11 @@ import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from '
 import fs from 'fs'
 import path from 'path'
 
-import { contactForm as contactFormData } from './contact-form'
+import { contactForm as enquiryFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
 import { home } from './home'
-import { image1 } from './image-1'
+import { pillarPages, ourWorkPage, aboutPage } from './pages'
 import { image2 } from './image-2'
-import { post1 } from './post-1'
-import { post2 } from './post-2'
-import { post3 } from './post-3'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -35,99 +32,20 @@ export const seed = async ({
 }): Promise<void> => {
   payload.logger.info('Seeding database...')
 
-  // we need to clear the media directory before seeding
-  // as well as the collections and globals
-  // this is because while `yarn seed` drops the database
-  // the custom `/api/seed` endpoint does not
-
-  payload.logger.info(`— Clearing media...`)
   payload.logger.info(`— Clearing collections and globals...`)
-
-  // clear the database
   for (const global of globals) {
-    await payload.updateGlobal({
-      slug: global,
-      data: {
-        navItems: [],
-      },
-    })
+    await payload.updateGlobal({ slug: global, data: { navItems: [] } })
   }
-
   for (const collection of collections) {
-    await payload.delete({
-      collection: collection,
-      where: {
-        id: {
-          exists: true,
-        },
-      },
-    })
+    await payload.delete({ collection, where: { id: { exists: true } } })
   }
+  await payload.delete({ collection: 'pages', where: {} })
 
-  const pages = await payload.delete({
-    collection: 'pages',
-    where: {},
-  })
-
-  payload.logger.info(`— Seeding demo author and user...`)
-
-  await payload.delete({
-    collection: 'users',
-    where: {
-      email: {
-        equals: 'demo-author@payloadcms.com',
-      },
-    },
-  })
-
-  const demoAuthor = await payload.create({
-    collection: 'users',
-    data: {
-      name: 'Demo Author',
-      email: 'demo-author@payloadcms.com',
-      password: 'password',
-    },
-  })
-
-  let demoAuthorID: number | string = demoAuthor.id
-
+  // ---- Media -------------------------------------------------------------
   payload.logger.info(`— Seeding media...`)
-  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post1.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post2.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post3.webp',
-    ),
-    // Winning Trimming hero photo (boat) — served from the local /public dir.
-    readLocalFile('public/winning-trimming-hero.webp', 'image/webp'),
-  ])
+  const heroBuffer = readLocalFile('public/winning-trimming-hero.webp', 'image/webp')
+  const heroDoc = await payload.create({ collection: 'media', data: image2, file: heroBuffer })
 
-  const image1Doc = await payload.create({
-    collection: 'media',
-    data: image1,
-    file: image1Buffer,
-  })
-  const image2Doc = await payload.create({
-    collection: 'media',
-    data: image2,
-    file: image2Buffer,
-  })
-  const image3Doc = await payload.create({
-    collection: 'media',
-    data: image2,
-    file: image3Buffer,
-  })
-  const imageHomeDoc = await payload.create({
-    collection: 'media',
-    data: image2,
-    file: hero1Buffer,
-  })
-
-  // Winning Trimming category photos (one per home-page column).
   payload.logger.info(`— Seeding category photos...`)
   const categoryImages = [
     ['boats', 'public/wt-cat-boats.webp'],
@@ -137,227 +55,104 @@ export const seed = async ({
     ['recreational', 'public/wt-cat-recreational.webp'],
     ['trade', 'public/wt-cat-trade.webp'],
   ] as const
-  const categoryDocs: Record<string, (typeof image1Doc)['id']> = {}
+  const media: Record<string, (typeof heroDoc)['id']> = { hero: heroDoc.id }
   for (const [key, file] of categoryImages) {
     const doc = await payload.create({
       collection: 'media',
       data: image2,
       file: readLocalFile(file, 'image/webp'),
     })
-    categoryDocs[key] = doc.id
+    media[key] = doc.id
   }
 
-  payload.logger.info(`— Seeding categories...`)
-  const technologyCategory = await payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Technology',
-    },
-  })
-
-  const newsCategory = await payload.create({
-    collection: 'categories',
-    data: {
-      title: 'News',
-    },
-  })
-
-  const financeCategory = await payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Finance',
-    },
-  })
-
-  await payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Design',
-    },
-  })
-
-  await payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Software',
-    },
-  })
-
-  await payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Engineering',
-    },
-  })
-
-  let image1ID: number | string = image1Doc.id
-  let image2ID: number | string = image2Doc.id
-  let image3ID: number | string = image3Doc.id
-  let imageHomeID: number | string = imageHomeDoc.id
-
-  if (payload.db.defaultIDType === 'text') {
-    image1ID = `"${image1Doc.id}"`
-    image2ID = `"${image2Doc.id}"`
-    image3ID = `"${image3Doc.id}"`
-    imageHomeID = `"${imageHomeDoc.id}"`
-    demoAuthorID = `"${demoAuthorID}"`
-  }
-
-  payload.logger.info(`— Seeding posts...`)
-
-  // Do not create posts with `Promise.all` because we want the posts to be created in order
-  // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
-  const post1Doc = await payload.create({
-    collection: 'posts',
-    data: JSON.parse(
-      JSON.stringify({ ...post1, categories: [technologyCategory.id] })
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(image1ID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
-        .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
-    ),
-  })
-
-  const post2Doc = await payload.create({
-    collection: 'posts',
-    data: JSON.parse(
-      JSON.stringify({ ...post2, categories: [newsCategory.id] })
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(image2ID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
-        .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
-    ),
-  })
-
-  const post3Doc = await payload.create({
-    collection: 'posts',
-    data: JSON.parse(
-      JSON.stringify({ ...post3, categories: [financeCategory.id] })
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(image3ID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image1ID))
-        .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
-    ),
-  })
-
-  // update each post with related posts
-  await payload.update({
-    id: post1Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post2Doc.id, post3Doc.id],
-    },
-  })
-  await payload.update({
-    id: post2Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post3Doc.id],
-    },
-  })
-  await payload.update({
-    id: post3Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post2Doc.id],
-    },
-  })
-
-  payload.logger.info(`— Seeding home page...`)
-
+  // Helper to resolve {{PLACEHOLDER}} IDs in page JSON (handles text/numeric IDs)
   const quote = (id: unknown) =>
     payload.db.defaultIDType === 'text' ? `"${id}"` : String(id)
-
-  await payload.create({
-    collection: 'pages',
-    data: JSON.parse(
-      JSON.stringify(home)
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(imageHomeID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
-        .replace(/"\{\{IMG_BOATS\}\}"/g, quote(categoryDocs.boats))
-        .replace(/"\{\{IMG_RVS\}\}"/g, quote(categoryDocs.rvs))
-        .replace(/"\{\{IMG_UTES\}\}"/g, quote(categoryDocs.utes))
-        .replace(/"\{\{IMG_MARINE\}\}"/g, quote(categoryDocs.marine))
-        .replace(/"\{\{IMG_RECREATIONAL\}\}"/g, quote(categoryDocs.recreational))
-        .replace(/"\{\{IMG_TRADE\}\}"/g, quote(categoryDocs.trade)),
-    ),
-  })
-
-  payload.logger.info(`— Seeding contact form...`)
-
-  const contactForm = await payload.create({
-    collection: 'forms',
-    data: JSON.parse(JSON.stringify(contactFormData)),
-  })
-
-  let contactFormID: number | string = contactForm.id
-
-  if (payload.db.defaultIDType === 'text') {
-    contactFormID = `"${contactFormID}"`
+  const buildPage = (pageObj: unknown, extra: Record<string, string | number> = {}) => {
+    const map: Record<string, string | number> = {
+      '{{IMAGE_1}}': media.hero,
+      '{{IMG_OUR_WORK}}': media.marine,
+      '{{HERO_MARINE}}': media.boats,
+      '{{HERO_AUTOMOTIVE}}': media.utes,
+      '{{HERO_CARAVAN}}': media.rvs,
+      '{{HERO_TRADE}}': media.trade,
+      '{{HERO_COMMERCIAL}}': media.trade,
+      '{{HERO_OUR_WORK}}': media.marine,
+      ...extra,
+    }
+    let json = JSON.stringify(pageObj)
+    for (const [key, id] of Object.entries(map)) {
+      json = json.split(`"${key}"`).join(quote(id))
+    }
+    return JSON.parse(json)
   }
 
-  payload.logger.info(`— Seeding contact page...`)
+  // ---- Enquiry form (created early; contact page needs its ID) ----------
+  payload.logger.info(`— Seeding enquiry form...`)
+  const enquiryForm = await payload.create({ collection: 'forms', data: JSON.parse(JSON.stringify(enquiryFormData)) })
+  const formId = payload.db.defaultIDType === 'text' ? `"${enquiryForm.id}"` : String(enquiryForm.id)
 
-  const contactPage = await payload.create({
-    collection: 'pages',
-    data: JSON.parse(
-      JSON.stringify(contactPageData).replace(/"\{\{CONTACT_FORM_ID\}\}"/g, String(contactFormID)),
-    ),
-  })
+  // ---- Pages -------------------------------------------------------------
+  payload.logger.info(`— Seeding pages...`)
+  const created: Record<string, number | string> = {}
 
+  // Service pillars first
+  for (const pillar of pillarPages) {
+    created[pillar.slug as string] = (await payload.create({ collection: 'pages', data: buildPage(pillar) })).id
+  }
+  // Our Work + About (home references Our Work)
+  created['our-work'] = (await payload.create({ collection: 'pages', data: buildPage(ourWorkPage) })).id
+  created.about = (await payload.create({ collection: 'pages', data: buildPage(aboutPage) })).id
+  // Contact (uses the enquiry form)
+  const contactPageDataJson = JSON.stringify(contactPageData).split('"{{CONTACT_FORM_ID}}"').join(formId)
+  created.contact = (await payload.create({ collection: 'pages', data: JSON.parse(contactPageDataJson) })).id
+  // Home last — its "See our work" link references the our-work page
+  created.home = (await payload.create({ collection: 'pages', data: buildPage(home, { '{{PAGE_OUR_WORK}}': created['our-work'] }) })).id
+
+  // ---- Header navigation (9 items, by reference) ------------------------
   payload.logger.info(`— Seeding header...`)
+  const ref = (slug: string) => ({
+    type: 'reference' as const,
+    label: '',
+    reference: { relationTo: 'pages' as const, value: created[slug] as number },
+  })
+  const navLabels: Record<string, string> = {
+    home: 'Home',
+    marine: 'Marine',
+    automotive: 'Automotive',
+    'caravan-and-rv': 'Caravan & RV',
+    'trade-and-industrial': 'Trade & Industrial',
+    commercial: 'Commercial',
+    'our-work': 'Our Work',
+    about: 'About',
+    contact: 'Contact',
+  }
+  const navOrder = ['home', 'marine', 'automotive', 'caravan-and-rv', 'trade-and-industrial', 'commercial', 'our-work', 'about', 'contact']
 
   await payload.updateGlobal({
     slug: 'header',
     data: {
-      navItems: [
-        {
-          link: {
-            type: 'custom',
-            label: 'Book a Call/Inspection',
-            newTab: true,
-            url: 'https://my.workshopsoftware.com.au/bookings.html#/Smith?token=ngrqms',
-          },
-        },
-        {
-          link: {
-            type: 'reference',
-            label: 'Contact',
-            reference: {
-              relationTo: 'pages',
-              value: contactPage.id,
-            },
-          },
-        },
-      ],
+      navItems: navOrder.map((slug) => {
+        // Home links to "/" directly (avoid a /home -> / redirect hop)
+        if (slug === 'home') {
+          return { link: { type: 'custom' as const, label: 'Home', url: '/' } }
+        }
+        return { link: { ...ref(slug), label: navLabels[slug] } }
+      }),
     },
   })
 
+  // ---- Footer navigation ------------------------------------------------
   payload.logger.info(`— Seeding footer...`)
-
   await payload.updateGlobal({
     slug: 'footer',
     data: {
       navItems: [
-        {
-          link: {
-            type: 'custom',
-            label: 'Book a Call/Inspection',
-            newTab: true,
-            url: 'https://my.workshopsoftware.com.au/bookings.html#/Smith?token=ngrqms',
-          },
-        },
-        {
-          link: {
-            type: 'custom',
-            label: 'Contact',
-            url: '/contact',
-          },
-        },
-        {
-          link: {
-            type: 'custom',
-            label: 'Call 1300 799 882',
-            url: 'tel:1300799882',
-          },
-        },
+        { link: { ...ref('our-work'), label: 'Our Work' } },
+        { link: { ...ref('about'), label: 'About' } },
+        { link: { ...ref('contact'), label: 'Contact' } },
+        { link: { type: 'custom', label: 'Request a Quote', url: '/contact' } },
+        { link: { type: 'custom', label: 'Call 1300 799 882', url: 'tel:1300799882' } },
       ],
     },
   })
@@ -365,36 +160,9 @@ export const seed = async ({
   payload.logger.info('Seeded database successfully!')
 }
 
-async function fetchFileByURL(url: string): Promise<File> {
-  const res = await fetch(url, {
-    credentials: 'include',
-    method: 'GET',
-  })
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch file from ${url}, status: ${res.status}`)
-  }
-
-  const data = await res.arrayBuffer()
-
-  return {
-    name: url.split('/').pop() || `file-${Date.now()}`,
-    data: Buffer.from(data),
-    mimetype: `image/${url.split('.').pop()}`,
-    size: data.byteLength,
-  }
-}
-
-// Read an image from the local repo (e.g. ./public/...) into the Payload File
-// shape. Used for brand assets like the hero photo that ship with the project.
+// Read an image from the local repo (./public/...) into the Payload File shape.
 function readLocalFile(filePath: string, mimetype: string): File {
   const abs = path.resolve(process.cwd(), filePath)
   const data = fs.readFileSync(abs)
-
-  return {
-    name: path.basename(abs),
-    data: Buffer.from(data),
-    mimetype,
-    size: data.byteLength,
-  }
+  return { name: path.basename(abs), data: Buffer.from(data), mimetype, size: data.byteLength }
 }

@@ -44,6 +44,13 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
       {open && (
         <div className="md:hidden absolute left-0 right-0 top-full bg-background text-foreground shadow-lg border-t border-border">
           <nav className="container flex flex-col py-4">
+            <Link
+              href="/contact"
+              className="min-h-[48px] mb-2 flex items-center justify-center rounded-full bg-primary text-primary-foreground font-medium"
+              onClick={() => setOpen(false)}
+            >
+              Request a Quote
+            </Link>
             {navItems.map(({ link }, i) => {
               return (
                 <CMSLink
