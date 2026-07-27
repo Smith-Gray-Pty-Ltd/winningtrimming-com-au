@@ -19,12 +19,9 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
   return (
     <header className="sticky top-0 z-30">
-      {/* Utility strip */}
+      {/* Utility strip — phone + info links, all aligned right */}
       <div className="bg-accent text-white text-sm">
-        <div className="container py-1.5 flex items-center justify-between gap-4">
-          <a href="tel:1300799882" className="font-medium hover:underline">
-            1300 799 882
-          </a>
+        <div className="container py-1.5 flex items-center justify-end gap-6">
           <nav className="hidden md:flex items-center gap-5">
             <Link href="/our-work" className="hover:underline">
               Our Work
@@ -36,6 +33,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
               Contact
             </Link>
           </nav>
+          <a href="tel:1300799882" className="font-medium hover:underline">
+            1300 799 882
+          </a>
         </div>
       </div>
 
