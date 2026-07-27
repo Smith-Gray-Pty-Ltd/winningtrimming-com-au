@@ -109,7 +109,10 @@ export const seed = async ({
   // Home last — its "See our work" link references the our-work page
   created.home = (await payload.create({ collection: 'pages', data: buildPage(home, { '{{PAGE_OUR_WORK}}': created['our-work'] }) })).id
 
-  // ---- Header navigation (9 items, by reference) ------------------------
+  // ---- Header navigation -----------------------------------------------
+  // The CMS-managed nav holds the five service pillars only. Home is the
+  // logo; Our Work / About / Contact live in the utility strip (rendered in
+  // the header component) and the mobile drawer.
   payload.logger.info(`— Seeding header...`)
   const ref = (slug: string) => ({
     type: 'reference' as const,
@@ -117,28 +120,18 @@ export const seed = async ({
     reference: { relationTo: 'pages' as const, value: created[slug] as number },
   })
   const navLabels: Record<string, string> = {
-    home: 'Home',
     marine: 'Marine',
     automotive: 'Automotive',
     'caravan-and-rv': 'Caravan & RV',
     'trade-and-industrial': 'Trade & Industrial',
     commercial: 'Commercial',
-    'our-work': 'Our Work',
-    about: 'About',
-    contact: 'Contact',
   }
-  const navOrder = ['home', 'marine', 'automotive', 'caravan-and-rv', 'trade-and-industrial', 'commercial', 'our-work', 'about', 'contact']
+  const navOrder = ['marine', 'automotive', 'caravan-and-rv', 'trade-and-industrial', 'commercial']
 
   await payload.updateGlobal({
     slug: 'header',
     data: {
-      navItems: navOrder.map((slug) => {
-        // Home links to "/" directly (avoid a /home -> / redirect hop)
-        if (slug === 'home') {
-          return { link: { type: 'custom' as const, label: 'Home', url: '/' } }
-        }
-        return { link: { ...ref(slug), label: navLabels[slug] } }
-      }),
+      navItems: navOrder.map((slug) => ({ link: { ...ref(slug), label: navLabels[slug] } })),
     },
   })
 

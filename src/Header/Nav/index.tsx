@@ -2,37 +2,40 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Menu, Search, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 import type { Header as HeaderType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 
+// Info links shown in the utility strip on desktop and inside the mobile drawer.
+const INFO_LINKS = [
+  { href: '/our-work', label: 'Our Work' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+]
+
 export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
   const navItems = header?.navItems || []
   const [open, setOpen] = useState(false)
 
-  // Close the mobile menu on route changes (viewport nav back button etc.)
   useEffect(() => {
     setOpen(false)
   }, [])
 
   return (
     <>
-      {/* Desktop nav */}
-      <nav className="hidden md:flex gap-6 items-center">
+      {/* Desktop service-pillar nav */}
+      <nav className="hidden lg:flex items-center gap-5 text-sm">
         {navItems.map(({ link }, i) => {
           return <CMSLink key={i} {...link} appearance="link" />
         })}
-        <Link href="/search" className="inline-flex" aria-label="Search">
-          <Search className="w-5 h-5 text-primary" />
-        </Link>
       </nav>
 
       {/* Mobile hamburger */}
       <button
         type="button"
-        className="md:hidden inline-flex items-center justify-center w-11 h-11 -mr-2 text-current"
+        className="lg:hidden inline-flex items-center justify-center w-11 h-11 -mr-2 text-current"
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -42,11 +45,11 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="md:hidden absolute left-0 right-0 top-full bg-background text-foreground shadow-lg border-t border-border">
+        <div className="lg:hidden absolute left-0 right-0 top-full bg-background text-foreground shadow-lg border-t border-border">
           <nav className="container flex flex-col py-4">
             <Link
               href="/contact"
-              className="min-h-[48px] mb-2 flex items-center justify-center rounded-full bg-primary text-primary-foreground font-medium"
+              className="min-h-[48px] mb-2 flex items-center justify-center rounded-full bg-primary font-medium text-primary-foreground"
               onClick={() => setOpen(false)}
             >
               Request a Quote
@@ -56,17 +59,28 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
                 <CMSLink
                   key={i}
                   {...link}
-                  className="min-h-[48px] flex items-center py-3 border-b border-border/60 last:border-0 text-base"
+                  className="min-h-[48px] flex items-center py-3 border-b border-border/60 text-base"
                 />
               )
             })}
-            <Link
-              href="/search"
-              className="min-h-[48px] flex items-center gap-2 py-3 text-base"
-              onClick={() => setOpen(false)}
-            >
-              <Search className="w-5 h-5 text-primary" /> Search
-            </Link>
+            <div className="mt-2 pt-2">
+              {INFO_LINKS.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="min-h-[48px] flex items-center py-3 text-base text-muted-foreground"
+                  onClick={() => setOpen(false)}
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <a
+                href="tel:1300799882"
+                className="min-h-[48px] flex items-center py-3 text-base text-muted-foreground"
+              >
+                Call 1300 799 882
+              </a>
+            </div>
           </nav>
         </div>
       )}
