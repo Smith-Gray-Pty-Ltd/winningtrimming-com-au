@@ -62,7 +62,7 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
     // @ts-ignore
     media: '{{IMAGE_1}}',
     richText: root([
-      h('Discover the Winning difference', 'h1'),
+      h('Serving Lake Macquarie, the Central Coast, Newcastle and the Hunter Valley', 'h1'),
       p('Where quality meets craftsmanship and customer service shines.'),
     ]),
   },
@@ -233,25 +233,6 @@ export const home: RequiredDataFromCollectionSlug<'pages'> = {
           },
         },
       ],
-    },
-    // ---- CTA --------------------------------------------------------------
-    {
-      blockName: 'Call to action',
-      blockType: 'cta',
-      links: [
-        {
-          link: {
-            type: 'custom',
-            appearance: 'default',
-            label: 'Book a Call/Inspection',
-            url: BOOKING_URL,
-          },
-        },
-      ],
-      richText: root([
-        h('Experience the winning difference.', 'h3'),
-        p('We recommend using our online booking form to book in a call, on-site or off-site inspection.'),
-      ]),
     },
   ],
   meta: {
