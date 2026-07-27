@@ -64,8 +64,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, layout } = page
 
+  // A high-impact hero is full-bleed and should sit flush under the header;
+  // other pages (e.g. contact, no hero) keep top padding.
+  const hasHighImpactHero = hero?.type === 'highImpact'
+
   return (
-    <article className="pt-16 pb-24">
+    <article className={hasHighImpactHero ? 'pb-24' : 'pt-16 pb-24'}>
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
