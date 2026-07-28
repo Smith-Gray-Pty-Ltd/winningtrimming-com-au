@@ -11,6 +11,8 @@ import type { Page as PageType } from '@/payload-types'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
+import { AssetTypeGrid } from '@/Matrix/AssetTypeGrid'
+import { isValidPillar } from '@/Matrix/matrix'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 
@@ -68,6 +70,10 @@ export default async function Page({ params: paramsPromise }: Args) {
   // other pages (e.g. contact, no hero) keep top padding.
   const hasHighImpactHero = hero?.type === 'highImpact'
 
+  // Service-pillar pages show a vessel/vehicle-type grid linking into the
+  // SEO matrix. Renders nothing on non-pillar pages or pillars without types.
+  const showAssetGrid = isValidPillar(slug)
+
   return (
     <article className={hasHighImpactHero ? 'pb-24' : 'pt-16 pb-24'}>
       <PageClient />
@@ -75,6 +81,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
 
       <RenderHero {...hero} />
+      {showAssetGrid && <AssetTypeGrid pillar={slug} />}
       <RenderBlocks blocks={layout} />
     </article>
   )
