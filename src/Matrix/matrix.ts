@@ -1,10 +1,10 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-import type { AssetType, Region, ServiceType, Suburb } from '@/payload-types'
+import type { AssetType, Business, Region, ServiceType, Suburb } from '@/payload-types'
 import { pillarLabel, pillarValues } from '@/fields/pillars'
 
-export type { AssetType, Region, ServiceType, Suburb }
+export type { AssetType, Business, Region, ServiceType, Suburb }
 
 export type MatrixDepth = 1 | 2 | 3
 
@@ -185,5 +185,81 @@ export async function resolveMatrix(
     depth,
     siblingAssets,
     nearbySuburbs,
+  }
+}
+
+// -- Region page resolution ------------------------------------------------
+
+export type RegionPageData = {
+  pillar: string
+  pillarLabel: string
+  region: Region
+  suburbs: Suburb[]
+  businesses: Business[]
+  assetTypes: AssetType[]
+}
+
+/**
+ * Resolve a region landing page: /{pillar}/{region-slug}
+ * Shows vessel types, suburbs and businesses for the pillar in that region.
+ */
+export async function resolveRegionPage(
+  pillar: string,
+  regionSlug: string,
+): Promise<RegionPageData | null> {
+  if (!isValidPillar(pillar)) return null
+
+  const payload = await getPayload({ config: configPromise })
+
+  const regionRes = await payload.find({
+    collection: 'regions',
+    where: { slug: { equals: regionSlug } },
+    depth: 1,
+    limit: 1,
+    overrideAccess: false,
+  })
+  const region = regionRes.docs?.[0] as Region | undefined
+  if (!region) return null
+
+  // Check pillar relevance
+  const pillars = (region.pillars ?? []) as string[]
+  if (pillars.length > 0 && !pillars.includes(pillar)) return null
+
+  const [suburbRes, bizRes, assetRes] = await Promise.all([
+    payload.find({
+      collection: 'suburbs',
+      where: { region: { equals: region.id } },
+      depth: 0,
+      limit: 100,
+      overrideAccess: false,
+      sort: 'title',
+    }),
+    payload.find({
+      collection: 'businesses',
+      where: {
+        and: [{ region: { equals: region.id } }, { pillar: { equals: pillar } }],
+      },
+      depth: 0,
+      limit: 100,
+      overrideAccess: false,
+      sort: 'title',
+    }),
+    payload.find({
+      collection: 'asset-types',
+      where: { pillar: { equals: pillar } },
+      depth: 1,
+      limit: 100,
+      overrideAccess: false,
+      sort: 'title',
+    }),
+  ])
+
+  return {
+    pillar,
+    pillarLabel: pillarLabel(pillar),
+    region,
+    suburbs: suburbRes.docs as Suburb[],
+    businesses: bizRes.docs as Business[],
+    assetTypes: assetRes.docs as AssetType[],
   }
 }

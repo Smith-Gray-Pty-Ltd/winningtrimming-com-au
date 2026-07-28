@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
   const host = getServerSideURL()
 
-  const [pages, posts, assets, suburbs] = await Promise.all([
+  const [pages, posts, assets, suburbs, regions] = await Promise.all([
     payload.find({
       collection: 'pages',
       where: { _status: { equals: 'published' } },
@@ -35,6 +35,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       limit: 0,
       overrideAccess: false,
     }),
+    payload.find({
+      collection: 'regions',
+      depth: 0,
+      limit: 0,
+      overrideAccess: false,
+    }),
   ])
 
   const pageEntries: MetadataRoute.Sitemap = pages.docs
@@ -55,6 +61,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // SEO matrix entries: vessel → product → suburb
   const matrixEntries: MetadataRoute.Sitemap = []
+
+  // Region landing pages: /{pillar}/{region-slug}
+  const allPillars = ['marine', 'automotive', 'caravan-and-rv', 'trade-and-industrial', 'commercial']
+  for (const region of regions.docs) {
+    if (!region.slug) continue
+    const pillars = (region.pillars ?? []).length > 0 ? (region.pillars as string[]) : allPillars
+    for (const pillar of pillars) {
+      matrixEntries.push({
+        url: `${host}/${pillar}/${region.slug}`,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      })
+    }
+  }
+
   for (const asset of assets.docs) {
     if (!asset.slug || !asset.pillar) continue
     // Depth 1: vessel type

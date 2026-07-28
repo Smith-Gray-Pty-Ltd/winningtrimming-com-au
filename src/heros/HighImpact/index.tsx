@@ -1,5 +1,6 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
+import Link from 'next/link'
 import React, { useEffect } from 'react'
 
 import type { Page } from '@/payload-types'
@@ -8,7 +9,20 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
-export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
+type RegionLink = { title: string; slug: string }
+
+type HighImpactHeroProps = Page['hero'] & {
+  pillar?: string
+  regions?: RegionLink[]
+}
+
+export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
+  links,
+  media,
+  richText,
+  pillar,
+  regions,
+}) => {
   const { setHeaderTheme } = useHeaderTheme()
 
   useEffect(() => {
@@ -74,16 +88,30 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
                 1300 799 882
               </a>
 
-              {/* Areas we serve */}
+              {/* Areas we serve — data-driven from Regions collection */}
               <div className="pt-5 border-t border-white/20">
                 <p className="text-xs uppercase tracking-wide text-white/60 mb-2">
                   Areas we serve
                 </p>
-                <p className="text-sm text-white/85 leading-relaxed">
-                  Lake Macquarie &middot; Newcastle
-                  <br />
-                  Central Coast &middot; Hunter Valley
-                </p>
+                {regions && regions.length > 0 && pillar ? (
+                  <div className="flex flex-wrap gap-x-3 gap-y-1">
+                    {regions.map((r) => (
+                      <Link
+                        key={r.slug}
+                        href={`/${pillar}/${r.slug}`}
+                        className="text-sm text-white/85 hover:text-white underline-offset-2 hover:underline transition-colors"
+                      >
+                        {r.title}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-white/85 leading-relaxed">
+                    Lake Macquarie &middot; Newcastle
+                    <br />
+                    Central Coast &middot; Hunter Valley
+                  </p>
+                )}
               </div>
             </div>
           </div>

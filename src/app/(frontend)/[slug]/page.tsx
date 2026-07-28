@@ -81,7 +81,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
 
-      <RenderHero {...hero} />
+      <RenderHero {...hero} pillar={showAssetGrid ? slug : undefined} regions={showAssetGrid ? await queryRegions(slug) : undefined} />
       {showAssetGrid && <AssetTypeGrid pillar={slug} />}
       {showAssetGrid && <ServiceTypeGrid pillar={slug} />}
       <RenderBlocks blocks={layout} />
@@ -116,4 +116,24 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   })
 
   return result.docs?.[0] || null
+})
+
+/**
+ * Query regions relevant to a pillar for the hero "Areas we serve" links.
+ * Returns regions where pillars is empty (all pillars) or includes the given pillar.
+ */
+const queryRegions = cache(async (pillar: string) => {
+  const payload = await getPayload({ config: configPromise })
+  const res = await payload.find({
+    collection: 'regions',
+    limit: 100,
+    overrideAccess: false,
+    sort: 'title',
+  })
+  return res.docs
+    .filter((r) => {
+      const pillars = r.pillars ?? []
+      return pillars.length === 0 || pillars.includes(pillar as any)
+    })
+    .map((r) => ({ title: r.title, slug: r.slug }))
 })
