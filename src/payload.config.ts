@@ -3,6 +3,7 @@ import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
+import { migrations } from './migrations'
 
 import { AssetTypes } from './collections/AssetTypes'
 import { Businesses } from './collections/Businesses'
@@ -69,7 +70,8 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URI,
     },
-    // prodMigrations: migrations,
+    pushSchema: false,
+    prodMigrations: migrations,
   }),
   // database-adapter-config-end
   collections: [
