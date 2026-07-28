@@ -8,6 +8,7 @@ import { home } from './home'
 import { pillarPages, ourWorkPage, aboutPage } from './pages'
 import { seedProjects } from './projects'
 import { seedLocations } from './locations'
+import { seedBusinesses } from './businesses'
 import { seedMatrix } from './matrix'
 import { image2 } from './image-2'
 
@@ -19,6 +20,7 @@ const collections: CollectionSlug[] = [
   'projects',
   'service-types',
   'asset-types',
+  'businesses',
   'regions',
   'suburbs',
   'forms',
@@ -76,8 +78,9 @@ export const seed = async ({
   // ---- Projects & service types -----------------------------------------
   const typeIds = await seedProjects(payload, media)
 
-  // ---- SEO matrix: regions, suburbs, asset types ------------------------
-  await seedLocations(payload)
+  // ---- SEO matrix: regions, suburbs, businesses, asset types ------------
+  const { regionIds } = await seedLocations(payload)
+  await seedBusinesses(payload, regionIds)
   await seedMatrix(payload, typeIds)
 
   // Helper to resolve {{PLACEHOLDER}} IDs in page JSON (handles text/numeric IDs)

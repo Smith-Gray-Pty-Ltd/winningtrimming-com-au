@@ -97,6 +97,16 @@ const marineAssets: {
     intro: 'Tough, practical covers and seats for aluminium tinnies.',
     products: ['Weather Covers', 'Towing Covers', 'Seats'],
   },
+  {
+    title: 'Super Yachts',
+    singular: 'Super Yacht',
+    intro: 'For super yacht owners and captains, we deliver premium covers, canvas and upholstery that meet the highest standards of finish and durability.',
+    products: [
+      'Weather Covers', 'Bimini Tops', 'Dodgers', 'Flybridge Enclosures',
+      'Sail Covers', 'Sun Beds', 'Seats', 'Cushions', 'Mattresses',
+      'Interior Panels', 'Carpet', 'Hull Lining',
+    ],
+  },
 ]
 
 export const seedMatrix = async (payload: Payload, typeIds: TypeIds) => {

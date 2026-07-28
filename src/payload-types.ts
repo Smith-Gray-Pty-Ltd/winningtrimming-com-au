@@ -16,6 +16,7 @@ export interface Config {
     projects: Project;
     'service-types': ServiceType;
     'asset-types': AssetType;
+    businesses: Business;
     regions: Region;
     suburbs: Suburb;
     media: Media;
@@ -36,6 +37,7 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'service-types': ServiceTypesSelect<false> | ServiceTypesSelect<true>;
     'asset-types': AssetTypesSelect<false> | AssetTypesSelect<true>;
+    businesses: BusinessesSelect<false> | BusinessesSelect<true>;
     regions: RegionsSelect<false> | RegionsSelect<true>;
     suburbs: SuburbsSelect<false> | SuburbsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -763,6 +765,43 @@ export interface AssetType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "businesses".
+ */
+export interface Business {
+  id: number;
+  title: string;
+  pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  type?:
+    | (
+        | 'marina'
+        | 'shipwright'
+        | 'boatyard'
+        | 'yacht-club'
+        | 'sailing-club'
+        | 'chandlery'
+        | 'boat-ramp'
+        | 'slipway'
+        | 'mechanic'
+        | 'dealer'
+        | 'other'
+      )
+    | null;
+  region: number | Region;
+  suburb?: string | null;
+  description?: string | null;
+  website?: string | null;
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "regions".
  */
 export interface Region {
@@ -910,6 +949,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'asset-types';
         value: number | AssetType;
+      } | null)
+    | ({
+        relationTo: 'businesses';
+        value: number | Business;
       } | null)
     | ({
         relationTo: 'regions';
@@ -1239,6 +1282,32 @@ export interface AssetTypesSelect<T extends boolean = true> {
         body?: T;
       };
   applicableProducts?: T;
+  meta?:
+    | T
+    | {
+        overview?: T;
+        title?: T;
+        image?: T;
+        description?: T;
+        preview?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "businesses_select".
+ */
+export interface BusinessesSelect<T extends boolean = true> {
+  title?: T;
+  pillar?: T;
+  type?: T;
+  region?: T;
+  suburb?: T;
+  description?: T;
+  website?: T;
   meta?:
     | T
     | {

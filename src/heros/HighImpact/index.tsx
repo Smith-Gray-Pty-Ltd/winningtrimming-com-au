@@ -41,17 +41,51 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           {/* Left 2/3 — title + subtitle, left-aligned */}
           <div className="lg:col-span-2 max-w-2xl">
             {richText && <RichText className="mb-8" content={richText} enableGutter={false} />}
-            {Array.isArray(links) && links.length > 0 && (
-              <ul className="flex flex-wrap gap-4">
-                {links.map(({ link }, i) => {
-                  return (
-                    <li key={i}>
-                      <CMSLink {...link} />
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
+          </div>
+
+          {/* Right 1/3 — action card */}
+          <div className="lg:col-span-1 flex lg:justify-end">
+            <div className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 p-8 w-full lg:max-w-xs">
+              {/* CTA */}
+              <div className="mb-5">
+                {Array.isArray(links) && links.length > 0 ? (
+                  <div className="flex flex-col gap-3">
+                    {links.map(({ link }, i) => (
+                      <CMSLink key={i} {...link} />
+                    ))}
+                  </div>
+                ) : (
+                  <CMSLink
+                    {...{
+                      type: 'custom',
+                      label: 'Request a Quote',
+                      url: '/contact',
+                      appearance: 'default',
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* Phone */}
+              <a
+                href="tel:1300799882"
+                className="block text-white text-lg font-medium hover:text-white/80 transition-colors mb-5"
+              >
+                1300 799 882
+              </a>
+
+              {/* Areas we serve */}
+              <div className="pt-5 border-t border-white/20">
+                <p className="text-xs uppercase tracking-wide text-white/60 mb-2">
+                  Areas we serve
+                </p>
+                <p className="text-sm text-white/85 leading-relaxed">
+                  Lake Macquarie &middot; Newcastle
+                  <br />
+                  Central Coast &middot; Hunter Valley
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

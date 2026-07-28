@@ -5,6 +5,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { AssetTypes } from './collections/AssetTypes'
+import { Businesses } from './collections/Businesses'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -77,6 +78,7 @@ export default buildConfig({
     Projects,
     ServiceTypes,
     AssetTypes,
+    Businesses,
     Regions,
     Suburbs,
     Media,
