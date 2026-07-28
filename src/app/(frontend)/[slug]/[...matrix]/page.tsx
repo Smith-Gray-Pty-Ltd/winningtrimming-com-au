@@ -7,13 +7,17 @@ import PageClient from './page.client'
 import {
   resolveMatrix,
   resolveRegionPage,
+  resolvePillarProduct,
   matrixH1,
   matrixDescription,
   matrixUrl,
+  pillarProductH1,
+  pillarProductDescription,
   type MatrixData,
 } from '@/Matrix/matrix'
 import { MatrixTemplate } from '@/Matrix/MatrixTemplate'
 import { RegionTemplate } from '@/Matrix/RegionTemplate'
+import { PillarProductTemplate } from '@/Matrix/PillarProductTemplate'
 
 export const revalidate = 3600
 
@@ -27,9 +31,8 @@ type Args = {
 export default async function MatrixPage({ params: paramsPromise }: Args) {
   const { slug, matrix } = await paramsPromise
 
-  // Try vessel/product/suburb matrix first
+  // 1. Try vessel/product/suburb matrix
   const data = await resolveMatrix(slug, matrix)
-
   if (data) {
     return (
       <>
@@ -39,7 +42,18 @@ export default async function MatrixPage({ params: paramsPromise }: Args) {
     )
   }
 
-  // Try region page (single segment only: /marine/lake-macquarie)
+  // 2. Try pillar-level product page: /{pillar}/{product} or /{pillar}/{product}/{suburb}
+  const productData = await resolvePillarProduct(slug, matrix)
+  if (productData) {
+    return (
+      <>
+        <PageClient />
+        <PillarProductTemplate data={productData} />
+      </>
+    )
+  }
+
+  // 3. Try region page (single segment: /marine/lake-macquarie)
   if (matrix.length === 1) {
     const regionData = await resolveRegionPage(slug, matrix[0])
     if (regionData) {
@@ -57,24 +71,32 @@ export default async function MatrixPage({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug, matrix } = await paramsPromise
-  const data = await resolveMatrix(slug, matrix)
 
+  // Vessel matrix
+  const data = await resolveMatrix(slug, matrix)
   if (data) {
     return {
       title: `${matrixH1(data)} | Winning Trimming`,
       description: matrixDescription(data),
       alternates: {
-        canonical: matrixUrl(
-          data.pillar,
-          data.assetType.slug,
-          data.productType?.slug,
-          data.suburb?.slug,
-        ),
+        canonical: matrixUrl(data.pillar, data.assetType.slug, data.productType?.slug, data.suburb?.slug),
       },
     }
   }
 
-  // Region page metadata
+  // Pillar-product
+  const productData = await resolvePillarProduct(slug, matrix)
+  if (productData) {
+    return {
+      title: `${pillarProductH1(productData)} | Winning Trimming`,
+      description: pillarProductDescription(productData),
+      alternates: {
+        canonical: `/${slug}/${matrix.join('/')}`,
+      },
+    }
+  }
+
+  // Region
   if (matrix.length === 1) {
     const regionData = await resolveRegionPage(slug, matrix[0])
     if (regionData) {

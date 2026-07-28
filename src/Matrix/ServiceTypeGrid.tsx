@@ -95,19 +95,15 @@ export const ServiceTypeGrid: React.FC<{
               </p>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {customTypes.map((st) => {
-                const vessel = vesselForProduct(st.slug)
-                if (!vessel) return null
-                return (
-                  <ServiceCard
-                    key={st.id}
-                    title={st.title}
-                    blurb={st.intro || undefined}
-                    href={`/${pillar}/${vessel.slug}/${st.slug}`}
-                    onTeal
-                  />
-                )
-              })}
+              {customTypes.map((st) => (
+                <ServiceCard
+                  key={st.id}
+                  title={st.title}
+                  blurb={st.intro || undefined}
+                  href={`/${pillar}/${st.slug}`}
+                  onTeal
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -126,19 +122,15 @@ export const ServiceTypeGrid: React.FC<{
               </p>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {repairTypes.map((st) => {
-                const vessel = vesselForProduct(st.slug)
-                if (!vessel) return null
-                return (
-                  <ServiceCard
-                    key={st.id}
-                    title={st.title}
-                    blurb={st.intro || undefined}
-                    href={`/${pillar}/${vessel.slug}/${st.slug}`}
-                    onTeal={false}
-                  />
-                )
-              })}
+              {repairTypes.map((st) => (
+                <ServiceCard
+                  key={st.id}
+                  title={st.title}
+                  blurb={st.intro || undefined}
+                  href={`/${pillar}/${st.slug}`}
+                  onTeal={false}
+                />
+              ))}
             </div>
           </div>
         </section>

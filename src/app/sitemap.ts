@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
   const host = getServerSideURL()
 
-  const [pages, posts, assets, suburbs, regions] = await Promise.all([
+  const [pages, posts, assets, suburbs, regions, serviceTypes] = await Promise.all([
     payload.find({
       collection: 'pages',
       where: { _status: { equals: 'published' } },
@@ -37,6 +37,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     payload.find({
       collection: 'regions',
+      depth: 0,
+      limit: 0,
+      overrideAccess: false,
+    }),
+    payload.find({
+      collection: 'service-types',
       depth: 0,
       limit: 0,
       overrideAccess: false,
@@ -73,6 +79,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'weekly' as const,
         priority: 0.7,
       })
+    }
+  }
+
+  // Pillar-level product pages: /{pillar}/{product} and /{pillar}/{product}/{suburb}
+  for (const st of serviceTypes.docs) {
+    if (!st.slug || !st.pillar) continue
+    matrixEntries.push({
+      url: `${host}/${st.pillar}/${st.slug}`,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })
+    for (const suburb of suburbs.docs) {
+      if (suburb.slug) {
+        matrixEntries.push({
+          url: `${host}/${st.pillar}/${st.slug}/${suburb.slug}`,
+          changeFrequency: 'monthly' as const,
+          priority: 0.5,
+        })
+      }
     }
   }
 

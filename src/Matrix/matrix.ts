@@ -20,6 +20,18 @@ export type MatrixData = {
   nearbySuburbs: Suburb[]
 }
 
+// Pillar-level product page: /{pillar}/{product} or /{pillar}/{product}/{suburb}
+export type PillarProductData = {
+  pillar: string
+  pillarLabel: string
+  productType: ServiceType
+  suburb: Suburb | null
+  region: Region | null
+  depth: 1 | 2
+  applicableAssets: AssetType[]
+  nearbySuburbs: Suburb[]
+}
+
 // -- URL helpers ----------------------------------------------------------
 
 export const matrixUrl = (
@@ -262,4 +274,118 @@ export async function resolveRegionPage(
     businesses: bizRes.docs as Business[],
     assetTypes: assetRes.docs as AssetType[],
   }
+}
+
+// -- Pillar-product page resolution ---------------------------------------
+
+/**
+ * Resolve a pillar-level product page: /{pillar}/{product-slug} or
+ * /{pillar}/{product-slug}/{suburb-slug}
+ *
+ * Shows a product across ALL vessel types (not vessel-specific), e.g.
+ * /marine/weather-covers or /marine/weather-cover-repairs/belmont.
+ */
+export async function resolvePillarProduct(
+  pillar: string,
+  segments: string[],
+): Promise<PillarProductData | null> {
+  if (!isValidPillar(pillar) || segments.length < 1 || segments.length > 2) {
+    return null
+  }
+
+  const payload = await getPayload({ config: configPromise })
+
+  // 1. Service type
+  const prodRes = await payload.find({
+    collection: 'service-types',
+    where: {
+      and: [{ slug: { equals: segments[0] } }, { pillar: { equals: pillar } }],
+    },
+    depth: 1,
+    limit: 1,
+    overrideAccess: false,
+  })
+  const productType = prodRes.docs?.[0] as ServiceType | undefined
+  if (!productType) return null
+
+  // 2. Suburb (optional)
+  let suburb: Suburb | null = null
+  let region: Region | null = null
+  if (segments[1]) {
+    const subRes = await payload.find({
+      collection: 'suburbs',
+      where: { slug: { equals: segments[1] } },
+      depth: 1,
+      limit: 1,
+      overrideAccess: false,
+    })
+    suburb = (subRes.docs?.[0] as Suburb | undefined) ?? null
+    if (!suburb) return null
+    region = (typeof suburb.region === 'object' ? suburb.region : null) as Region | null
+  }
+
+  const depth = segments.length as 1 | 2
+
+  // 3. Asset types that offer this product
+  const assetRes = await payload.find({
+    collection: 'asset-types',
+    where: { pillar: { equals: pillar } },
+    depth: 2,
+    limit: 100,
+    overrideAccess: false,
+    sort: 'title',
+  })
+  const allAssets = assetRes.docs as AssetType[]
+  const applicableAssets = allAssets.filter((a) =>
+    (a.applicableProducts ?? [])
+      .filter((p): p is ServiceType => typeof p === 'object' && p !== null)
+      .some((p) => p.slug === productType.slug),
+  )
+
+  if (applicableAssets.length === 0) return null
+
+  // 4. Nearby suburbs (same region) for suburb-level pages
+  let nearbySuburbs: Suburb[] = []
+  if (suburb && region) {
+    const nearRes = await payload.find({
+      collection: 'suburbs',
+      where: { region: { equals: region.id } },
+      depth: 0,
+      limit: 50,
+      overrideAccess: false,
+      sort: 'title',
+    })
+    nearbySuburbs = (nearRes.docs as Suburb[]).filter((s) => s.id !== suburb!.id)
+  }
+
+  return {
+    pillar,
+    pillarLabel: pillarLabel(pillar),
+    productType,
+    suburb,
+    region,
+    depth,
+    applicableAssets,
+    nearbySuburbs,
+  }
+}
+
+/** H1 for a pillar-product page */
+export const pillarProductH1 = (data: PillarProductData): string => {
+  const label = data.pillarLabel
+  const product = data.productType.title
+  if (data.depth === 2 && data.suburb && data.region) {
+    return `${label} ${product} in ${data.suburb.title}, ${data.region.title}`
+  }
+  return `${label} ${product}`
+}
+
+/** Meta description for a pillar-product page */
+export const pillarProductDescription = (data: PillarProductData): string => {
+  const parts = [`${data.pillarLabel.toLowerCase()} ${data.productType.title.toLowerCase()}`]
+  if (data.suburb && data.region) {
+    parts.push(`in ${data.suburb.title}, ${data.region.title}`)
+  }
+  parts.push('by Winning Trimming. Custom-made and repaired to last.')
+  return parts.join(' ')
 }
