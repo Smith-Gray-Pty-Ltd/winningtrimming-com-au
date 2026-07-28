@@ -4,7 +4,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 
 import type { AssetType, ServiceType } from '@/payload-types'
-import { pillarLabel } from '@/fields/pillars'
+import { pillarLabel, pillarNoun } from '@/fields/pillars'
 
 /**
  * Server component rendered on pillar landing pages (e.g. /marine). Queries
@@ -33,11 +33,11 @@ export const AssetTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) =>
     <section className="container pt-16 pb-12">
       <div className="mb-8">
         <h2 className="text-3xl font-medium tracking-tight">
-          How can we help?
+          What can we do for your {pillarNoun[pillar] ?? label.toLowerCase()}?
         </h2>
         <p className="mt-2 text-muted-foreground max-w-2xl">
           Covers, canvas, upholstery and trim — made to measure, built to last.
-          Pick your {label.toLowerCase()} type below to see what we do.
+          Pick your type below to see what we do.
         </p>
       </div>
 

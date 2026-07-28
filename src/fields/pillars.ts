@@ -17,6 +17,15 @@ export const pillarValues = pillarOptions.map((o) => o.value)
 export const pillarLabel = (value?: string): string =>
   pillarOptions.find((o) => o.value === value)?.label ?? (value || '')
 
+/** Conversational noun for each pillar, used in headings/copy. */
+export const pillarNoun: Record<string, string> = {
+  marine: 'vessel',
+  automotive: 'vehicle',
+  'caravan-and-rv': 'van or RV',
+  'trade-and-industrial': 'gear',
+  commercial: 'business',
+}
+
 export const pillarSelectField = (overrides?: Partial<SelectField>): SelectField => ({
   name: 'pillar',
   type: 'select',
