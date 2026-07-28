@@ -56,11 +56,11 @@ export const ServiceTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) 
       <div className="container">
         <div className="mb-8">
           <h2 className="text-3xl font-medium tracking-tight">
-            {label} services we offer
+            What we do
           </h2>
           <p className="mt-2 text-white/80 max-w-2xl">
-            From covers and canvas to upholstery and trim — explore the full
-            range, then request a quote for your project.
+            Every cover stitched to fit, every panel pulled tight — built tough
+            for Australian conditions. See something you need? Get a quote.
           </p>
         </div>
 

@@ -33,11 +33,11 @@ export const AssetTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) =>
     <section className="container pt-16 pb-12">
       <div className="mb-8">
         <h2 className="text-3xl font-medium tracking-tight">
-          Browse {label} services by type
+          How can we help?
         </h2>
         <p className="mt-2 text-muted-foreground max-w-2xl">
-          Select a type below to see the products and services we offer for it,
-          from covers and canvas to upholstery and trim.
+          Covers, canvas, upholstery and trim — made to measure, built to last.
+          Pick your {label.toLowerCase()} type below to see what we do.
         </p>
       </div>
 
