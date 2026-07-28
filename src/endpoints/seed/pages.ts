@@ -21,6 +21,7 @@ const servicePage = (args: {
   _status: 'published',
   hero: {
     type: 'highImpact',
+    links: [{ link: { ...QUOTE_CTA } }],
     // @ts-ignore
     media: args.hero,
     richText: root([h(args.title, 'h1'), p(args.tagline)]),
@@ -77,7 +78,8 @@ export const pillarPages: PageSeed[] = [
     slug: 'marine',
     title: 'Marine',
     hero: '{{HERO_MARINE}}',
-    tagline: 'Boats, watercraft and everything that needs to survive the water.',
+    tagline:
+      'From runabouts to flybridge cruisers, we craft marine covers, canvas and upholstery built to handle the harsh Australian conditions.',
     intro:
       'From runabouts to flybridge cruisers, we craft marine covers, canvas and upholstery built to handle the harsh Australian conditions on Lake Macquarie, Newcastle and the coast.',
     custom:
