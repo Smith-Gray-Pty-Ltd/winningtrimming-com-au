@@ -12,6 +12,7 @@ import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { AssetTypeGrid } from '@/Matrix/AssetTypeGrid'
+import { ServiceTypeGrid } from '@/Matrix/ServiceTypeGrid'
 import { isValidPillar } from '@/Matrix/matrix'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
@@ -82,6 +83,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       <RenderHero {...hero} />
       {showAssetGrid && <AssetTypeGrid pillar={slug} />}
+      {showAssetGrid && <ServiceTypeGrid pillar={slug} />}
       <RenderBlocks blocks={layout} />
     </article>
   )

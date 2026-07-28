@@ -30,7 +30,7 @@ export const AssetTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) =>
   const label = pillarLabel(pillar)
 
   return (
-    <section className="container pt-16 pb-4">
+    <section className="container pt-16 pb-12">
       <div className="mb-8">
         <h2 className="text-3xl font-medium tracking-tight">
           Browse {label} services by type
