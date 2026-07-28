@@ -107,6 +107,15 @@ const marineAssets: {
       'Interior Panels', 'Carpet', 'Hull Lining',
     ],
   },
+  {
+    title: 'Houseboats',
+    singular: 'Houseboat',
+    intro: 'Houseboats need to feel like home on the water — we craft covers, upholstery and trim that make life aboard comfortable and lasting.',
+    products: [
+      'Weather Covers', 'Bimini Tops', 'Seats', 'Cushions', 'Mattresses',
+      'Interior Panels', 'Carpet', 'Hull Lining',
+    ],
+  },
 ]
 
 export const seedMatrix = async (payload: Payload, typeIds: TypeIds) => {
