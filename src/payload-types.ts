@@ -15,6 +15,9 @@ export interface Config {
     posts: Post;
     projects: Project;
     'service-types': ServiceType;
+    'asset-types': AssetType;
+    regions: Region;
+    suburbs: Suburb;
     media: Media;
     categories: Category;
     users: User;
@@ -32,6 +35,9 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'service-types': ServiceTypesSelect<false> | ServiceTypesSelect<true>;
+    'asset-types': AssetTypesSelect<false> | AssetTypesSelect<true>;
+    regions: RegionsSelect<false> | RegionsSelect<true>;
+    suburbs: SuburbsSelect<false> | SuburbsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -682,6 +688,129 @@ export interface ServiceType {
   id: number;
   title: string;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  intro?: string | null;
+  content?: {
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    keyFeatures?:
+      | {
+          feature: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "asset-types".
+ */
+export interface AssetType {
+  id: number;
+  title: string;
+  pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  singular?: string | null;
+  intro?: string | null;
+  heroImage?: (number | null) | Media;
+  content?: {
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  applicableProducts?: (number | ServiceType)[] | null;
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions".
+ */
+export interface Region {
+  id: number;
+  title: string;
+  description?: string | null;
+  content?: {
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suburbs".
+ */
+export interface Suburb {
+  id: number;
+  title: string;
+  region: number | Region;
+  postcode?: number | null;
+  intro?: string | null;
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -777,6 +906,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'service-types';
         value: number | ServiceType;
+      } | null)
+    | ({
+        relationTo: 'asset-types';
+        value: number | AssetType;
+      } | null)
+    | ({
+        relationTo: 'regions';
+        value: number | Region;
+      } | null)
+    | ({
+        relationTo: 'suburbs';
+        value: number | Suburb;
       } | null)
     | ({
         relationTo: 'media';
@@ -1056,6 +1197,106 @@ export interface ProjectsSelect<T extends boolean = true> {
 export interface ServiceTypesSelect<T extends boolean = true> {
   title?: T;
   pillar?: T;
+  intro?: T;
+  content?:
+    | T
+    | {
+        body?: T;
+        keyFeatures?:
+          | T
+          | {
+              feature?: T;
+              id?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        overview?: T;
+        title?: T;
+        image?: T;
+        description?: T;
+        preview?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "asset-types_select".
+ */
+export interface AssetTypesSelect<T extends boolean = true> {
+  title?: T;
+  pillar?: T;
+  singular?: T;
+  intro?: T;
+  heroImage?: T;
+  content?:
+    | T
+    | {
+        body?: T;
+      };
+  applicableProducts?: T;
+  meta?:
+    | T
+    | {
+        overview?: T;
+        title?: T;
+        image?: T;
+        description?: T;
+        preview?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "regions_select".
+ */
+export interface RegionsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  content?:
+    | T
+    | {
+        body?: T;
+      };
+  meta?:
+    | T
+    | {
+        overview?: T;
+        title?: T;
+        image?: T;
+        description?: T;
+        preview?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suburbs_select".
+ */
+export interface SuburbsSelect<T extends boolean = true> {
+  title?: T;
+  region?: T;
+  postcode?: T;
+  intro?: T;
+  meta?:
+    | T
+    | {
+        overview?: T;
+        title?: T;
+        image?: T;
+        description?: T;
+        preview?: T;
+      };
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

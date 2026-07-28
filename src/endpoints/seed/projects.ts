@@ -12,29 +12,39 @@ const slugify = (s: string) =>
 
 /**
  * Managed sub-category service types, grouped by pillar.
+ * Marine product types match the SEO-matrix product list.
  */
-const serviceTypeData: { title: string; pillar: string }[] = [
-  // Marine
-  { title: 'Biminis', pillar: 'marine' },
-  { title: 'Dodgers', pillar: 'marine' },
-  { title: 'Cockpit Enclosures', pillar: 'marine' },
-  { title: 'Boat Covers', pillar: 'marine' },
-  { title: 'Marine Upholstery', pillar: 'marine' },
+const serviceTypeData: { title: string; pillar: string; intro?: string }[] = [
+  // Marine product types
+  { title: 'Weather Covers', pillar: 'marine', intro: 'Custom weather covers built to protect your vessel from sun, rain and salt.' },
+  { title: 'Towing Covers', pillar: 'marine', intro: 'Heavy-duty towing covers that protect your boat on the road.' },
+  { title: 'Bimini Tops', pillar: 'marine', intro: 'Custom bimini tops for shade and shelter on the water.' },
+  { title: 'Dodgers', pillar: 'marine', intro: 'Front dodgers that block wind and spray at the helm.' },
+  { title: 'Flybridge Enclosures', pillar: 'marine', intro: 'Flybridge enclosures for year-round comfort up top.' },
+  { title: 'Cockpit Enclosures', pillar: 'marine', intro: 'Cockpit clear enclosures that extend your boating season.' },
+  { title: 'Sail Covers', pillar: 'marine', intro: 'Sail covers and stack packs to protect your sails and rigging.' },
+  { title: 'Sun Beds', pillar: 'marine', intro: 'Sunbed cushions for relaxing on the bow or deck.' },
+  { title: 'Seats', pillar: 'marine', intro: 'Marine seat upholstery and re-trims built for comfort and durability.' },
+  { title: 'Cushions', pillar: 'marine', intro: 'Custom marine cushions, from cockpit to cabin.' },
+  { title: 'Mattresses', pillar: 'marine', intro: 'Boat mattresses made to fit awkward cabin berths.' },
+  { title: 'Interior Panels', pillar: 'marine', intro: 'Interior headliner and panel trimming for a finished cabin.' },
+  { title: 'Carpet', pillar: 'marine', intro: 'Marine-grade carpet and flooring solutions.' },
+  { title: 'Hull Lining', pillar: 'marine', intro: 'Hull lining and insulation for a quieter, smarter cabin.' },
   // Automotive
-  { title: 'Tonneau Covers', pillar: 'automotive' },
-  { title: 'Seat Trim', pillar: 'automotive' },
-  { title: 'Headlinings', pillar: 'automotive' },
-  { title: 'Door Trims', pillar: 'automotive' },
+  { title: 'Tonneau Covers', pillar: 'automotive', intro: 'Custom tonneau and tray covers for utes and trucks.' },
+  { title: 'Seat Trim', pillar: 'automotive', intro: 'Seat re-trims and upholstery for cars, vans and 4x4s.' },
+  { title: 'Headlinings', pillar: 'automotive', intro: 'Headlining repair and replacement.' },
+  { title: 'Door Trims', pillar: 'automotive', intro: 'Door trim and panel upholstery.' },
   // Caravan & RV
-  { title: 'Annexes', pillar: 'caravan-and-rv' },
-  { title: 'Cushions & Mattresses', pillar: 'caravan-and-rv' },
-  { title: 'Interior Trim', pillar: 'caravan-and-rv' },
+  { title: 'Annexes', pillar: 'caravan-and-rv', intro: 'Annexes and shade walls for caravans and motorhomes.' },
+  { title: 'Cushions & Mattresses', pillar: 'caravan-and-rv', intro: 'Cushions and mattresses for caravans and RVs.' },
+  { title: 'Interior Trim', pillar: 'caravan-and-rv', intro: 'Interior trim and upholstery for vans and campers.' },
   // Trade & Industrial
-  { title: 'Machinery Covers', pillar: 'trade-and-industrial' },
-  { title: 'Operator Seats', pillar: 'trade-and-industrial' },
+  { title: 'Machinery Covers', pillar: 'trade-and-industrial', intro: 'Heavy-duty covers for machinery and plant.' },
+  { title: 'Operator Seats', pillar: 'trade-and-industrial', intro: 'Operator seat trimming and repair.' },
   // Commercial
-  { title: 'Booth Upholstery', pillar: 'commercial' },
-  { title: 'Office Chairs', pillar: 'commercial' },
+  { title: 'Booth Upholstery', pillar: 'commercial', intro: 'Booth seating upholstery for cafés and restaurants.' },
+  { title: 'Office Chairs', pillar: 'commercial', intro: 'Office chair re-upholstery and repair.' },
 ]
 
 type ProjectData = {
@@ -66,7 +76,7 @@ const projects: ProjectData[] = [
       { image: 'marine', caption: 'Stitched and ready for fitting' },
       { image: 'boats', caption: 'Installed on the water' },
     ],
-    serviceTypes: ['Biminis', 'Marine Upholstery'],
+    serviceTypes: ['Bimini Tops', 'Cushions'],
     content: root([
       h('The brief', 'h2'),
       p('The original bimini was torn and faded after years on the water. The owner wanted a like-for-like replacement in a tougher, UV-stable canvas with a cleaner finish.'),
@@ -195,7 +205,13 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
   for (const st of serviceTypeData) {
     const doc = await payload.create({
       collection: 'service-types',
-      data: { title: st.title, pillar: st.pillar, slug: slugify(st.title), slugLock: false },
+      data: {
+        title: st.title,
+        pillar: st.pillar,
+        intro: st.intro ?? '',
+        slug: slugify(st.title),
+        slugLock: false,
+      },
     })
     typeIds[st.title] = doc.id
   }
@@ -232,4 +248,6 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
   }
 
   payload.logger.info(`— Seeded ${serviceTypeData.length} service types and ${projects.length} projects.`)
+
+  return typeIds
 }

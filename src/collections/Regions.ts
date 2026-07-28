@@ -9,17 +9,15 @@ import {
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
-import { pillarSelectField } from '@/fields/pillars'
 import { slugField } from '@/fields/slug'
 import { seoTab } from '@/fields/seoTab'
 
 /**
- * Product / service types used both as project tags AND as a dimension of the
- * SEO matrix (e.g. "Weather Covers", "Bimini Tops", "Tonneau Covers"). Each is
- * scoped to a pillar and carries its own SEO copy so matrix pages stay unique.
+ * Geographic regions used by the SEO matrix (e.g. Lake Macquarie, Newcastle).
+ * Suburbs belong to a region; the matrix uses regions in page titles/schema.
  */
-export const ServiceTypes: CollectionConfig = {
-  slug: 'service-types',
+export const Regions: CollectionConfig = {
+  slug: 'regions',
   access: {
     create: authenticated,
     delete: authenticated,
@@ -28,8 +26,8 @@ export const ServiceTypes: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'pillar', 'updatedAt'],
-    group: 'Portfolio',
+    defaultColumns: ['title', 'slug', 'updatedAt'],
+    group: 'SEO Matrix',
   },
   fields: [
     {
@@ -37,13 +35,11 @@ export const ServiceTypes: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    pillarSelectField(),
     {
-      name: 'intro',
+      name: 'description',
       type: 'textarea',
       admin: {
-        position: 'sidebar',
-        description: '1–2 sentence SEO intro used on matrix pages.',
+        description: 'Short description used in matrix page copy and schema.',
       },
     },
     {
@@ -64,22 +60,6 @@ export const ServiceTypes: CollectionConfig = {
                   InlineToolbarFeature(),
                 ],
               }),
-            },
-            {
-              name: 'keyFeatures',
-              type: 'array',
-              labels: { singular: 'Feature', plural: 'Key features' },
-              admin: {
-                initCollapsed: true,
-                description: 'Bullet-point features shown on matrix pages.',
-              },
-              fields: [
-                {
-                  name: 'feature',
-                  type: 'text',
-                  required: true,
-                },
-              ],
             },
           ],
         },

@@ -4,12 +4,15 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { AssetTypes } from './collections/AssetTypes'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
+import { Regions } from './collections/Regions'
 import { ServiceTypes } from './collections/ServiceTypes'
+import { Suburbs } from './collections/Suburbs'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -68,7 +71,18 @@ export default buildConfig({
     // prodMigrations: migrations,
   }),
   // database-adapter-config-end
-  collections: [Pages, Posts, Projects, ServiceTypes, Media, Categories, Users],
+  collections: [
+    Pages,
+    Posts,
+    Projects,
+    ServiceTypes,
+    AssetTypes,
+    Regions,
+    Suburbs,
+    Media,
+    Categories,
+    Users,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [...plugins],
