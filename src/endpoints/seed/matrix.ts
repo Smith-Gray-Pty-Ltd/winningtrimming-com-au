@@ -118,6 +118,20 @@ const marineAssets: {
   },
 ]
 
+/**
+ * Expand a product title list to include both the custom AND repair variants.
+ * e.g. ['Weather Covers'] → ['Weather Covers', 'Weather Cover Repairs']
+ */
+const withRepairs = (products: string[]): string[] => {
+  const result: string[] = []
+  for (const p of products) {
+    result.push(p)
+    const singular = p.endsWith('s') && !p.endsWith('ss') ? p.slice(0, -1) : p
+    result.push(`${singular} Repairs`)
+  }
+  return result
+}
+
 export const seedMatrix = async (payload: Payload, typeIds: TypeIds) => {
   payload.logger.info(`— Seeding asset types (Marine)...`)
 
@@ -129,7 +143,9 @@ export const seedMatrix = async (payload: Payload, typeIds: TypeIds) => {
         singular: asset.singular ?? '',
         pillar: 'marine',
         intro: asset.intro,
-        applicableProducts: asset.products.map((t) => typeIds[t]).filter(Boolean),
+        applicableProducts: withRepairs(asset.products)
+          .map((t) => typeIds[t])
+          .filter(Boolean),
         slug: slugify(asset.title),
         slugLock: false,
       },

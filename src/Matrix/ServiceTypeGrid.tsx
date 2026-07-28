@@ -4,17 +4,46 @@ import { getPayload } from 'payload'
 import React from 'react'
 
 import type { AssetType, ServiceType } from '@/payload-types'
-import { pillarLabel } from '@/fields/pillars'
+
+type ServiceCardProps = {
+  title: string
+  blurb?: string
+  href: string
+  onTeal: boolean
+}
+
+const ServiceCard: React.FC<ServiceCardProps> = ({ title, blurb, href, onTeal }) => {
+  const cardClass = onTeal
+    ? 'group block rounded-lg bg-white/10 hover:bg-white/20 transition-colors p-5 h-full'
+    : 'group block rounded-lg border border-border bg-white hover:border-primary transition-colors p-5 h-full'
+  const titleClass = onTeal
+    ? 'font-medium text-white group-hover:text-primary transition-colors'
+    : 'font-medium text-foreground group-hover:text-primary transition-colors'
+  const blurbClass = onTeal
+    ? 'text-sm text-white/70 mt-1 line-clamp-2'
+    : 'text-sm text-muted-foreground mt-1 line-clamp-2'
+
+  return (
+    <Link href={href} className={cardClass}>
+      <h3 className={titleClass}>{title}</h3>
+      {blurb && <p className={blurbClass}>{blurb}</p>}
+    </Link>
+  )
+}
 
 /**
- * Full-bleed teal band rendered below the AssetTypeGrid on pillar pages.
- * Shows the product/service types for the pillar (e.g. Weather Covers, Bimini
- * Tops) as compact cards. Each links to the first vessel (alphabetically) that
- * offers it, dropping the user into the SEO matrix.
+ * Renders two grids of service-type cards on pillar pages:
  *
- * Returns null if no service types exist for the pillar.
+ * 1. "Custom & New Work" (teal band) — service types with workType = custom
+ * 2. "Repairs & Restorations" (white band) — service types with workType = repair
+ *
+ * Each card links into the SEO matrix. Returns null if no service types exist.
  */
-export const ServiceTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) => {
+export const ServiceTypeGrid: React.FC<{
+  pillar: string
+  customIntro: string
+  repairsIntro: string
+}> = async ({ pillar, customIntro, repairsIntro }) => {
   const payload = await getPayload({ config: configPromise })
 
   const [typesRes, assetsRes] = await Promise.all([
@@ -22,7 +51,7 @@ export const ServiceTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) 
       collection: 'service-types',
       where: { pillar: { equals: pillar } },
       depth: 0,
-      limit: 100,
+      limit: 200,
       overrideAccess: false,
       sort: 'title',
     }),
@@ -36,12 +65,11 @@ export const ServiceTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) 
     }),
   ])
 
-  const serviceTypes = typesRes.docs as ServiceType[]
-  if (serviceTypes.length === 0) return null
+  const allTypes = typesRes.docs as ServiceType[]
+  if (allTypes.length === 0) return null
 
   const assets = assetsRes.docs as AssetType[]
 
-  // First vessel (alphabetically) that offers this product — for the link
   const vesselForProduct = (productSlug: string): AssetType | undefined =>
     assets.find((a) =>
       (a.applicableProducts ?? [])
@@ -49,56 +77,72 @@ export const ServiceTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) 
         .some((p) => p.slug === productSlug),
     )
 
-  const label = pillarLabel(pillar)
+  const customTypes = allTypes.filter((t) => !t.workType || t.workType === 'custom')
+  const repairTypes = allTypes.filter((t) => t.workType === 'repair')
 
   return (
-    <section className="bg-accent text-white py-16" data-theme="dark">
-      <div className="container">
-        <div className="mb-8">
-          <h2 className="text-3xl font-medium tracking-tight">
-            What we do
-          </h2>
-          <p className="mt-2 text-white/80 max-w-2xl">
-            Every cover stitched to fit, every panel pulled tight — built tough
-            for Australian conditions. See something you need? Get a quote.
-          </p>
-        </div>
+    <>
+      {/* Custom & New Work — teal band */}
+      {customTypes.length > 0 && (
+        <section className="bg-accent text-white py-16" data-theme="dark">
+          <div className="container">
+            <div className="mb-8">
+              <h2 className="text-3xl font-medium tracking-tight">
+                Custom &amp; New Work
+              </h2>
+              <p className="mt-3 text-white/85 max-w-2xl leading-relaxed">
+                {customIntro}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {customTypes.map((st) => {
+                const vessel = vesselForProduct(st.slug)
+                if (!vessel) return null
+                return (
+                  <ServiceCard
+                    key={st.id}
+                    title={st.title}
+                    blurb={st.intro || undefined}
+                    href={`/${pillar}/${vessel.slug}/${st.slug}`}
+                    onTeal
+                  />
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {serviceTypes.map((st) => {
-            const vessel = vesselForProduct(st.slug)
-            const href = vessel
-              ? `/${pillar}/${vessel.slug}/${st.slug}`
-              : null
-
-            const inner = (
-              <>
-                <h3 className="font-medium text-white group-hover:text-primary transition-colors">
-                  {st.title}
-                </h3>
-                {st.intro && (
-                  <p className="text-sm text-white/70 mt-1 line-clamp-2">
-                    {st.intro}
-                  </p>
-                )}
-              </>
-            )
-
-            const className =
-              'group block rounded-lg bg-white/10 hover:bg-white/20 transition-colors p-5 h-full'
-
-            return href ? (
-              <Link key={st.id} href={href} className={className}>
-                {inner}
-              </Link>
-            ) : (
-              <div key={st.id} className={className}>
-                {inner}
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    </section>
+      {/* Repairs & Restorations — white band */}
+      {repairTypes.length > 0 && (
+        <section className="py-16">
+          <div className="container">
+            <div className="mb-8">
+              <h2 className="text-3xl font-medium tracking-tight">
+                Repairs &amp; Restorations
+              </h2>
+              <p className="mt-3 text-muted-foreground max-w-2xl leading-relaxed">
+                {repairsIntro}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {repairTypes.map((st) => {
+                const vessel = vesselForProduct(st.slug)
+                if (!vessel) return null
+                return (
+                  <ServiceCard
+                    key={st.id}
+                    title={st.title}
+                    blurb={st.intro || undefined}
+                    href={`/${pillar}/${vessel.slug}/${st.slug}`}
+                    onTeal={false}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+    </>
   )
 }

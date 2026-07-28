@@ -216,6 +216,28 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
     typeIds[st.title] = doc.id
   }
 
+  // Generate repair variants for each custom service type
+  payload.logger.info(`— Seeding repair service types...`)
+  for (const st of serviceTypeData) {
+    const singular = st.title.endsWith('s') && !st.title.endsWith('ss')
+      ? st.title.slice(0, -1)
+      : st.title
+    const repairTitle = `${singular} Repairs`
+    const repairIntro = `Repair, re-stitch or re-cover your ${st.title.toLowerCase()}. Bring tired trim back to life at a fraction of the replacement cost.`
+    const doc = await payload.create({
+      collection: 'service-types',
+      data: {
+        title: repairTitle,
+        pillar: st.pillar,
+        workType: 'repair',
+        intro: repairIntro,
+        slug: slugify(repairTitle),
+        slugLock: false,
+      },
+    })
+    typeIds[repairTitle] = doc.id
+  }
+
   payload.logger.info(`— Seeding projects...`)
   for (const proj of projects) {
     await payload.create({
@@ -247,7 +269,9 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
     })
   }
 
-  payload.logger.info(`— Seeded ${serviceTypeData.length} service types and ${projects.length} projects.`)
+  payload.logger.info(
+    `— Seeded ${serviceTypeData.length} custom + ${serviceTypeData.length} repair service types and ${projects.length} projects.`,
+  )
 
   return typeIds
 }

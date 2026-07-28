@@ -690,6 +690,7 @@ export interface ServiceType {
   id: number;
   title: string;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  workType?: ('custom' | 'repair') | null;
   intro?: string | null;
   content?: {
     body?: {
@@ -1251,6 +1252,7 @@ export interface ProjectsSelect<T extends boolean = true> {
 export interface ServiceTypesSelect<T extends boolean = true> {
   title?: T;
   pillar?: T;
+  workType?: T;
   intro?: T;
   content?:
     | T

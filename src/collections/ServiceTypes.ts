@@ -39,6 +39,19 @@ export const ServiceTypes: CollectionConfig = {
     },
     pillarSelectField(),
     {
+      name: 'workType',
+      type: 'select',
+      defaultValue: 'custom',
+      options: [
+        { label: 'Custom & New Work', value: 'custom' },
+        { label: 'Repairs & Restorations', value: 'repair' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Custom = new builds; Repair = repair/restoration work.',
+      },
+    },
+    {
       name: 'intro',
       type: 'textarea',
       admin: {

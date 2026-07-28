@@ -41,35 +41,6 @@ const servicePage = (args: {
         },
       ],
     },
-    // Custom & New Work
-    {
-      blockType: 'content',
-      background: 'teal',
-      columns: [
-        {
-          size: 'full',
-          richText: root([
-            h('Custom & New Work', 'h2'),
-            p(args.custom),
-          ]),
-        },
-      ],
-    },
-    // Repairs & Restorations
-    {
-      blockType: 'content',
-      background: 'default',
-      columns: [
-        {
-          size: 'full',
-          richText: root([
-            h('Repairs & Restorations', 'h2'),
-            p(args.repairs),
-          ]),
-        },
-        { size: 'full', enableLink: true, richText: root([]), link: { ...QUOTE_CTA } },
-      ],
-    },
   ],
 })
 
