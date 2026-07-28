@@ -6,13 +6,14 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-type RegionData = { title: string; description: string }
+type RegionData = { title: string; description: string; pillars?: string[] }
 
 const regionsData: RegionData[] = [
   {
     title: 'Port Stephens',
     description:
       'A premier boating destination north of Newcastle with marinas at Nelson Bay, Corlette and Soldiers Point.',
+    pillars: ['marine'],
   },
   {
     title: 'Newcastle & Hunter',
@@ -33,21 +34,25 @@ const regionsData: RegionData[] = [
     title: 'Pittwater & Hawkesbury',
     description:
       "One of Sydney's strongest boating areas, from Palm Beach to the Hawkesbury River.",
+    pillars: ['marine'],
   },
   {
     title: 'Middle Harbour',
     description:
       'Separated by Spit Bridge, a distinct boating enclave with marinas from The Spit to Roseville.',
+    pillars: ['marine'],
   },
   {
     title: 'Sydney Harbour',
     description:
       'The heart of Sydney boating — from Rushcutters Bay to Rose Bay and beyond.',
+    pillars: ['marine'],
   },
   {
     title: 'Parramatta River',
     description:
       'Western harbour access with marinas at Cabarita, Gladesville and Drummoyne.',
+    pillars: ['marine'],
   },
 ]
 
@@ -146,7 +151,13 @@ export const seedLocations = async (payload: Payload) => {
   for (const r of regionsData) {
     const doc = await payload.create({
       collection: 'regions',
-      data: { title: r.title, description: r.description, slug: slugify(r.title), slugLock: false },
+      data: {
+        title: r.title,
+        description: r.description,
+        pillars: r.pillars ?? [],
+        slug: slugify(r.title),
+        slugLock: false,
+      },
     })
     regionIds[r.title] = doc.id
   }

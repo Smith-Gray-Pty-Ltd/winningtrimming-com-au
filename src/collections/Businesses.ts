@@ -24,7 +24,7 @@ export const Businesses: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'type', 'pillar', 'region', 'updatedAt'],
+    defaultColumns: ['title', 'type', 'relationship', 'pillar', 'region', 'updatedAt'],
     group: 'SEO Matrix',
   },
   fields: [
@@ -40,6 +40,7 @@ export const Businesses: CollectionConfig = {
       name: 'type',
       type: 'select',
       options: [
+        // Marine
         { label: 'Marina', value: 'marina' },
         { label: 'Shipwright', value: 'shipwright' },
         { label: 'Boatyard', value: 'boatyard' },
@@ -48,13 +49,43 @@ export const Businesses: CollectionConfig = {
         { label: 'Chandlery', value: 'chandlery' },
         { label: 'Boat Ramp', value: 'boat-ramp' },
         { label: 'Slipway', value: 'slipway' },
+        // Automotive
         { label: 'Mechanic', value: 'mechanic' },
+        { label: 'Dealership', value: 'dealership' },
+        { label: 'Panel Beater', value: 'panel-beater' },
+        { label: 'Auto Electrician', value: 'auto-electrician' },
+        // Trade & Industrial
+        { label: 'Hardware Supplier', value: 'hardware-supplier' },
+        { label: 'Steel Fabricator', value: 'steel-fabricator' },
+        { label: 'Machinery Dealer', value: 'machinery-dealer' },
+        // Commercial
+        { label: 'Hospitality Venue', value: 'hospitality-venue' },
+        { label: 'Property Manager', value: 'property-manager' },
+        { label: 'Office / Corporate', value: 'office-corporate' },
+        // Generic
         { label: 'Dealer', value: 'dealer' },
         { label: 'Other', value: 'other' },
       ],
       admin: {
         position: 'sidebar',
         description: 'Type of business / facility.',
+      },
+    },
+    {
+      name: 'relationship',
+      type: 'select',
+      options: [
+        { label: 'Partner', value: 'partner' },
+        { label: 'Customer', value: 'customer' },
+        { label: 'Supplier', value: 'supplier' },
+        { label: 'Referrer', value: 'referrer' },
+        { label: 'Informational', value: 'informational' },
+      ],
+      defaultValue: 'informational',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Relationship between Winning Trimming and this business. Partner = mutual referral; Customer = buys from us; Supplier = we buy from; Referrer = sends us leads; Informational = listed for SEO context only.',
       },
     },
     {

@@ -782,10 +782,20 @@ export interface Business {
         | 'boat-ramp'
         | 'slipway'
         | 'mechanic'
+        | 'dealership'
+        | 'panel-beater'
+        | 'auto-electrician'
+        | 'hardware-supplier'
+        | 'steel-fabricator'
+        | 'machinery-dealer'
+        | 'hospitality-venue'
+        | 'property-manager'
+        | 'office-corporate'
         | 'dealer'
         | 'other'
       )
     | null;
+  relationship?: ('partner' | 'customer' | 'supplier' | 'referrer' | 'informational') | null;
   region: number | Region;
   suburb?: string | null;
   description?: string | null;
@@ -808,6 +818,7 @@ export interface Region {
   id: number;
   title: string;
   description?: string | null;
+  pillars?: ('marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial')[] | null;
   content?: {
     body?: {
       root: {
@@ -1304,6 +1315,7 @@ export interface BusinessesSelect<T extends boolean = true> {
   title?: T;
   pillar?: T;
   type?: T;
+  relationship?: T;
   region?: T;
   suburb?: T;
   description?: T;
@@ -1329,6 +1341,7 @@ export interface BusinessesSelect<T extends boolean = true> {
 export interface RegionsSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  pillars?: T;
   content?:
     | T
     | {

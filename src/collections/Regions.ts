@@ -9,6 +9,7 @@ import {
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { pillarOptions } from '@/fields/pillars'
 import { slugField } from '@/fields/slug'
 import { seoTab } from '@/fields/seoTab'
 
@@ -40,6 +41,17 @@ export const Regions: CollectionConfig = {
       type: 'textarea',
       admin: {
         description: 'Short description used in matrix page copy and schema.',
+      },
+    },
+    {
+      name: 'pillars',
+      type: 'select',
+      hasMany: true,
+      options: pillarOptions.map((o) => ({ label: o.label, value: o.value })),
+      admin: {
+        position: 'sidebar',
+        description:
+          'Which pillars this region is relevant to. Leave empty if it applies to all pillars.',
       },
     },
     {

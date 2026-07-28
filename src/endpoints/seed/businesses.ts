@@ -11,6 +11,7 @@ type RegionIds = Record<string, string | number>
 type BusinessData = {
   title: string
   type: string
+  relationship?: string
   region: string
   suburb: string
   description?: string
@@ -240,6 +241,7 @@ export const seedBusinesses = async (payload: Payload, regionIds: RegionIds) => 
         title: biz.title,
         pillar: 'marine',
         type: biz.type,
+        relationship: biz.relationship ?? 'informational',
         region: regionIds[biz.region],
         suburb: biz.suburb,
         description: biz.description ?? '',
