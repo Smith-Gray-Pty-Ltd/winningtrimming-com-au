@@ -94,17 +94,19 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
                   Areas we serve
                 </p>
                 {regions && regions.length > 0 && pillar ? (
-                  <div className="flex flex-wrap gap-x-3 gap-y-1">
-                    {regions.map((r) => (
-                      <Link
-                        key={r.slug}
-                        href={`/${pillar}/${r.slug}`}
-                        className="text-sm text-white/85 hover:text-white underline-offset-2 hover:underline transition-colors"
-                      >
-                        {r.title}
-                      </Link>
+                  <p className="text-sm leading-relaxed">
+                    {regions.map((r, i) => (
+                      <span key={r.slug}>
+                        <Link
+                          href={`/${pillar}/${r.slug}`}
+                          className="font-medium text-white hover:text-white/70 transition-colors"
+                        >
+                          {r.title}
+                        </Link>
+                        {i < regions.length - 1 && <span className="text-white/40"> · </span>}
+                      </span>
                     ))}
-                  </div>
+                  </p>
                 ) : (
                   <p className="text-sm text-white/85 leading-relaxed">
                     Lake Macquarie &middot; Newcastle

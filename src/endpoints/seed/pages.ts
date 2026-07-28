@@ -79,9 +79,9 @@ export const pillarPages: PageSeed[] = [
     title: 'Marine',
     hero: '{{HERO_MARINE}}',
     tagline:
-      'From runabouts to flybridge cruisers, we craft marine covers, canvas and upholstery built to handle the harsh Australian conditions.',
+      'From runabouts to Super Yachts, we craft marine covers, canvas and upholstery built to handle the harsh Australian conditions.',
     intro:
-      'From runabouts to flybridge cruisers, we craft marine covers, canvas and upholstery built to handle the harsh Australian conditions on Lake Macquarie, Newcastle and the coast.',
+      'From runabouts to Super Yachts, we craft marine covers, canvas and upholstery built to handle the harsh Australian conditions on Lake Macquarie, Newcastle and the coast.',
     custom:
       'Bespoke biminis, Dodgers, cockpit and flybridge enclosures, sail covers, sunbeds, cushions and full interior refits — designed and stitched from marine-grade materials.',
     repairs:

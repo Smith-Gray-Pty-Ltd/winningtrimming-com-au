@@ -42,14 +42,19 @@ export const seed = async ({
 }): Promise<void> => {
   payload.logger.info('Seeding database...')
 
-  payload.logger.info(`— Clearing collections and globals...`)
-  for (const global of globals) {
-    await payload.updateGlobal({ slug: global, data: { navItems: [] } })
+  payload.logger.info(`— Clearing collections (raw TRUNCATE)...`)
+  // Use raw SQL TRUNCATE instead of payload.delete() to avoid the
+  // transaction-abort cascade caused by deleteUserPreferences hooks.
+  // Fast, reliable, and skips all afterDelete hook overhead.
+  const pool = (payload.db as any).pool
+  const tableRes = await pool.query(
+    `SELECT tablename FROM pg_tables WHERE schemaname = 'public'
+     AND tablename NOT IN ('payload_migrations', 'users')`,
+  )
+  const tableNames = tableRes.rows.map((r: any) => `"${r.tablename}"`).join(', ')
+  if (tableNames) {
+    await pool.query(`TRUNCATE TABLE ${tableNames} CASCADE`)
   }
-  for (const collection of collections) {
-    await payload.delete({ collection, where: { id: { exists: true } } })
-  }
-  await payload.delete({ collection: 'pages', where: {} })
 
   // ---- Media -------------------------------------------------------------
   payload.logger.info(`— Seeding media...`)
