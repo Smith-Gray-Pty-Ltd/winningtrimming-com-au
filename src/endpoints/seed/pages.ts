@@ -27,18 +27,19 @@ const servicePage = (args: {
     richText: root([h(args.title, 'h1'), p(args.tagline)]),
   },
   layout: [
-    // Intro
+    // CTA band at the bottom (the hero + grids carry the main content)
     {
       blockType: 'content',
-      background: 'default',
+      background: 'teal',
       columns: [
         {
           size: 'full',
           richText: root([
-            h(`${args.title} trimming, upholstery & covers`, 'h2'),
-            p(args.intro),
+            h('Ready to get started?', 'h2'),
+            p(`Get in touch for a tailored quote — we cover ${args.title.toLowerCase()} work across Lake Macquarie, Newcastle, the Central Coast and beyond.`),
           ]),
         },
+        { size: 'full', enableLink: true, richText: root([]), link: { ...QUOTE_CTA } },
       ],
     },
   ],
