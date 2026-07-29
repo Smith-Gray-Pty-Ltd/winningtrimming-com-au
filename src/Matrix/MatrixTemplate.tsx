@@ -59,7 +59,7 @@ const LinkGrid: React.FC<{
   if (links.length === 0) return null
   const colClass = columns === 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-3'
   return (
-    <div className="mb-12">
+    <div className="mt-12 mb-12">
       <h2 className="text-2xl font-medium tracking-tight mb-2">{heading}</h2>
       {subtitle && (
         <p className="text-muted-foreground mb-5 max-w-2xl">{subtitle}</p>
