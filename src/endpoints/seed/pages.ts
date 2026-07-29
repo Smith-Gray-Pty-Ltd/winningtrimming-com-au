@@ -27,18 +27,11 @@ const servicePage = (args: {
     richText: root([h(args.title, 'h1'), p(args.tagline)]),
   },
   layout: [
-    // CTA band at the bottom (the hero + grids carry the main content)
+    // Minimal CTA — just the quote button, no band/heading
     {
       blockType: 'content',
-      background: 'teal',
+      background: 'default',
       columns: [
-        {
-          size: 'full',
-          richText: root([
-            h('Ready to get started?', 'h2'),
-            p(`Get in touch for a tailored quote — we cover ${args.title.toLowerCase()} work across Lake Macquarie, Newcastle, the Central Coast and beyond.`),
-          ]),
-        },
         { size: 'full', enableLink: true, richText: root([]), link: { ...QUOTE_CTA } },
       ],
     },

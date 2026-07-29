@@ -121,14 +121,24 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
   const { assetType, productType, suburb, region, depth, pillar, pillarLabel } = data
   const vessel = singularOf(assetType)
 
-  // Applicable products as link cards
-  const productLinks = (assetType.applicableProducts ?? [])
+  // Applicable products — split by workType
+  const allProducts = (assetType.applicableProducts ?? [])
     .filter((p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null)
-    .map((p) => ({
-      label: p.title,
-      href: matrixUrl(pillar, assetType.slug, p.slug),
-      blurb: p.intro,
-    }))
+
+  const customProducts = allProducts.filter((p) => !p.workType || p.workType === 'custom')
+  const repairProducts = allProducts.filter((p) => p.workType === 'repair')
+
+  const customLinks = customProducts.map((p) => ({
+    label: p.title,
+    href: `/${pillar}/${p.slug}`,
+    blurb: p.intro,
+  }))
+
+  const repairLinks = repairProducts.map((p) => ({
+    label: p.title,
+    href: `/${pillar}/${p.slug}`,
+    blurb: p.intro,
+  }))
 
   // Sibling vessels (all)
   const vesselLinks = data.siblingAssets.map((a) => ({
@@ -203,12 +213,66 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
             </div>
           )}
 
-        {/* Product links (depth 1) */}
-        {depth === 1 && (
-          <LinkGrid
-            heading={`${vessel} products & services`}
-            links={productLinks}
-          />
+        {/* Custom & New Work links (depth 1) — teal band */}
+        {depth === 1 && customLinks.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-medium tracking-tight mb-2">
+              Custom &amp; New Work
+            </h2>
+            <p className="text-muted-foreground mb-5 max-w-2xl">
+              Bespoke {vessel.toLowerCase()} covers, canvas and upholstery —
+              designed and stitched from marine-grade materials.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {customLinks.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="group block rounded-lg border border-border bg-white px-5 py-4 hover:border-primary transition-colors"
+                >
+                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                    {l.label}
+                  </span>
+                  {l.blurb && (
+                    <span className="block text-sm text-muted-foreground mt-1 line-clamp-2">
+                      {l.blurb}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Repairs & Restorations links (depth 1) — white band */}
+        {depth === 1 && repairLinks.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-medium tracking-tight mb-2">
+              Repairs &amp; Restorations
+            </h2>
+            <p className="text-muted-foreground mb-5 max-w-2xl">
+              Zip repairs, re-stitching, re-covering damaged vinyl and bringing
+              tired trim back to life at a fraction of the replacement cost.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {repairLinks.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="group block rounded-lg border border-border bg-white px-5 py-4 hover:border-primary transition-colors"
+                >
+                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                    {l.label}
+                  </span>
+                  {l.blurb && (
+                    <span className="block text-sm text-muted-foreground mt-1 line-clamp-2">
+                      {l.blurb}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
         )}
 
         {/* Vessel links for same product (depth 2) */}
