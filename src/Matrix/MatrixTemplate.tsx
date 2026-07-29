@@ -52,14 +52,19 @@ const Breadcrumbs: React.FC<{ data: MatrixData }> = ({ data }) => {
 
 const LinkGrid: React.FC<{
   heading: string
+  subtitle?: string
   links: { label: string; href: string; blurb?: string }[]
   columns?: 2 | 3 | 4
-}> = ({ heading, links, columns = 3 }) => {
+}> = ({ heading, subtitle, links, columns = 3 }) => {
   if (links.length === 0) return null
   const colClass = columns === 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-2 lg:grid-cols-3'
   return (
     <div className="mb-12">
-      <h2 className="text-2xl font-medium tracking-tight mb-5">{heading}</h2>
+      <h2 className="text-2xl font-medium tracking-tight mb-2">{heading}</h2>
+      {subtitle && (
+        <p className="text-muted-foreground mb-5 max-w-2xl">{subtitle}</p>
+      )}
+      {!subtitle && <div className="mb-5" />}
       <div className={`grid grid-cols-1 ${colClass} gap-4`}>
         {links.map((l) => (
           <Link
@@ -357,7 +362,8 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
         {/* All vessel types (depth 1 & 2) */}
         {(depth === 1 || depth === 2) && vesselLinks.length > 0 && (
           <LinkGrid
-            heading={depth === 1 ? `Other ${pillarLabel.toLowerCase()} types` : `Other vessel types`}
+            heading="Looking for another vessel type?"
+            subtitle="We trim, cover and upholster all kinds of boats — pick yours to see what we do."
             links={vesselLinks}
             columns={4}
           />
