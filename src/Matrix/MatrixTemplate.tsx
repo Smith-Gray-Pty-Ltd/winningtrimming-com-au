@@ -218,6 +218,7 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
         )}
       </header>
 
+      {/* Body content + key features */}
       <div className="container">
         {/* Body content from taxonomy */}
         {productType?.content?.body && (
@@ -248,10 +249,12 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
               </ul>
             </div>
           )}
+      </div>
 
-        {/* Custom & New Work links (depth 1) — teal band */}
-        {depth === 1 && customLinks.length > 0 && (
-          <div className="mb-12">
+      {/* Custom & New Work (depth 1) — white band */}
+      {depth === 1 && customLinks.length > 0 && (
+        <section className="py-16">
+          <div className="container">
             <h2 className="text-2xl font-medium tracking-tight mb-2">
               Custom &amp; New Work
             </h2>
@@ -278,15 +281,17 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
               ))}
             </div>
           </div>
-        )}
+        </section>
+      )}
 
-        {/* Repairs & Restorations links (depth 1) — white band */}
-        {depth === 1 && repairLinks.length > 0 && (
-          <div className="mb-12">
+      {/* Repairs & Restorations (depth 1) — full-bleed teal band */}
+      {depth === 1 && repairLinks.length > 0 && (
+        <section className="bg-accent text-white py-16" data-theme="dark">
+          <div className="container">
             <h2 className="text-2xl font-medium tracking-tight mb-2">
               Repairs &amp; Restorations
             </h2>
-            <p className="text-muted-foreground mb-5 max-w-2xl">
+            <p className="text-white/80 mb-5 max-w-2xl">
               Zip repairs, re-stitching, re-covering damaged vinyl and bringing
               tired trim back to life at a fraction of the replacement cost.
             </p>
@@ -295,13 +300,13 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="group block rounded-lg border border-border bg-white px-5 py-4 hover:border-primary transition-colors"
+                  className="group block rounded-lg bg-white/10 hover:bg-white/20 transition-colors px-5 py-4"
                 >
-                  <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                  <span className="font-medium text-white group-hover:text-primary transition-colors">
                     {l.label}
                   </span>
                   {l.blurb && (
-                    <span className="block text-sm text-muted-foreground mt-1 line-clamp-2">
+                    <span className="block text-sm text-white/70 mt-1 line-clamp-2">
                       {l.blurb}
                     </span>
                   )}
@@ -309,8 +314,11 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
               ))}
             </div>
           </div>
-        )}
+        </section>
+      )}
 
+      {/* Remaining links */}
+      <div className="container">
         {/* Vessel links for same product (depth 2) */}
         {depth === 2 && vesselsWithProduct.length > 0 && (
           <LinkGrid
