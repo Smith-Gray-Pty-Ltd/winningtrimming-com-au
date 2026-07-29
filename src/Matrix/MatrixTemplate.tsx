@@ -253,7 +253,7 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
 
       {/* Custom & New Work (depth 1) — white band */}
       {depth === 1 && customLinks.length > 0 && (
-        <section className="py-16">
+        <section className="pt-4 pb-16">
           <div className="container">
             <h2 className="text-2xl font-medium tracking-tight mb-2">
               Custom &amp; New Work
