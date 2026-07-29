@@ -198,17 +198,19 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
 
       {/* Hero */}
       <header className="container mt-6 mb-12">
-        {/* Only show H1 here if no hero image rendered it above */}
+        {/* Only show H1 + subtitle here if no hero image rendered them above */}
         {!(depth === 1 && assetType.heroImage && typeof assetType.heroImage === 'object') && (
-          <h1 className="text-3xl md:text-4xl font-medium tracking-tight">
-            {matrixH1(data)}
-          </h1>
+          <>
+            <h1 className="text-3xl md:text-4xl font-medium tracking-tight">
+              {matrixH1(data)}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
+              {depth >= 2 && productType?.intro
+                ? productType.intro
+                : assetType.intro}
+            </p>
+          </>
         )}
-        <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-          {depth >= 2 && productType?.intro
-            ? productType.intro
-            : assetType.intro}
-        </p>
         {depth === 3 && suburb && region && (
           <p className="mt-2 text-muted-foreground">
             Serving {suburb.title} and the wider {region.title} area.
