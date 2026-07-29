@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import NextImage from 'next/image'
 import React from 'react'
 
 import RichText from '@/components/RichText'
@@ -163,13 +164,46 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
   return (
     <article className="pb-24">
       <ServiceSchema data={data} />
+
+      {/* Hero (depth 1 — vessel type pages) */}
+      {depth === 1 && assetType.heroImage && typeof assetType.heroImage === 'object' && (
+        <section
+          className="relative min-h-[50vh] flex items-center overflow-hidden text-white"
+          data-theme="dark"
+        >
+          <NextImage
+            src={assetType.heroImage.url || ''}
+            alt={assetType.heroImage.alt || assetType.title}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" aria-hidden="true" />
+          <div className="container relative z-10 py-20">
+            <div className="max-w-2xl">
+              <h1 className="text-3xl md:text-5xl font-medium tracking-tight">
+                {matrixH1(data)}
+              </h1>
+              <p className="mt-4 text-lg text-white/85">
+                {assetType.intro}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Breadcrumbs */}
       <Breadcrumbs data={data} />
 
       {/* Hero */}
       <header className="container mt-6 mb-12">
-        <h1 className="text-3xl md:text-4xl font-medium tracking-tight">
-          {matrixH1(data)}
-        </h1>
+        {/* Only show H1 here if no hero image rendered it above */}
+        {!(depth === 1 && assetType.heroImage && typeof assetType.heroImage === 'object') && (
+          <h1 className="text-3xl md:text-4xl font-medium tracking-tight">
+            {matrixH1(data)}
+          </h1>
+        )}
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
           {depth >= 2 && productType?.intro
             ? productType.intro

@@ -132,10 +132,14 @@ const withRepairs = (products: string[]): string[] => {
   return result
 }
 
-export const seedMatrix = async (payload: Payload, typeIds: TypeIds) => {
+export const seedMatrix = async (payload: Payload, typeIds: TypeIds, media?: Record<string, string | number>) => {
   payload.logger.info(`— Seeding asset types (Marine)...`)
 
   for (const asset of marineAssets) {
+    // Assign hero image if available (key: '{slug}-hero')
+    const heroKey = `${slugify(asset.title)}-hero`
+    const heroImage = media?.[heroKey] ?? null
+
     await payload.create({
       collection: 'asset-types',
       data: {
@@ -143,6 +147,7 @@ export const seedMatrix = async (payload: Payload, typeIds: TypeIds) => {
         singular: asset.singular ?? '',
         pillar: 'marine',
         intro: asset.intro,
+        heroImage,
         applicableProducts: withRepairs(asset.products)
           .map((t) => typeIds[t])
           .filter(Boolean),

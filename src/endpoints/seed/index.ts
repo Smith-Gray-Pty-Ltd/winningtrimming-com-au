@@ -80,13 +80,26 @@ export const seed = async ({
     media[key] = doc.id
   }
 
+  // Vessel hero images (generated via FLUX)
+  const vesselHeroImages: [string, string][] = [
+    ['catamarans-hero', 'public/catamaran-hero.webp'],
+  ]
+  for (const [key, file] of vesselHeroImages) {
+    const doc = await payload.create({
+      collection: 'media',
+      data: image2,
+      file: readLocalFile(file, 'image/webp'),
+    })
+    media[key] = doc.id
+  }
+
   // ---- Projects & service types -----------------------------------------
   const typeIds = await seedProjects(payload, media)
 
   // ---- SEO matrix: regions, suburbs, businesses, asset types ------------
   const { regionIds } = await seedLocations(payload)
   await seedBusinesses(payload, regionIds)
-  await seedMatrix(payload, typeIds)
+  await seedMatrix(payload, typeIds, media)
 
   // Helper to resolve {{PLACEHOLDER}} IDs in page JSON (handles text/numeric IDs)
   const quote = (id: unknown) =>
