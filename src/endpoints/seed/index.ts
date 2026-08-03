@@ -82,9 +82,86 @@ export const seed = async ({
 
   // Vessel hero images (generated via FLUX)
   const vesselHeroImages: [string, string][] = [
+    ['yachts-hero', 'public/yachts-hero.webp'],
     ['catamarans-hero', 'public/catamaran-hero.webp'],
+    ['inflatable-boats-ribs-hero', 'public/inflatable-boats-ribs-hero.webp'],
+    ['jet-skis-hero', 'public/jet-skis-hero.webp'],
+    ['outboard-motors-hero', 'public/outboard-motors-hero.webp'],
+    ['pontoons-hero', 'public/pontoons-hero.webp'],
+    ['power-boats-hero', 'public/power-boats-hero.webp'],
+    ['row-boats-hero', 'public/row-boats-hero.webp'],
+    ['sail-boats-hero', 'public/sail-boats-hero.webp'],
+    ['fishing-boats-hero', 'public/fishing-boats-hero.webp'],
+    ['tenders-hero', 'public/tenders-hero.webp'],
+    ['tinnies-hero', 'public/tinnies-hero.webp'],
+    ['super-yachts-hero', 'public/super-yachts-hero.webp'],
+    ['houseboats-hero', 'public/houseboats-hero.webp'],
   ]
   for (const [key, file] of vesselHeroImages) {
+    const doc = await payload.create({
+      collection: 'media',
+      data: image2,
+      file: readLocalFile(file, 'image/webp'),
+    })
+    media[key] = doc.id
+  }
+
+  // Service-type hero images (generated via FLUX)
+  // Keys are {serviceTypeSlug}-hero to match the slugs created by seedProjects.
+  const serviceHeroImages: [string, string][] = [
+    ['weather-covers-hero', 'public/service-weather-covers-hero.webp'],
+    ['towing-covers-hero', 'public/service-towing-covers-hero.webp'],
+    ['bimini-tops-hero', 'public/service-bimini-tops-hero.webp'],
+    ['dodgers-hero', 'public/service-dodgers-hero.webp'],
+    ['flybridge-enclosures-hero', 'public/service-flybridge-enclosures-hero.webp'],
+    ['cockpit-enclosures-hero', 'public/service-cockpit-enclosures-hero.webp'],
+    ['sail-covers-hero', 'public/service-sail-covers-hero.webp'],
+    ['sun-beds-hero', 'public/service-sun-beds-hero.webp'],
+    ['seats-hero', 'public/service-seats-hero.webp'],
+    ['cushions-hero', 'public/service-cushions-hero.webp'],
+    ['mattresses-hero', 'public/service-mattresses-hero.webp'],
+    ['interior-panels-hero', 'public/service-interior-panels-hero.webp'],
+    ['carpet-hero', 'public/service-carpet-hero.webp'],
+    ['hull-lining-hero', 'public/service-hull-lining-hero.webp'],
+    ['tonneau-covers-hero', 'public/service-tonneau-covers-hero.webp'],
+    ['seat-trim-hero', 'public/service-seat-trim-hero.webp'],
+    ['headlinings-hero', 'public/service-headlinings-hero.webp'],
+    ['door-trims-hero', 'public/service-door-trims-hero.webp'],
+    ['annexes-hero', 'public/service-annexes-hero.webp'],
+    ['cushions-mattresses-hero', 'public/service-cushions-mattresses-hero.webp'],
+    ['interior-trim-hero', 'public/service-interior-trim-hero.webp'],
+    ['machinery-covers-hero', 'public/service-machinery-covers-hero.webp'],
+    ['operator-seats-hero', 'public/service-operator-seats-hero.webp'],
+    ['booth-upholstery-hero', 'public/service-booth-upholstery-hero.webp'],
+    ['office-chairs-hero', 'public/service-office-chairs-hero.webp'],
+    // Repair variants
+    ['weather-cover-repairs-hero', 'public/service-weather-cover-repairs-hero.webp'],
+    ['towing-cover-repairs-hero', 'public/service-towing-cover-repairs-hero.webp'],
+    ['bimini-top-repairs-hero', 'public/service-bimini-top-repairs-hero.webp'],
+    ['dodger-repairs-hero', 'public/service-dodger-repairs-hero.webp'],
+    ['flybridge-enclosure-repairs-hero', 'public/service-flybridge-enclosure-repairs-hero.webp'],
+    ['cockpit-enclosure-repairs-hero', 'public/service-cockpit-enclosure-repairs-hero.webp'],
+    ['sail-cover-repairs-hero', 'public/service-sail-cover-repairs-hero.webp'],
+    ['sun-bed-repairs-hero', 'public/service-sun-bed-repairs-hero.webp'],
+    ['seat-repairs-hero', 'public/service-seat-repairs-hero.webp'],
+    ['cushion-repairs-hero', 'public/service-cushion-repairs-hero.webp'],
+    ['mattresse-repairs-hero', 'public/service-mattresse-repairs-hero.webp'],
+    ['interior-panel-repairs-hero', 'public/service-interior-panel-repairs-hero.webp'],
+    ['carpet-repairs-hero', 'public/service-carpet-repairs-hero.webp'],
+    ['hull-lining-repairs-hero', 'public/service-hull-lining-repairs-hero.webp'],
+    ['tonneau-cover-repairs-hero', 'public/service-tonneau-cover-repairs-hero.webp'],
+    ['seat-trim-repairs-hero', 'public/service-seat-trim-repairs-hero.webp'],
+    ['headlining-repairs-hero', 'public/service-headlining-repairs-hero.webp'],
+    ['door-trim-repairs-hero', 'public/service-door-trim-repairs-hero.webp'],
+    ['annexe-repairs-hero', 'public/service-annexe-repairs-hero.webp'],
+    ['cushions-mattresse-repairs-hero', 'public/service-cushions-mattresse-repairs-hero.webp'],
+    ['interior-trim-repairs-hero', 'public/service-interior-trim-repairs-hero.webp'],
+    ['machinery-cover-repairs-hero', 'public/service-machinery-cover-repairs-hero.webp'],
+    ['operator-seat-repairs-hero', 'public/service-operator-seat-repairs-hero.webp'],
+    ['booth-upholstery-repairs-hero', 'public/service-booth-upholstery-repairs-hero.webp'],
+    ['office-chair-repairs-hero', 'public/service-office-chair-repairs-hero.webp'],
+  ]
+  for (const [key, file] of serviceHeroImages) {
     const doc = await payload.create({
       collection: 'media',
       data: image2,

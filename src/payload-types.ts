@@ -692,6 +692,7 @@ export interface ServiceType {
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
   workType?: ('custom' | 'repair') | null;
   intro?: string | null;
+  heroImage?: (number | null) | Media;
   content?: {
     body?: {
       root: {
@@ -1254,6 +1255,7 @@ export interface ServiceTypesSelect<T extends boolean = true> {
   pillar?: T;
   workType?: T;
   intro?: T;
+  heroImage?: T;
   content?:
     | T
     | {

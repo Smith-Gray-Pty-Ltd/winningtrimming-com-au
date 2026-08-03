@@ -60,6 +60,15 @@ export const ServiceTypes: CollectionConfig = {
       },
     },
     {
+      name: 'heroImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        position: 'sidebar',
+        description: 'Optional hero image for the pillar-level product page.',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {

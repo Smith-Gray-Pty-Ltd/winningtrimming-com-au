@@ -203,13 +203,17 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
   payload.logger.info(`— Seeding service types...`)
   const typeIds: Record<string, string | number> = {}
   for (const st of serviceTypeData) {
+    const slug = slugify(st.title)
+    const heroKey = `${slug}-hero`
+    const heroImage = media[heroKey] ?? null
     const doc = await payload.create({
       collection: 'service-types',
       data: {
         title: st.title,
         pillar: st.pillar,
         intro: st.intro ?? '',
-        slug: slugify(st.title),
+        heroImage,
+        slug,
         slugLock: false,
       },
     })
@@ -224,6 +228,9 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
       : st.title
     const repairTitle = `${singular} Repairs`
     const repairIntro = `Repair, re-stitch or re-cover your ${st.title.toLowerCase()}. Bring tired trim back to life at a fraction of the replacement cost.`
+    const repairSlug = slugify(repairTitle)
+    const repairHeroKey = `${repairSlug}-hero`
+    const repairHeroImage = media[repairHeroKey] ?? null
     const doc = await payload.create({
       collection: 'service-types',
       data: {
@@ -231,7 +238,8 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
         pillar: st.pillar,
         workType: 'repair',
         intro: repairIntro,
-        slug: slugify(repairTitle),
+        heroImage: repairHeroImage,
+        slug: repairSlug,
         slugLock: false,
       },
     })

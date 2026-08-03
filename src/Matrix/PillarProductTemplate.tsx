@@ -1,13 +1,18 @@
 import Link from 'next/link'
+import NextImage from 'next/image'
 import React from 'react'
 
 import RichText from '@/components/RichText'
 import { CMSLink } from '@/components/Link'
+import type { Media } from '@/payload-types'
 import type { PillarProductData } from './matrix'
 import { pillarProductH1 } from './matrix'
 
 export const PillarProductTemplate: React.FC<{ data: PillarProductData }> = ({ data }) => {
   const { pillar, pillarLabel, productType, suburb, region, depth, applicableAssets, nearbySuburbs } = data
+  const hero = typeof productType.heroImage === 'object' && productType.heroImage !== null
+    ? (productType.heroImage as Media)
+    : null
 
   return (
     <article className="pb-24">
@@ -31,6 +36,20 @@ export const PillarProductTemplate: React.FC<{ data: PillarProductData }> = ({ d
           }),
         }}
       />
+
+      {/* Hero (depth 1 — pillar-product pages) */}
+      {depth === 1 && hero && (
+        <section className="relative w-full aspect-[16/9] overflow-hidden">
+          <NextImage
+            src={hero.url || ''}
+            alt={hero.alt || productType.title}
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </section>
+      )}
 
       {/* Breadcrumbs */}
       <nav className="container pt-8" aria-label="Breadcrumb">

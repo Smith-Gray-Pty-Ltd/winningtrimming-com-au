@@ -1,32 +1,48 @@
 import Link from 'next/link'
+import NextImage from 'next/image'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 
-import type { AssetType, ServiceType } from '@/payload-types'
+import type { AssetType, Media, ServiceType } from '@/payload-types'
 
 type ServiceCardProps = {
   title: string
   blurb?: string
   href: string
   onTeal: boolean
+  heroImage?: Media | null
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, blurb, href, onTeal }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ title, blurb, href, onTeal, heroImage }) => {
   const cardClass = onTeal
-    ? 'group block rounded-lg bg-white/10 hover:bg-white/20 transition-colors p-5 h-full'
-    : 'group block rounded-lg border border-border bg-white hover:border-primary transition-colors p-5 h-full'
+    ? 'group block rounded-xl bg-white/10 hover:bg-white/20 transition-colors overflow-hidden h-full'
+    : 'group block rounded-xl border border-border bg-white hover:border-primary transition-colors overflow-hidden h-full'
   const titleClass = onTeal
     ? 'font-medium text-white group-hover:text-primary transition-colors'
     : 'font-medium text-foreground group-hover:text-primary transition-colors'
   const blurbClass = onTeal
     ? 'text-sm text-white/70 mt-1 line-clamp-2'
     : 'text-sm text-muted-foreground mt-1 line-clamp-2'
+  const bodyClass = onTeal ? 'p-5' : 'p-5'
 
   return (
     <Link href={href} className={cardClass}>
-      <h3 className={titleClass}>{title}</h3>
-      {blurb && <p className={blurbClass}>{blurb}</p>}
+      {heroImage && (
+        <div className="relative aspect-[16/10] overflow-hidden">
+          <NextImage
+            src={heroImage.url || ''}
+            alt={heroImage.alt || title}
+            fill
+            sizes="(max-width: 640px) 50vw, 25vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+      )}
+      <div className={bodyClass}>
+        <h3 className={titleClass}>{title}</h3>
+        {blurb && <p className={blurbClass}>{blurb}</p>}
+      </div>
     </Link>
   )
 }
@@ -50,7 +66,7 @@ export const ServiceTypeGrid: React.FC<{
     payload.find({
       collection: 'service-types',
       where: { pillar: { equals: pillar } },
-      depth: 0,
+      depth: 1,
       limit: 200,
       overrideAccess: false,
       sort: 'title',
@@ -80,6 +96,11 @@ export const ServiceTypeGrid: React.FC<{
   const customTypes = allTypes.filter((t) => !t.workType || t.workType === 'custom')
   const repairTypes = allTypes.filter((t) => t.workType === 'repair')
 
+  const heroOf = (st: ServiceType): Media | null =>
+    typeof st.heroImage === 'object' && st.heroImage !== null
+      ? (st.heroImage as Media)
+      : null
+
   return (
     <>
       {/* Custom & New Work — teal band */}
@@ -102,6 +123,7 @@ export const ServiceTypeGrid: React.FC<{
                   blurb={st.intro || undefined}
                   href={`/${pillar}/${st.slug}`}
                   onTeal
+                  heroImage={heroOf(st)}
                 />
               ))}
             </div>
@@ -129,6 +151,7 @@ export const ServiceTypeGrid: React.FC<{
                   blurb={st.intro || undefined}
                   href={`/${pillar}/${st.slug}`}
                   onTeal={false}
+                  heroImage={heroOf(st)}
                 />
               ))}
             </div>
