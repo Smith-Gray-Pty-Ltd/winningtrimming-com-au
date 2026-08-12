@@ -8,6 +8,8 @@ import { getPayload } from 'payload'
 import type { Quote, ServiceType } from '@/payload-types'
 import { Button } from '@/components/ui/button'
 
+export const revalidate = 0 // always fresh — customer-specific data
+
 const STATUS_COLOURS: Record<string, string> = {
   requested: 'bg-blue-100 text-blue-800',
   reviewing: 'bg-purple-100 text-purple-800',

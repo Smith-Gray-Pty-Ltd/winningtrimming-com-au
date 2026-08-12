@@ -17,6 +17,8 @@ import { isValidPillar } from '@/Matrix/matrix'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 
+export const revalidate = 3600
+
 /** Custom & repairs intro copy per pillar, shown above the two service grids. */
 const pillarCopy: Record<string, { custom: string; repairs: string }> = {
   marine: {

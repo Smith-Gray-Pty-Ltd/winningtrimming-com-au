@@ -7,6 +7,8 @@ import { redirect } from 'next/navigation'
 
 import type { Booking, Invoice, Quote } from '@/payload-types'
 
+export const revalidate = 0 // always fresh — customer-specific data
+
 const QUOTE_STATUS_COLOURS: Record<string, string> = {
   requested: 'bg-blue-100 text-blue-800',
   reviewing: 'bg-purple-100 text-purple-800',
