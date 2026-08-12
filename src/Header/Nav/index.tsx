@@ -13,6 +13,7 @@ const INFO_LINKS = [
   { href: '/our-work', label: 'Our Work' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+  { href: '/quote', label: 'Request a Quote' },
 ]
 
 export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
@@ -48,7 +49,7 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
         <div className="lg:hidden absolute left-0 right-0 top-full bg-background text-foreground shadow-lg border-t border-border">
           <nav className="container flex flex-col py-4">
             <Link
-              href="/contact"
+              href="/quote"
               className="min-h-[48px] mb-2 flex items-center justify-center rounded-full bg-primary font-medium text-primary-foreground"
               onClick={() => setOpen(false)}
             >

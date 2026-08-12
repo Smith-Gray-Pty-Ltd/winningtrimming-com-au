@@ -29,8 +29,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
             <Link href="/about" className="hover:underline">
               About
             </Link>
-            <Link href="/contact" className="hover:underline">
-              Contact
+            <Link href="/quote" className="hover:underline">
+              Request a Quote
             </Link>
           </nav>
           <a href="tel:1300799882" className="font-medium hover:underline">
@@ -49,7 +49,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
             <HeaderNav header={header} />
             {/* Primary CTA — prominent on desktop, lives in the mobile drawer on small screens */}
             <Button asChild size="sm" className="hidden md:inline-flex">
-              <Link href="/contact">Request a Quote</Link>
+              <Link href="/quote">Request a Quote</Link>
             </Button>
           </div>
         </div>
