@@ -6,8 +6,12 @@ import { fileURLToPath } from 'url'
 import { migrations } from './migrations'
 
 import { AssetTypes } from './collections/AssetTypes'
+import { Bookings } from './collections/Bookings'
 import { Businesses } from './collections/Businesses'
 import { Categories } from './collections/Categories'
+import { Customers } from './collections/Customers'
+import { Events } from './collections/Events'
+import { Invoices } from './collections/Invoices'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -86,6 +90,10 @@ export default buildConfig({
     Media,
     Categories,
     Users,
+    Customers,
+    Bookings,
+    Invoices,
+    Events,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],

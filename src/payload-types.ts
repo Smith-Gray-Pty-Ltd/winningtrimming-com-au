@@ -9,6 +9,7 @@
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    customers: CustomerAuthOperations;
   };
   collections: {
     pages: Page;
@@ -22,6 +23,10 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    customers: Customer;
+    bookings: Booking;
+    invoices: Invoice;
+    events: Event;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -43,6 +48,10 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    customers: CustomersSelect<false> | CustomersSelect<true>;
+    bookings: BookingsSelect<false> | BookingsSelect<true>;
+    invoices: InvoicesSelect<false> | InvoicesSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -63,15 +72,37 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
-  user: User & {
-    collection: 'users';
-  };
+  user:
+    | (User & {
+        collection: 'users';
+      })
+    | (Customer & {
+        collection: 'customers';
+      });
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface CustomerAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -870,6 +901,184 @@ export interface Suburb {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers".
+ */
+export interface Customer {
+  id: number;
+  name: string;
+  phone?: string | null;
+  company?: string | null;
+  pillar?: ('marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial') | null;
+  address?: {
+    street?: string | null;
+    suburb?: string | null;
+    state?: ('NSW' | 'VIC' | 'QLD' | 'SA' | 'WA' | 'TAS' | 'ACT' | 'NT') | null;
+    postcode?: string | null;
+  };
+  suburbRef?: (number | null) | Suburb;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: number;
+  title: string;
+  customer: number | Customer;
+  pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  subject: string;
+  subjectType?: (number | null) | AssetType;
+  subjectDetails?: string | null;
+  subjectPhotos?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  serviceTypes?: (number | ServiceType)[] | null;
+  description: string;
+  location?: string | null;
+  preferredDates?: string | null;
+  quotedAmount?: number | null;
+  depositAmount?: number | null;
+  adjustments?:
+    | {
+        description: string;
+        amount: number;
+        type?: ('additional' | 'discount') | null;
+        id?: string | null;
+      }[]
+    | null;
+  status:
+    | 'new'
+    | 'quoted'
+    | 'deposit-invoiced'
+    | 'overdue-deposit'
+    | 'deposit-paid'
+    | 'in-progress'
+    | 'completed'
+    | 'final-invoiced'
+    | 'overdue-final'
+    | 'final-paid'
+    | 'closed'
+    | 'declined'
+    | 'cancelled';
+  previousStatus?:
+    | (
+        | 'new'
+        | 'quoted'
+        | 'deposit-invoiced'
+        | 'overdue-deposit'
+        | 'deposit-paid'
+        | 'in-progress'
+        | 'completed'
+        | 'final-invoiced'
+        | 'overdue-final'
+        | 'final-paid'
+        | 'closed'
+        | 'declined'
+        | 'cancelled'
+      )
+    | null;
+  nextAction?:
+    | (
+        | 'send_quote'
+        | 'send_deposit_invoice'
+        | 'check_deposit_paid'
+        | 'send_deposit_reminder'
+        | 'schedule_work'
+        | 'send_final_invoice'
+        | 'check_final_paid'
+        | 'send_final_reminder'
+        | 'create_portfolio_entry'
+        | 'manual_review'
+      )
+    | null;
+  nextActionDue?: string | null;
+  lastAgentRun?: string | null;
+  agentError?: string | null;
+  project?: (number | null) | Project;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invoices".
+ */
+export interface Invoice {
+  id: number;
+  booking: number | Booking;
+  type: 'deposit' | 'adjustment' | 'final';
+  amount: number;
+  dueDate?: string | null;
+  status: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
+  paidAt?: string | null;
+  paymentMethod?: ('bank_transfer' | 'card' | 'cash' | 'cheque' | 'other') | null;
+  xeroInvoiceId?: string | null;
+  xeroInvoiceNumber?: string | null;
+  xeroUrl?: string | null;
+  adjustmentDescription?: string | null;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  eventType:
+    | 'booking_created'
+    | 'status_changed'
+    | 'quote_issued'
+    | 'quote_declined'
+    | 'deposit_invoice_sent'
+    | 'deposit_paid'
+    | 'deposit_reminder_sent'
+    | 'work_scheduled'
+    | 'work_completed'
+    | 'final_invoice_sent'
+    | 'final_paid'
+    | 'final_reminder_sent'
+    | 'booking_closed'
+    | 'booking_cancelled'
+    | 'invoice_created'
+    | 'invoice_status_synced'
+    | 'agent_action_executed'
+    | 'agent_error'
+    | 'manual_review_required';
+  booking?: (number | null) | Booking;
+  invoice?: (number | null) | Invoice;
+  actor: 'staff' | 'customer' | 'agent' | 'system' | 'xero_webhook';
+  actorId?: string | null;
+  description?: string | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -988,6 +1197,22 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'customers';
+        value: number | Customer;
+      } | null)
+    | ({
+        relationTo: 'bookings';
+        value: number | Booking;
+      } | null)
+    | ({
+        relationTo: 'invoices';
+        value: number | Invoice;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1004,10 +1229,15 @@ export interface PayloadLockedDocument {
         value: number | Search;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'customers';
+        value: number | Customer;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -1017,10 +1247,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'customers';
+        value: number | Customer;
+      };
   key?: string | null;
   value?:
     | {
@@ -1504,6 +1739,112 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "customers_select".
+ */
+export interface CustomersSelect<T extends boolean = true> {
+  name?: T;
+  phone?: T;
+  company?: T;
+  pillar?: T;
+  address?:
+    | T
+    | {
+        street?: T;
+        suburb?: T;
+        state?: T;
+        postcode?: T;
+      };
+  suburbRef?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings_select".
+ */
+export interface BookingsSelect<T extends boolean = true> {
+  title?: T;
+  customer?: T;
+  pillar?: T;
+  subject?: T;
+  subjectType?: T;
+  subjectDetails?: T;
+  subjectPhotos?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  serviceTypes?: T;
+  description?: T;
+  location?: T;
+  preferredDates?: T;
+  quotedAmount?: T;
+  depositAmount?: T;
+  adjustments?:
+    | T
+    | {
+        description?: T;
+        amount?: T;
+        type?: T;
+        id?: T;
+      };
+  status?: T;
+  previousStatus?: T;
+  nextAction?: T;
+  nextActionDue?: T;
+  lastAgentRun?: T;
+  agentError?: T;
+  project?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invoices_select".
+ */
+export interface InvoicesSelect<T extends boolean = true> {
+  booking?: T;
+  type?: T;
+  amount?: T;
+  dueDate?: T;
+  status?: T;
+  paidAt?: T;
+  paymentMethod?: T;
+  xeroInvoiceId?: T;
+  xeroInvoiceNumber?: T;
+  xeroUrl?: T;
+  adjustmentDescription?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  eventType?: T;
+  booking?: T;
+  invoice?: T;
+  actor?: T;
+  actorId?: T;
+  description?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
