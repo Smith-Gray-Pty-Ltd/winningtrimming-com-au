@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50180",
+  "invoice_number": "50180",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Shaun  Reid",
+  "post_date": "2026-05-23",
+  "description": "Remainder for Macrosuede cushions",
+  "job_card_note": null,
+  "note": "<p>Many thanks Shaun!</p>",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Morisset Park",
+    "state": "NSW",
+    "postcode": "2264"
+  },
+  "pricing": {
+    "total": 2750.0,
+    "subtotal": 2500.0,
+    "deposits_total": 0.0,
+    "balance_due": 2750.0,
+    "discount": 0.0,
+    "gst": 250.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Remainder for Macrosuede cushions",
+      "quantity": 1.0,
+      "unit_price": 2500.0,
+      "amount": 2750.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

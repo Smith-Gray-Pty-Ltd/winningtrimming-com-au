@@ -1,0 +1,61 @@
+{
+  "job_card_number": "50094",
+  "invoice_number": "50094",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Dom Porter",
+  "post_date": "2025-12-23",
+  "description": "5 x hatch covers and a helm/table cover",
+  "job_card_note": "<p>Extras 1 off Hinged knuckle $42.</p><p>5mm stainless steel pop rivets. $8.</p><p>Send another quote for helm/ table cover &amp; 5 off hatch covers.  $1100 + gst.</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Belmont ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 3357.2,
+    "subtotal": 3052.0,
+    "deposits_total": 0.0,
+    "balance_due": 3357.2,
+    "discount": 0.0,
+    "gst": 305.2
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "5 x hatch covers and a helm/table cover",
+      "quantity": 1.0,
+      "unit_price": 1100.0,
+      "amount": 1210.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "50% Remainder",
+      "quantity": 1.0,
+      "unit_price": 1472.5,
+      "amount": 1619.75,
+      "item_code": "REMAINDER",
+      "product_type": "J"
+    },
+    {
+      "description": "Frame modifications",
+      "quantity": 3.5,
+      "unit_price": 125.0,
+      "amount": 481.25,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "Hinged Nuckle",
+      "quantity": 1.0,
+      "unit_price": 42.0,
+      "amount": 46.2,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

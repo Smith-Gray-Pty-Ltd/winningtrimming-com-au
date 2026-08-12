@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50203",
+  "invoice_number": "50203",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Ian Humphris",
+  "post_date": "2026-06-30",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Coal Point",
+    "state": "NSW",
+    "postcode": "2283"
+  },
+  "pricing": {
+    "total": 3943.5,
+    "subtotal": 3585.0,
+    "deposits_total": 0.0,
+    "balance_due": 3943.5,
+    "discount": 0.0,
+    "gst": 358.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "50% Deposit for Quote #50202 - Rib Cover in WeatherMax",
+      "quantity": 1.0,
+      "unit_price": 3585.0,
+      "amount": 3943.5,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

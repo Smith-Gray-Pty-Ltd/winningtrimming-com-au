@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50150",
+  "invoice_number": "50150",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Darrell Sherry",
+  "post_date": "2026-03-24",
+  "description": "Recover cushion in grey and white vinyl.",
+  "job_card_note": "<p>Recover 3 cushions in grey and white  vinyl.  $400 each</p><p>$1200. + gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Floraville ",
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 1320.0,
+    "subtotal": 1200.0,
+    "deposits_total": 0.0,
+    "balance_due": 1320.0,
+    "discount": 0.0,
+    "gst": 120.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Recover cushion in grey and white vinyl.",
+      "quantity": 3.0,
+      "unit_price": 400.0,
+      "amount": 1320.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

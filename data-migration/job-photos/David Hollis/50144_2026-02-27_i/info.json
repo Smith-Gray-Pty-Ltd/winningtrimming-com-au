@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50144",
+  "invoice_number": "50144",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "David Hollis",
+  "post_date": "2026-02-27",
+  "description": null,
+  "job_card_note": null,
+  "note": "<p>Confirmed booked in for 13th to 17th April 2026.</p>",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Fishing Point ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 1798.5,
+    "subtotal": 1635.0,
+    "deposits_total": 0.0,
+    "balance_due": 1798.5,
+    "discount": 0.0,
+    "gst": 163.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "50% Deposit for Quote 50140 - New canvas top aft of targa with new zip on back for future cover, zip on new solar panel (provided by the customer). New front and side clears.",
+      "quantity": 1.0,
+      "unit_price": 1635.0,
+      "amount": 1798.5,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

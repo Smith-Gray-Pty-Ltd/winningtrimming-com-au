@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50056",
+  "invoice_number": "50056",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Nick Bartels",
+  "post_date": "2025-09-10",
+  "description": "Shop Labour Rate",
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": "Yacht",
+  "location": {
+    "suburb": "North Shore",
+    "state": "NSW",
+    "postcode": "2444"
+  },
+  "pricing": {
+    "total": 168.3,
+    "subtotal": 153.0,
+    "deposits_total": 0.0,
+    "balance_due": 168.3,
+    "discount": 0.0,
+    "gst": 15.3
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Shop Labour Rate",
+      "quantity": 1.0,
+      "unit_price": 130.0,
+      "amount": 143.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 23.0,
+      "amount": 25.3,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

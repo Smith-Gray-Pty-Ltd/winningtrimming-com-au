@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50024",
+  "invoice_number": "50024",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Emily Telling",
+  "post_date": "2024-09-21",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 5000.0,
+    "subtotal": 5000.0,
+    "deposits_total": 0.0,
+    "balance_due": 5000.0,
+    "discount": 0.0,
+    "gst": 0.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Deposit 1 for Job ID 50018",
+      "quantity": 1.0,
+      "unit_price": 5000.0,
+      "amount": 5000.0,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

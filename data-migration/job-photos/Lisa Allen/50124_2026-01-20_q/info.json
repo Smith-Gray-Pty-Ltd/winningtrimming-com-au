@@ -1,0 +1,53 @@
+{
+  "job_card_number": "50124",
+  "invoice_number": null,
+  "invoice_type": "Q",
+  "invoice_status": "O",
+  "customer": "Lisa  Allen",
+  "post_date": "2026-01-20",
+  "description": null,
+  "job_card_note": "<p>Recover lounge in sunbrella. in + out collection, colour is \"canvas coal\",with mesh backs on backrests &amp; table mattress,bases on boards.$6000.</p><p>Material cost $80 p/m x 12 meters = $960. Minus the original vinal price of $600.= $360. For canvas coal.$200 labour for table mattress.</p><p>Total $6,560 + gst</p><p>Take off $360. if you don't want to do the table mattress.</p><p><br></p>",
+  "note": "<p>If you would like to remove the Table Mattress deduct $360.00 in total (Material &amp; Labour) </p>",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Fassifern ",
+    "state": "NSW",
+    "postcode": "2283"
+  },
+  "pricing": {
+    "total": 7216.0,
+    "subtotal": 6560.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 656.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Sunbrella Fabric @ $80pm - original Vinyl Price of $600",
+      "quantity": 1.0,
+      "unit_price": 360.0,
+      "amount": 396.0,
+      "item_code": "SUN-HT-150",
+      "product_type": "S"
+    },
+    {
+      "description": "Recover lounge in sunbrella. in + out collection, colour is \"canvas coal\", with mesh backs on backrests, bases on boards",
+      "quantity": 1.0,
+      "unit_price": 6000.0,
+      "amount": 6600.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "Table Mattress",
+      "quantity": 1.0,
+      "unit_price": 200.0,
+      "amount": 220.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

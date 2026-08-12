@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50168",
+  "invoice_number": "50168",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Shaun  Reid",
+  "post_date": "2026-05-06",
+  "description": "labour for Awning (Material already paid)",
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Morisset Park",
+    "state": "NSW",
+    "postcode": "2264"
+  },
+  "pricing": {
+    "total": 3025.0,
+    "subtotal": 2750.0,
+    "deposits_total": 0.0,
+    "balance_due": 3025.0,
+    "discount": 0.0,
+    "gst": 275.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "labour for Awning (Material already paid)",
+      "quantity": 20.0,
+      "unit_price": 125.0,
+      "amount": 2750.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "Trampoline Re-stitching",
+      "quantity": 2.0,
+      "unit_price": 125.0,
+      "amount": 275.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

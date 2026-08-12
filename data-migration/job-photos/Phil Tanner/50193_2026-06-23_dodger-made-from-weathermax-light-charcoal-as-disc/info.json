@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50193",
+  "invoice_number": "50193",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Phil Tanner",
+  "post_date": "2026-06-23",
+  "description": "Dodger made from WeatherMax light charcoal, as discussed and quoted onboard.",
+  "job_card_note": "<p>Price for Dodger,made with weatherMAX light charcoal. </p><p>As quoted onboard with Phil.</p><p>$2000 + gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Port Jackson ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 2200.0,
+    "subtotal": 2000.0,
+    "deposits_total": 0.0,
+    "balance_due": 2200.0,
+    "discount": 0.0,
+    "gst": 200.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Dodger made from WeatherMax light charcoal, as discussed and quoted onboard.",
+      "quantity": 1.0,
+      "unit_price": 2000.0,
+      "amount": 2200.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

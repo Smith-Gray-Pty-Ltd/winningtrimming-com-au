@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50217",
+  "invoice_number": "50217",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Frank Ridolfo",
+  "post_date": "2026-08-04",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Rathmines",
+    "state": "NSW",
+    "postcode": "2283"
+  },
+  "pricing": {
+    "total": 957.0,
+    "subtotal": 870.0,
+    "deposits_total": 0.0,
+    "balance_due": 957.0,
+    "discount": 0.0,
+    "gst": 87.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "50% Deposit for Estimate #50215 - new engine cover / cushion. Made from 18mm marine ply. Using 2\" reticulated foam, with vinyl cover gold and white",
+      "quantity": 1.0,
+      "unit_price": 870.0,
+      "amount": 957.0,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

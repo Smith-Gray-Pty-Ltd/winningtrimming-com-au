@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50130",
+  "invoice_number": null,
+  "invoice_type": "Q",
+  "invoice_status": "O",
+  "customer": "David  Gilroy",
+  "post_date": "2026-01-30",
+  "description": null,
+  "job_card_note": "<p>Pattern up and make side &amp; aft covers. Replace shock cord buttons to stainless steel. Labour 2.5 days= $2500....materials =$1146.</p><p>Total = 3646.+ gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Marmong",
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 4010.6,
+    "subtotal": 3646.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 364.6
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Materials",
+      "quantity": 1.0,
+      "unit_price": 1146.0,
+      "amount": 1260.6,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Pattern up and make side & aft covers. Replace shock cord buttons to stainless steel",
+      "quantity": 20.0,
+      "unit_price": 125.0,
+      "amount": 2750.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

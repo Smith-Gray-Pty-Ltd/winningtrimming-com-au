@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50137",
+  "invoice_number": null,
+  "invoice_type": "Q",
+  "invoice_status": "O",
+  "customer": "Steve  Johnson ",
+  "post_date": "2026-02-11",
+  "description": null,
+  "job_card_note": "<p>Top made from weatherMAX Gray, lashed on.</p><p>Rear meshes made from solstice 82.</p><p>Front clears right around bow &amp; over rails.</p><p>Canvas covers same as clears to cover clears. </p><p>Materials =$6400. + gst</p><p>Labour = $8000. + gst</p><p>Total = $14,400 + gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Marmong point ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 15840.0,
+    "subtotal": 14400.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 1440.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Materials",
+      "quantity": 1.0,
+      "unit_price": 6400.0,
+      "amount": 7040.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Top made from weatherMAX Greyy, lashed on.  Rear meshes made from solstice 82.  Front clears right around bow & over rails.  Canvas covers same as clears to cover clears.",
+      "quantity": 64.0,
+      "unit_price": 125.0,
+      "amount": 8800.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

@@ -1,0 +1,53 @@
+{
+  "job_card_number": "50192",
+  "invoice_number": "50192",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Allan Edwards ",
+  "post_date": "2026-07-02",
+  "description": "Pattern & Fit Extended 3 bow Dodger, made with charcoal grey sunbrella, clear panels on each side. No zip in front clear",
+  "job_card_note": "<p>Extended 3 bow Dodger, made with charcoal grey sunbrella, clear panels on each side. No zip in front clear</p><p><br></p><p>. Mounting to the deck with side mount sail track.</p><p>Labour 3.5 days $3500</p><p>Materials  $1200</p><p> Total $4700+ gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Bellevue Hill ",
+    "state": "NSW",
+    "postcode": "2023"
+  },
+  "pricing": {
+    "total": 2585.0,
+    "subtotal": 2350.0,
+    "deposits_total": 0.0,
+    "balance_due": 2585.0,
+    "discount": 0.0,
+    "gst": 235.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Less Deposit",
+      "quantity": 1.0,
+      "unit_price": -2350.0,
+      "amount": -2585.0,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    },
+    {
+      "description": "Pattern & Fit Extended 3 bow Dodger, made with charcoal grey sunbrella, clear panels on each side. No zip in front clear",
+      "quantity": 28.0,
+      "unit_price": 125.0,
+      "amount": 3850.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "Materials & General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 1200.0,
+      "amount": 1320.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

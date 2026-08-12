@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50178",
+  "invoice_number": "50178",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Stephen Crofts",
+  "post_date": "2026-05-21",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Fishing point",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 4922.5,
+    "subtotal": 4475.0,
+    "deposits_total": 0.0,
+    "balance_due": 4922.5,
+    "discount": 0.0,
+    "gst": 447.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "50% Deposit for Estimate 50177. (Flybridge Clears & Dinghy Cover)",
+      "quantity": 1.0,
+      "unit_price": 4475.0,
+      "amount": 4922.5,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

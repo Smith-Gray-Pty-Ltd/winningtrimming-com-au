@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50052",
+  "invoice_number": "50052",
+  "invoice_type": "I",
+  "invoice_status": "C",
+  "customer": "John Weate",
+  "post_date": "2025-08-05",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": "Sedan",
+  "location": {
+    "suburb": "Wickham",
+    "state": "NSW",
+    "postcode": "2293"
+  },
+  "pricing": {
+    "total": 1815.0,
+    "subtotal": 1650.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 165.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Template and recover & fit saloon cushions",
+      "quantity": 1.0,
+      "unit_price": 1650.0,
+      "amount": 1815.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50073",
+  "invoice_number": null,
+  "invoice_type": "Q",
+  "invoice_status": "O",
+  "customer": "Manny  Manny ",
+  "post_date": "2025-10-08",
+  "description": null,
+  "job_card_note": "<p>Quote.... replace front clears, keeping the original canvas. Repair rear bimini ,put zips in pockets and fill in piece so zip will close. Fix healm seats / headrests. $2500. + gst. This Quote is if boat is bought to workshop morning. If any zips need replacing cost will be added to invoice. </p>",
+  "note": "<p>Quote is for work conducted at Winning Trimming workshop, for onsite travel time will be additional. If any zips need replacing, the cost will be added to the invoice.</p>",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Marmong point ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 2750.0,
+    "subtotal": 2500.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 250.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Replace front clears, keep original canvas, repair Bimini, put zips in pockets, and fill in piece so zips will close. Fix helm seats/headrests.",
+      "quantity": 1.0,
+      "unit_price": 2500.0,
+      "amount": 2750.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

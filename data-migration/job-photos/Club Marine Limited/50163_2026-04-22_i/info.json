@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50163",
+  "invoice_number": null,
+  "invoice_type": "I",
+  "invoice_status": "O",
+  "customer": "Club Marine Limited",
+  "post_date": "2026-04-22",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": ", Sydney",
+    "state": "NSW",
+    "postcode": "2000"
+  },
+  "pricing": {
+    "total": 12826.0,
+    "subtotal": 11660.0,
+    "deposits_total": 0.0,
+    "balance_due": 12826.0,
+    "discount": 0.0,
+    "gst": 1166.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Final payment for quote #50102  - Club Marine claim #N/MC03068 B29 - Belinda & Kale Ward - Reskin Awning & Bimini using Aquatica white hooding, New clears, front screen with 2 roll ups & 2 side clears with roll ups using Regalite sheet clear.",
+      "quantity": 1.0,
+      "unit_price": 11660.0,
+      "amount": 12826.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

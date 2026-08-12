@@ -1,0 +1,101 @@
+{
+  "job_card_number": "50018",
+  "invoice_number": "50018",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Emily Telling",
+  "post_date": "2024-11-21",
+  "description": "Barvaria - Deck Mounted Rib Cover, Bimini, Dodger & Link Sheet - Measure, Make and Fit",
+  "job_card_note": null,
+  "note": "<p>Quote assumes stitch in Solar Panels to be supplied by customer (we can advise/recommend).</p>",
+  "pillar_hint": "Yacht",
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 20235.6,
+    "subtotal": 18396.0,
+    "deposits_total": 10000.0,
+    "balance_due": 10235.6,
+    "discount": 0.0,
+    "gst": 1839.6
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Sunbrella Waterproof Canvas (Navy Blue)",
+      "quantity": 30.0,
+      "unit_price": 110.0,
+      "amount": 3630.0,
+      "item_code": "SUN-HT-150",
+      "product_type": "S"
+    },
+    {
+      "description": "4 Bow Bimini 1/14\" & 2 Bow Dodger 1\" - Marine Grade Stainless Steel",
+      "quantity": 1.0,
+      "unit_price": 5800.0,
+      "amount": 6380.0,
+      "item_code": "METAL WORK",
+      "product_type": "S"
+    },
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 0.0,
+      "unit_price": 0.0,
+      "amount": 0.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 380.0,
+      "amount": 418.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Metal Work Consumables (Deck Fittings, Bow Ends, Split Knuckles ect)",
+      "quantity": 1.0,
+      "unit_price": 580.0,
+      "amount": 638.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Continental Roll Clears",
+      "quantity": 4.0,
+      "unit_price": 212.0,
+      "amount": 932.8,
+      "item_code": "CNT-CLEAR",
+      "product_type": "S"
+    },
+    {
+      "description": "Stamoid Top 260cm - White",
+      "quantity": 0.0,
+      "unit_price": 0.0,
+      "amount": 0.0,
+      "item_code": "STM-WHITE",
+      "product_type": "S"
+    },
+    {
+      "description": "Deck Mounted Rib Cover, Measure, Make and Fit",
+      "quantity": 0.0,
+      "unit_price": 0.0,
+      "amount": 0.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "Bimini, Dodger and Link Sheet, Measure, Make and Fit",
+      "quantity": 52.0,
+      "unit_price": 144.0,
+      "amount": 8236.8,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

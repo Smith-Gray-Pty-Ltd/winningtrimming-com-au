@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50072",
+  "invoice_number": "50072",
+  "invoice_type": "I",
+  "invoice_status": "C",
+  "customer": "Greg  Croak",
+  "post_date": "2025-11-11",
+  "description": null,
+  "job_card_note": "<p>5 white cushions with blue &amp; grey stripes .</p><p>1 paded panel with stripes to match cushions.</p><p>$3000. + Gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Toronto ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 3346.2,
+    "subtotal": 3000.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 300.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "5 white cushions with blue & grey stripes, 1 padded panel with stripes to match cushions",
+      "quantity": 1.0,
+      "unit_price": 3000.0,
+      "amount": 3300.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

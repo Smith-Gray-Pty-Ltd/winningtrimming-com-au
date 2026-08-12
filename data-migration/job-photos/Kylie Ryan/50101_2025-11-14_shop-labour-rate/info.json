@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50101",
+  "invoice_number": "50101",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Kylie Ryan",
+  "post_date": "2025-11-14",
+  "description": "Shop Labour Rate",
+  "job_card_note": "<p>Press studs carpet &amp; basket. 1 .5 hours and $25. For press studs. $212.50 +gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Toronto ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 233.75,
+    "subtotal": 212.5,
+    "deposits_total": 0.0,
+    "balance_due": 233.75,
+    "discount": 0.0,
+    "gst": 21.25
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Shop Labour Rate",
+      "quantity": 1.5,
+      "unit_price": 125.0,
+      "amount": 206.25,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "Press studs",
+      "quantity": 1.0,
+      "unit_price": 25.0,
+      "amount": 27.5,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

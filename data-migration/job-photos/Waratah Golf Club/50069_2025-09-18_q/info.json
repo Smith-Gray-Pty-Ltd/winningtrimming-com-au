@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50069",
+  "invoice_number": null,
+  "invoice_type": "Q",
+  "invoice_status": "O",
+  "customer": "Waratah Golf Club",
+  "post_date": "2025-09-18",
+  "description": null,
+  "job_card_note": "<p>Canvas top for drinks cart. Blue canvas, white binding,</p><p>Velcro to secure it. $825 + gst</p><p>Need a roll of white sun pro binding from Nolan's</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Argenton",
+    "state": "NSW",
+    "postcode": "2284"
+  },
+  "pricing": {
+    "total": 907.5,
+    "subtotal": 825.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 82.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Canvas top for drinks cart, Blue Canvas, White Binding",
+      "quantity": 1.0,
+      "unit_price": 825.0,
+      "amount": 907.5,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

@@ -1,0 +1,53 @@
+{
+  "job_card_number": "50202",
+  "invoice_number": "50202",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Ian Humphris",
+  "post_date": "2026-07-16",
+  "description": "Extras - Cut out for cleats x 4, remove & extend webbing on helm cover for press studs extension (no charge for materials here, thank you for your custom)",
+  "job_card_note": "<p>All over cover for 8m rib centre console. Made from weatherMAX light charcoal, 2 halves zipped together. Shaped to fit over bow,then shock cord with inflatable boat hooks down each side.</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Coal Point",
+    "state": "NSW",
+    "postcode": "2283"
+  },
+  "pricing": {
+    "total": 4424.75,
+    "subtotal": 4022.5,
+    "deposits_total": 0.0,
+    "balance_due": 4424.75,
+    "discount": 0.0,
+    "gst": 402.25
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Less Deposit (Inv 50203 Paid)",
+      "quantity": 1.0,
+      "unit_price": -3585.0,
+      "amount": -3943.5,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    },
+    {
+      "description": "Extras - Cut out for cleats x 4, remove & extend webbing on helm cover for press studs extension (no charge for materials here, thank you for your custom)",
+      "quantity": 3.5,
+      "unit_price": 125.0,
+      "amount": 481.25,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "All over cover for 8m rib centre console. Made from weatherMAX light charcoal, 2 halves zipped together. Shaped to fit over bow,then shock cord with inflatable boat hooks down each side.",
+      "quantity": 1.0,
+      "unit_price": 7170.0,
+      "amount": 7887.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

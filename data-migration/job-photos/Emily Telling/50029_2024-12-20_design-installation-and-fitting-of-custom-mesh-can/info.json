@@ -1,0 +1,61 @@
+{
+  "job_card_number": "50029",
+  "invoice_number": "50029",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Emily Telling",
+  "post_date": "2024-12-20",
+  "description": "Design Installation and fitting of custom mesh/canvas Bimini back",
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 3326.4,
+    "subtotal": 3024.0,
+    "deposits_total": 0.0,
+    "balance_due": 3326.4,
+    "discount": 0.0,
+    "gst": 302.4
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Sunbrella Waterproof Canvas 155cm",
+      "quantity": 2.0,
+      "unit_price": 110.0,
+      "amount": 242.0,
+      "item_code": "SUN-HT-150",
+      "product_type": "S"
+    },
+    {
+      "description": "Mesh",
+      "quantity": 5.0,
+      "unit_price": 70.0,
+      "amount": 385.0,
+      "item_code": "MESH",
+      "product_type": "S"
+    },
+    {
+      "description": "Shop Labour Rate",
+      "quantity": 15.0,
+      "unit_price": 144.0,
+      "amount": 2376.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 294.0,
+      "amount": 323.4,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

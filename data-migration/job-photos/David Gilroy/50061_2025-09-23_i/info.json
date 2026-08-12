@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50061",
+  "invoice_number": "50061",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "David  Gilroy",
+  "post_date": "2025-09-23",
+  "description": null,
+  "job_card_note": "<p>Recover Dinette for Rivera.</p><p>Recover seat.</p><p>As quoted for dinette $5000 INC gst.</p><p>Recover seat 2 hours, $250. + gst.</p><p>So total for both.. $5.275.00 including gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Marmong",
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 5274.5,
+    "subtotal": 4795.0,
+    "deposits_total": 0.0,
+    "balance_due": 5274.5,
+    "discount": 0.0,
+    "gst": 479.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Recover extra seat",
+      "quantity": 1.0,
+      "unit_price": 250.0,
+      "amount": 275.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Recover Dinette  in Novatex Vinyl",
+      "quantity": 1.0,
+      "unit_price": 4545.0,
+      "amount": 4999.5,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

@@ -1,0 +1,16 @@
+item_code,description,description2,brand,product_type,supplier,quantity_on_hand,dont_update_quantity,comment,job_card_comment,location,retail_price,price2,price3,price4,cost,gst_free,service,allow_partial_quantity,other_note,is_bom_parent,estimated_hours,product_group_name,searchable_tags,minimum,maximum,inactive,cost_including_tax,qty_reserved
+11% REFERAL DIS -,Mates Rates - Thank You Discount :-),,,X,,-1.0,,,,,278.88,,,,0.0,false,,,,,,,,,,,0.0,
+CNT-CLEAR,Continental Roll Clears,,,S,,-4.0,,,,,212.0,,,,0.0,,,,,,,,,,,,0.0,0.0
+CON-GEN,"General Consumables - (Template Material, Buckles, Webbing etc)",,,W,,-106.0,false,,,,0.0,,,,0.0,,,,,,,,,,,,0.0,1.0
+DEPOSIT,Deposit,,,S,,0.0,true,,,,0.0,,,,0.0,false,,,,,,,,,,,0.0,0.0
+DRICELL RETICULATED FOAM SHEET,Front Seats Reticulated Foam,,,S,,0.0,,,,,160.0,,,,160.0,,,,,,,,,,,,176.0,
+LAB,Shop Labour Rate,,,J,,0.0,false,,,,130.0,,,,0.0,,,,,,,,,,,,0.0,0.0
+MESH,,,,S,Nolan Group,-13.0,,,,,0.0,,,,30.0,,,,,,,,,,,,33.0,5.0
+METAL WORK,"4 Bow Bimini 1/14"" & 2 Bow Dodger 1"" - Marine Grade Stainless Steel",,,S,,-1.0,,,,,5800.0,,,,0.0,,,,,,,,,,,,0.0,0.0
+PAT-PRO,Pattern Pro Material,,,S,,0.0,false,,,,10.0,,,,3.61,,,,,,,,,,,,3.971,
+REMAINDER,,,,J,,0.0,,,,,0.0,,,,0.0,false,,,,,,,,,,,0.0,
+STM-GREY,Stamoid Dual 260cm - Grey,,,S,,-3.0,,,,,150.0,,,,85.0,,,,,,,,,,,,93.5,
+STM-WHITE,Stamoid Top 260cm - White,,Serge Ferrari,S,,0.0,false,,,,114.0,,,,0.0,,,,,,,,,,,,0.0,
+SUN-HT-150,Sunbrella Waterproof Canvas 155cm,,Sunbrella,S,Nolan Group,-70.0,false,,,,110.0,,,,0.0,,,,,,,,,,,,0.0,2.0
+TUFT - MARINE CARPET,TUFT Marine Carpet,,,S,,0.0,true,,,,130.0,,,,0.0,,,,,,,,,,,,0.0,
+VINYL - MARINE,Front Seats Marine Vinyl (Colour finish TBC),,,S,,-1.0,,,,,90.0,,,,0.0,,,,,,,,,,,,0.0,

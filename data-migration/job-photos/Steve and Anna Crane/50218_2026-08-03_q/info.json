@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50218",
+  "invoice_number": null,
+  "invoice_type": "Q",
+  "invoice_status": "O",
+  "customer": "Steve and Anna Crane",
+  "post_date": "2026-08-03",
+  "description": null,
+  "job_card_note": "<p>3 bow bimini made from stainless steel. Cover made from canvas. Fitted to boat. Need to confirm Colour of canvas. $3700. +gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Kilaben Bay",
+    "state": "NSW",
+    "postcode": "2283"
+  },
+  "pricing": {
+    "total": 4070.0,
+    "subtotal": 3700.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 370.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "3 bow bimini made from stainless steel. Cover made from marine canvas. Fitted to boat. Need to confirm Colour of canvas.",
+      "quantity": 1.0,
+      "unit_price": 3700.0,
+      "amount": 4070.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

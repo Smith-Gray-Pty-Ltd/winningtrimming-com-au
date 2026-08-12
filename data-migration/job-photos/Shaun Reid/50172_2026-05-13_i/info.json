@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50172",
+  "invoice_number": "50172",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Shaun  Reid",
+  "post_date": "2026-05-13",
+  "description": null,
+  "job_card_note": "<p>$3500 + GST - Lounges  in Macro Suede - Cut base cushions and cover</p>",
+  "note": "<p>Full quote is $3500.00 + GST as discussed with Ricko, materials are ordered and Ricko will let you know when we will complete the job.</p>",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Morisset Park",
+    "state": "NSW",
+    "postcode": "2264"
+  },
+  "pricing": {
+    "total": 1100.0,
+    "subtotal": 1000.0,
+    "deposits_total": 0.0,
+    "balance_due": 1100.0,
+    "discount": 0.0,
+    "gst": 100.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Lounges in Macro Suede - Cut base cushions and cover all cushions.",
+      "quantity": 1.0,
+      "unit_price": 1000.0,
+      "amount": 1100.0,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50138",
+  "invoice_number": "50138",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Penny Atherton",
+  "post_date": "2026-02-23",
+  "description": "50% Deposit For Quote 50126 (Engine Cover & Reach Bench Seat Base)",
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Wangi",
+    "state": "NSW",
+    "postcode": "2267"
+  },
+  "pricing": {
+    "total": 1226.5,
+    "subtotal": 1115.0,
+    "deposits_total": 0.0,
+    "balance_due": 1226.5,
+    "discount": 0.0,
+    "gst": 111.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "50% Deposit For Quote 50126 (Engine Cover & Reach Bench Seat Base)",
+      "quantity": 1.0,
+      "unit_price": 1115.0,
+      "amount": 1226.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

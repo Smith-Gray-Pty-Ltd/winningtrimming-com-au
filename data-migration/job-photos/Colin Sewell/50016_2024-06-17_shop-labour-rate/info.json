@@ -1,0 +1,53 @@
+{
+  "job_card_number": "50016",
+  "invoice_number": "50016",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Colin Sewell",
+  "post_date": "2024-06-17",
+  "description": "Shop Labour Rate",
+  "job_card_note": null,
+  "note": "<p>Thank Col!</p>",
+  "pillar_hint": null,
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 3300.0,
+    "subtotal": 3000.0,
+    "deposits_total": 0.0,
+    "balance_due": 3300.0,
+    "discount": 0.0,
+    "gst": 300.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Sunbrella Waterproof Canvas 155cm",
+      "quantity": 9.0,
+      "unit_price": 110.0,
+      "amount": 1089.0,
+      "item_code": "SUN-HT-150",
+      "product_type": "S"
+    },
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 110.0,
+      "amount": 121.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Shop Labour Rate",
+      "quantity": 10.0,
+      "unit_price": 190.0,
+      "amount": 2090.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

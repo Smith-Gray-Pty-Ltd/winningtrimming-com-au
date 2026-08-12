@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50091",
+  "invoice_number": null,
+  "invoice_type": "Q",
+  "invoice_status": "O",
+  "customer": "Dom Porter",
+  "post_date": "2025-11-07",
+  "description": null,
+  "job_card_note": "<p>Reskin bimini ,1 new bow. With rear drop down. $2945+ gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Belmont ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 3239.5,
+    "subtotal": 2945.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 294.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Measure, supply and fit - Reskin Bimini, 1 new bow and add new rear drop down",
+      "quantity": 1.0,
+      "unit_price": 2945.0,
+      "amount": 3239.5,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

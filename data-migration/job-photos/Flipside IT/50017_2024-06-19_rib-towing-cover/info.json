@@ -1,0 +1,61 @@
+{
+  "job_card_number": "50017",
+  "invoice_number": "50017",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Flipside IT",
+  "post_date": "2024-06-19",
+  "description": "RIB Towing Cover",
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "East Gosford",
+    "state": "NSW",
+    "postcode": "2250"
+  },
+  "pricing": {
+    "total": 3619.0,
+    "subtotal": 3290.0,
+    "deposits_total": 0.0,
+    "balance_due": 3619.0,
+    "discount": 0.0,
+    "gst": 329.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Mates Rates Thank You Discount :-)",
+      "quantity": 1.0,
+      "unit_price": -1200.0,
+      "amount": -1320.0,
+      "item_code": "DIS",
+      "product_type": "X"
+    },
+    {
+      "description": "Shop Labour Rate (Hr)",
+      "quantity": 14.0,
+      "unit_price": 190.0,
+      "amount": 2926.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 180.0,
+      "amount": 198.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Sunbrella Waterproof Canvas 155cm",
+      "quantity": 15.0,
+      "unit_price": 110.0,
+      "amount": 1815.0,
+      "item_code": "SUN-HT-150",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

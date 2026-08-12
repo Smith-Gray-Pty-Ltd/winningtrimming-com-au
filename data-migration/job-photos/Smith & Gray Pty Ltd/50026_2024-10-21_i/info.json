@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50026",
+  "invoice_number": "50026",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Smith & Gray Pty Ltd",
+  "post_date": "2024-10-21",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Royal Exchange",
+    "state": "NSW",
+    "postcode": "1225"
+  },
+  "pricing": {
+    "total": 1.1,
+    "subtotal": 1.0,
+    "deposits_total": 0.0,
+    "balance_due": 1.1,
+    "discount": 0.0,
+    "gst": 0.1
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 1.0,
+      "amount": 1.1,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

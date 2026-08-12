@@ -1,0 +1,61 @@
+{
+  "job_card_number": "50019",
+  "invoice_number": "50019",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Harry Cantle",
+  "post_date": "2024-09-06",
+  "description": "Launch Cushions, Mesh Backed & Zippered (Foam Supplied)  x 6",
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": "Sedan",
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "total": 1815.0,
+    "subtotal": 1650.0,
+    "deposits_total": 0.0,
+    "balance_due": 1815.0,
+    "discount": 0.0,
+    "gst": 165.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Shop Labour Rate",
+      "quantity": 8.0,
+      "unit_price": 140.0,
+      "amount": 1232.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "General Consumables - (Template Material, Buckles, Webbing, Zippersetc)",
+      "quantity": 1.0,
+      "unit_price": 32.0,
+      "amount": 35.2,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Mesh Backing",
+      "quantity": 3.0,
+      "unit_price": 50.0,
+      "amount": 165.0,
+      "item_code": "MESH",
+      "product_type": "S"
+    },
+    {
+      "description": "Sunbrella Furniture Canvas",
+      "quantity": 6.0,
+      "unit_price": 58.0,
+      "amount": 382.8,
+      "item_code": "SUN-HT-150",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

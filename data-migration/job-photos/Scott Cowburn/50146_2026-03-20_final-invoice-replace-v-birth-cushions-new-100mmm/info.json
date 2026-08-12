@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50146",
+  "invoice_number": "50146",
+  "invoice_type": "I",
+  "invoice_status": "C",
+  "customer": "Scott Cowburn ",
+  "post_date": "2026-03-20",
+  "description": "Final Invoice - Replace V-Birth Cushions, New 100mmm Foam, Cover in Sunbrella Heritage Slate, Recover 2 side panels",
+  "job_card_note": "<p>New foam 100mm thick, v,birth cushions. Cover in sunbrella heritage slate. Recover 2 side panels.  $2400. + gst.   </p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Buttaba ",
+    "state": "NSW",
+    "postcode": "2283"
+  },
+  "pricing": {
+    "total": 1338.48,
+    "subtotal": 1200.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 120.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Final Invoice - Replace V-Birth Cushions, New 100mmm Foam, Cover in Sunbrella Heritage Slate, Recover 2 side panels",
+      "quantity": 1.0,
+      "unit_price": 1200.0,
+      "amount": 1320.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

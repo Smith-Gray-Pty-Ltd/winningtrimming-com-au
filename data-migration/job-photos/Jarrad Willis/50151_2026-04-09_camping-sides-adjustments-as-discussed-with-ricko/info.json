@@ -1,0 +1,53 @@
+{
+  "job_card_number": "50151",
+  "invoice_number": "50151",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Jarrad Willis",
+  "post_date": "2026-04-09",
+  "description": "Camping Sides & Adjustments As Discussed With Ricko",
+  "job_card_note": "<p>2 new bows for existing bimini ,will be a 4 bow bimini . Cover in canvas with vewing window or windows. Owner to supply stays.  Total as discussed $4.130 + gst</p><p>= $4,543</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Summer hill",
+    "state": "NSW",
+    "postcode": "2130"
+  },
+  "pricing": {
+    "total": 3345.3,
+    "subtotal": 3041.2,
+    "deposits_total": 0.0,
+    "balance_due": 3345.3,
+    "discount": 0.0,
+    "gst": 304.12
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Extra SS fittings for stabalisation",
+      "quantity": 1.0,
+      "unit_price": 101.2,
+      "amount": 111.32,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Camping Sides & Adjustments As Discussed With Ricko",
+      "quantity": 7.0,
+      "unit_price": 125.0,
+      "amount": 962.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "50% Remainder for - 2 new bows for existing bimini ,will be a 4 bow bimini . Cover in canvas with viewing window or windows.",
+      "quantity": 1.0,
+      "unit_price": 2065.0,
+      "amount": 2271.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

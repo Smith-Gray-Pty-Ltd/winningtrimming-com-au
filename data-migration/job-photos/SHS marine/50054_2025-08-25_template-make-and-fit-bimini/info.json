@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50054",
+  "invoice_number": "50054",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "SHS marine",
+  "post_date": "2025-08-25",
+  "description": "Template, make and fit Bimini",
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Kirribilli",
+    "state": "NSW",
+    "postcode": "2061"
+  },
+  "pricing": {
+    "total": 3267.0,
+    "subtotal": 2970.0,
+    "deposits_total": 0.0,
+    "balance_due": 3267.0,
+    "discount": 0.0,
+    "gst": 297.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Material & General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 880.0,
+      "amount": 968.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "description": "Template, make and fit Bimini",
+      "quantity": 19.0,
+      "unit_price": 110.0,
+      "amount": 2299.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

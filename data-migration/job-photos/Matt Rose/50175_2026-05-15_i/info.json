@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50175",
+  "invoice_number": "50175",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Matt  Rose",
+  "post_date": "2026-05-15",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Newcastle ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 3575.0,
+    "subtotal": 3250.0,
+    "deposits_total": 0.0,
+    "balance_due": 3575.0,
+    "discount": 0.0,
+    "gst": 325.0
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "50% Deposit for Estimate #50173 - All discussed clears replaced, dodger, sides and back. Mounting with sail track, some fly screen panels incorporated.",
+      "quantity": 1.0,
+      "unit_price": 3250.0,
+      "amount": 3575.0,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "deposit_references": null
+}

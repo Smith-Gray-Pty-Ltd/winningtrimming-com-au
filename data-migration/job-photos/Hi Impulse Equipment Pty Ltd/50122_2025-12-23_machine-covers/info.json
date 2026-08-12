@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50122",
+  "invoice_number": "50122",
+  "invoice_type": "I",
+  "invoice_status": "C",
+  "customer": "Hi Impulse Equipment Pty Ltd",
+  "post_date": "2025-12-23",
+  "description": "Machine Covers",
+  "job_card_note": "<p>Frame modifications5 x hatch covers and a helm/table coverHinged Nuckle50% Remainder437.5 1100 42 1472.5</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Wickham",
+    "state": "NSW",
+    "postcode": "2293"
+  },
+  "pricing": {
+    "total": 3404.2,
+    "subtotal": 3052.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 305.2
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Machine Covers",
+      "quantity": 1.0,
+      "unit_price": 3052.0,
+      "amount": 3357.2,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

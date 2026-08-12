@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50067",
+  "invoice_number": "50067",
+  "invoice_type": "I",
+  "invoice_status": "C",
+  "customer": "Chris  Gillard ",
+  "post_date": "2025-09-16",
+  "description": null,
+  "job_card_note": null,
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Belmont north",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 5225.65,
+    "subtotal": 4685.0,
+    "deposits_total": 0.0,
+    "balance_due": 0.0,
+    "discount": 0.0,
+    "gst": 468.5
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Deposit For Bimini and Awning",
+      "quantity": 1.0,
+      "unit_price": 4685.0,
+      "amount": 5153.5,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}

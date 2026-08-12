@@ -1,0 +1,37 @@
+{
+  "job_card_number": "50128",
+  "invoice_number": "50128",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Chris  Heraghty",
+  "post_date": "2026-01-27",
+  "description": "VW Carpet fitted",
+  "job_card_note": "<p>Carpet fitted in vw transporter. Carpet $120. Delivery $40. Labour 1.25 hours $156.25.. total $316.25 + gst</p>",
+  "note": null,
+  "pillar_hint": "Other",
+  "location": {
+    "suburb": "Toronto ",
+    "state": "NSW",
+    "postcode": "2283"
+  },
+  "pricing": {
+    "total": 347.9,
+    "subtotal": 316.25,
+    "deposits_total": 0.0,
+    "balance_due": 347.9,
+    "discount": 0.0,
+    "gst": 31.63
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "VW Carpet fitted",
+      "quantity": 1.0,
+      "unit_price": 316.25,
+      "amount": 347.875,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "deposit_references": null
+}

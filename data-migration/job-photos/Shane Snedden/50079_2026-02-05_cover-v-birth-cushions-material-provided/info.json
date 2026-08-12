@@ -1,0 +1,45 @@
+{
+  "job_card_number": "50079",
+  "invoice_number": "50079",
+  "invoice_type": "I",
+  "invoice_status": "P",
+  "customer": "Shane Snedden",
+  "post_date": "2026-02-05",
+  "description": "Cover V birth cushions Material Provided",
+  "job_card_note": "<p>Cover V birth cushions with material provided. Labour 3.5 hours =$437.50</p><p>Mesh and zips = $80</p><p>Total = $517.50 +gst</p>",
+  "note": null,
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Toronto ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "total": 569.25,
+    "subtotal": 517.5,
+    "deposits_total": 0.0,
+    "balance_due": 569.25,
+    "discount": 0.0,
+    "gst": 51.75
+  },
+  "payment_method": null,
+  "line_items": [
+    {
+      "description": "Cover V birth cushions Material Provided",
+      "quantity": 3.5,
+      "unit_price": 125.0,
+      "amount": 481.25,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "description": "Mesh & Zips",
+      "quantity": 1.0,
+      "unit_price": 80.0,
+      "amount": 88.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "deposit_references": null
+}
