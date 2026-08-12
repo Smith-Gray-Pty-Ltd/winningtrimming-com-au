@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50058",
-  "invoice_number": "50058",
-  "invoice_type": "I",
-  "invoice_status": "C",
+  "job_id": "50058",
+  "job_card_numbers": [
+    "50058"
+  ],
   "customer": "Jim Gray",
-  "post_date": "2025-09-10",
+  "customer_display_name": "Jim Gray",
+  "primary_date": "2025-09-10",
   "description": "Shop Labour Rate",
-  "job_card_note": null,
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": null,
@@ -15,16 +14,26 @@
     "postcode": null
   },
   "pricing": {
-    "total": 1.12,
-    "subtotal": 1.0,
-    "deposits_total": 0.0,
-    "balance_due": 0.0,
-    "discount": 0.0,
+    "job_total": 1.12,
+    "total_invoiced": 1.12,
+    "deposits": 0,
     "gst": 0.1
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50058",
+      "invoice_number": "50058",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-09-10",
+      "total": 1.12,
+      "description": "Shop Labour Rate"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50058",
       "description": "Shop Labour Rate",
       "quantity": 1.0,
       "unit_price": 1.0,
@@ -33,5 +42,8 @@
       "product_type": "J"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
 }

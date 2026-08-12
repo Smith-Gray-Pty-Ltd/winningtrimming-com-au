@@ -1,0 +1,96 @@
+{
+  "job_id": "50104",
+  "job_card_numbers": [
+    "50104",
+    "50121"
+  ],
+  "customer": "Rod Blanch",
+  "customer_display_name": "Rod Blanch",
+  "primary_date": "2025-11-19",
+  "description": "Recover cushions, backrests and panels. Approx. 26 pieces in total; Capri Vinyl, webbing and consumables",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Tea Gardens ",
+    "state": "NSW",
+    "postcode": "2324"
+  },
+  "pricing": {
+    "job_total": 16500.0,
+    "total_invoiced": 8914.4,
+    "deposits": 0,
+    "gst": 1500.0
+  },
+  "members": [
+    {
+      "job_card_number": "50104",
+      "invoice_number": null,
+      "role": "quote",
+      "invoice_type": "Q",
+      "invoice_status": "O",
+      "post_date": "2025-11-19",
+      "total": 16500.0,
+      "description": null
+    },
+    {
+      "job_card_number": "50121",
+      "invoice_number": "50121",
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2025-12-22",
+      "total": 8914.4,
+      "description": "Remainder for quote 50104"
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50104",
+      "description": "Recover cushions, backrests and panels. Approx. 26 pieces in total",
+      "quantity": 80.0,
+      "unit_price": 120.0,
+      "amount": 10560.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50104",
+      "description": "Capri Vinyl, webbing and consumables",
+      "quantity": 1.0,
+      "unit_price": 5400.0,
+      "amount": 5940.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50121",
+      "description": "Replacement Stainless 316 Bolts",
+      "quantity": 1.0,
+      "unit_price": 129.0,
+      "amount": 141.9,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50121",
+      "description": "Remainder for quote 50104",
+      "quantity": 1.0,
+      "unit_price": 7500.0,
+      "amount": 8250.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50121",
+      "description": "Replacing bolts in backs",
+      "quantity": 3.8,
+      "unit_price": 125.0,
+      "amount": 522.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>Recover cushions, backrests and panels. Going by the photos looks like 6 pieces bow, 2 panels companion way, helm seat 2 pieces, throttle pad 1 piece, fire extinguisher panel 1,back seat and port side base cushions 6, backrests 5,back / engine cover 3. 26 pieces in total. Using Capri vinal, if vinal choice cost more than Capri the extra will be added to invoice. $15000.+ gst</p>",
+    "note": "<p>The price may change based on Vinyl choice, if another Vinyl is chosen the quote/invoice will be updated for approval.</p>"
+  }
+}

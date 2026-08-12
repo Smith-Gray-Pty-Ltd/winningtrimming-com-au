@@ -1,0 +1,49 @@
+{
+  "job_id": "50075",
+  "job_card_numbers": [
+    "50075"
+  ],
+  "customer": "Chris Isberg",
+  "customer_display_name": "Chris  Isberg",
+  "primary_date": "2025-10-10",
+  "description": "Recover Caravan Cushions x 2",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Wangi  Wangi ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 892.32,
+    "total_invoiced": 892.32,
+    "deposits": 0,
+    "gst": 80.0
+  },
+  "members": [
+    {
+      "job_card_number": "50075",
+      "invoice_number": "50075",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-10-10",
+      "total": 892.32,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50075",
+      "description": "Recover Caravan Cushions x 2",
+      "quantity": 1.0,
+      "unit_price": 800.0,
+      "amount": 880.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>Recover caravan lounge cushions 2 of</p><p> $800 +gst</p>",
+    "note": null
+  }
+}

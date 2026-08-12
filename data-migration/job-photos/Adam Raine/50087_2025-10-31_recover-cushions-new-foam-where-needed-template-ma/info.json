@@ -1,0 +1,98 @@
+{
+  "job_id": "50087",
+  "job_card_numbers": [
+    "50087",
+    "50097",
+    "50117"
+  ],
+  "customer": "Adam Raine",
+  "customer_display_name": "Adam Raine",
+  "primary_date": "2025-10-31",
+  "description": "Recover cushions & new foam where needed; Template & Make new covers",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Kotara",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 10450.0,
+    "total_invoiced": 10596.3,
+    "deposits": 5225.0,
+    "gst": 950.0
+  },
+  "members": [
+    {
+      "job_card_number": "50087",
+      "invoice_number": null,
+      "role": "quote",
+      "invoice_type": "Q",
+      "invoice_status": "O",
+      "post_date": "2025-10-31",
+      "total": 10450.0,
+      "description": null
+    },
+    {
+      "job_card_number": "50097",
+      "invoice_number": "50097",
+      "role": "deposit",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-11-10",
+      "total": 5298.15,
+      "description": null
+    },
+    {
+      "job_card_number": "50117",
+      "invoice_number": "50117",
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-12-12",
+      "total": 5298.15,
+      "description": "50% Remainder for Cushions & Covers (Job 50097)"
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50087",
+      "description": "Recover cushions & new foam where needed",
+      "quantity": 1.0,
+      "unit_price": 5500.0,
+      "amount": 6050.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50087",
+      "description": "Template & Make new covers",
+      "quantity": 1.0,
+      "unit_price": 4000.0,
+      "amount": 4400.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50097",
+      "description": "50% Deposit for Quote 50087, Recover cushions & new foam where needed & Template & Make new covers",
+      "quantity": 1.0,
+      "unit_price": 4750.0,
+      "amount": 5225.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50117",
+      "description": "50% Remainder for Cushions & Covers (Job 50097)",
+      "quantity": 1.0,
+      "unit_price": 4750.0,
+      "amount": 5225.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>Cushions :Recover and new foam where needed $5500.+gst</p><p>Covers:$4000 +gst</p>",
+    "note": null
+  }
+}

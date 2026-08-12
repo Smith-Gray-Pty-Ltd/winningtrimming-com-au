@@ -1,0 +1,139 @@
+{
+  "job_id": "50036",
+  "job_card_numbers": [
+    "50036"
+  ],
+  "customer": "Kyle Paul",
+  "customer_display_name": "Kyle Paul",
+  "primary_date": "2025-01-30",
+  "description": "Front Seats Reticulated Foam; Rear Seats Marine Vinyl (Colour finish TBC); Fitted Boat Cover - General Consumables - (Template Material, Buckles, Webbing etc); Rear Seats General Consumables - (Templa",
+  "pillar_hint": null,
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 7158.8,
+    "total_invoiced": 0,
+    "deposits": 0,
+    "gst": 650.8
+  },
+  "members": [
+    {
+      "job_card_number": "50036",
+      "invoice_number": null,
+      "role": "quote",
+      "invoice_type": "Q",
+      "invoice_status": "O",
+      "post_date": "2025-01-30",
+      "total": 7158.8,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50036",
+      "description": "Front Seats Reticulated Foam",
+      "quantity": 1.0,
+      "unit_price": 160.0,
+      "amount": 176.0,
+      "item_code": "DRICELL RETICULATED FOAM SHEET",
+      "product_type": "S"
+    },
+    {
+      "job_card": "50036",
+      "description": "Rear Seats Marine Vinyl (Colour finish TBC)",
+      "quantity": 5.0,
+      "unit_price": 90.0,
+      "amount": 495.0,
+      "item_code": "VINYL - MARINE",
+      "product_type": "S"
+    },
+    {
+      "job_card": "50036",
+      "description": "Fitted Boat Cover - General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 292.0,
+      "amount": 321.2,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50036",
+      "description": "Rear Seats General Consumables - (Template Material, Stainless, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 81.0,
+      "amount": 89.1,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50036",
+      "description": "Front Seats General Consumables - (Template Material, Stainless Staples, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 81.0,
+      "amount": 89.1,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50036",
+      "description": "Fitted Boat Cover - Sunbrella Waterproof Canvas 155cm",
+      "quantity": 8.0,
+      "unit_price": 93.5,
+      "amount": 822.8,
+      "item_code": "SUN-HT-150",
+      "product_type": "S"
+    },
+    {
+      "job_card": "50036",
+      "description": "Rear Seats Reticulated Foam",
+      "quantity": 1.0,
+      "unit_price": 160.0,
+      "amount": 176.0,
+      "item_code": "DRICELL RETICULATED FOAM SHEET",
+      "product_type": "S"
+    },
+    {
+      "job_card": "50036",
+      "description": "Front Seats Labour, Using existing Dancraft Pattern (Wood bases supplied)",
+      "quantity": 14.0,
+      "unit_price": 144.0,
+      "amount": 2217.6,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50036",
+      "description": "Rear Seats Labour, Using existing Dancraft Pattern (Wood bases supplied)",
+      "quantity": 10.0,
+      "unit_price": 144.0,
+      "amount": 1584.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50036",
+      "description": "Fitted Boat Cover Labour (with Bimini Holes and Ski Pole)",
+      "quantity": 16.0,
+      "unit_price": 122.4,
+      "amount": 2154.24,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50036",
+      "description": "Front Seats Marine Vinyl (Colour finish TBC)",
+      "quantity": 3.0,
+      "unit_price": 90.0,
+      "amount": 297.0,
+      "item_code": "VINYL - MARINE",
+      "product_type": "S"
+    }
+  ],
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
+}

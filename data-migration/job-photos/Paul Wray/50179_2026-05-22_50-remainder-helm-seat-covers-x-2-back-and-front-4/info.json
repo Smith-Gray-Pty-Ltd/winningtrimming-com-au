@@ -1,0 +1,87 @@
+{
+  "job_id": "50179",
+  "job_card_numbers": [
+    "50179",
+    "50182"
+  ],
+  "customer": "Paul Wray",
+  "customer_display_name": "Paul  Wray",
+  "primary_date": "2026-05-22",
+  "description": "50% Remainder -  Helm seat covers x 2 (Back and front 4 covers); 50% Remainder -  Window covers front & 2 sides in Solstice 86 black Mesh; 50% Remainder - Front and rear clear with u shape windows, us",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Marmong ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 4235.0,
+    "total_invoiced": 8470.0,
+    "deposits": 4235.0,
+    "gst": 385.0
+  },
+  "members": [
+    {
+      "job_card_number": "50179",
+      "invoice_number": null,
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "O",
+      "post_date": "2026-05-22",
+      "total": 4235.0,
+      "description": null
+    },
+    {
+      "job_card_number": "50182",
+      "invoice_number": "50182",
+      "role": "deposit",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-05-27",
+      "total": 4235.0,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50179",
+      "description": "50% Remainder -  Helm seat covers x 2 (Back and front 4 covers)",
+      "quantity": 1.0,
+      "unit_price": 300.0,
+      "amount": 330.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50179",
+      "description": "50% Remainder -  Window covers front & 2 sides in Solstice 86 black Mesh",
+      "quantity": 1.0,
+      "unit_price": 800.0,
+      "amount": 880.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50179",
+      "description": "50% Remainder - Front and rear clear with u shape windows, using RollGlass plus. Change fittings on rear rail to accommodate new clear. Remove side clears for new zips. New Helm cover and recover 4 cushions in white vinyl with mesh backs.",
+      "quantity": 1.0,
+      "unit_price": 2750.0,
+      "amount": 3025.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50182",
+      "description": "50% Deposit for Estimate #50179 - Includes Front and rear clears. Side clear new zips. New Helm cover, Recover 4 cushions, Helm seat covers, Window mesh covers",
+      "quantity": 1.0,
+      "unit_price": 3850.0,
+      "amount": 4235.0,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>Quote for, front and rear clear with u shape windows, using RollGlass plus, changing fittings on rear rail to accommodate new clear ,remove side clears for new zips. New Helm cover and recover 4 off cushions in white vinyl with mesh backs. $5500 +gst - </p><p><br></p><p>Helm seat covers x 2 (Back and front 4 cushions) 600 +</p><p>Solstic 86 black - Window covers  front &amp; 2 sides - 1600 +GST</p><p><br></p>",
+    "note": "<p>Many thanks for your business</p>"
+  }
+}

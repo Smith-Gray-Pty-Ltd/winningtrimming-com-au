@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50207",
-  "invoice_number": "50207",
-  "invoice_type": "I",
-  "invoice_status": "C",
+  "job_id": "50207",
+  "job_card_numbers": [
+    "50207"
+  ],
   "customer": "Ron McMara",
-  "post_date": "2026-07-06",
+  "customer_display_name": "Ron McMara",
+  "primary_date": "2026-07-06",
   "description": "Bike seat recover",
-  "job_card_note": null,
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Blackalls Park",
@@ -15,16 +14,26 @@
     "postcode": "2283"
   },
   "pricing": {
-    "total": 334.62,
-    "subtotal": 300.0,
-    "deposits_total": 0.0,
-    "balance_due": 0.0,
-    "discount": 0.0,
+    "job_total": 334.62,
+    "total_invoiced": 334.62,
+    "deposits": 0,
     "gst": 30.0
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50207",
+      "invoice_number": "50207",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2026-07-06",
+      "total": 334.62,
+      "description": "Bike seat recover"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50207",
       "description": "Bike seat recover",
       "quantity": 1.0,
       "unit_price": 300.0,
@@ -33,5 +42,8 @@
       "product_type": "J"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
 }

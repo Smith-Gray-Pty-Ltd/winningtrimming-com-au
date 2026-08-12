@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50204",
-  "invoice_number": "50204",
-  "invoice_type": "I",
-  "invoice_status": "P",
-  "customer": "Tobias Kyneur ",
-  "post_date": "2026-07-01",
+  "job_id": "50204",
+  "job_card_numbers": [
+    "50204"
+  ],
+  "customer": "Tobias Kyneur",
+  "customer_display_name": "Tobias Kyneur",
+  "primary_date": "2026-07-01",
   "description": "Recover chiro bench",
-  "job_card_note": "<p>Recover chiro bench. $200 + gst</p>",
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Coal point",
@@ -15,16 +14,26 @@
     "postcode": "2283"
   },
   "pricing": {
-    "total": 220.0,
-    "subtotal": 200.0,
-    "deposits_total": 0.0,
-    "balance_due": 220.0,
-    "discount": 0.0,
+    "job_total": 220.0,
+    "total_invoiced": 220.0,
+    "deposits": 0,
     "gst": 20.0
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50204",
+      "invoice_number": "50204",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-07-01",
+      "total": 220.0,
+      "description": "Recover chiro bench"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50204",
       "description": "Recover chiro bench",
       "quantity": 1.0,
       "unit_price": 200.0,
@@ -33,5 +42,8 @@
       "product_type": "J"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": "<p>Recover chiro bench. $200 + gst</p>",
+    "note": null
+  }
 }

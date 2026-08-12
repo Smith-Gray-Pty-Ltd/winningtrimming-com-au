@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50176",
-  "invoice_number": "50176",
-  "invoice_type": "I",
-  "invoice_status": "P",
-  "customer": "Scott Donalson ",
-  "post_date": "2026-05-20",
+  "job_id": "50176",
+  "job_card_numbers": [
+    "50176"
+  ],
+  "customer": "Scott Donalson",
+  "customer_display_name": "Scott Donalson",
+  "primary_date": "2026-05-20",
   "description": "50% Remainder for cushions",
-  "job_card_note": null,
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Morisset Park",
@@ -15,16 +14,26 @@
     "postcode": "2264"
   },
   "pricing": {
-    "total": 1100.0,
-    "subtotal": 1000.0,
-    "deposits_total": 0.0,
-    "balance_due": 1100.0,
-    "discount": 0.0,
+    "job_total": 1100.0,
+    "total_invoiced": 1100.0,
+    "deposits": 0,
     "gst": 100.0
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50176",
+      "invoice_number": "50176",
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-05-20",
+      "total": 1100.0,
+      "description": "50% Remainder for cushions"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50176",
       "description": "50% Remainder for cushions",
       "quantity": 1.0,
       "unit_price": 1000.0,
@@ -33,5 +42,8 @@
       "product_type": "J"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
 }

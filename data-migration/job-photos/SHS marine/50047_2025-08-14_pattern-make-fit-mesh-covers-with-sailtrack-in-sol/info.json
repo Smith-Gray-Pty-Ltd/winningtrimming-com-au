@@ -1,0 +1,58 @@
+{
+  "job_id": "50047",
+  "job_card_numbers": [
+    "50047"
+  ],
+  "customer": "SHS marine",
+  "customer_display_name": "SHS marine",
+  "primary_date": "2025-08-14",
+  "description": "Pattern, make & fit Mesh Covers with sailtrack in Soltis Perform 92 - Anthracite 92-2047; Pattern, make & fit WeatherMax Covers",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Kirribilli",
+    "state": "NSW",
+    "postcode": "2061"
+  },
+  "pricing": {
+    "job_total": 6620.55,
+    "total_invoiced": 6620.55,
+    "deposits": 0,
+    "gst": 601.87
+  },
+  "members": [
+    {
+      "job_card_number": "50047",
+      "invoice_number": "50047",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-08-14",
+      "total": 6620.55,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50047",
+      "description": "Pattern, make & fit Mesh Covers with sailtrack in Soltis Perform 92 - Anthracite 92-2047",
+      "quantity": 1.0,
+      "unit_price": 4163.7,
+      "amount": 4580.07,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50047",
+      "description": "Pattern, make & fit WeatherMax Covers",
+      "quantity": 1.0,
+      "unit_price": 1855.0,
+      "amount": 2040.5,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
+}

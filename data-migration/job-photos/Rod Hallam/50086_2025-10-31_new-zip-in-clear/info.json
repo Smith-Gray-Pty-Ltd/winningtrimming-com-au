@@ -1,0 +1,49 @@
+{
+  "job_id": "50086",
+  "job_card_numbers": [
+    "50086"
+  ],
+  "customer": "Rod Hallam",
+  "customer_display_name": "Rod Hallam",
+  "primary_date": "2025-10-31",
+  "description": "New zip in clear",
+  "pillar_hint": null,
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 223.08,
+    "total_invoiced": 223.08,
+    "deposits": 0,
+    "gst": 20.0
+  },
+  "members": [
+    {
+      "job_card_number": "50086",
+      "invoice_number": "50086",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-10-31",
+      "total": 223.08,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50086",
+      "description": "New zip in clear",
+      "quantity": 1.0,
+      "unit_price": 200.0,
+      "amount": 220.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>New zip in clear.  $200 +gst</p>",
+    "note": null
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "job_id": "50062",
+  "job_card_numbers": [
+    "50062"
+  ],
+  "customer": "Shane Snedden",
+  "customer_display_name": "Shane Snedden",
+  "primary_date": "2025-09-23",
+  "description": "Helm Seat; Cushions",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Toronto ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 1430.0,
+    "total_invoiced": 1430.0,
+    "deposits": 0,
+    "gst": 130.0
+  },
+  "members": [
+    {
+      "job_card_number": "50062",
+      "invoice_number": "50062",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-09-23",
+      "total": 1430.0,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50062",
+      "description": "Helm Seat",
+      "quantity": 1.0,
+      "unit_price": 500.0,
+      "amount": 550.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50062",
+      "description": "Cushions",
+      "quantity": 2.0,
+      "unit_price": 400.0,
+      "amount": 880.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>2 of cushions $400 each + gst</p><p>1 of helm seat $500 + gst</p><p>Total $1300 + gst</p>",
+    "note": null
+  }
+}

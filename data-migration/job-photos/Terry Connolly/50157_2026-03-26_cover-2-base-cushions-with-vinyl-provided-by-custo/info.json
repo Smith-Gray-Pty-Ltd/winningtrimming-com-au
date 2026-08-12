@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50157",
-  "invoice_number": "50157",
-  "invoice_type": "I",
-  "invoice_status": "C",
+  "job_id": "50157",
+  "job_card_numbers": [
+    "50157"
+  ],
   "customer": "Terry Connolly",
-  "post_date": "2026-03-26",
+  "customer_display_name": "Terry Connolly",
+  "primary_date": "2026-03-26",
   "description": "Cover 2 base cushions with vinyl provided by customer",
-  "job_card_note": "<p>Cover 2 base cushions with vinyl provided by Terry.</p><p>2.5 hours =$312.5 + gst</p><p>Total $343.75</p>",
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Wickham",
@@ -15,16 +14,26 @@
     "postcode": null
   },
   "pricing": {
-    "total": 348.56,
-    "subtotal": 312.5,
-    "deposits_total": 0.0,
-    "balance_due": 0.0,
-    "discount": 0.0,
+    "job_total": 348.56,
+    "total_invoiced": 348.56,
+    "deposits": 0,
     "gst": 31.25
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50157",
+      "invoice_number": "50157",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2026-03-26",
+      "total": 348.56,
+      "description": "Cover 2 base cushions with vinyl provided by customer"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50157",
       "description": "Cover 2 base cushions with vinyl provided by customer",
       "quantity": 2.5,
       "unit_price": 125.0,
@@ -33,5 +42,8 @@
       "product_type": "J"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": "<p>Cover 2 base cushions with vinyl provided by Terry.</p><p>2.5 hours =$312.5 + gst</p><p>Total $343.75</p>",
+    "note": null
+  }
 }

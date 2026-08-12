@@ -1,0 +1,116 @@
+{
+  "job_id": "50126",
+  "job_card_numbers": [
+    "50126",
+    "50138",
+    "50145"
+  ],
+  "customer": "Penny Atherton",
+  "customer_display_name": "Penny Atherton",
+  "primary_date": "2026-01-22",
+  "description": "Old board dropped off to workshop, replace board with 18mm marine ply. Extra cost if thicker board is required.; Replacement (reticulated) foam; Re-trim Rear Bench Seat (new Vinyl & Exisiting Foam)",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Wangi",
+    "state": "NSW",
+    "postcode": "2267"
+  },
+  "pricing": {
+    "job_total": 2453.0,
+    "total_invoiced": 2838.0,
+    "deposits": 1226.5,
+    "gst": 223.0
+  },
+  "members": [
+    {
+      "job_card_number": "50126",
+      "invoice_number": null,
+      "role": "quote",
+      "invoice_type": "Q",
+      "invoice_status": "O",
+      "post_date": "2026-01-22",
+      "total": 2453.0,
+      "description": null
+    },
+    {
+      "job_card_number": "50138",
+      "invoice_number": "50138",
+      "role": "deposit",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-02-23",
+      "total": 1226.5,
+      "description": "50% Deposit For Quote 50126 (Engine Cover & Reach Bench Seat Base)"
+    },
+    {
+      "job_card_number": "50145",
+      "invoice_number": "50145",
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-03-06",
+      "total": 1611.5,
+      "description": "50% Remainder from quote 50126"
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50126",
+      "description": "Old board dropped off to workshop, replace board with 18mm marine ply. Extra cost if thicker board is required.",
+      "quantity": 1.0,
+      "unit_price": 1050.0,
+      "amount": 1155.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50126",
+      "description": "Replacement (reticulated) foam",
+      "quantity": 1.0,
+      "unit_price": 340.0,
+      "amount": 374.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    },
+    {
+      "job_card": "50126",
+      "description": "Re-trim Rear Bench Seat (new Vinyl & Exisiting Foam)",
+      "quantity": 1.0,
+      "unit_price": 840.0,
+      "amount": 924.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50138",
+      "description": "50% Deposit For Quote 50126 (Engine Cover & Reach Bench Seat Base)",
+      "quantity": 1.0,
+      "unit_price": 1115.0,
+      "amount": 1226.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50145",
+      "description": "Extra 3 hours for rebuilding seat base + new marine ply (Foam included F.O.C)",
+      "quantity": 1.0,
+      "unit_price": 350.0,
+      "amount": 385.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50145",
+      "description": "50% Remainder from quote 50126",
+      "quantity": 1.0,
+      "unit_price": 1115.0,
+      "amount": 1226.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>Old board dropped off to workshop,  replace board with 18mm marine ply. Extra cost if thicker board is required.  Using original foam, extra cost if foam needs replacing. $1050. + gst.   Can sorce new struts if you can give measurement and make stainless steel angle brackets for underside or board. Both struts and brackets at extra cost. </p>",
+    "note": "<p>Can source new struts if you can give measurement and make stainless steel angle brackets for underside or board. Both struts and brackets at extra cost.</p>"
+  }
+}

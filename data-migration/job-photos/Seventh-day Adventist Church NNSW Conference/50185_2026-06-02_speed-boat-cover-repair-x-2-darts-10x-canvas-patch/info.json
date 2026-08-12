@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50185",
-  "invoice_number": "50185",
-  "invoice_type": "I",
-  "invoice_status": "P",
+  "job_id": "50185",
+  "job_card_numbers": [
+    "50185"
+  ],
   "customer": "Seventh-day Adventist Church NNSW Conference",
-  "post_date": "2026-06-02",
+  "customer_display_name": "Seventh-day Adventist Church NNSW Conference",
+  "primary_date": "2026-06-02",
   "description": "Speed boat cover repair, x 2 darts, 10x canvas patches, adjustments to make tighter",
-  "job_card_note": null,
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Cooranbong",
@@ -15,16 +14,26 @@
     "postcode": "2265"
   },
   "pricing": {
-    "total": 563.75,
-    "subtotal": 512.5,
-    "deposits_total": 0.0,
-    "balance_due": 563.75,
-    "discount": 0.0,
+    "job_total": 563.75,
+    "total_invoiced": 563.75,
+    "deposits": 0,
     "gst": 51.25
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50185",
+      "invoice_number": "50185",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-06-02",
+      "total": 563.75,
+      "description": "Speed boat cover repair, x 2 darts, 10x canvas patches, adjustments to make tighter"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50185",
       "description": "Speed boat cover repair, x 2 darts, 10x canvas patches, adjustments to make tighter",
       "quantity": 3.5,
       "unit_price": 125.0,
@@ -33,6 +42,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50185",
       "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
       "quantity": 1.0,
       "unit_price": 75.0,
@@ -41,5 +51,8 @@
       "product_type": "W"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
 }

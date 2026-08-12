@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50159",
-  "invoice_number": "50159",
-  "invoice_type": "I",
-  "invoice_status": "C",
-  "customer": "Patrick  Lambourne",
-  "post_date": "2026-04-01",
+  "job_id": "50159",
+  "job_card_numbers": [
+    "50159"
+  ],
+  "customer": "Patrick Lambourne",
+  "customer_display_name": "Patrick  Lambourne",
+  "primary_date": "2026-04-01",
   "description": "Make Rudder / tiller covers from weatherMAX, padded with 1/2\" foam both sides and lined",
-  "job_card_note": "<p>Make Rudder / tiller covers from weatherMAX, padded with 1/2\" foam both sides and lined. Labour hours =$500. Materials $100. Total $600. + gst =$660.</p>",
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Wellington point",
@@ -15,16 +14,26 @@
     "postcode": null
   },
   "pricing": {
-    "total": 669.24,
-    "subtotal": 600.0,
-    "deposits_total": 0.0,
-    "balance_due": 0.0,
-    "discount": 0.0,
+    "job_total": 669.24,
+    "total_invoiced": 669.24,
+    "deposits": 0,
     "gst": 60.0
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50159",
+      "invoice_number": "50159",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2026-04-01",
+      "total": 669.24,
+      "description": "Make Rudder / tiller covers from weatherMAX, padded with 1/2\" foam both sides and lined"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50159",
       "description": "Make Rudder / tiller covers from weatherMAX, padded with 1/2\" foam both sides and lined",
       "quantity": 4.0,
       "unit_price": 125.0,
@@ -33,6 +42,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50159",
       "description": "Materials",
       "quantity": 1.0,
       "unit_price": 100.0,
@@ -41,5 +51,8 @@
       "product_type": "W"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": "<p>Make Rudder / tiller covers from weatherMAX, padded with 1/2\" foam both sides and lined. Labour hours =$500. Materials $100. Total $600. + gst =$660.</p>",
+    "note": null
+  }
 }

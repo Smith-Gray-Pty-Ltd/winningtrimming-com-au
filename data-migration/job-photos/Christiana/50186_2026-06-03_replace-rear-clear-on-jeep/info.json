@@ -1,0 +1,49 @@
+{
+  "job_id": "50186",
+  "job_card_numbers": [
+    "50186"
+  ],
+  "customer": "Christiana",
+  "customer_display_name": "Christiana Christiana",
+  "primary_date": "2026-06-03",
+  "description": "Replace rear clear on Jeep",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Toronto ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 220.0,
+    "total_invoiced": 220.0,
+    "deposits": 0,
+    "gst": 20.0
+  },
+  "members": [
+    {
+      "job_card_number": "50186",
+      "invoice_number": "50186",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-06-03",
+      "total": 220.0,
+      "description": "Replace rear clear on Jeep"
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50186",
+      "description": "Replace rear clear on Jeep",
+      "quantity": 1.0,
+      "unit_price": 200.0,
+      "amount": 220.0,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>Replace rear clear on Jeep. $200. + gst</p>",
+    "note": null
+  }
+}

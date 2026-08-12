@@ -1,0 +1,49 @@
+{
+  "job_id": "50068",
+  "job_card_numbers": [
+    "50068"
+  ],
+  "customer": "Alana Sellars",
+  "customer_display_name": "Alana  Sellars",
+  "primary_date": "2025-09-23",
+  "description": "Recover Massage Bench",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Cooranbong ",
+    "state": "NSW",
+    "postcode": "2265"
+  },
+  "pricing": {
+    "job_total": 605.0,
+    "total_invoiced": 605.0,
+    "deposits": 0,
+    "gst": 55.0
+  },
+  "members": [
+    {
+      "job_card_number": "50068",
+      "invoice_number": "50068",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-09-23",
+      "total": 605.0,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50068",
+      "description": "Recover Massage Bench",
+      "quantity": 1.0,
+      "unit_price": 550.0,
+      "amount": 605.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>Recover massage bench. $550. + gst</p>",
+    "note": null
+  }
+}

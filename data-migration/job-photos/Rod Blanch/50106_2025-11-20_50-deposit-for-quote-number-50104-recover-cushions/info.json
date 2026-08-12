@@ -1,0 +1,49 @@
+{
+  "job_id": "50106",
+  "job_card_numbers": [
+    "50106"
+  ],
+  "customer": "Rod Blanch",
+  "customer_display_name": "Rod Blanch",
+  "primary_date": "2025-11-20",
+  "description": "50% Deposit for quote number 50104 - Recover cushions, backrests and panels. Approx. 26 pieces in total",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Tea Gardens ",
+    "state": "NSW",
+    "postcode": "2324"
+  },
+  "pricing": {
+    "job_total": 8250.0,
+    "total_invoiced": 8250.0,
+    "deposits": 8250.0,
+    "gst": 750.0
+  },
+  "members": [
+    {
+      "job_card_number": "50106",
+      "invoice_number": "50106",
+      "role": "deposit",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2025-11-20",
+      "total": 8250.0,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50106",
+      "description": "50% Deposit for quote number 50104 - Recover cushions, backrests and panels. Approx. 26 pieces in total",
+      "quantity": 1.0,
+      "unit_price": 7500.0,
+      "amount": 8250.0,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
+}

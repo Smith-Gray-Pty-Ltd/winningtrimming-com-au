@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50101",
-  "invoice_number": "50101",
-  "invoice_type": "I",
-  "invoice_status": "P",
+  "job_id": "50101",
+  "job_card_numbers": [
+    "50101"
+  ],
   "customer": "Kylie Ryan",
-  "post_date": "2025-11-14",
+  "customer_display_name": "Kylie Ryan",
+  "primary_date": "2025-11-14",
   "description": "Shop Labour Rate",
-  "job_card_note": "<p>Press studs carpet &amp; basket. 1 .5 hours and $25. For press studs. $212.50 +gst</p>",
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Toronto ",
@@ -15,16 +14,26 @@
     "postcode": null
   },
   "pricing": {
-    "total": 233.75,
-    "subtotal": 212.5,
-    "deposits_total": 0.0,
-    "balance_due": 233.75,
-    "discount": 0.0,
+    "job_total": 233.75,
+    "total_invoiced": 233.75,
+    "deposits": 0,
     "gst": 21.25
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50101",
+      "invoice_number": "50101",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2025-11-14",
+      "total": 233.75,
+      "description": "Shop Labour Rate"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50101",
       "description": "Shop Labour Rate",
       "quantity": 1.5,
       "unit_price": 125.0,
@@ -33,6 +42,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50101",
       "description": "Press studs",
       "quantity": 1.0,
       "unit_price": 25.0,
@@ -41,5 +51,8 @@
       "product_type": "W"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": "<p>Press studs carpet &amp; basket. 1 .5 hours and $25. For press studs. $212.50 +gst</p>",
+    "note": null
+  }
 }

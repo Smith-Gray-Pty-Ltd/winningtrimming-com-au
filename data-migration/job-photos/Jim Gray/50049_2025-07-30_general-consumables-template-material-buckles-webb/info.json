@@ -1,0 +1,49 @@
+{
+  "job_id": "50049",
+  "job_card_numbers": [
+    "50049"
+  ],
+  "customer": "Jim Gray",
+  "customer_display_name": "Jim Gray",
+  "primary_date": "2025-07-30",
+  "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+  "pillar_hint": null,
+  "location": {
+    "suburb": null,
+    "state": null,
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 1.1,
+    "total_invoiced": 1.1,
+    "deposits": 0,
+    "gst": 0.1
+  },
+  "members": [
+    {
+      "job_card_number": "50049",
+      "invoice_number": "50049",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2025-07-30",
+      "total": 1.1,
+      "description": null
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50049",
+      "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
+      "quantity": 1.0,
+      "unit_price": 1.0,
+      "amount": 1.1,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
+}

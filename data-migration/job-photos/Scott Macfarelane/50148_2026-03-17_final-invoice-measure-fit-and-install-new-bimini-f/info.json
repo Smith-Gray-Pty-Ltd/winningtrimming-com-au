@@ -1,0 +1,69 @@
+{
+  "job_id": "50148",
+  "job_card_numbers": [
+    "50152",
+    "50148"
+  ],
+  "customer": "Scott Macfarelane",
+  "customer_display_name": "Scott Macfarelane",
+  "primary_date": "2026-03-17",
+  "description": "Final Invoice - Measure, fit and install new Bimini, front and side clears. Made with black canvas and sheet clear.",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Westdale ",
+    "state": "NSW",
+    "postcode": "2340"
+  },
+  "pricing": {
+    "job_total": 2260.5,
+    "total_invoiced": 4521.0,
+    "deposits": 2260.5,
+    "gst": 205.5
+  },
+  "members": [
+    {
+      "job_card_number": "50152",
+      "invoice_number": "50152",
+      "role": "deposit",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-03-17",
+      "total": 2260.5,
+      "description": null
+    },
+    {
+      "job_card_number": "50148",
+      "invoice_number": "50148",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-03-26",
+      "total": 2260.5,
+      "description": "Final Invoice - Measure, fit and install new Bimini, front and side clears. Made with black canvas and sheet clear."
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50152",
+      "description": "Deposit for quote #50148 - Measure, fit and install new Bimini, front and side clears. Made with black canvas and sheet clear.",
+      "quantity": 1.0,
+      "unit_price": 2055.0,
+      "amount": 2260.5,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    },
+    {
+      "job_card": "50148",
+      "description": "Final Invoice - Measure, fit and install new Bimini, front and side clears. Made with black canvas and sheet clear.",
+      "quantity": 1.0,
+      "unit_price": 2055.0,
+      "amount": 2260.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    }
+  ],
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
+}

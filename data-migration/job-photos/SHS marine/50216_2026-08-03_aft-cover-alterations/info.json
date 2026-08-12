@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50216",
-  "invoice_number": "50216",
-  "invoice_type": "I",
-  "invoice_status": "P",
+  "job_id": "50216",
+  "job_card_numbers": [
+    "50216"
+  ],
   "customer": "SHS marine",
-  "post_date": "2026-08-03",
+  "customer_display_name": "SHS marine",
+  "primary_date": "2026-08-03",
   "description": "Aft cover alterations",
-  "job_card_note": null,
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Kirribilli",
@@ -15,16 +14,26 @@
     "postcode": "2061"
   },
   "pricing": {
-    "total": 3417.15,
-    "subtotal": 3270.0,
-    "deposits_total": 0.0,
-    "balance_due": 3417.15,
-    "discount": 163.5,
+    "job_total": 3417.15,
+    "total_invoiced": 3417.15,
+    "deposits": 0,
     "gst": 310.65
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50216",
+      "invoice_number": "50216",
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-08-03",
+      "total": 3417.15,
+      "description": "Aft cover alterations"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50216",
       "description": "Aft cover - batten, zip & rubber seal",
       "quantity": 1.0,
       "unit_price": 80.0,
@@ -33,6 +42,7 @@
       "product_type": "W"
     },
     {
+      "job_card": "50216",
       "description": "Aft cover alterations",
       "quantity": 3.0,
       "unit_price": 125.0,
@@ -41,6 +51,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50216",
       "description": "Flybridge Cover modifications as discussed over email and confirmed via telephone 27/07/26",
       "quantity": 1.0,
       "unit_price": 2500.0,
@@ -49,6 +60,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50216",
       "description": "New side clears made from Regalight sheet clear  2 sheets required.To fit on the outside using existing track & stayput fittings.",
       "quantity": 1.0,
       "unit_price": 2490.0,
@@ -57,6 +69,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50216",
       "description": "Fit existing mesh sides on inside with 3 piece track at the top and press studs bottom and sides.",
       "quantity": 1.0,
       "unit_price": 560.0,
@@ -65,6 +78,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50216",
       "description": "2 x new bimini webbing straps",
       "quantity": 1.0,
       "unit_price": 40.0,
@@ -73,6 +87,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50216",
       "description": "Less Deposit",
       "quantity": 1.0,
       "unit_price": -2775.0,
@@ -81,5 +96,8 @@
       "product_type": "S"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
 }

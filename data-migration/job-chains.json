@@ -1,0 +1,4205 @@
+[
+  {
+    "root": "50013",
+    "members": [
+      "50013"
+    ],
+    "customer": "Peter Shields",
+    "first_date": "2024-06-06",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50013",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Peter Shields",
+        "post_date": "2024-06-06",
+        "description": "Steam Boat Covers",
+        "total": 8320.0,
+        "refs": [],
+        "text_sample": "Steam Boat Covers Heather Beige - Sunbrella Waterproof Canvas 155cm General Consumables - (Fastners, Buckles, Webbing et"
+      }
+    ]
+  },
+  {
+    "root": "50016",
+    "members": [
+      "50016"
+    ],
+    "customer": "Colin Sewell",
+    "first_date": "2024-06-17",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3300.0,
+    "records": [
+      {
+        "job_card_number": "50016",
+        "invoice_number": "50016",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Colin Sewell",
+        "post_date": "2024-06-17",
+        "description": "Shop Labour Rate",
+        "total": 3300.0,
+        "refs": [],
+        "text_sample": "Shop Labour Rate <p>Thank Col!</p> Sunbrella Waterproof Canvas 155cm General Consumables - (Template Material, Buckles, "
+      }
+    ]
+  },
+  {
+    "root": "50015",
+    "members": [
+      "50015"
+    ],
+    "customer": "Smith & Gray Pty Ltd",
+    "first_date": "2024-06-17",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 5.5,
+    "records": [
+      {
+        "job_card_number": "50015",
+        "invoice_number": "50015",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Smith & Gray Pty Ltd",
+        "post_date": "2024-06-17",
+        "description": null,
+        "total": 5.5,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50017",
+    "members": [
+      "50017"
+    ],
+    "customer": "Flipside IT",
+    "first_date": "2024-06-19",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3619.0,
+    "records": [
+      {
+        "job_card_number": "50017",
+        "invoice_number": "50017",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Flipside IT",
+        "post_date": "2024-06-19",
+        "description": "RIB Towing Cover",
+        "total": 3619.0,
+        "refs": [],
+        "text_sample": "RIB Towing Cover Mates Rates Thank You Discount :-) Shop Labour Rate (Hr) General Consumables - (Template Material, Buck"
+      }
+    ]
+  },
+  {
+    "root": "50020",
+    "members": [
+      "50020"
+    ],
+    "customer": "Smith & Gray Pty Ltd",
+    "first_date": "2024-09-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.1,
+    "records": [
+      {
+        "job_card_number": "50020",
+        "invoice_number": "50020",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Smith & Gray Pty Ltd",
+        "post_date": "2024-09-06",
+        "description": null,
+        "total": 1.1,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50019",
+    "members": [
+      "50019"
+    ],
+    "customer": "Harry Cantle",
+    "first_date": "2024-09-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1815.0,
+    "records": [
+      {
+        "job_card_number": "50019",
+        "invoice_number": "50019",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Harry Cantle",
+        "post_date": "2024-09-06",
+        "description": "Launch Cushions, Mesh Backed & Zippered (Foam Supplied)  x 6",
+        "total": 1815.0,
+        "refs": [],
+        "text_sample": "Launch Cushions, Mesh Backed & Zippered (Foam Supplied)  x 6 Shop Labour Rate General Consumables - (Template Material, "
+      }
+    ]
+  },
+  {
+    "root": "50022",
+    "members": [
+      "50022"
+    ],
+    "customer": "Smith & Gray Pty Ltd",
+    "first_date": "2024-09-12",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50022",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Smith & Gray Pty Ltd",
+        "post_date": "2024-09-12",
+        "description": null,
+        "total": 5.5,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50018",
+    "members": [
+      "50024",
+      "50027",
+      "50030",
+      "50018"
+    ],
+    "customer": "Emily Telling",
+    "first_date": "2024-09-21",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 40471.2,
+    "records": [
+      {
+        "job_card_number": "50024",
+        "invoice_number": "50024",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Emily Telling",
+        "post_date": "2024-09-21",
+        "description": null,
+        "total": 5000.0,
+        "refs": [
+          50018
+        ],
+        "text_sample": "Deposit 1 for Job ID 50018"
+      },
+      {
+        "job_card_number": "50027",
+        "invoice_number": "50027",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Emily Telling",
+        "post_date": "2024-10-21",
+        "description": null,
+        "total": 5000.0,
+        "refs": [
+          50018
+        ],
+        "text_sample": "Remainder of deposit for Job 50018"
+      },
+      {
+        "job_card_number": "50030",
+        "invoice_number": "50030",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Emily Telling",
+        "post_date": "2024-11-21",
+        "description": "Remainder includes GST",
+        "total": 10235.6,
+        "refs": [
+          50018
+        ],
+        "text_sample": "Remainder includes GST Reminder and final invoice of Job 50018 (Bimini, Dodger, Boat Cover & Link Sheet)"
+      },
+      {
+        "job_card_number": "50018",
+        "invoice_number": "50018",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Emily Telling",
+        "post_date": "2024-11-21",
+        "description": "Barvaria - Deck Mounted Rib Cover, Bimini, Dodger & Link Sheet - Measure, Make and Fit",
+        "total": 20235.6,
+        "refs": [],
+        "text_sample": "Barvaria - Deck Mounted Rib Cover, Bimini, Dodger & Link Sheet - Measure, Make and Fit <p>Quote assumes stitch in Solar "
+      }
+    ]
+  },
+  {
+    "root": "50026",
+    "members": [
+      "50026"
+    ],
+    "customer": "Smith & Gray Pty Ltd",
+    "first_date": "2024-10-21",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.1,
+    "records": [
+      {
+        "job_card_number": "50026",
+        "invoice_number": "50026",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Smith & Gray Pty Ltd",
+        "post_date": "2024-10-21",
+        "description": null,
+        "total": 1.1,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50031",
+    "members": [
+      "50031"
+    ],
+    "customer": "Smith & Gray Pty Ltd",
+    "first_date": "2024-11-22",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.1,
+    "records": [
+      {
+        "job_card_number": "50031",
+        "invoice_number": "50031",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Smith & Gray Pty Ltd",
+        "post_date": "2024-11-22",
+        "description": null,
+        "total": 1.1,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50033",
+    "members": [
+      "50033"
+    ],
+    "customer": "Lindsay Buckmaster",
+    "first_date": "2024-12-07",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1540.0,
+    "records": [
+      {
+        "job_card_number": "50033",
+        "invoice_number": "50033",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Lindsay Buckmaster",
+        "post_date": "2024-12-07",
+        "description": "Cushion Recover (material supplied)",
+        "total": 1540.0,
+        "refs": [],
+        "text_sample": "Cushion Recover (material supplied) Cushion Recover (material supplied) General Consumables - (Template Material, Mesh, "
+      }
+    ]
+  },
+  {
+    "root": "50029",
+    "members": [
+      "50029",
+      "50034"
+    ],
+    "customer": "Emily Telling",
+    "first_date": "2024-12-20",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 6652.8,
+    "records": [
+      {
+        "job_card_number": "50029",
+        "invoice_number": "50029",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Emily Telling",
+        "post_date": "2024-12-20",
+        "description": "Design Installation and fitting of custom mesh/canvas Bimini back",
+        "total": 3326.4,
+        "refs": [],
+        "text_sample": "Design Installation and fitting of custom mesh/canvas Bimini back Sunbrella Waterproof Canvas 155cm Mesh Shop Labour Rat"
+      },
+      {
+        "job_card_number": "50034",
+        "invoice_number": "50034",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Emily Telling",
+        "post_date": "2025-01-21",
+        "description": "JOB 50029 - Design, Make and Fit custom Bimini Back",
+        "total": 3326.4,
+        "refs": [
+          50029
+        ],
+        "text_sample": "JOB 50029 - Design, Make and Fit custom Bimini Back Sunbrella Waterproof Canvas 155cm General Consumables - (Template Ma"
+      }
+    ]
+  },
+  {
+    "root": "50035",
+    "members": [
+      "50035"
+    ],
+    "customer": "Ian Humphris",
+    "first_date": "2025-01-25",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1181.4,
+    "records": [
+      {
+        "job_card_number": "50035",
+        "invoice_number": "50035",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Ian Humphris",
+        "post_date": "2025-01-25",
+        "description": "Repair Boom/Tent Cover, Add Top Bird Protection Material (Washable)",
+        "total": 1181.4,
+        "refs": [],
+        "text_sample": "Repair Boom/Tent Cover, Add Top Bird Protection Material (Washable) Stamoid Dual 260cm - Grey General Consumables - (Tem"
+      }
+    ]
+  },
+  {
+    "root": "50036",
+    "members": [
+      "50036"
+    ],
+    "customer": "Kyle Paul",
+    "first_date": "2025-01-30",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50036",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Kyle Paul",
+        "post_date": "2025-01-30",
+        "description": null,
+        "total": 7158.8,
+        "refs": [],
+        "text_sample": "Front Seats Reticulated Foam Rear Seats Marine Vinyl (Colour finish TBC) Fitted Boat Cover - General Consumables - (Temp"
+      }
+    ]
+  },
+  {
+    "root": "50037",
+    "members": [
+      "50037"
+    ],
+    "customer": "Ian Humphris",
+    "first_date": "2025-03-07",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 937.2,
+    "records": [
+      {
+        "job_card_number": "50037",
+        "invoice_number": "50037",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Ian Humphris",
+        "post_date": "2025-03-07",
+        "description": "Boom cover",
+        "total": 937.2,
+        "refs": [],
+        "text_sample": "Boom cover General Consumables - (Template Material, Buckles, Webbing etc) Boom Cover - Strengthened all corners and cli"
+      }
+    ]
+  },
+  {
+    "root": "50039",
+    "members": [
+      "50039"
+    ],
+    "customer": "Philippe N/A",
+    "first_date": "2025-03-15",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50039",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Philippe N/A",
+        "post_date": "2025-03-15",
+        "description": null,
+        "total": 1156.3,
+        "refs": [],
+        "text_sample": "Stamoid Dual 260cm - Grey Pattern, make and fit Dinghy cover General Consumables - (Template Material, Buckles, Webbing,"
+      }
+    ]
+  },
+  {
+    "root": "50041",
+    "members": [
+      "50041"
+    ],
+    "customer": "Jim Gray",
+    "first_date": "2025-05-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.1,
+    "records": [
+      {
+        "job_card_number": "50041",
+        "invoice_number": "50041",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Jim Gray",
+        "post_date": "2025-05-06",
+        "description": null,
+        "total": 0.1,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50042",
+    "members": [
+      "50042"
+    ],
+    "customer": "Jim Gray",
+    "first_date": "2025-05-07",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.01,
+    "records": [
+      {
+        "job_card_number": "50042",
+        "invoice_number": "50042",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Jim Gray",
+        "post_date": "2025-05-07",
+        "description": null,
+        "total": 1.01,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50038",
+    "members": [
+      "50038",
+      "50043"
+    ],
+    "customer": "Eleanor Hutt",
+    "first_date": "2025-05-12",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 4339.6,
+    "records": [
+      {
+        "job_card_number": "50038",
+        "invoice_number": "50038",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Eleanor Hutt",
+        "post_date": "2025-05-12",
+        "description": "Remove solar panels, remove and dispose old Bimini, check frame and fasteners, pattern new Bimini",
+        "total": 3339.6,
+        "refs": [],
+        "text_sample": "Remove solar panels, remove and dispose old Bimini, check frame and fasteners, pattern new Bimini Remove solar panels, r"
+      },
+      {
+        "job_card_number": "50043",
+        "invoice_number": "50043",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Eleanor Hutt",
+        "post_date": "2025-05-12",
+        "description": null,
+        "total": 1000.0,
+        "refs": [
+          50038
+        ],
+        "text_sample": "Deposit / Insurance Excess Quote/Job 50038 - Wave Dancer Bimini"
+      }
+    ]
+  },
+  {
+    "root": "50044",
+    "members": [
+      "50046",
+      "50044"
+    ],
+    "customer": "SPL Plant & Equipment Pty Ltd",
+    "first_date": "2025-07-08",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 10720.0,
+    "records": [
+      {
+        "job_card_number": "50046",
+        "invoice_number": "50046",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "SPL Plant & Equipment Pty Ltd",
+        "post_date": "2025-07-08",
+        "description": null,
+        "total": 2910.0,
+        "refs": [
+          50044
+        ],
+        "text_sample": "Deposit for Quote#50044 - Blue Yonder Bimini, Dodger & Cushions"
+      },
+      {
+        "job_card_number": "50044",
+        "invoice_number": "50044",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "SPL Plant & Equipment Pty Ltd",
+        "post_date": "2025-08-05",
+        "description": null,
+        "total": 7810.0,
+        "refs": [],
+        "text_sample": "Side Covers - Remove/Template/Make/Install - Sunbrella Black Bimini Cover - Remove/Template/Make/Install - Sunbrella Bla"
+      }
+    ]
+  },
+  {
+    "root": "50048",
+    "members": [
+      "50048"
+    ],
+    "customer": "Jim Gray",
+    "first_date": "2025-07-30",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.1,
+    "records": [
+      {
+        "job_card_number": "50048",
+        "invoice_number": "50048",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Jim Gray",
+        "post_date": "2025-07-30",
+        "description": null,
+        "total": 1.1,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50049",
+    "members": [
+      "50049"
+    ],
+    "customer": "Jim Gray",
+    "first_date": "2025-07-30",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.1,
+    "records": [
+      {
+        "job_card_number": "50049",
+        "invoice_number": "50049",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Jim Gray",
+        "post_date": "2025-07-30",
+        "description": null,
+        "total": 1.1,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50052",
+    "members": [
+      "50052"
+    ],
+    "customer": "John Weate",
+    "first_date": "2025-08-05",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1815.0,
+    "records": [
+      {
+        "job_card_number": "50052",
+        "invoice_number": "50052",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "John Weate",
+        "post_date": "2025-08-05",
+        "description": null,
+        "total": 1815.0,
+        "refs": [],
+        "text_sample": "Template and recover & fit saloon cushions"
+      }
+    ]
+  },
+  {
+    "root": "50053",
+    "members": [
+      "50053"
+    ],
+    "customer": "SPL Plant & Equipment Pty Ltd",
+    "first_date": "2025-08-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 154.0,
+    "records": [
+      {
+        "job_card_number": "50053",
+        "invoice_number": "50053",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "SPL Plant & Equipment Pty Ltd",
+        "post_date": "2025-08-06",
+        "description": null,
+        "total": 154.0,
+        "refs": [],
+        "text_sample": "Hatch Covers"
+      }
+    ]
+  },
+  {
+    "root": "50047",
+    "members": [
+      "50047"
+    ],
+    "customer": "SHS marine",
+    "first_date": "2025-08-14",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 6620.55,
+    "records": [
+      {
+        "job_card_number": "50047",
+        "invoice_number": "50047",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "SHS marine",
+        "post_date": "2025-08-14",
+        "description": null,
+        "total": 6620.55,
+        "refs": [],
+        "text_sample": "Pattern, make & fit Mesh Covers with sailtrack in Soltis Perform 92 - Anthracite 92-2047 Pattern, make & fit WeatherMax "
+      }
+    ]
+  },
+  {
+    "root": "50054",
+    "members": [
+      "50054"
+    ],
+    "customer": "SHS marine",
+    "first_date": "2025-08-25",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3267.0,
+    "records": [
+      {
+        "job_card_number": "50054",
+        "invoice_number": "50054",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "SHS marine",
+        "post_date": "2025-08-25",
+        "description": "Template, make and fit Bimini",
+        "total": 3267.0,
+        "refs": [],
+        "text_sample": "Template, make and fit Bimini Material & General Consumables - (Template Material, Buckles, Webbing etc) Template, make "
+      }
+    ]
+  },
+  {
+    "root": "50055",
+    "members": [
+      "50055"
+    ],
+    "customer": "Danielle Burgess",
+    "first_date": "2025-08-29",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 498.3,
+    "records": [
+      {
+        "job_card_number": "50055",
+        "invoice_number": "50055",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Danielle Burgess",
+        "post_date": "2025-08-29",
+        "description": "Shop Labour Rate",
+        "total": 498.3,
+        "refs": [],
+        "text_sample": "Shop Labour Rate Shop Labour Rate Marine Carpet General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50056",
+    "members": [
+      "50056"
+    ],
+    "customer": "Nick Bartels",
+    "first_date": "2025-09-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 168.3,
+    "records": [
+      {
+        "job_card_number": "50056",
+        "invoice_number": "50056",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Nick Bartels",
+        "post_date": "2025-09-10",
+        "description": "Shop Labour Rate",
+        "total": 168.3,
+        "refs": [],
+        "text_sample": "Shop Labour Rate Shop Labour Rate General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50059",
+    "members": [
+      "50059"
+    ],
+    "customer": "Jim Gray",
+    "first_date": "2025-09-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.1,
+    "records": [
+      {
+        "job_card_number": "50059",
+        "invoice_number": "50059",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Jim Gray",
+        "post_date": "2025-09-10",
+        "description": "This is",
+        "total": 1.1,
+        "refs": [],
+        "text_sample": "This is General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50057",
+    "members": [
+      "50057"
+    ],
+    "customer": "Smith & Gray Pty Ltd",
+    "first_date": "2025-09-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.1,
+    "records": [
+      {
+        "job_card_number": "50057",
+        "invoice_number": "50057",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Smith & Gray Pty Ltd",
+        "post_date": "2025-09-10",
+        "description": null,
+        "total": 1.1,
+        "refs": [],
+        "text_sample": "General Consumables - (Template Material, Buckles, Webbing etc)"
+      }
+    ]
+  },
+  {
+    "root": "50058",
+    "members": [
+      "50058"
+    ],
+    "customer": "Jim Gray",
+    "first_date": "2025-09-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1.12,
+    "records": [
+      {
+        "job_card_number": "50058",
+        "invoice_number": "50058",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Jim Gray",
+        "post_date": "2025-09-10",
+        "description": "Shop Labour Rate",
+        "total": 1.12,
+        "refs": [],
+        "text_sample": "Shop Labour Rate Shop Labour Rate"
+      }
+    ]
+  },
+  {
+    "root": "50064",
+    "members": [
+      "50064"
+    ],
+    "customer": "John Weate",
+    "first_date": "2025-09-12",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 470.25,
+    "records": [
+      {
+        "job_card_number": "50064",
+        "invoice_number": "50064",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "John Weate",
+        "post_date": "2025-09-12",
+        "description": null,
+        "total": 470.25,
+        "refs": [],
+        "text_sample": "Fitted Sheets with shock chord Press Studs & Stud bases for cushions"
+      }
+    ]
+  },
+  {
+    "root": "50065",
+    "members": [
+      "50065"
+    ],
+    "customer": "SPL Plant & Equipment Pty Ltd",
+    "first_date": "2025-09-12",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1100.0,
+    "records": [
+      {
+        "job_card_number": "50065",
+        "invoice_number": "50065",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "SPL Plant & Equipment Pty Ltd",
+        "post_date": "2025-09-12",
+        "description": null,
+        "total": 1100.0,
+        "refs": [],
+        "text_sample": "2 x Canvas Side Covers + 2 Cushions"
+      }
+    ]
+  },
+  {
+    "root": "50060",
+    "members": [
+      "50060"
+    ],
+    "customer": "John Lovett",
+    "first_date": "2025-09-12",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2788.5,
+    "records": [
+      {
+        "job_card_number": "50060",
+        "invoice_number": "50060",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "John Lovett",
+        "post_date": "2025-09-12",
+        "description": null,
+        "total": 2788.5,
+        "refs": [],
+        "text_sample": "<p>Outside lounge. New covers in vinal </p> 10 x Blue Vinyl Cushions"
+      }
+    ]
+  },
+  {
+    "root": "50067",
+    "members": [
+      "50067"
+    ],
+    "customer": "Chris  Gillard",
+    "first_date": "2025-09-16",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 5225.65,
+    "records": [
+      {
+        "job_card_number": "50067",
+        "invoice_number": "50067",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Chris  Gillard",
+        "post_date": "2025-09-16",
+        "description": null,
+        "total": 5225.65,
+        "refs": [],
+        "text_sample": "Deposit For Bimini and Awning"
+      }
+    ]
+  },
+  {
+    "root": "50069",
+    "members": [
+      "50069"
+    ],
+    "customer": "Waratah Golf Club",
+    "first_date": "2025-09-18",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50069",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Waratah Golf Club",
+        "post_date": "2025-09-18",
+        "description": null,
+        "total": 907.5,
+        "refs": [],
+        "text_sample": "<p>Canvas top for drinks cart. Blue canvas, white binding,</p><p>Velcro to secure it. $825 + gst</p><p>Need a roll of wh"
+      }
+    ]
+  },
+  {
+    "root": "50061",
+    "members": [
+      "50061"
+    ],
+    "customer": "David  Gilroy",
+    "first_date": "2025-09-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 5274.5,
+    "records": [
+      {
+        "job_card_number": "50061",
+        "invoice_number": "50061",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "David  Gilroy",
+        "post_date": "2025-09-23",
+        "description": null,
+        "total": 5274.5,
+        "refs": [],
+        "text_sample": "<p>Recover Dinette for Rivera.</p><p>Recover seat.</p><p>As quoted for dinette $5000 INC gst.</p><p>Recover seat 2 hours"
+      }
+    ]
+  },
+  {
+    "root": "50062",
+    "members": [
+      "50062"
+    ],
+    "customer": "Shane Snedden",
+    "first_date": "2025-09-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1430.0,
+    "records": [
+      {
+        "job_card_number": "50062",
+        "invoice_number": "50062",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Shane Snedden",
+        "post_date": "2025-09-23",
+        "description": null,
+        "total": 1430.0,
+        "refs": [],
+        "text_sample": "<p>2 of cushions $400 each + gst</p><p>1 of helm seat $500 + gst</p><p>Total $1300 + gst</p> Helm Seat Cushions"
+      }
+    ]
+  },
+  {
+    "root": "50068",
+    "members": [
+      "50068"
+    ],
+    "customer": "Alana  Sellars",
+    "first_date": "2025-09-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 605.0,
+    "records": [
+      {
+        "job_card_number": "50068",
+        "invoice_number": "50068",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Alana  Sellars",
+        "post_date": "2025-09-23",
+        "description": null,
+        "total": 605.0,
+        "refs": [],
+        "text_sample": "<p>Recover massage bench. $550. + gst</p> Recover Massage Bench"
+      }
+    ]
+  },
+  {
+    "root": "50073",
+    "members": [
+      "50073"
+    ],
+    "customer": "Manny  Manny",
+    "first_date": "2025-10-08",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50073",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Manny  Manny",
+        "post_date": "2025-10-08",
+        "description": null,
+        "total": 2750.0,
+        "refs": [],
+        "text_sample": "<p>Quote is for work conducted at Winning Trimming workshop, for onsite travel time will be additional. If any zips need"
+      }
+    ]
+  },
+  {
+    "root": "50071",
+    "members": [
+      "50071"
+    ],
+    "customer": "Waratah Golf Club",
+    "first_date": "2025-10-09",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 907.5,
+    "records": [
+      {
+        "job_card_number": "50071",
+        "invoice_number": "50071",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Waratah Golf Club",
+        "post_date": "2025-10-09",
+        "description": null,
+        "total": 907.5,
+        "refs": [],
+        "text_sample": "<p>Contact: Jono 49581847</p><p>Mobile: 0447674237</p><p> </p><p>Drinks cart canvas top. $825 + gst. $907.50 inc  </p><p"
+      }
+    ]
+  },
+  {
+    "root": "50070",
+    "members": [
+      "50070"
+    ],
+    "customer": "Chris  Gillard",
+    "first_date": "2025-10-09",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 5153.5,
+    "records": [
+      {
+        "job_card_number": "50070",
+        "invoice_number": "50070",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Chris  Gillard",
+        "post_date": "2025-10-09",
+        "description": null,
+        "total": 5153.5,
+        "refs": [],
+        "text_sample": "Remainder for Bimini & Awning"
+      }
+    ]
+  },
+  {
+    "root": "50074",
+    "members": [
+      "50074"
+    ],
+    "customer": "Bill Anderson",
+    "first_date": "2025-10-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1650.0,
+    "records": [
+      {
+        "job_card_number": "50074",
+        "invoice_number": "50074",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Bill Anderson",
+        "post_date": "2025-10-10",
+        "description": null,
+        "total": 1650.0,
+        "refs": [],
+        "text_sample": "<p>Make Orange bimini and black sock.  $1500.+ gst</p> Orange Bimini and Black Sock"
+      }
+    ]
+  },
+  {
+    "root": "50076",
+    "members": [
+      "50076"
+    ],
+    "customer": "Ryan Farrell",
+    "first_date": "2025-10-10",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50076",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Ryan Farrell",
+        "post_date": "2025-10-10",
+        "description": null,
+        "total": 770.0,
+        "refs": [],
+        "text_sample": "<p>Repair caravan awnings  $700 + gst</p> Repair Caravan Awnings"
+      }
+    ]
+  },
+  {
+    "root": "50082",
+    "members": [
+      "50082"
+    ],
+    "customer": "Chris  Isberg",
+    "first_date": "2025-10-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50082",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Chris  Isberg",
+        "post_date": "2025-10-10",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": ""
+      }
+    ]
+  },
+  {
+    "root": "50081",
+    "members": [
+      "50081"
+    ],
+    "customer": "Alana  Sellars",
+    "first_date": "2025-10-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50081",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Alana  Sellars",
+        "post_date": "2025-10-10",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": ""
+      }
+    ]
+  },
+  {
+    "root": "50080",
+    "members": [
+      "50080"
+    ],
+    "customer": "Alana  Sellars",
+    "first_date": "2025-10-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50080",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Alana  Sellars",
+        "post_date": "2025-10-10",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": ""
+      }
+    ]
+  },
+  {
+    "root": "50077",
+    "members": [
+      "50077"
+    ],
+    "customer": "Bill Anderson",
+    "first_date": "2025-10-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50077",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Bill Anderson",
+        "post_date": "2025-10-10",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": "Created On: 2026-01-28T18:07:18+00:00"
+      }
+    ]
+  },
+  {
+    "root": "50075",
+    "members": [
+      "50075"
+    ],
+    "customer": "Chris  Isberg",
+    "first_date": "2025-10-10",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 892.32,
+    "records": [
+      {
+        "job_card_number": "50075",
+        "invoice_number": "50075",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Chris  Isberg",
+        "post_date": "2025-10-10",
+        "description": null,
+        "total": 892.32,
+        "refs": [],
+        "text_sample": "<p>Recover caravan lounge cushions 2 of</p><p> $800 +gst</p> Recover Caravan Cushions x 2"
+      }
+    ]
+  },
+  {
+    "root": "50083",
+    "members": [
+      "50083"
+    ],
+    "customer": "Ryan Farrell",
+    "first_date": "2025-10-15",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 770.0,
+    "records": [
+      {
+        "job_card_number": "50083",
+        "invoice_number": "50083",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ryan Farrell",
+        "post_date": "2025-10-15",
+        "description": null,
+        "total": 770.0,
+        "refs": [],
+        "text_sample": "<p>Caravan awning repairs. $700 +gst</p> Caravan Awning Repairs"
+      }
+    ]
+  },
+  {
+    "root": "50084",
+    "members": [
+      "50084"
+    ],
+    "customer": "Chris Douglas",
+    "first_date": "2025-10-31",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50084",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Chris Douglas",
+        "post_date": "2025-10-31",
+        "description": null,
+        "total": 6050.0,
+        "refs": [],
+        "text_sample": "Custom 2 Bow Dodger & Frame - Measure, Supply & Install"
+      }
+    ]
+  },
+  {
+    "root": "50087",
+    "members": [
+      "50087",
+      "50097",
+      "50117"
+    ],
+    "customer": "Adam Raine",
+    "first_date": "2025-10-31",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 10596.3,
+    "records": [
+      {
+        "job_card_number": "50087",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Adam Raine",
+        "post_date": "2025-10-31",
+        "description": null,
+        "total": 10450.0,
+        "refs": [],
+        "text_sample": "<p>Cushions :Recover and new foam where needed $5500.+gst</p><p>Covers:$4000 +gst</p> Recover cushions & new foam where "
+      },
+      {
+        "job_card_number": "50097",
+        "invoice_number": "50097",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Adam Raine",
+        "post_date": "2025-11-10",
+        "description": null,
+        "total": 5298.15,
+        "refs": [
+          50087
+        ],
+        "text_sample": "50% Deposit for Quote 50087, Recover cushions & new foam where needed & Template & Make new covers"
+      },
+      {
+        "job_card_number": "50117",
+        "invoice_number": "50117",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Adam Raine",
+        "post_date": "2025-12-12",
+        "description": "50% Remainder for Cushions & Covers (Job 50097)",
+        "total": 5298.15,
+        "refs": [
+          50097,
+          50097
+        ],
+        "text_sample": "50% Remainder for Cushions & Covers (Job 50097) 50% Remainder for Cushions & Covers (Job 50097)"
+      }
+    ]
+  },
+  {
+    "root": "50085",
+    "members": [
+      "50085",
+      "50095"
+    ],
+    "customer": "Richard O'hearn",
+    "first_date": "2025-10-31",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 4562.25,
+    "records": [
+      {
+        "job_card_number": "50085",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Richard O'hearn",
+        "post_date": "2025-10-31",
+        "description": null,
+        "total": 9124.5,
+        "refs": [],
+        "text_sample": "Custom 2 bow dodger and frame, measure, make and install Sail/boom bag"
+      },
+      {
+        "job_card_number": "50095",
+        "invoice_number": "50095",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Richard O'hearn",
+        "post_date": "2025-11-10",
+        "description": null,
+        "total": 4562.25,
+        "refs": [
+          50085
+        ],
+        "text_sample": "<p>Quote for sail bag / boom bag. $2795. +gst</p> 50% Deposit for Estimate 50085, - Custom 2 bow dodger and frame, measu"
+      }
+    ]
+  },
+  {
+    "root": "50086",
+    "members": [
+      "50086"
+    ],
+    "customer": "Rod Hallam",
+    "first_date": "2025-10-31",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 223.08,
+    "records": [
+      {
+        "job_card_number": "50086",
+        "invoice_number": "50086",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Rod Hallam",
+        "post_date": "2025-10-31",
+        "description": null,
+        "total": 223.08,
+        "refs": [],
+        "text_sample": "<p>New zip in clear.  $200 +gst</p> New zip in clear"
+      }
+    ]
+  },
+  {
+    "root": "50088",
+    "members": [
+      "50088"
+    ],
+    "customer": "Greg  Buckley",
+    "first_date": "2025-11-06",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50088",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Greg  Buckley",
+        "post_date": "2025-11-06",
+        "description": null,
+        "total": 2530.0,
+        "refs": [],
+        "text_sample": "<p>Towable cover. Black canvas. $2500. + gst</p> Towable cover, in black canvas."
+      }
+    ]
+  },
+  {
+    "root": "50092",
+    "members": [
+      "50092"
+    ],
+    "customer": "Chris  Hudman",
+    "first_date": "2025-11-07",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 275.0,
+    "records": [
+      {
+        "job_card_number": "50092",
+        "invoice_number": "50092",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Chris  Hudman",
+        "post_date": "2025-11-07",
+        "description": null,
+        "total": 275.0,
+        "refs": [],
+        "text_sample": "<p>Repairs to bimini. $250 + gst</p><p><br></p> Repairs to Bimini"
+      }
+    ]
+  },
+  {
+    "root": "50089",
+    "members": [
+      "50090",
+      "50089",
+      "50114"
+    ],
+    "customer": "ATIZ Holdings",
+    "first_date": "2025-11-07",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 7524.0,
+    "records": [
+      {
+        "job_card_number": "50090",
+        "invoice_number": "50090",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "ATIZ Holdings",
+        "post_date": "2025-11-07",
+        "description": null,
+        "total": 3762.0,
+        "refs": [
+          50089
+        ],
+        "text_sample": "50% Deposit for Job 50089, Office cushions, back rests and wall panels"
+      },
+      {
+        "job_card_number": "50089",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "ATIZ Holdings",
+        "post_date": "2025-11-07",
+        "description": null,
+        "total": 7128.0,
+        "refs": [],
+        "text_sample": "<p>Send quote and deposit invoice. The pay on Friday each week so need it sent tonight so can order materials next week "
+      },
+      {
+        "job_card_number": "50114",
+        "invoice_number": "50114",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "ATIZ Holdings",
+        "post_date": "2025-12-10",
+        "description": "Final payment for office cushions (Job 50089)",
+        "total": 3762.0,
+        "refs": [
+          50089,
+          50089
+        ],
+        "text_sample": "Final payment for office cushions (Job 50089) Final payment for office cushions (Job 50089)"
+      }
+    ]
+  },
+  {
+    "root": "50091",
+    "members": [
+      "50093",
+      "50091"
+    ],
+    "customer": "Dom Porter",
+    "first_date": "2025-11-07",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 1619.75,
+    "records": [
+      {
+        "job_card_number": "50093",
+        "invoice_number": "50093",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Dom Porter",
+        "post_date": "2025-11-07",
+        "description": null,
+        "total": 1619.75,
+        "refs": [
+          50091
+        ],
+        "text_sample": "50% deposit for Quote 50091, Reskin Bimini, with 1 new bow and back cover"
+      },
+      {
+        "job_card_number": "50091",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Dom Porter",
+        "post_date": "2025-11-07",
+        "description": null,
+        "total": 3239.5,
+        "refs": [],
+        "text_sample": "<p>Reskin bimini ,1 new bow. With rear drop down. $2945+ gst</p> Measure, supply and fit - Reskin Bimini, 1 new bow and "
+      }
+    ]
+  },
+  {
+    "root": "50096",
+    "members": [
+      "50096"
+    ],
+    "customer": "Chris  Hudman",
+    "first_date": "2025-11-07",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50096",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Chris  Hudman",
+        "post_date": "2025-11-07",
+        "description": null,
+        "total": 4950.0,
+        "refs": [],
+        "text_sample": "<p>Bimini made from Stamoid top.</p><p>Stainless steel rear stays 1\" tube and all fittings .</p><p>$4500, + gst</p> Patt"
+      }
+    ]
+  },
+  {
+    "root": "50072",
+    "members": [
+      "50072"
+    ],
+    "customer": "Greg  Croak",
+    "first_date": "2025-11-11",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3346.2,
+    "records": [
+      {
+        "job_card_number": "50072",
+        "invoice_number": "50072",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Greg  Croak",
+        "post_date": "2025-11-11",
+        "description": null,
+        "total": 3346.2,
+        "refs": [],
+        "text_sample": "<p>5 white cushions with blue &amp; grey stripes .</p><p>1 paded panel with stripes to match cushions.</p><p>$3000. + Gs"
+      }
+    ]
+  },
+  {
+    "root": "50101",
+    "members": [
+      "50101"
+    ],
+    "customer": "Kylie Ryan",
+    "first_date": "2025-11-14",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 233.75,
+    "records": [
+      {
+        "job_card_number": "50101",
+        "invoice_number": "50101",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Kylie Ryan",
+        "post_date": "2025-11-14",
+        "description": "Shop Labour Rate",
+        "total": 233.75,
+        "refs": [],
+        "text_sample": "Shop Labour Rate <p>Press studs carpet &amp; basket. 1 .5 hours and $25. For press studs. $212.50 +gst</p> Shop Labour R"
+      }
+    ]
+  },
+  {
+    "root": "50102",
+    "members": [
+      "50102",
+      "50163"
+    ],
+    "customer": "Kale Ward",
+    "first_date": "2025-11-14",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 12826.0,
+    "records": [
+      {
+        "job_card_number": "50102",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Kale Ward",
+        "post_date": "2025-11-14",
+        "description": null,
+        "total": 12826.0,
+        "refs": [],
+        "text_sample": "<p>Reskin Awning &amp; bimini using Aquatica white hooding.</p><p>New clears, front screen with 2 roll ups.</p><p>2 side"
+      },
+      {
+        "job_card_number": "50163",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Club Marine Limited",
+        "post_date": "2026-04-22",
+        "description": null,
+        "total": 12826.0,
+        "refs": [
+          50102
+        ],
+        "text_sample": "Final payment for quote #50102  - Club Marine claim #N/MC03068 B29 - Belinda & Kale Ward - Reskin Awning & Bimini using "
+      }
+    ]
+  },
+  {
+    "root": "50099",
+    "members": [
+      "50099"
+    ],
+    "customer": "Paul Delves",
+    "first_date": "2025-11-14",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50099",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Paul Delves",
+        "post_date": "2025-11-14",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": ""
+      }
+    ]
+  },
+  {
+    "root": "50103",
+    "members": [
+      "50103"
+    ],
+    "customer": "Kale Ward",
+    "first_date": "2025-11-14",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50103",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Kale Ward",
+        "post_date": "2025-11-14",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": "<p>Awning, bimini made with Aquatica white hooding.  Clears made with Regalite sheet clear.  $10.660 +gst</p>"
+      }
+    ]
+  },
+  {
+    "root": "50100",
+    "members": [
+      "50100"
+    ],
+    "customer": "Andrew Hancock",
+    "first_date": "2025-11-14",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50100",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Andrew Hancock",
+        "post_date": "2025-11-14",
+        "description": null,
+        "total": 577.5,
+        "refs": [],
+        "text_sample": "<p>Cover on back of truck. Made from protec ets. Ripstop.blue. $525.+ gst,. ID number for truck. PM970</p> Pattern, Make"
+      }
+    ]
+  },
+  {
+    "root": "50104",
+    "members": [
+      "50104",
+      "50121"
+    ],
+    "customer": "Rod Blanch",
+    "first_date": "2025-11-19",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 8914.4,
+    "records": [
+      {
+        "job_card_number": "50104",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Rod Blanch",
+        "post_date": "2025-11-19",
+        "description": null,
+        "total": 16500.0,
+        "refs": [],
+        "text_sample": "<p>The price may change based on Vinyl choice, if another Vinyl is chosen the quote/invoice will be updated for approval"
+      },
+      {
+        "job_card_number": "50121",
+        "invoice_number": "50121",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Rod Blanch",
+        "post_date": "2025-12-22",
+        "description": "Remainder for quote 50104",
+        "total": 8914.4,
+        "refs": [
+          50104,
+          50104
+        ],
+        "text_sample": "Remainder for quote 50104 Replacement Stainless 316 Bolts Remainder for quote 50104 Replacing bolts in backs"
+      }
+    ]
+  },
+  {
+    "root": "50106",
+    "members": [
+      "50106"
+    ],
+    "customer": "Rod Blanch",
+    "first_date": "2025-11-20",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 8250.0,
+    "records": [
+      {
+        "job_card_number": "50106",
+        "invoice_number": "50106",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Rod Blanch",
+        "post_date": "2025-11-20",
+        "description": null,
+        "total": 8250.0,
+        "refs": [],
+        "text_sample": "50% Deposit for quote number 50104 - Recover cushions, backrests and panels. Approx. 26 pieces in total"
+      }
+    ]
+  },
+  {
+    "root": "50107",
+    "members": [
+      "50107"
+    ],
+    "customer": "Craig Wright",
+    "first_date": "2025-11-25",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50107",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Craig Wright",
+        "post_date": "2025-11-25",
+        "description": null,
+        "total": 2365.0,
+        "refs": [],
+        "text_sample": "<p>Re skin bimini ,recover bench seat.$2150. + gst</p> Reskin Bimini & Recover bench seat"
+      }
+    ]
+  },
+  {
+    "root": "50109",
+    "members": [
+      "50109"
+    ],
+    "customer": "Chris  Hudman",
+    "first_date": "2025-11-26",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50109",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Chris  Hudman",
+        "post_date": "2025-11-26",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": ""
+      }
+    ]
+  },
+  {
+    "root": "50108",
+    "members": [
+      "50108"
+    ],
+    "customer": "Chris Douglas",
+    "first_date": "2025-11-26",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 0.0,
+    "records": [
+      {
+        "job_card_number": "50108",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Chris Douglas",
+        "post_date": "2025-11-26",
+        "description": null,
+        "total": 0.0,
+        "refs": [],
+        "text_sample": ""
+      }
+    ]
+  },
+  {
+    "root": "50112",
+    "members": [
+      "50112"
+    ],
+    "customer": "Alex  Roth",
+    "first_date": "2025-12-01",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1115.4,
+    "records": [
+      {
+        "job_card_number": "50112",
+        "invoice_number": "50112",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Alex  Roth",
+        "post_date": "2025-12-01",
+        "description": "Recover Bench Seat",
+        "total": 1115.4,
+        "refs": [],
+        "text_sample": "Recover Bench Seat <p>Recover bench seat.. $1000. + gst</p> Recover Bench Seat"
+      }
+    ]
+  },
+  {
+    "root": "50115",
+    "members": [
+      "50115"
+    ],
+    "customer": "Dangar Body Works",
+    "first_date": "2025-12-11",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50115",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Dangar Body Works",
+        "post_date": "2025-12-11",
+        "description": null,
+        "total": 2750.0,
+        "refs": [],
+        "text_sample": "<p>Can cushions be slightly smaller than 2300mm long so can fit in shed - Claudia will be on site on Friday 12th Decembe"
+      }
+    ]
+  },
+  {
+    "root": "50118",
+    "members": [
+      "50118"
+    ],
+    "customer": "Dangar Body Works",
+    "first_date": "2025-12-12",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1375.0,
+    "records": [
+      {
+        "job_card_number": "50118",
+        "invoice_number": "50118",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Dangar Body Works",
+        "post_date": "2025-12-12",
+        "description": null,
+        "total": 1375.0,
+        "refs": [],
+        "text_sample": "Car Cushion Trimming"
+      }
+    ]
+  },
+  {
+    "root": "50119",
+    "members": [
+      "50119"
+    ],
+    "customer": "Dom Porter",
+    "first_date": "2025-12-15",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50119",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Dom Porter",
+        "post_date": "2025-12-15",
+        "description": null,
+        "total": 1210.0,
+        "refs": [],
+        "text_sample": "Helm/table cover & 5 off hatch covers"
+      }
+    ]
+  },
+  {
+    "root": "50094",
+    "members": [
+      "50094"
+    ],
+    "customer": "Dom Porter",
+    "first_date": "2025-12-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3357.2,
+    "records": [
+      {
+        "job_card_number": "50094",
+        "invoice_number": "50094",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Dom Porter",
+        "post_date": "2025-12-23",
+        "description": "5 x hatch covers and a helm/table cover",
+        "total": 3357.2,
+        "refs": [],
+        "text_sample": "5 x hatch covers and a helm/table cover <p>Extras 1 off Hinged knuckle $42.</p><p>5mm stainless steel pop rivets. $8.</p"
+      }
+    ]
+  },
+  {
+    "root": "50122",
+    "members": [
+      "50122"
+    ],
+    "customer": "Hi Impulse Equipment Pty Ltd",
+    "first_date": "2025-12-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3404.2,
+    "records": [
+      {
+        "job_card_number": "50122",
+        "invoice_number": "50122",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Hi Impulse Equipment Pty Ltd",
+        "post_date": "2025-12-23",
+        "description": "Machine Covers",
+        "total": 3404.2,
+        "refs": [],
+        "text_sample": "Machine Covers <p>Frame modifications5 x hatch covers and a helm/table coverHinged Nuckle50% Remainder437.5 1100 42 1472"
+      }
+    ]
+  },
+  {
+    "root": "50124",
+    "members": [
+      "50124"
+    ],
+    "customer": "Lisa  Allen",
+    "first_date": "2026-01-20",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50124",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Lisa  Allen",
+        "post_date": "2026-01-20",
+        "description": null,
+        "total": 7216.0,
+        "refs": [],
+        "text_sample": "<p>If you would like to remove the Table Mattress deduct $360.00 in total (Material &amp; Labour) </p> <p>Recover lounge"
+      }
+    ]
+  },
+  {
+    "root": "50123",
+    "members": [
+      "50123"
+    ],
+    "customer": "Peter Maffesoni",
+    "first_date": "2026-01-21",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1683.0,
+    "records": [
+      {
+        "job_card_number": "50123",
+        "invoice_number": "50123",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Peter Maffesoni",
+        "post_date": "2026-01-21",
+        "description": null,
+        "total": 1683.0,
+        "refs": [],
+        "text_sample": "<p>2 zips in front screen and 2 new side clears replacing i zip on port side. $1500. + gst</p> 2 Zips in front & 2 new s"
+      }
+    ]
+  },
+  {
+    "root": "50126",
+    "members": [
+      "50126",
+      "50138",
+      "50145"
+    ],
+    "customer": "Penny Atherton",
+    "first_date": "2026-01-22",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 2838.0,
+    "records": [
+      {
+        "job_card_number": "50126",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Penny Atherton",
+        "post_date": "2026-01-22",
+        "description": null,
+        "total": 2453.0,
+        "refs": [],
+        "text_sample": "<p>Can source new struts if you can give measurement and make stainless steel angle brackets for underside or board. Bot"
+      },
+      {
+        "job_card_number": "50138",
+        "invoice_number": "50138",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Penny Atherton",
+        "post_date": "2026-02-23",
+        "description": "50% Deposit For Quote 50126 (Engine Cover & Reach Bench Seat Base)",
+        "total": 1226.5,
+        "refs": [
+          50126,
+          50126
+        ],
+        "text_sample": "50% Deposit For Quote 50126 (Engine Cover & Reach Bench Seat Base) 50% Deposit For Quote 50126 (Engine Cover & Reach Ben"
+      },
+      {
+        "job_card_number": "50145",
+        "invoice_number": "50145",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Penny Atherton",
+        "post_date": "2026-03-06",
+        "description": "50% Remainder from quote 50126",
+        "total": 1611.5,
+        "refs": [
+          50126,
+          50126
+        ],
+        "text_sample": "50% Remainder from quote 50126 <p>Hi Penny, I reduced our hourly rate a bit for you too on the extra work. Thank for the"
+      }
+    ]
+  },
+  {
+    "root": "50127",
+    "members": [
+      "50127"
+    ],
+    "customer": "Ian Humphris",
+    "first_date": "2026-01-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2750.0,
+    "records": [
+      {
+        "job_card_number": "50127",
+        "invoice_number": "50127",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ian Humphris",
+        "post_date": "2026-01-23",
+        "description": null,
+        "total": 2750.0,
+        "refs": [
+          50125
+        ],
+        "text_sample": "50% Deposit for Deck Cover Quote 50125"
+      }
+    ]
+  },
+  {
+    "root": "50128",
+    "members": [
+      "50128"
+    ],
+    "customer": "Chris  Heraghty",
+    "first_date": "2026-01-27",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 347.9,
+    "records": [
+      {
+        "job_card_number": "50128",
+        "invoice_number": "50128",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Chris  Heraghty",
+        "post_date": "2026-01-27",
+        "description": "VW Carpet fitted",
+        "total": 347.9,
+        "refs": [],
+        "text_sample": "VW Carpet fitted <p>Carpet fitted in vw transporter. Carpet $120. Delivery $40. Labour 1.25 hours $156.25.. total $316.2"
+      }
+    ]
+  },
+  {
+    "root": "50130",
+    "members": [
+      "50130"
+    ],
+    "customer": "David  Gilroy",
+    "first_date": "2026-01-30",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50130",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "David  Gilroy",
+        "post_date": "2026-01-30",
+        "description": null,
+        "total": 4010.6,
+        "refs": [],
+        "text_sample": "<p>Pattern up and make side &amp; aft covers. Replace shock cord buttons to stainless steel. Labour 2.5 days= $2500....m"
+      }
+    ]
+  },
+  {
+    "root": "50131",
+    "members": [
+      "50131"
+    ],
+    "customer": "Chris  Sommer",
+    "first_date": "2026-02-03",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50131",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Chris  Sommer",
+        "post_date": "2026-02-03",
+        "description": null,
+        "total": 2579.5,
+        "refs": [],
+        "text_sample": "<p>Please note this is is an estimate only pending measurements and a visual inspection.</p> <p>This is an estimate only"
+      }
+    ]
+  },
+  {
+    "root": "50129",
+    "members": [
+      "50129"
+    ],
+    "customer": "Hayley Smith",
+    "first_date": "2026-02-05",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1157.75,
+    "records": [
+      {
+        "job_card_number": "50129",
+        "invoice_number": "50129",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Hayley Smith",
+        "post_date": "2026-02-05",
+        "description": "Covers for aeroplane seats",
+        "total": 1157.75,
+        "refs": [],
+        "text_sample": "Covers for aeroplane seats <p>Covers for aeroplane seats. 6.5 hours = $812.50</p><p>3 meters Material = $240.</p><p>Tota"
+      }
+    ]
+  },
+  {
+    "root": "50079",
+    "members": [
+      "50079"
+    ],
+    "customer": "Shane Snedden",
+    "first_date": "2026-02-05",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 569.25,
+    "records": [
+      {
+        "job_card_number": "50079",
+        "invoice_number": "50079",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Shane Snedden",
+        "post_date": "2026-02-05",
+        "description": "Cover V birth cushions Material Provided",
+        "total": 569.25,
+        "refs": [],
+        "text_sample": "Cover V birth cushions Material Provided <p>Cover V birth cushions with material provided. Labour 3.5 hours =$437.50</p>"
+      }
+    ]
+  },
+  {
+    "root": "50132",
+    "members": [
+      "50132"
+    ],
+    "customer": "Dangar Body Works",
+    "first_date": "2026-02-05",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2262.5,
+    "records": [
+      {
+        "job_card_number": "50132",
+        "invoice_number": "50132",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Dangar Body Works",
+        "post_date": "2026-02-05",
+        "description": "Remainder form original cushions",
+        "total": 2262.5,
+        "refs": [],
+        "text_sample": "Remainder form original cushions Split large cushion Remainder form original cushions"
+      }
+    ]
+  },
+  {
+    "root": "50135",
+    "members": [
+      "50135"
+    ],
+    "customer": "Craig Wright",
+    "first_date": "2026-02-06",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50135",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Craig Wright",
+        "post_date": "2026-02-06",
+        "description": null,
+        "total": 4598.0,
+        "refs": [],
+        "text_sample": "<p>Original quote for bimini $1500. + gst</p><p>Recover bench seat $650 + gst</p><p>Added on new clears ,zip to bimini f"
+      }
+    ]
+  },
+  {
+    "root": "50098",
+    "members": [
+      "50098"
+    ],
+    "customer": "Richard O'hearn",
+    "first_date": "2026-02-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 4626.12,
+    "records": [
+      {
+        "job_card_number": "50098",
+        "invoice_number": "50098",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Richard O'hearn",
+        "post_date": "2026-02-06",
+        "description": "Remainder for JPb 50085, - Custom 2 bow dodger and frame, measure, make and install & Sail/boom bag",
+        "total": 4626.12,
+        "refs": [],
+        "text_sample": "Remainder for JPb 50085, - Custom 2 bow dodger and frame, measure, make and install & Sail/boom bag Remainder for JPb 50"
+      }
+    ]
+  },
+  {
+    "root": "50136",
+    "members": [
+      "50136"
+    ],
+    "customer": "Corey Muholland",
+    "first_date": "2026-02-10",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50136",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Corey Muholland",
+        "post_date": "2026-02-10",
+        "description": null,
+        "total": 6188.6,
+        "refs": [],
+        "text_sample": "<p>Hi Corey, I know I said I would quote front and sides separate from the back but it works out better to buy the mater"
+      }
+    ]
+  },
+  {
+    "root": "50137",
+    "members": [
+      "50137"
+    ],
+    "customer": "Steve  Johnson",
+    "first_date": "2026-02-11",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50137",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Steve  Johnson",
+        "post_date": "2026-02-11",
+        "description": null,
+        "total": 15840.0,
+        "refs": [],
+        "text_sample": "<p>Top made from weatherMAX Gray, lashed on.</p><p>Rear meshes made from solstice 82.</p><p>Front clears right around bo"
+      }
+    ]
+  },
+  {
+    "root": "50139",
+    "members": [
+      "50139"
+    ],
+    "customer": "Lindsey Creed",
+    "first_date": "2026-02-23",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50139",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Lindsey Creed",
+        "post_date": "2026-02-23",
+        "description": null,
+        "total": 4998.4,
+        "refs": [],
+        "text_sample": "<p>Recover seats/cushions. Excluding v-berth cushions, delete piping. All in white vinyl, centre of backrests in carbon "
+      }
+    ]
+  },
+  {
+    "root": "50141",
+    "members": [
+      "50141"
+    ],
+    "customer": "Ian Humphris",
+    "first_date": "2026-02-24",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2750.0,
+    "records": [
+      {
+        "job_card_number": "50141",
+        "invoice_number": "50141",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ian Humphris",
+        "post_date": "2026-02-24",
+        "description": "50% Reminder for weathermax cover",
+        "total": 2750.0,
+        "refs": [],
+        "text_sample": "50% Reminder for weathermax cover <p>Many thanks for your business!</p> 50% Reminder for weathermax cover"
+      }
+    ]
+  },
+  {
+    "root": "50140",
+    "members": [
+      "50144",
+      "50140"
+    ],
+    "customer": "David Hollis",
+    "first_date": "2026-02-27",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3820.3,
+    "records": [
+      {
+        "job_card_number": "50144",
+        "invoice_number": "50144",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "David Hollis",
+        "post_date": "2026-02-27",
+        "description": null,
+        "total": 1798.5,
+        "refs": [
+          50140
+        ],
+        "text_sample": "<p>Confirmed booked in for 13th to 17th April 2026.</p> 50% Deposit for Quote 50140 - New canvas top aft of targa with n"
+      },
+      {
+        "job_card_number": "50140",
+        "invoice_number": "50140",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "David Hollis",
+        "post_date": "2026-04-28",
+        "description": "Remainder for New canvas top aft of targa with new zip on back for future cover, zip on new solar panel (provided by the customer). New front and side clears.",
+        "total": 2021.8,
+        "refs": [],
+        "text_sample": "Remainder for New canvas top aft of targa with new zip on back for future cover, zip on new solar panel (provided by the"
+      }
+    ]
+  },
+  {
+    "root": "50142",
+    "members": [
+      "50142",
+      "50143",
+      "50149"
+    ],
+    "customer": "Patrick  Lambourne",
+    "first_date": "2026-02-27",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 7664.47,
+    "records": [
+      {
+        "job_card_number": "50142",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Patrick  Lambourne",
+        "post_date": "2026-02-27",
+        "description": null,
+        "total": 7194.0,
+        "refs": [],
+        "text_sample": "<p>Deck cover made from weatherMAX. This price is including socks over winches and grinders. Mounting with shock cord an"
+      },
+      {
+        "job_card_number": "50143",
+        "invoice_number": "50143",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Patrick  Lambourne",
+        "post_date": "2026-02-27",
+        "description": null,
+        "total": 3647.36,
+        "refs": [
+          50142
+        ],
+        "text_sample": "50% Deposit booked in for Quote 50142 - Measure & Supply Deck cover made from weatherMAX. This price is including socks,"
+      },
+      {
+        "job_card_number": "50149",
+        "invoice_number": "50149",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Patrick  Lambourne",
+        "post_date": "2026-03-12",
+        "description": "Remainder for Quote 50142 - Measure & Supply Deck cover made from weatherMAX.",
+        "total": 4017.11,
+        "refs": [
+          50142,
+          50142
+        ],
+        "text_sample": "Remainder for Quote 50142 - Measure & Supply Deck cover made from weatherMAX. Upgraded stainless buckles and webbing and"
+      }
+    ]
+  },
+  {
+    "root": "50146",
+    "members": [
+      "50147",
+      "50146"
+    ],
+    "customer": "Scott Cowburn",
+    "first_date": "2026-03-09",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2676.96,
+    "records": [
+      {
+        "job_card_number": "50147",
+        "invoice_number": "50147",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Scott Cowburn",
+        "post_date": "2026-03-09",
+        "description": null,
+        "total": 1338.48,
+        "refs": [
+          50146
+        ],
+        "text_sample": "50% Deposit for Quote 50146 - V Birth Cushions and Side Panels"
+      },
+      {
+        "job_card_number": "50146",
+        "invoice_number": "50146",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Scott Cowburn",
+        "post_date": "2026-03-20",
+        "description": "Final Invoice - Replace V-Birth Cushions, New 100mmm Foam, Cover in Sunbrella Heritage Slate, Recover 2 side panels",
+        "total": 1338.48,
+        "refs": [],
+        "text_sample": "Final Invoice - Replace V-Birth Cushions, New 100mmm Foam, Cover in Sunbrella Heritage Slate, Recover 2 side panels <p>N"
+      }
+    ]
+  },
+  {
+    "root": "50151",
+    "members": [
+      "50153",
+      "50151"
+    ],
+    "customer": "Jarrad Willis",
+    "first_date": "2026-03-17",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 5616.8,
+    "records": [
+      {
+        "job_card_number": "50153",
+        "invoice_number": "50153",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Jarrad Willis",
+        "post_date": "2026-03-17",
+        "description": null,
+        "total": 2271.5,
+        "refs": [
+          50151
+        ],
+        "text_sample": "<p>Owner to supply stays.</p> Deposit for quote #50151 - 2 new bows for existing bimini ,will be a 4 bow bimini . Cover "
+      },
+      {
+        "job_card_number": "50151",
+        "invoice_number": "50151",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Jarrad Willis",
+        "post_date": "2026-04-09",
+        "description": "Camping Sides & Adjustments As Discussed With Ricko",
+        "total": 3345.3,
+        "refs": [],
+        "text_sample": "Camping Sides & Adjustments As Discussed With Ricko <p>2 new bows for existing bimini ,will be a 4 bow bimini . Cover in"
+      }
+    ]
+  },
+  {
+    "root": "50148",
+    "members": [
+      "50152",
+      "50148"
+    ],
+    "customer": "Scott Macfarelane",
+    "first_date": "2026-03-17",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 4521.0,
+    "records": [
+      {
+        "job_card_number": "50152",
+        "invoice_number": "50152",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Scott Macfarelane",
+        "post_date": "2026-03-17",
+        "description": null,
+        "total": 2260.5,
+        "refs": [
+          50148
+        ],
+        "text_sample": "Deposit for quote #50148 - Measure, fit and install new Bimini, front and side clears. Made with black canvas and sheet "
+      },
+      {
+        "job_card_number": "50148",
+        "invoice_number": "50148",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Scott Macfarelane",
+        "post_date": "2026-03-26",
+        "description": "Final Invoice - Measure, fit and install new Bimini, front and side clears. Made with black canvas and sheet clear.",
+        "total": 2260.5,
+        "refs": [],
+        "text_sample": "Final Invoice - Measure, fit and install new Bimini, front and side clears. Made with black canvas and sheet clear. <p>Q"
+      }
+    ]
+  },
+  {
+    "root": "50150",
+    "members": [
+      "50150"
+    ],
+    "customer": "Darrell Sherry",
+    "first_date": "2026-03-24",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1320.0,
+    "records": [
+      {
+        "job_card_number": "50150",
+        "invoice_number": "50150",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Darrell Sherry",
+        "post_date": "2026-03-24",
+        "description": "Recover cushion in grey and white vinyl.",
+        "total": 1320.0,
+        "refs": [],
+        "text_sample": "Recover cushion in grey and white vinyl. <p>Recover 3 cushions in grey and white  vinyl.  $400 each</p><p>$1200. + gst</"
+      }
+    ]
+  },
+  {
+    "root": "50157",
+    "members": [
+      "50157"
+    ],
+    "customer": "Terry Connolly",
+    "first_date": "2026-03-26",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 348.56,
+    "records": [
+      {
+        "job_card_number": "50157",
+        "invoice_number": "50157",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Terry Connolly",
+        "post_date": "2026-03-26",
+        "description": "Cover 2 base cushions with vinyl provided by customer",
+        "total": 348.56,
+        "refs": [],
+        "text_sample": "Cover 2 base cushions with vinyl provided by customer <p>Cover 2 base cushions with vinyl provided by Terry.</p><p>2.5 h"
+      }
+    ]
+  },
+  {
+    "root": "50155",
+    "members": [
+      "50155"
+    ],
+    "customer": "Liz Harper",
+    "first_date": "2026-03-26",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 278.85,
+    "records": [
+      {
+        "job_card_number": "50155",
+        "invoice_number": "50155",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Liz Harper",
+        "post_date": "2026-03-26",
+        "description": "Cover 2 cushions",
+        "total": 278.85,
+        "refs": [],
+        "text_sample": "Cover 2 cushions <p> cover 2 cushions. </p><p>2 hours labour = $250. + gst</p><p>Total = $275.</p><p><br></p> Cover 2 cu"
+      }
+    ]
+  },
+  {
+    "root": "50158",
+    "members": [
+      "50158"
+    ],
+    "customer": "Andrew  Miller",
+    "first_date": "2026-03-30",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50158",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Andrew  Miller",
+        "post_date": "2026-03-30",
+        "description": null,
+        "total": 5819.0,
+        "refs": [],
+        "text_sample": "<p>All over cover, over boom fastened with side release buckles under the sail, Down to top lifeline, with shock cord an"
+      }
+    ]
+  },
+  {
+    "root": "50159",
+    "members": [
+      "50159"
+    ],
+    "customer": "Patrick  Lambourne",
+    "first_date": "2026-04-01",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 669.24,
+    "records": [
+      {
+        "job_card_number": "50159",
+        "invoice_number": "50159",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Patrick  Lambourne",
+        "post_date": "2026-04-01",
+        "description": "Make Rudder / tiller covers from weatherMAX, padded with 1/2\" foam both sides and lined",
+        "total": 669.24,
+        "refs": [],
+        "text_sample": "Make Rudder / tiller covers from weatherMAX, padded with 1/2\" foam both sides and lined <p>Make Rudder / tiller covers f"
+      }
+    ]
+  },
+  {
+    "root": "50162",
+    "members": [
+      "50162"
+    ],
+    "customer": "Terry Connolly",
+    "first_date": "2026-04-01",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 418.28,
+    "records": [
+      {
+        "job_card_number": "50162",
+        "invoice_number": "50162",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Terry Connolly",
+        "post_date": "2026-04-01",
+        "description": "Modify windscreen cove off old cover. Patch old fittings holes,cut 4 rectangular holes, back and binding, soft material strip's and new fittings",
+        "total": 418.28,
+        "refs": [],
+        "text_sample": "Modify windscreen cove off old cover. Patch old fittings holes,cut 4 rectangular holes, back and binding, soft material "
+      }
+    ]
+  },
+  {
+    "root": "50166",
+    "members": [
+      "50166"
+    ],
+    "customer": "Midcoast Boatyard & Marine",
+    "first_date": "2026-04-28",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 330.0,
+    "records": [
+      {
+        "job_card_number": "50166",
+        "invoice_number": "50166",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Midcoast Boatyard & Marine",
+        "post_date": "2026-04-28",
+        "description": "Instrument & Compass Cover for Joe's boat",
+        "total": 330.0,
+        "refs": [],
+        "text_sample": "Instrument & Compass Cover for Joe's boat Instrument & Compass Cover for Joe's boat"
+      }
+    ]
+  },
+  {
+    "root": "50165",
+    "members": [
+      "50165"
+    ],
+    "customer": "Shaun  Reid",
+    "first_date": "2026-04-28",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1100.0,
+    "records": [
+      {
+        "job_card_number": "50165",
+        "invoice_number": "50165",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Shaun  Reid",
+        "post_date": "2026-04-28",
+        "description": null,
+        "total": 1100.0,
+        "refs": [],
+        "text_sample": "<p>Quote discussed with Ricko approximately $3100+GST</p> Materials deposit for awning"
+      }
+    ]
+  },
+  {
+    "root": "50168",
+    "members": [
+      "50168"
+    ],
+    "customer": "Shaun  Reid",
+    "first_date": "2026-05-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3025.0,
+    "records": [
+      {
+        "job_card_number": "50168",
+        "invoice_number": "50168",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Shaun  Reid",
+        "post_date": "2026-05-06",
+        "description": "labour for Awning (Material already paid)",
+        "total": 3025.0,
+        "refs": [],
+        "text_sample": "labour for Awning (Material already paid) labour for Awning (Material already paid) Trampoline Re-stitching"
+      }
+    ]
+  },
+  {
+    "root": "50167",
+    "members": [
+      "50167"
+    ],
+    "customer": "The Trustee for Sheenema Family Trust (Cleaver Cafe)",
+    "first_date": "2026-05-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1618.7,
+    "records": [
+      {
+        "job_card_number": "50167",
+        "invoice_number": "50167",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "The Trustee for Sheenema Family Trust (Cleaver Cafe)",
+        "post_date": "2026-05-06",
+        "description": "3 x Cushions, Measured, Made and Fitted/Mounted",
+        "total": 1618.7,
+        "refs": [],
+        "text_sample": "3 x Cushions, Measured, Made and Fitted/Mounted 3 x Cushions, Measured, Made and Fitted/Mounted Some extra ply for wall "
+      }
+    ]
+  },
+  {
+    "root": "50170",
+    "members": [
+      "50170"
+    ],
+    "customer": "Shaun  Reid",
+    "first_date": "2026-05-08",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3300.0,
+    "records": [
+      {
+        "job_card_number": "50170",
+        "invoice_number": "50170",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Shaun  Reid",
+        "post_date": "2026-05-08",
+        "description": "Boom Bag, measure, make install inclusive of canavas",
+        "total": 3300.0,
+        "refs": [],
+        "text_sample": "Boom Bag, measure, make install inclusive of canavas Boom Bag, measure, make install inclusive of canavas"
+      }
+    ]
+  },
+  {
+    "root": "50172",
+    "members": [
+      "50172"
+    ],
+    "customer": "Shaun  Reid",
+    "first_date": "2026-05-13",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1100.0,
+    "records": [
+      {
+        "job_card_number": "50172",
+        "invoice_number": "50172",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Shaun  Reid",
+        "post_date": "2026-05-13",
+        "description": null,
+        "total": 1100.0,
+        "refs": [],
+        "text_sample": "<p>Full quote is $3500.00 + GST as discussed with Ricko, materials are ordered and Ricko will let you know when we will "
+      }
+    ]
+  },
+  {
+    "root": "50171",
+    "members": [
+      "50171"
+    ],
+    "customer": "Scott Donalson",
+    "first_date": "2026-05-13",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1100.0,
+    "records": [
+      {
+        "job_card_number": "50171",
+        "invoice_number": "50171",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Scott Donalson",
+        "post_date": "2026-05-13",
+        "description": null,
+        "total": 1100.0,
+        "refs": [],
+        "text_sample": "<p>Recover lounge in microsuede. Colour Lead. Cut main cushion into 2. Quoted $2000. + gst.</p> 50% Deposit for recoveri"
+      }
+    ]
+  },
+  {
+    "root": "50173",
+    "members": [
+      "50173",
+      "50175"
+    ],
+    "customer": "Matt  Rose",
+    "first_date": "2026-05-14",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 3575.0,
+    "records": [
+      {
+        "job_card_number": "50173",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Matt  Rose",
+        "post_date": "2026-05-14",
+        "description": null,
+        "total": 8250.0,
+        "refs": [],
+        "text_sample": "<p>You are currently booked in for initial measure up on Monday 25th May. Many thanks for the opportunity.</p> <p>All cl"
+      },
+      {
+        "job_card_number": "50175",
+        "invoice_number": "50175",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Matt  Rose",
+        "post_date": "2026-05-15",
+        "description": null,
+        "total": 3575.0,
+        "refs": [
+          50173
+        ],
+        "text_sample": "50% Deposit for Estimate #50173 - All discussed clears replaced, dodger, sides and back. Mounting with sail track, some "
+      }
+    ]
+  },
+  {
+    "root": "50174",
+    "members": [
+      "50174"
+    ],
+    "customer": "Gavin Morris",
+    "first_date": "2026-05-15",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1320.0,
+    "records": [
+      {
+        "job_card_number": "50174",
+        "invoice_number": "50174",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Gavin Morris",
+        "post_date": "2026-05-15",
+        "description": null,
+        "total": 1320.0,
+        "refs": [],
+        "text_sample": "<p>Front fill in clear. Made with regalite sheet clear. $1200. +gst</p> General Consumables - (Template Material, Buckle"
+      }
+    ]
+  },
+  {
+    "root": "50176",
+    "members": [
+      "50176"
+    ],
+    "customer": "Scott Donalson",
+    "first_date": "2026-05-20",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1100.0,
+    "records": [
+      {
+        "job_card_number": "50176",
+        "invoice_number": "50176",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Scott Donalson",
+        "post_date": "2026-05-20",
+        "description": "50% Remainder for cushions",
+        "total": 1100.0,
+        "refs": [],
+        "text_sample": "50% Remainder for cushions 50% Remainder for cushions"
+      }
+    ]
+  },
+  {
+    "root": "50177",
+    "members": [
+      "50178",
+      "50177"
+    ],
+    "customer": "Stephen Crofts",
+    "first_date": "2026-05-21",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 9845.0,
+    "records": [
+      {
+        "job_card_number": "50178",
+        "invoice_number": "50178",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Stephen Crofts",
+        "post_date": "2026-05-21",
+        "description": null,
+        "total": 4922.5,
+        "refs": [
+          50177
+        ],
+        "text_sample": "50% Deposit for Estimate 50177. (Flybridge Clears & Dinghy Cover)"
+      },
+      {
+        "job_card_number": "50177",
+        "invoice_number": "50177",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Stephen Crofts",
+        "post_date": "2026-06-05",
+        "description": "50% Remainder - Flybridge Clears using RollGlass Plus. Clears Front, Rear, Sides and rail Dodger. All four clears have u shape windows with rollup straps.",
+        "total": 4922.5,
+        "refs": [],
+        "text_sample": "50% Remainder - Flybridge Clears using RollGlass Plus. Clears Front, Rear, Sides and rail Dodger. All four clears have u"
+      }
+    ]
+  },
+  {
+    "root": "50179",
+    "members": [
+      "50179",
+      "50182"
+    ],
+    "customer": "Paul  Wray",
+    "first_date": "2026-05-22",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 8470.0,
+    "records": [
+      {
+        "job_card_number": "50179",
+        "invoice_number": null,
+        "invoice_type": "I",
+        "invoice_status": "O",
+        "customer": "Paul  Wray",
+        "post_date": "2026-05-22",
+        "description": null,
+        "total": 4235.0,
+        "refs": [],
+        "text_sample": "<p>Many thanks for your business</p> <p>Quote for, front and rear clear with u shape windows, using RollGlass plus, chan"
+      },
+      {
+        "job_card_number": "50182",
+        "invoice_number": "50182",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Paul  Wray",
+        "post_date": "2026-05-27",
+        "description": null,
+        "total": 4235.0,
+        "refs": [
+          50179
+        ],
+        "text_sample": "50% Deposit for Estimate #50179 - Includes Front and rear clears. Side clear new zips. New Helm cover, Recover 4 cushion"
+      }
+    ]
+  },
+  {
+    "root": "50180",
+    "members": [
+      "50180"
+    ],
+    "customer": "Shaun  Reid",
+    "first_date": "2026-05-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2750.0,
+    "records": [
+      {
+        "job_card_number": "50180",
+        "invoice_number": "50180",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Shaun  Reid",
+        "post_date": "2026-05-23",
+        "description": "Remainder for Macrosuede cushions",
+        "total": 2750.0,
+        "refs": [],
+        "text_sample": "Remainder for Macrosuede cushions <p>Many thanks Shaun!</p> Remainder for Macrosuede cushions"
+      }
+    ]
+  },
+  {
+    "root": "50184",
+    "members": [
+      "50184"
+    ],
+    "customer": "Peter Betts",
+    "first_date": "2026-06-02",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 550.0,
+    "records": [
+      {
+        "job_card_number": "50184",
+        "invoice_number": "50184",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Peter Betts",
+        "post_date": "2026-06-02",
+        "description": "Recover cushion in black vinyl",
+        "total": 550.0,
+        "refs": [],
+        "text_sample": "Recover cushion in black vinyl <p>Recover cushion in black vinal.  As quoted $500 + gst</p> Recover cushion in black vin"
+      }
+    ]
+  },
+  {
+    "root": "50185",
+    "members": [
+      "50185"
+    ],
+    "customer": "Seventh-day Adventist Church NNSW Conference",
+    "first_date": "2026-06-02",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 563.75,
+    "records": [
+      {
+        "job_card_number": "50185",
+        "invoice_number": "50185",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Seventh-day Adventist Church NNSW Conference",
+        "post_date": "2026-06-02",
+        "description": "Speed boat cover repair, x 2 darts, 10x canvas patches, adjustments to make tighter",
+        "total": 563.75,
+        "refs": [],
+        "text_sample": "Speed boat cover repair, x 2 darts, 10x canvas patches, adjustments to make tighter Speed boat cover repair, x 2 darts, "
+      }
+    ]
+  },
+  {
+    "root": "50183",
+    "members": [
+      "50183"
+    ],
+    "customer": "Kiteleys Roofing",
+    "first_date": "2026-06-02",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50183",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Kiteleys Roofing",
+        "post_date": "2026-06-02",
+        "description": null,
+        "total": 4400.0,
+        "refs": [],
+        "text_sample": "<p>3 x Tonneau's for Hilux duel cab N90 Ute's. Clip on ,low profile design. Customised to fit around racks. All fitted, "
+      }
+    ]
+  },
+  {
+    "root": "50186",
+    "members": [
+      "50186"
+    ],
+    "customer": "Christiana Christiana",
+    "first_date": "2026-06-03",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 220.0,
+    "records": [
+      {
+        "job_card_number": "50186",
+        "invoice_number": "50186",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Christiana Christiana",
+        "post_date": "2026-06-03",
+        "description": "Replace rear clear on Jeep",
+        "total": 220.0,
+        "refs": [],
+        "text_sample": "Replace rear clear on Jeep <p>Replace rear clear on Jeep. $200. + gst</p> Replace rear clear on Jeep"
+      }
+    ]
+  },
+  {
+    "root": "50187",
+    "members": [
+      "50187",
+      "50188",
+      "50191"
+    ],
+    "customer": "Richard  Lees",
+    "first_date": "2026-06-04",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 5819.0,
+    "records": [
+      {
+        "job_card_number": "50187",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Richard  Lees",
+        "post_date": "2026-06-04",
+        "description": null,
+        "total": 5819.0,
+        "refs": [],
+        "text_sample": "<p>All over cover for sail boat ketch ,name Freyja. Cover made from weatherMAX . Over booms to lifelines. $5290 + gst</p"
+      },
+      {
+        "job_card_number": "50188",
+        "invoice_number": "50188",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Richard  Lees",
+        "post_date": "2026-06-05",
+        "description": null,
+        "total": 2909.5,
+        "refs": [
+          50187
+        ],
+        "text_sample": "<p>Many thanks for the opportunity!</p> Deposit for - Quote #50187 - WeatherMax \"All Over\" cover, from booms to lifeline"
+      },
+      {
+        "job_card_number": "50191",
+        "invoice_number": "50191",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Richard  Lees",
+        "post_date": "2026-06-16",
+        "description": "50% Remainder - Pattern & Make  - WeatherMax \"All Over\" cover, from booms to lifelines, for \"Freyja\" the sailing ketch.",
+        "total": 2909.5,
+        "refs": [],
+        "text_sample": "50% Remainder - Pattern & Make  - WeatherMax \"All Over\" cover, from booms to lifelines, for \"Freyja\" the sailing ketch. "
+      }
+    ]
+  },
+  {
+    "root": "50189",
+    "members": [
+      "50190",
+      "50189"
+    ],
+    "customer": "Ian McIntyre",
+    "first_date": "2026-06-15",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 2260.5,
+    "records": [
+      {
+        "job_card_number": "50190",
+        "invoice_number": "50190",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ian McIntyre",
+        "post_date": "2026-06-15",
+        "description": null,
+        "total": 2260.5,
+        "refs": [
+          50189
+        ],
+        "text_sample": "50% Deposit for Estimate #50189,  Replace all backing foam and secure all loose/hanging vinyl in forward cabin and cockp"
+      },
+      {
+        "job_card_number": "50189",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Ian McIntyre",
+        "post_date": "2026-06-15",
+        "description": null,
+        "total": 4521.0,
+        "refs": [],
+        "text_sample": "<p>Boat to be kept onsite for 2 weekends starting Friday 19th June</p> Replace all backing foam and secure all loose/han"
+      }
+    ]
+  },
+  {
+    "root": "50192",
+    "members": [
+      "50194",
+      "50192"
+    ],
+    "customer": "Allan Edwards",
+    "first_date": "2026-06-17",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 5170.0,
+    "records": [
+      {
+        "job_card_number": "50194",
+        "invoice_number": "50194",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Allan Edwards",
+        "post_date": "2026-06-17",
+        "description": null,
+        "total": 2585.0,
+        "refs": [
+          50192
+        ],
+        "text_sample": "<p>Many thanks for the opportunity!</p> 50% Deposit for Quote #50192 - Pattern & Fit Extended 3 bow Dodger, made with ch"
+      },
+      {
+        "job_card_number": "50192",
+        "invoice_number": "50192",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Allan Edwards",
+        "post_date": "2026-07-02",
+        "description": "Pattern & Fit Extended 3 bow Dodger, made with charcoal grey sunbrella, clear panels on each side. No zip in front clear",
+        "total": 2585.0,
+        "refs": [],
+        "text_sample": "Pattern & Fit Extended 3 bow Dodger, made with charcoal grey sunbrella, clear panels on each side. No zip in front clear"
+      }
+    ]
+  },
+  {
+    "root": "50193",
+    "members": [
+      "50193"
+    ],
+    "customer": "Phil Tanner",
+    "first_date": "2026-06-23",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2200.0,
+    "records": [
+      {
+        "job_card_number": "50193",
+        "invoice_number": "50193",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Phil Tanner",
+        "post_date": "2026-06-23",
+        "description": "Dodger made from WeatherMax light charcoal, as discussed and quoted onboard.",
+        "total": 2200.0,
+        "refs": [],
+        "text_sample": "Dodger made from WeatherMax light charcoal, as discussed and quoted onboard. <p>Price for Dodger,made with weatherMAX li"
+      }
+    ]
+  },
+  {
+    "root": "50197",
+    "members": [
+      "50197"
+    ],
+    "customer": "Stephen Crofts",
+    "first_date": "2026-06-24",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1146.75,
+    "records": [
+      {
+        "job_card_number": "50197",
+        "invoice_number": "50197",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Stephen Crofts",
+        "post_date": "2026-06-24",
+        "description": "Boat Awning",
+        "total": 1146.75,
+        "refs": [],
+        "text_sample": "Boat Awning Materials Boat Awning"
+      }
+    ]
+  },
+  {
+    "root": "50196",
+    "members": [
+      "50196"
+    ],
+    "customer": "Midcoast Boatyard & Marine",
+    "first_date": "2026-06-24",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 275.0,
+    "records": [
+      {
+        "job_card_number": "50196",
+        "invoice_number": "50196",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Midcoast Boatyard & Marine",
+        "post_date": "2026-06-24",
+        "description": "Repair of boom cover",
+        "total": 275.0,
+        "refs": [],
+        "text_sample": "Repair of boom cover Repair of boom cover"
+      }
+    ]
+  },
+  {
+    "root": "50198",
+    "members": [
+      "50198"
+    ],
+    "customer": "Scott Donalson",
+    "first_date": "2026-06-24",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 715.0,
+    "records": [
+      {
+        "job_card_number": "50198",
+        "invoice_number": "50198",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Scott Donalson",
+        "post_date": "2026-06-24",
+        "description": "Trampoline Repairs - Restitch weatherMAX border",
+        "total": 715.0,
+        "refs": [],
+        "text_sample": "Trampoline Repairs - Restitch weatherMAX border 50 x Stainless Lugs on webbing Trampoline Repairs - Restitch weatherMAX "
+      }
+    ]
+  },
+  {
+    "root": "50199",
+    "members": [
+      "50199"
+    ],
+    "customer": "Mark Bezzina",
+    "first_date": "2026-06-24",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50199",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Mark Bezzina",
+        "post_date": "2026-06-24",
+        "description": null,
+        "total": 12430.0,
+        "refs": [],
+        "text_sample": "<p>Clears to be fixed with track, no press studs visible on front screen rail. Change from black to white panels/edges i"
+      }
+    ]
+  },
+  {
+    "root": "50200",
+    "members": [
+      "50200"
+    ],
+    "customer": "Bill Quirk",
+    "first_date": "2026-06-29",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50200",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Bill Quirk",
+        "post_date": "2026-06-29",
+        "description": null,
+        "total": 3074.5,
+        "refs": [],
+        "text_sample": "<p>Boom bag for North shore 31. Made with sunbrella canvas. $2795 + gst</p> Measure make and fit boom bag for North shor"
+      }
+    ]
+  },
+  {
+    "root": "50202",
+    "members": [
+      "50203",
+      "50202"
+    ],
+    "customer": "Ian Humphris",
+    "first_date": "2026-06-30",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 8368.25,
+    "records": [
+      {
+        "job_card_number": "50203",
+        "invoice_number": "50203",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ian Humphris",
+        "post_date": "2026-06-30",
+        "description": null,
+        "total": 3943.5,
+        "refs": [
+          50202
+        ],
+        "text_sample": "50% Deposit for Quote #50202 - Rib Cover in WeatherMax"
+      },
+      {
+        "job_card_number": "50202",
+        "invoice_number": "50202",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ian Humphris",
+        "post_date": "2026-07-16",
+        "description": "Extras - Cut out for cleats x 4, remove & extend webbing on helm cover for press studs extension (no charge for materials here, thank you for your custom)",
+        "total": 4424.75,
+        "refs": [
+          50203
+        ],
+        "text_sample": "Extras - Cut out for cleats x 4, remove & extend webbing on helm cover for press studs extension (no charge for material"
+      }
+    ]
+  },
+  {
+    "root": "50204",
+    "members": [
+      "50204"
+    ],
+    "customer": "Tobias Kyneur",
+    "first_date": "2026-07-01",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 220.0,
+    "records": [
+      {
+        "job_card_number": "50204",
+        "invoice_number": "50204",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Tobias Kyneur",
+        "post_date": "2026-07-01",
+        "description": "Recover chiro bench",
+        "total": 220.0,
+        "refs": [],
+        "text_sample": "Recover chiro bench <p>Recover chiro bench. $200 + gst</p> Recover chiro bench"
+      }
+    ]
+  },
+  {
+    "root": "50206",
+    "members": [
+      "50206",
+      "50209"
+    ],
+    "customer": "SHS marine",
+    "first_date": "2026-07-02",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 2899.9,
+    "records": [
+      {
+        "job_card_number": "50206",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "SHS marine",
+        "post_date": "2026-07-02",
+        "description": null,
+        "total": 5799.75,
+        "refs": [],
+        "text_sample": "<p>As discussed please add your google review here for your (quoted) discount <b>https://g.page/r/CUsZO4ZxahCREAI/review"
+      },
+      {
+        "job_card_number": "50209",
+        "invoice_number": "50209",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "SHS marine",
+        "post_date": "2026-07-27",
+        "description": null,
+        "total": 2899.9,
+        "refs": [
+          50206
+        ],
+        "text_sample": "50% deposit for Estimate #50206 - Fit existing mesh sides, New side clears, Flybridge Cover modifications"
+      }
+    ]
+  },
+  {
+    "root": "50205",
+    "members": [
+      "50205"
+    ],
+    "customer": "Allan Edwards",
+    "first_date": "2026-07-02",
+    "types": [
+      "Q"
+    ],
+    "invoice_total": 0,
+    "records": [
+      {
+        "job_card_number": "50205",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Allan Edwards",
+        "post_date": "2026-07-02",
+        "description": null,
+        "total": 4994.0,
+        "refs": [],
+        "text_sample": "<p><b>Boom Bag Details</b></p><p>Made from weatherMAX light charcoal. Down to lifelines with shock cord and plastic hook"
+      }
+    ]
+  },
+  {
+    "root": "50207",
+    "members": [
+      "50207"
+    ],
+    "customer": "Ron McMara",
+    "first_date": "2026-07-06",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 334.62,
+    "records": [
+      {
+        "job_card_number": "50207",
+        "invoice_number": "50207",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Ron McMara",
+        "post_date": "2026-07-06",
+        "description": "Bike seat recover",
+        "total": 334.62,
+        "refs": [],
+        "text_sample": "Bike seat recover Bike seat recover"
+      }
+    ]
+  },
+  {
+    "root": "50211",
+    "members": [
+      "50211",
+      "50220"
+    ],
+    "customer": "Ian Humphris",
+    "first_date": "2026-07-28",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 2873.8,
+    "records": [
+      {
+        "job_card_number": "50211",
+        "invoice_number": "50211",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ian Humphris",
+        "post_date": "2026-07-28",
+        "description": null,
+        "total": 1436.9,
+        "refs": [
+          50208
+        ],
+        "text_sample": "50% Deposit for Estimate #50208 - Rib Chaps Cover"
+      },
+      {
+        "job_card_number": "50220",
+        "invoice_number": "50220",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Ian Humphris",
+        "post_date": "2026-08-12",
+        "description": "Chap Style Covers For Rib as Discussed",
+        "total": 1436.9,
+        "refs": [
+          50211
+        ],
+        "text_sample": "Chap Style Covers For Rib as Discussed Chap Style Covers For Rib as Discussed less 50% deposit paid Inv #50211 Cut aroun"
+      }
+    ]
+  },
+  {
+    "root": "50210",
+    "members": [
+      "50212",
+      "50210"
+    ],
+    "customer": "Garry Dore",
+    "first_date": "2026-07-28",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 7200.05,
+    "records": [
+      {
+        "job_card_number": "50212",
+        "invoice_number": "50212",
+        "invoice_type": "I",
+        "invoice_status": "C",
+        "customer": "Garry Dore",
+        "post_date": "2026-07-28",
+        "description": null,
+        "total": 3625.05,
+        "refs": [
+          50210
+        ],
+        "text_sample": "50% Deposit for estimate #50210 - Houseboat clears"
+      },
+      {
+        "job_card_number": "50210",
+        "invoice_number": "50210",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Garry Dore",
+        "post_date": "2026-08-06",
+        "description": "As discussed on-board for clears and replacing stayput fasteners. Zips in clears will be spiral zips",
+        "total": 3575.0,
+        "refs": [],
+        "text_sample": "As discussed on-board for clears and replacing stayput fasteners. Zips in clears will be spiral zips <p>Quote as discuss"
+      }
+    ]
+  },
+  {
+    "root": "50213",
+    "members": [
+      "50214",
+      "50213"
+    ],
+    "customer": "Wendy  Newbury",
+    "first_date": "2026-07-31",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1166.0,
+    "records": [
+      {
+        "job_card_number": "50214",
+        "invoice_number": "50214",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Wendy  Newbury",
+        "post_date": "2026-07-31",
+        "description": null,
+        "total": 583.0,
+        "refs": [
+          50213
+        ],
+        "text_sample": "50% Deposit for Estimate #50213 - V berth cushions recover"
+      },
+      {
+        "job_card_number": "50213",
+        "invoice_number": "50213",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Wendy  Newbury",
+        "post_date": "2026-08-10",
+        "description": "Cover V berth cushions in sunbrella savane nimbus. Reusing the back fabric and zips.",
+        "total": 583.0,
+        "refs": [],
+        "text_sample": "Cover V berth cushions in sunbrella savane nimbus. Reusing the back fabric and zips. <p>Cover V berth cushions in sunbre"
+      }
+    ]
+  },
+  {
+    "root": "50216",
+    "members": [
+      "50216"
+    ],
+    "customer": "SHS marine",
+    "first_date": "2026-08-03",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 3417.15,
+    "records": [
+      {
+        "job_card_number": "50216",
+        "invoice_number": "50216",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "SHS marine",
+        "post_date": "2026-08-03",
+        "description": "Aft cover alterations",
+        "total": 3417.15,
+        "refs": [],
+        "text_sample": "Aft cover alterations Aft cover - batten, zip & rubber seal Aft cover alterations Flybridge Cover modifications as discu"
+      }
+    ]
+  },
+  {
+    "root": "50218",
+    "members": [
+      "50218",
+      "50219"
+    ],
+    "customer": "Steve and Anna Crane",
+    "first_date": "2026-08-03",
+    "types": [
+      "I",
+      "Q"
+    ],
+    "invoice_total": 2035.0,
+    "records": [
+      {
+        "job_card_number": "50218",
+        "invoice_number": null,
+        "invoice_type": "Q",
+        "invoice_status": "O",
+        "customer": "Steve and Anna Crane",
+        "post_date": "2026-08-03",
+        "description": null,
+        "total": 4070.0,
+        "refs": [],
+        "text_sample": "<p>3 bow bimini made from stainless steel. Cover made from canvas. Fitted to boat. Need to confirm Colour of canvas. $37"
+      },
+      {
+        "job_card_number": "50219",
+        "invoice_number": "50219",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Steve and Anna Crane",
+        "post_date": "2026-08-04",
+        "description": null,
+        "total": 2035.0,
+        "refs": [
+          50218
+        ],
+        "text_sample": "50% Deposit for Estimate #50218 - 3 bow bimini made from stainless steel. Cover made from marine canvas and fitting"
+      }
+    ]
+  },
+  {
+    "root": "50215",
+    "members": [
+      "50217",
+      "50215"
+    ],
+    "customer": "Frank Ridolfo",
+    "first_date": "2026-08-04",
+    "types": [
+      "I"
+    ],
+    "invoice_total": 1914.0,
+    "records": [
+      {
+        "job_card_number": "50217",
+        "invoice_number": "50217",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Frank Ridolfo",
+        "post_date": "2026-08-04",
+        "description": null,
+        "total": 957.0,
+        "refs": [
+          50215
+        ],
+        "text_sample": "50% Deposit for Estimate #50215 - new engine cover / cushion. Made from 18mm marine ply. Using 2\" reticulated foam, with"
+      },
+      {
+        "job_card_number": "50215",
+        "invoice_number": "50215",
+        "invoice_type": "I",
+        "invoice_status": "P",
+        "customer": "Frank Ridolfo",
+        "post_date": "2026-08-12",
+        "description": "Make new engine cover / cushion. Made from 18mm marine ply. Using 2\" reticulated foam, with vinyl cover gold and white",
+        "total": 957.0,
+        "refs": [],
+        "text_sample": "Make new engine cover / cushion. Made from 18mm marine ply. Using 2\" reticulated foam, with vinyl cover gold and white <"
+      }
+    ]
+  }
+]

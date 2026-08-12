@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50098",
-  "invoice_number": "50098",
-  "invoice_type": "I",
-  "invoice_status": "C",
+  "job_id": "50098",
+  "job_card_numbers": [
+    "50098"
+  ],
   "customer": "Richard O'hearn",
-  "post_date": "2026-02-06",
+  "customer_display_name": "Richard O'hearn",
+  "primary_date": "2026-02-06",
   "description": "Remainder for JPb 50085, - Custom 2 bow dodger and frame, measure, make and install & Sail/boom bag",
-  "job_card_note": null,
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "Toronto",
@@ -15,16 +14,26 @@
     "postcode": "2283"
   },
   "pricing": {
-    "total": 4626.12,
-    "subtotal": 4147.5,
-    "deposits_total": 0.0,
-    "balance_due": 0.0,
-    "discount": 0.0,
+    "job_total": 4626.12,
+    "total_invoiced": 4626.12,
+    "deposits": 0,
     "gst": 414.75
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50098",
+      "invoice_number": "50098",
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "C",
+      "post_date": "2026-02-06",
+      "total": 4626.12,
+      "description": "Remainder for JPb 50085, - Custom 2 bow dodger and frame, measure, make and install & Sail/boom bag"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50098",
       "description": "Remainder for JPb 50085, - Custom 2 bow dodger and frame, measure, make and install & Sail/boom bag",
       "quantity": 1.0,
       "unit_price": 4147.5,
@@ -33,5 +42,8 @@
       "product_type": "J"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
 }

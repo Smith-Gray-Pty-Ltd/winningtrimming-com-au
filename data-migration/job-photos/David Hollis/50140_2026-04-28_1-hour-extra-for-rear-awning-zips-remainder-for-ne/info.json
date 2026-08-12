@@ -1,0 +1,87 @@
+{
+  "job_id": "50140",
+  "job_card_numbers": [
+    "50144",
+    "50140"
+  ],
+  "customer": "David Hollis",
+  "customer_display_name": "David Hollis",
+  "primary_date": "2026-04-28",
+  "description": "1 hour extra for rear awning zips; Remainder for New canvas top aft of targa with new zip on back for future cover, zip on new solar panel (provided by the customer). New front and side clears.; 3 x Z",
+  "pillar_hint": null,
+  "location": {
+    "suburb": "Fishing Point ",
+    "state": "NSW",
+    "postcode": null
+  },
+  "pricing": {
+    "job_total": 2021.8,
+    "total_invoiced": 3820.3,
+    "deposits": 1798.5,
+    "gst": 183.8
+  },
+  "members": [
+    {
+      "job_card_number": "50144",
+      "invoice_number": "50144",
+      "role": "deposit",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-02-27",
+      "total": 1798.5,
+      "description": null
+    },
+    {
+      "job_card_number": "50140",
+      "invoice_number": "50140",
+      "role": "payment",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2026-04-28",
+      "total": 2021.8,
+      "description": "Remainder for New canvas top aft of targa with new zip on back for future cover, zip on new solar panel (provided by the customer). New front and side clears."
+    }
+  ],
+  "line_items": [
+    {
+      "job_card": "50144",
+      "description": "50% Deposit for Quote 50140 - New canvas top aft of targa with new zip on back for future cover, zip on new solar panel (provided by the customer). New front and side clears.",
+      "quantity": 1.0,
+      "unit_price": 1635.0,
+      "amount": 1798.5,
+      "item_code": "DEPOSIT",
+      "product_type": "S"
+    },
+    {
+      "job_card": "50140",
+      "description": "1 hour extra for rear awning zips",
+      "quantity": 1.0,
+      "unit_price": 125.0,
+      "amount": 137.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50140",
+      "description": "Remainder for New canvas top aft of targa with new zip on back for future cover, zip on new solar panel (provided by the customer). New front and side clears.",
+      "quantity": 1.0,
+      "unit_price": 1635.0,
+      "amount": 1798.5,
+      "item_code": "LAB",
+      "product_type": "J"
+    },
+    {
+      "job_card": "50140",
+      "description": "3 x Zips for rear awning",
+      "quantity": 1.0,
+      "unit_price": 78.0,
+      "amount": 85.8,
+      "item_code": "CON-GEN",
+      "product_type": "W"
+    }
+  ],
+  "notes": {
+    "job_card_note": "<p>New canvas top aft of targa with new zip on back for future cover,zip on new solar panel to be provided by the customer. New front and side clears. Materials $770 + gst. Labour 2.5 days $2500. + gst. </p><p>Total $3270..</p>",
+    "note": null
+  }
+}

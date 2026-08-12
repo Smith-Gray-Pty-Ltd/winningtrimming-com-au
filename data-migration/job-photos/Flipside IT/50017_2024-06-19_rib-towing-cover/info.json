@@ -1,13 +1,12 @@
 {
-  "job_card_number": "50017",
-  "invoice_number": "50017",
-  "invoice_type": "I",
-  "invoice_status": "P",
+  "job_id": "50017",
+  "job_card_numbers": [
+    "50017"
+  ],
   "customer": "Flipside IT",
-  "post_date": "2024-06-19",
+  "customer_display_name": "Flipside IT",
+  "primary_date": "2024-06-19",
   "description": "RIB Towing Cover",
-  "job_card_note": null,
-  "note": null,
   "pillar_hint": null,
   "location": {
     "suburb": "East Gosford",
@@ -15,16 +14,26 @@
     "postcode": "2250"
   },
   "pricing": {
-    "total": 3619.0,
-    "subtotal": 3290.0,
-    "deposits_total": 0.0,
-    "balance_due": 3619.0,
-    "discount": 0.0,
+    "job_total": 3619.0,
+    "total_invoiced": 3619.0,
+    "deposits": 0,
     "gst": 329.0
   },
-  "payment_method": null,
+  "members": [
+    {
+      "job_card_number": "50017",
+      "invoice_number": "50017",
+      "role": "final",
+      "invoice_type": "I",
+      "invoice_status": "P",
+      "post_date": "2024-06-19",
+      "total": 3619.0,
+      "description": "RIB Towing Cover"
+    }
+  ],
   "line_items": [
     {
+      "job_card": "50017",
       "description": "Mates Rates Thank You Discount :-)",
       "quantity": 1.0,
       "unit_price": -1200.0,
@@ -33,6 +42,7 @@
       "product_type": "X"
     },
     {
+      "job_card": "50017",
       "description": "Shop Labour Rate (Hr)",
       "quantity": 14.0,
       "unit_price": 190.0,
@@ -41,6 +51,7 @@
       "product_type": "J"
     },
     {
+      "job_card": "50017",
       "description": "General Consumables - (Template Material, Buckles, Webbing etc)",
       "quantity": 1.0,
       "unit_price": 180.0,
@@ -49,6 +60,7 @@
       "product_type": "W"
     },
     {
+      "job_card": "50017",
       "description": "Sunbrella Waterproof Canvas 155cm",
       "quantity": 15.0,
       "unit_price": 110.0,
@@ -57,5 +69,8 @@
       "product_type": "S"
     }
   ],
-  "deposit_references": null
+  "notes": {
+    "job_card_note": null,
+    "note": null
+  }
 }

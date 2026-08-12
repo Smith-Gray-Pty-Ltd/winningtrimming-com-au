@@ -1,29 +1,32 @@
 # Job Photo Folders
 
+One folder per LOGICAL JOB (deposit + remainder + quote merged into one).
 Drop any images you have for each job into its `photos/` folder.
-The import script uses `info.json` to link photos to the right Payload booking.
 
 ## Structure
 
 ```
 job-photos/
   {customer name}/
-    {job_card_number}_{date}_{description-slug}/
-      info.json     <- job metadata (auto-generated)
-      photos/       <- PUT IMAGES HERE (any format, keep original names)
+    {job_id}_{date}_{description-slug}/
+      info.json     <- merged job metadata (all job card numbers listed)
+      photos/       <- PUT IMAGES HERE
 ```
 
 ## Notes
 
-- 168 job folders created (real jobs + quotes with value)
-- 8 placeholder rows skipped ($$0, no description)
-- Jobs with `invoice_type` Q = quotes (may still have "before" photos worth keeping)
-- Folder names won't change — they're keyed to `job_card_number` (stable ID)
-- If a job has no photos, leave the folder empty or delete it; import will skip it
+- 132 logical job folders (chains from job-chains.json)
+- `info.json` has `job_card_numbers` (all source records) and `members` (roles: quote/deposit/final)
+- Folder name is keyed to the chain root job card number (stable ID)
+- Quotes that never became jobs get their own folder (may have "before" photos)
+
+## Flagged records (needs manual review)
+
+- Bill Anderson: 50077 — 
+- Kale Ward: 50103 — <p>Awning, bimini made with Aquatica white hooding.  Clears made with Regalite sheet clear.  $10.660
 
 ## After adding photos
 
 1. Add images to `photos/`
 2. Tell the assistant which folders are portfolio-worthy
-3. The import script will: upload images to Payload media → create project →
-   link project to booking
+3. Import script: uploads media -> creates booking/project -> links photos
