@@ -123,7 +123,7 @@ export default async function ProjectPage({ params: paramsPromise }: Args) {
                 {...{
                   type: 'custom',
                   label: 'Request a Quote',
-                  url: '/contact',
+                  url: '/quote',
                   appearance: 'default',
                 }}
               />

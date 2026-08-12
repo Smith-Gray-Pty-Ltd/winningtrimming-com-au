@@ -147,7 +147,7 @@ export const RegionTemplate: React.FC<{ data: RegionPageData }> = ({ data }) => 
               {...{
                 type: 'custom',
                 label: 'Request a Quote',
-                url: '/contact',
+                url: '/quote',
                 appearance: 'default',
               }}
             />

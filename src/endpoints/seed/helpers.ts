@@ -51,7 +51,7 @@ export const QUOTE_CTA = {
   type: 'custom' as const,
   appearance: 'default' as const,
   label: 'Request a Quote',
-  url: '/contact',
+  url: '/quote',
 }
 
 export const quoteLink = (label = 'Request a Quote') => ({

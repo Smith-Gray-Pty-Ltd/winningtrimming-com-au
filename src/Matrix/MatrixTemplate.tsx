@@ -367,7 +367,7 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = ({ data }) => {
               {...{
                 type: 'custom',
                 label: 'Request a Quote',
-                url: '/contact',
+                url: '/quote',
                 appearance: 'default',
               }}
             />

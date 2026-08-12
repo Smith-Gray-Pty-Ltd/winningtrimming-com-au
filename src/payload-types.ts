@@ -24,6 +24,7 @@ export interface Config {
     categories: Category;
     users: User;
     customers: Customer;
+    quotes: Quote;
     bookings: Booking;
     invoices: Invoice;
     events: Event;
@@ -49,6 +50,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     customers: CustomersSelect<false> | CustomersSelect<true>;
+    quotes: QuotesSelect<false> | QuotesSelect<true>;
     bookings: BookingsSelect<false> | BookingsSelect<true>;
     invoices: InvoicesSelect<false> | InvoicesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
@@ -930,6 +932,41 @@ export interface Customer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quotes".
+ */
+export interface Quote {
+  id: number;
+  title: string;
+  customer: number | Customer;
+  pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  subject: string;
+  subjectType?: (number | null) | AssetType;
+  subjectDetails?: string | null;
+  subjectPhotos?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  serviceTypes?: (number | ServiceType)[] | null;
+  description: string;
+  location?: string | null;
+  preferredDates?: string | null;
+  quotedAmount?: number | null;
+  depositAmount?: number | null;
+  quoteNotes?: string | null;
+  status: 'requested' | 'reviewing' | 'quoted' | 'accepted' | 'declined' | 'expired';
+  booking?: (number | null) | Booking;
+  nextAction?:
+    | ('send_quote' | 'send_quote_reminder' | 'check_quote_accepted' | 'expire_quote' | 'convert_to_booking')
+    | null;
+  nextActionDue?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "bookings".
  */
 export interface Booking {
@@ -1009,6 +1046,7 @@ export interface Booking {
   nextActionDue?: string | null;
   lastAgentRun?: string | null;
   agentError?: string | null;
+  quote?: (number | null) | Quote;
   project?: (number | null) | Project;
   updatedAt: string;
   createdAt: string;
@@ -1199,6 +1237,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'customers';
         value: number | Customer;
+      } | null)
+    | ({
+        relationTo: 'quotes';
+        value: number | Quote;
       } | null)
     | ({
         relationTo: 'bookings';
@@ -1771,6 +1813,38 @@ export interface CustomersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "quotes_select".
+ */
+export interface QuotesSelect<T extends boolean = true> {
+  title?: T;
+  customer?: T;
+  pillar?: T;
+  subject?: T;
+  subjectType?: T;
+  subjectDetails?: T;
+  subjectPhotos?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  serviceTypes?: T;
+  description?: T;
+  location?: T;
+  preferredDates?: T;
+  quotedAmount?: T;
+  depositAmount?: T;
+  quoteNotes?: T;
+  status?: T;
+  booking?: T;
+  nextAction?: T;
+  nextActionDue?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "bookings_select".
  */
 export interface BookingsSelect<T extends boolean = true> {
@@ -1807,6 +1881,7 @@ export interface BookingsSelect<T extends boolean = true> {
   nextActionDue?: T;
   lastAgentRun?: T;
   agentError?: T;
+  quote?: T;
   project?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -76,7 +76,7 @@ export default async function OurWorkPage() {
             {...{
               type: 'custom',
               label: 'Request a Quote',
-              url: '/contact',
+              url: '/quote',
               appearance: 'default',
             }}
           />

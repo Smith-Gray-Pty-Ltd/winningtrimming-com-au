@@ -16,6 +16,7 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
+import { Quotes } from './collections/Quotes'
 import { Regions } from './collections/Regions'
 import { ServiceTypes } from './collections/ServiceTypes'
 import { Suburbs } from './collections/Suburbs'
@@ -91,6 +92,7 @@ export default buildConfig({
     Categories,
     Users,
     Customers,
+    Quotes,
     Bookings,
     Invoices,
     Events,

@@ -257,7 +257,7 @@ export const seed = async ({
         { link: { ...ref('our-work'), label: 'Our Work' } },
         { link: { ...ref('about'), label: 'About' } },
         { link: { ...ref('contact'), label: 'Contact' } },
-        { link: { type: 'custom', label: 'Request a Quote', url: '/contact' } },
+        { link: { type: 'custom', label: 'Request a Quote', url: '/quote' } },
         { link: { type: 'custom', label: 'Call 1300 799 882', url: 'tel:1300799882' } },
       ],
     },

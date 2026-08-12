@@ -322,6 +322,15 @@ export const Bookings: CollectionConfig = {
 
     // ── Links ──
     {
+      name: 'quote',
+      type: 'relationship',
+      relationTo: 'quotes',
+      admin: {
+        position: 'sidebar',
+        description: 'The originating quote (if this booking was converted from one).',
+      },
+    },
+    {
       name: 'project',
       type: 'relationship',
       relationTo: 'projects',

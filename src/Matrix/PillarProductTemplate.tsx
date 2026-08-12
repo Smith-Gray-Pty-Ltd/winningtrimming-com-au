@@ -172,7 +172,7 @@ export const PillarProductTemplate: React.FC<{ data: PillarProductData }> = ({ d
               {...{
                 type: 'custom',
                 label: 'Request a Quote',
-                url: '/contact',
+                url: '/quote',
                 appearance: 'default',
               }}
             />

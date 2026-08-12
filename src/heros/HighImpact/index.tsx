@@ -73,7 +73,7 @@ export const HighImpactHero: React.FC<HighImpactHeroProps> = ({
                     {...{
                       type: 'custom',
                       label: 'Request a Quote',
-                      url: '/contact',
+                      url: '/quote',
                       appearance: 'default',
                     }}
                   />
