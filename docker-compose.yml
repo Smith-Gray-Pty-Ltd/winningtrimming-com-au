@@ -56,6 +56,9 @@ services:
       # Keep container-installed node_modules + Next cache isolated from host.
       - /app/node_modules
       - /app/.next
+      # Exclude data-migration from the bind mount sync — it contains hundreds
+      # of job photos that crush OrbStack's file sync (caused load avg ~490).
+      - /app/data-migration
       # Persist locally-stored uploads (when S3 is not configured).
       - storage:/app/storage
 

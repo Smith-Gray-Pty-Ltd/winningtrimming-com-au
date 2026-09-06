@@ -1,0 +1,48 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/system
+$type: system
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Winning Trimming — marine, automotive & general trimming business website and
+  booking pipeline. Payload CMS + Next.js, serving the Lake Macquarie, Newcastle,
+  Central Coast and Hunter Valley regions.
+identity:
+  name: Winning Trimming
+  domain: winningtrimming.com.au
+services:
+  - id: template-website/winning-trimming-com-au
+    name: Web App
+    ref: apps/winning-trimming-com-au/service.usm
+    port: 3000
+roles:
+  - name: Staff
+    description: Admin panel users (Users collection) — manage quotes, bookings, invoices, content
+  - name: Customer
+    description: Self-registered customers — submit quotes, view bookings/invoices
+  - name: Public
+    description: Anonymous visitors — browse site, submit quote requests, view reviews
+apis: []
+data:
+  - id: postgres
+    name: PostgreSQL
+    ref: ''
+infrastructure:
+  cloud: hostinger
+  region: au
+  dns: winningtrimming.com.au
+deployment:
+  environments:
+    - name: dev
+      url: http://localhost:3010
+      type: local
+    - name: prod
+      url: https://winningtrimming.com.au
+      type: vps
+operations:
+  monitoring: ''
+  alerts: ''
+  on_call: ''
+policies:
+  refs: []
+index: []

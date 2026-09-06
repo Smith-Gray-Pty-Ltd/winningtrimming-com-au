@@ -64,6 +64,22 @@ export const AssetTypes: CollectionConfig = {
       },
     },
     {
+      name: 'seoContent',
+      type: 'textarea',
+      admin: {
+        description:
+          'SEO/GEO body copy shown below the breadcrumbs on the vessel-type landing page. Aim for 150–300 words covering what you do, who you serve, and the local area. This is the primary indexable content for the page.',
+      },
+      validate: (val: string | null | undefined) => {
+        if (!val) return true // optional — only validated when filled
+        const words = val.trim().split(/\s+/).filter(Boolean).length
+        if (words < 100) {
+          return `SEO content should be at least 100 words (currently ${words}). Add more detail about the service, materials, and areas served.`
+        }
+        return true
+      },
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',

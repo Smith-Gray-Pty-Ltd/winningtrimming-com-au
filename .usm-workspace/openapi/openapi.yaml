@@ -1,0 +1,12 @@
+openapi: 3.1.0
+info:
+  title: Smith & Gray AI Platform API
+  version: 1.0.0
+  description: Auto-generated from .usm/features/*.usm routes and contracts — no API routes found yet
+servers: []
+security: []
+paths: {}
+components:
+  securitySchemes: {}
+  schemas: {}
+tags: []

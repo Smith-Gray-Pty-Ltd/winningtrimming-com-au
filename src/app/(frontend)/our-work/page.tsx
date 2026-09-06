@@ -59,6 +59,16 @@ export default async function OurWorkPage() {
       <PageClient />
       {hero && <RenderHero {...hero} />}
 
+      {page?.seoContent && (
+        <div className="container mt-8">
+          <div className="prose dark:prose-invert max-w-3xl text-foreground/80 leading-relaxed">
+            {page.seoContent.split('\n').map((para, i) =>
+              para.trim() ? <p key={i}>{para}</p> : null,
+            )}
+          </div>
+        </div>
+      )}
+
       {page?.layout && <RenderBlocks blocks={page.layout} />}
 
       <div className="container mt-8">

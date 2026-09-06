@@ -4,7 +4,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 
-import type { AssetType, Media, ServiceType } from '@/payload-types'
+import type { AssetType, Media, Project, ServiceType } from '@/payload-types'
 
 type ServiceCardProps = {
   title: string
@@ -48,12 +48,33 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, blurb, href, onTeal, h
 }
 
 /**
+ * Returns true if the media looks like a generated placeholder rather than
+ * a real project photo. Two patterns are in use:
+ *   - Service types: `service-{slug}-hero-N.jpg`
+ *   - Asset types:    `{slug}-hero-N.jpg`
+ * Both share the alt text "Curving abstract shapes with an orange and blue
+ * gradient". Real project photos keep their original filenames (IMG_…, dates).
+ */
+const isPlaceholderImage = (media: Media | null): boolean => {
+  if (!media) return true
+  const filename = media.filename || ''
+  const alt = media.alt || ''
+  if (alt.startsWith('Curving abstract shapes')) return true
+  return filename.startsWith('service-') || /-hero-\d+\./.test(filename)
+}
+
+/**
  * Renders two grids of service-type cards on pillar pages:
  *
  * 1. "Custom & New Work" (teal band) — service types with workType = custom
  * 2. "Repairs & Restorations" (white band) — service types with workType = repair
  *
- * Each card links into the SEO matrix. Returns null if no service types exist.
+ * Each card links into the SEO matrix. When a service type's hero image is a
+ * placeholder, the card falls back to the featured image of the most recent
+ * published project tagged with that service type — so real work photos show
+ * up on the pillar landing pages automatically as projects are added.
+ *
+ * Returns null if no service types exist.
  */
 export const ServiceTypeGrid: React.FC<{
   pillar: string
@@ -62,7 +83,7 @@ export const ServiceTypeGrid: React.FC<{
 }> = async ({ pillar, customIntro, repairsIntro }) => {
   const payload = await getPayload({ config: configPromise })
 
-  const [typesRes, assetsRes] = await Promise.all([
+  const [typesRes, assetsRes, projectsRes] = await Promise.all([
     payload.find({
       collection: 'service-types',
       where: { pillar: { equals: pillar } },
@@ -79,12 +100,22 @@ export const ServiceTypeGrid: React.FC<{
       overrideAccess: false,
       sort: 'title',
     }),
+    payload.find({
+      collection: 'projects',
+      where: { pillar: { equals: pillar } },
+      depth: 2,
+      limit: 200,
+      overrideAccess: false,
+      draft: false,
+      sort: '-completedAt',
+    }),
   ])
 
   const allTypes = typesRes.docs as ServiceType[]
   if (allTypes.length === 0) return null
 
   const assets = assetsRes.docs as AssetType[]
+  const projects = projectsRes.docs as Project[]
 
   const vesselForProduct = (productSlug: string): AssetType | undefined =>
     assets.find((a) =>
@@ -96,10 +127,35 @@ export const ServiceTypeGrid: React.FC<{
   const customTypes = allTypes.filter((t) => !t.workType || t.workType === 'custom')
   const repairTypes = allTypes.filter((t) => t.workType === 'repair')
 
-  const heroOf = (st: ServiceType): Media | null =>
-    typeof st.heroImage === 'object' && st.heroImage !== null
-      ? (st.heroImage as Media)
-      : null
+  /**
+   * Resolve the best image for a service-type card. Falls back to the
+   * featuredImage of the most recent published project tagged with the
+   * given service type when the service type's own hero image is missing
+   * or a generated placeholder.
+   */
+  const heroOf = (st: ServiceType): Media | null => {
+    const ownHero =
+      typeof st.heroImage === 'object' && st.heroImage !== null
+        ? (st.heroImage as Media)
+        : null
+
+    if (!isPlaceholderImage(ownHero)) return ownHero
+
+    // Fall back to a matching project's featured image.
+    const matchingProject = projects.find((p) =>
+      (p.serviceTypes ?? []).some(
+        (s) => typeof s === 'object' && s !== null && s.id === st.id,
+      ),
+    )
+    if (!matchingProject) return ownHero // keep the placeholder if no project matches
+
+    const projectImage =
+      typeof matchingProject.featuredImage === 'object' &&
+      matchingProject.featuredImage !== null
+        ? (matchingProject.featuredImage as Media)
+        : null
+    return projectImage || ownHero
+  }
 
   return (
     <>

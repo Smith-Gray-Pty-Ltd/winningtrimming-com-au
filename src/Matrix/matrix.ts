@@ -55,12 +55,55 @@ export const singularOf = (asset: AssetType): string =>
     : asset.title)
 
 /**
+ * Map a service-type title to a broad work category for H1 generation.
+ * Products are grouped so the H1 stays concise (e.g. "Covers & Canvas"
+ * rather than listing every individual product).
+ */
+const productCategory = (title: string): string => {
+  const t = title.toLowerCase()
+  if (t.includes('cover')) return 'Covers'
+  if (t.includes('enclosure') || t.includes('clear')) return 'Enclosures'
+  if (t.includes('bimini') || t.includes('dodger') || t.includes('awning')) return 'Canvas'
+  if (t.includes('sail')) return 'Sail Covers'
+  if (t.includes('seat') || t.includes('sun bed')) return 'Seats'
+  if (t.includes('cushion') || t.includes('mattress')) return 'Cushions'
+  if (t.includes('panel') || t.includes('carpet') || t.includes('hull') || t.includes('lining') || t.includes('interior')) return 'Interior'
+  if (t.includes('upholstery') || t.includes('trim')) return 'Upholstery'
+  return ''
+}
+
+/**
+ * Derive a concise work-category suffix from the asset type's applicable
+ * products. e.g. if only weather/towing covers apply → "Covers"; if
+ * covers + biminis + seats → "Covers, Canvas & Seats". Caps at 3 categories
+ * to keep the H1 readable; falls back to "Trimming & Covers" when there's
+ * a broad mix.
+ */
+const workSuffix = (applicableProducts: { title: string }[]): string => {
+  const categories = new Set<string>()
+  for (const p of applicableProducts) {
+    const cat = productCategory(p.title)
+    if (cat) categories.add(cat)
+  }
+  const list = [...categories]
+  if (list.length === 0) return 'Trimming, Upholstery & Covers'
+  if (list.length === 1) return list[0]
+  if (list.length === 2) return `${list[0]} & ${list[1]}`
+  if (list.length === 3) return `${list[0]}, ${list[1]} & ${list[2]}`
+  // 4+ categories — too long for an H1, use a sensible umbrella
+  return 'Trimming & Covers'
+}
+
+/**
  * Human-readable H1 for the current matrix depth.
  */
 export const matrixH1 = (data: MatrixData): string => {
   const vessel = singularOf(data.assetType)
   if (data.depth === 1) {
-    return `${vessel} Trimming, Upholstery & Covers`
+    const products = (data.assetType.applicableProducts ?? [])
+      .filter((p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null)
+      .map((p) => ({ title: p.title }))
+    return `${vessel} ${workSuffix(products)}`
   }
   if (data.depth === 2 && data.productType) {
     return `${vessel} ${data.productType.title}`
@@ -79,7 +122,10 @@ export const matrixDescription = (data: MatrixData): string => {
   if (data.productType) {
     parts.push(`${vessel} ${data.productType.title.toLowerCase()}`)
   } else {
-    parts.push(`${vessel} trimming, upholstery and covers`)
+    const products = (data.assetType.applicableProducts ?? [])
+      .filter((p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null)
+      .map((p) => ({ title: p.title }))
+    parts.push(`${vessel} ${workSuffix(products).toLowerCase()}`)
   }
   if (data.suburb && data.region) {
     parts.push(`in ${data.suburb.title}, ${data.region.title}`)

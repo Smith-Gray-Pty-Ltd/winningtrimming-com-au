@@ -28,6 +28,7 @@ export interface Config {
     bookings: Booking;
     invoices: Invoice;
     events: Event;
+    reviews: Review;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -54,6 +55,7 @@ export interface Config {
     bookings: BookingsSelect<false> | BookingsSelect<true>;
     invoices: InvoicesSelect<false> | InvoicesSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -164,6 +166,7 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
+  seoContent?: string | null;
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
   meta?: {
     title?: string | null;
@@ -725,6 +728,7 @@ export interface ServiceType {
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
   workType?: ('custom' | 'repair') | null;
   intro?: string | null;
+  seoContent?: string | null;
   heroImage?: (number | null) | Media;
   content?: {
     body?: {
@@ -769,6 +773,7 @@ export interface AssetType {
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
   singular?: string | null;
   intro?: string | null;
+  seoContent?: string | null;
   heroImage?: (number | null) | Media;
   content?: {
     body?: {
@@ -936,8 +941,11 @@ export interface Customer {
  */
 export interface Quote {
   id: number;
-  title: string;
-  customer: number | Customer;
+  title?: string | null;
+  contactName?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  customer?: (number | null) | Customer;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
   subject: string;
   subjectType?: (number | null) | AssetType;
@@ -962,6 +970,7 @@ export interface Quote {
     | ('send_quote' | 'send_quote_reminder' | 'check_quote_accepted' | 'expire_quote' | 'convert_to_booking')
     | null;
   nextActionDue?: string | null;
+  website?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1117,6 +1126,25 @@ export interface Event {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  authorName: string;
+  authorPhoto?: (number | null) | Media;
+  rating: number;
+  text: string;
+  reviewDate?: string | null;
+  source?: ('google' | 'manual' | 'facebook') | null;
+  googleReviewId?: string | null;
+  googlePlaceUrl?: string | null;
+  featured?: boolean | null;
+  hidden?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1255,6 +1283,10 @@ export interface PayloadLockedDocument {
         value: number | Event;
       } | null)
     | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1350,6 +1382,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         media?: T;
       };
+  seoContent?: T;
   layout?:
     | T
     | {
@@ -1532,6 +1565,7 @@ export interface ServiceTypesSelect<T extends boolean = true> {
   pillar?: T;
   workType?: T;
   intro?: T;
+  seoContent?: T;
   heroImage?: T;
   content?:
     | T
@@ -1567,6 +1601,7 @@ export interface AssetTypesSelect<T extends boolean = true> {
   pillar?: T;
   singular?: T;
   intro?: T;
+  seoContent?: T;
   heroImage?: T;
   content?:
     | T
@@ -1817,6 +1852,9 @@ export interface CustomersSelect<T extends boolean = true> {
  */
 export interface QuotesSelect<T extends boolean = true> {
   title?: T;
+  contactName?: T;
+  contactEmail?: T;
+  contactPhone?: T;
   customer?: T;
   pillar?: T;
   subject?: T;
@@ -1840,6 +1878,7 @@ export interface QuotesSelect<T extends boolean = true> {
   booking?: T;
   nextAction?: T;
   nextActionDue?: T;
+  website?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1918,6 +1957,24 @@ export interface EventsSelect<T extends boolean = true> {
   actorId?: T;
   description?: T;
   metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  authorName?: T;
+  authorPhoto?: T;
+  rating?: T;
+  text?: T;
+  reviewDate?: T;
+  source?: T;
+  googleReviewId?: T;
+  googlePlaceUrl?: T;
+  featured?: T;
+  hidden?: T;
   updatedAt?: T;
   createdAt?: T;
 }

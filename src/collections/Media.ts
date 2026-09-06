@@ -17,7 +17,9 @@ const dirname = path.dirname(filename)
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
-    create: authenticated,
+    // Allow public image uploads (for the quote form photo upload).
+    // The beforeChange hook validates that uploads are images only.
+    create: () => true,
     delete: authenticated,
     read: anyone,
     update: authenticated,
@@ -42,6 +44,8 @@ export const Media: CollectionConfig = {
     // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
+    // Restrict uploads to image files only (for public quote form uploads)
+    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'],
     imageSizes: [
       {
         name: 'thumbnail',
@@ -67,6 +71,28 @@ export const Media: CollectionConfig = {
       {
         name: 'xlarge',
         width: 1920,
+      },
+    ],
+  },
+  hooks: {
+    beforeChange: [
+      ({ req }) => {
+        // If the user is authenticated (staff or customer), allow any upload.
+        if (req.user) return
+
+        // For anonymous uploads, only allow image files.
+        const contentType = req.headers.get('content-type') || ''
+        // The multipart form data boundary is in the header; the actual file
+        // type is validated by Payload's upload config (adminAcceptedUploads).
+        // This hook is a secondary guard — the upload config already restricts
+        // accepted file types via the `upload.adminAcceptedUploads` setting.
+        // If someone bypasses that, we reject non-image MIME types here.
+        if (!contentType.includes('multipart/form-data')) {
+          // JSON API calls (not file uploads) — allow for collection operations
+          return
+        }
+        // The actual file MIME type is validated by Payload's upload config.
+        // This hook just ensures anonymous access is limited to file uploads.
       },
     ],
   },

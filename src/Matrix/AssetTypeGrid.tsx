@@ -4,8 +4,23 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 
-import type { AssetType, Media, ServiceType } from '@/payload-types'
+import type { AssetType, Media, Project, ServiceType } from '@/payload-types'
 import { pillarLabel, pillarNoun } from '@/fields/pillars'
+
+/**
+ * Returns true if the media looks like a generated placeholder rather than
+ * a real project photo. Both `service-{slug}-hero-N.jpg` (service types) and
+ * `{slug}-hero-N.jpg` (asset types) are placeholders; real project photos
+ * keep their original filenames (IMG_…, dates). The shared alt text
+ * "Curving abstract shapes" is also a giveaway.
+ */
+const isPlaceholderImage = (media: Media | null): boolean => {
+  if (!media) return true
+  const filename = media.filename || ''
+  const alt = media.alt || ''
+  if (alt.startsWith('Curving abstract shapes')) return true
+  return filename.startsWith('service-') || /-hero-\d+\./.test(filename)
+}
 
 /**
  * Server component rendered on pillar landing pages (e.g. /marine). Queries
@@ -16,17 +31,30 @@ import { pillarLabel, pillarNoun } from '@/fields/pillars'
 export const AssetTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) => {
   const payload = await getPayload({ config: configPromise })
 
-  const res = await payload.find({
-    collection: 'asset-types',
-    where: { pillar: { equals: pillar } },
-    depth: 1,
-    limit: 100,
-    overrideAccess: false,
-    sort: 'title',
-  })
+  const [res, projectsRes] = await Promise.all([
+    payload.find({
+      collection: 'asset-types',
+      where: { pillar: { equals: pillar } },
+      depth: 1,
+      limit: 100,
+      overrideAccess: false,
+      sort: 'title',
+    }),
+    payload.find({
+      collection: 'projects',
+      where: { pillar: { equals: pillar } },
+      depth: 2,
+      limit: 200,
+      overrideAccess: false,
+      draft: false,
+      sort: '-completedAt',
+    }),
+  ])
 
   const assets = res.docs as AssetType[]
   if (assets.length === 0) return null
+
+  const projects = projectsRes.docs as Project[]
 
   const label = pillarLabel(pillar)
 
@@ -43,13 +71,33 @@ export const AssetTypeGrid: React.FC<{ pillar: string }> = async ({ pillar }) =>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {assets.map((asset) => {
+        {assets.map((asset, i) => {
           const productCount = (asset.applicableProducts ?? []).filter(
             (p): p is ServiceType => typeof p === 'object' && p !== null,
           ).length
-          const hero = typeof asset.heroImage === 'object' && asset.heroImage !== null
-            ? (asset.heroImage as Media)
+          const ownHero =
+            typeof asset.heroImage === 'object' && asset.heroImage !== null
+              ? (asset.heroImage as Media)
+              : null
+
+          // Fall back to a project's featured image when the asset type has
+          // only a placeholder. Asset types don't have a direct project
+          // relationship, so we cycle through the most recent published
+          // projects in the pillar — giving each card a different image
+          // rather than repeating the same one.
+          const fallbackProject = projects.length > 0
+            ? projects[i % projects.length]
             : null
+          const fallbackImage =
+            fallbackProject &&
+            typeof fallbackProject.featuredImage === 'object' &&
+            fallbackProject.featuredImage !== null
+              ? (fallbackProject.featuredImage as Media)
+              : null
+          const hero =
+            !isPlaceholderImage(ownHero)
+              ? ownHero
+              : fallbackImage || ownHero
 
           return (
             <Link

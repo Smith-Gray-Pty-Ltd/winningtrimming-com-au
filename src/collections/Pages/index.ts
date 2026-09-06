@@ -74,6 +74,22 @@ export const Pages: CollectionConfig = {
         {
           fields: [
             {
+              name: 'seoContent',
+              type: 'textarea',
+              admin: {
+                description:
+                  'SEO/GEO body copy shown below the breadcrumbs on the page. Aim for 100–300 words covering what you do, who you serve, and the local area.',
+              },
+              validate: (val: string | null | undefined) => {
+                if (!val) return true
+                const words = val.trim().split(/\s+/).filter(Boolean).length
+                if (words < 100) {
+                  return `SEO content should be at least 100 words (currently ${words}). Add more detail about the service, materials, and areas served.`
+                }
+                return true
+              },
+            },
+            {
               name: 'layout',
               type: 'blocks',
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],

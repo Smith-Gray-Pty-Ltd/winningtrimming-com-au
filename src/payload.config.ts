@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -18,6 +19,7 @@ import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
 import { Quotes } from './collections/Quotes'
 import { Regions } from './collections/Regions'
+import { Reviews } from './collections/Reviews'
 import { ServiceTypes } from './collections/ServiceTypes'
 import { Suburbs } from './collections/Suburbs'
 import { Users } from './collections/Users'
@@ -96,7 +98,25 @@ export default buildConfig({
     Bookings,
     Invoices,
     Events,
+    Reviews,
   ],
+  // Email — Google Workspace SMTP (service@winningtrimming.com.au)
+  // Requires SMTP_HOST, SMTP_USER, SMTP_PASSWORD env vars.
+  // When not configured, email sending is silently skipped.
+  email: process.env.SMTP_HOST
+    ? nodemailerAdapter({
+        defaultFromAddress: process.env.SMTP_FROM || process.env.SMTP_USER || 'service@winningtrimming.com.au',
+        transportOptions: {
+          host: process.env.SMTP_HOST,
+          port: parseInt(process.env.SMTP_PORT || '465'),
+          secure: parseInt(process.env.SMTP_PORT || '465') === 465,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD,
+          },
+        },
+      })
+    : undefined,
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [...plugins],

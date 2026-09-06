@@ -1,6 +1,44 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../access/authenticated'
+import { notifyStaffOfQuote, notifyCustomerOfQuote } from '../utilities/email'
+
+/**
+ * Simple in-memory rate limiter for quote submissions.
+ * Limits to maxSubmissions per IP per windowMs. Resets after the window.
+ * This is a basic guardrail — for production you may want Redis or a
+ * middleware-based approach, but this catches casual abuse.
+ */
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour
+const RATE_LIMIT_MAX = 3 // 3 quotes per hour per IP
+const rateLimitMap = new Map<string, { count: number; firstAt: number }>()
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+
+  if (!entry || now - entry.firstAt > RATE_LIMIT_WINDOW) {
+    rateLimitMap.set(ip, { count: 1, firstAt: now })
+    return true
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return false
+  }
+
+  entry.count++
+  return true
+}
+
+// Clean up old entries every 10 minutes to prevent memory growth
+setInterval(() => {
+  const now = Date.now()
+  for (const [ip, entry] of rateLimitMap.entries()) {
+    if (now - entry.firstAt > RATE_LIMIT_WINDOW) {
+      rateLimitMap.delete(ip)
+    }
+  }
+}, 10 * 60 * 1000)
 
 /**
  * Quote status flow:
@@ -43,16 +81,47 @@ export const Quotes: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      admin: {
+        description: 'Short label, auto-generated from contact name + subject if left blank.',
+      },
+    },
+    // ── Contact details (for anonymous submissions) ──
+    // When a customer is logged in these are auto-filled by the form;
+    // when submitting anonymously the customer fills them in directly.
+    {
+      name: 'contactName',
+      type: 'text',
       required: true,
       admin: {
-        description: 'Short label, e.g. "Smith — Bimini refit".',
+        description: 'Customer name.',
+        condition: (data) => !data?.customer,
+      },
+    },
+    {
+      name: 'contactEmail',
+      type: 'email',
+      required: true,
+      admin: {
+        description: 'Customer email.',
+        condition: (data) => !data?.customer,
+      },
+    },
+    {
+      name: 'contactPhone',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'Customer phone.',
+        condition: (data) => !data?.customer,
       },
     },
     {
       name: 'customer',
       type: 'relationship',
       relationTo: 'customers',
-      required: true,
+      admin: {
+        description: 'Linked customer account (if they were logged in when submitting).',
+      },
     },
     {
       name: 'pillar',
@@ -95,6 +164,7 @@ export const Quotes: CollectionConfig = {
     {
       name: 'subjectPhotos',
       type: 'array',
+      maxRows: 10,
       fields: [
         {
           name: 'image',
@@ -109,7 +179,7 @@ export const Quotes: CollectionConfig = {
       ],
       admin: {
         initCollapsed: true,
-        description: 'Photos of the subject / job site.',
+        description: 'Photos of the subject / job site. Maximum 10 photos.',
       },
     },
 
@@ -227,6 +297,97 @@ export const Quotes: CollectionConfig = {
         description: 'When the next action should run.',
       },
     },
+
+    // ── Honeypot (anti-spam) ──
+    // A hidden field on the frontend that bots fill in but humans don't.
+    // The beforeChange hook silently rejects submissions where this is filled.
+    {
+      name: 'website',
+      type: 'text',
+      admin: {
+        hidden: true,
+      },
+    },
   ],
+  hooks: {
+    beforeChange: [
+      async ({ data, req }) => {
+        // Honeypot check — if the hidden "website" field is filled, it's a bot.
+        // Silently reject by throwing an error that looks like success to the bot.
+        if (data?.website) {
+          throw new Error('Quote submitted successfully.')
+        }
+
+        // Rate limiting — check IP address
+        const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+          || req.headers.get('x-real-ip')
+          || 'unknown'
+
+        if (ip !== 'unknown' && !checkRateLimit(ip)) {
+          throw new Error('Too many quote requests. Please try again later.')
+        }
+
+        // Auto-create or link a customer from contact details (for anonymous
+        // submissions). If the submitter is already logged in as a customer,
+        // the customer field is already set by the form.
+        if (!data?.customer && data?.contactEmail) {
+          try {
+            const email = data.contactEmail.toLowerCase().trim()
+
+            // Find existing customer by email (overrideAccess bypasses read rules)
+            const existing = await req.payload.find({
+              collection: 'customers',
+              where: { email: { equals: email } },
+              limit: 1,
+              overrideAccess: true,
+              depth: 0,
+            })
+
+            if (existing.docs && existing.docs.length > 0) {
+              data.customer = (existing.docs[0] as any).id
+            } else {
+              // Create a new customer from the contact details
+              // Note: password is auto-generated — the customer can reset it later
+              const newCustomer = await req.payload.create({
+                collection: 'customers',
+                data: {
+                  name: data.contactName,
+                  email,
+                  phone: data.contactPhone || undefined,
+                  // Generate a random password so the account is secure
+                  // The customer can use "forgot password" to set their own
+                  password: Math.random().toString(36).slice(2) + Date.now().toString(36),
+                },
+                overrideAccess: true,
+              })
+              data.customer = (newCustomer as any).id
+            }
+          } catch (e: any) {
+            // If customer creation fails, don't block the quote — it will
+            // still have the contact details fields for staff to follow up.
+            req.payload.logger?.error?.('[quotes] Failed to auto-create customer: ' + (e?.message || String(e)))
+          }
+        }
+
+        return data
+      },
+    ],
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        // Only send emails on new quote creation (not updates)
+        if (operation !== 'create') return
+
+        const quote = doc as any
+
+        // Notify staff + customer in parallel (don't block the response)
+        Promise.all([
+          notifyStaffOfQuote(req.payload, quote),
+          notifyCustomerOfQuote(req.payload, quote),
+        ]).catch(() => {
+          // Errors are already logged inside the functions
+        })
+      },
+    ],
+  },
   timestamps: true,
 }
