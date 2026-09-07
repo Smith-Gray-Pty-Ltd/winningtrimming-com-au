@@ -77,7 +77,6 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URI,
     },
-    pushSchema: false,
     prodMigrations: migrations,
   }),
   // database-adapter-config-end
@@ -106,6 +105,7 @@ export default buildConfig({
   email: process.env.SMTP_HOST
     ? nodemailerAdapter({
         defaultFromAddress: process.env.SMTP_FROM || process.env.SMTP_USER || 'service@winningtrimming.com.au',
+        defaultFromName: 'Winning Trimming',
         transportOptions: {
           host: process.env.SMTP_HOST,
           port: parseInt(process.env.SMTP_PORT || '465'),

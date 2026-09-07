@@ -1,0 +1,125 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Winning Trimming Quote API",
+    "version": "1.0.0",
+    "description": "Public API for submitting quote requests to Winning Trimming. No authentication required."
+  },
+  "servers": [
+    { "url": "https://winningtrimming.com.au" }
+  ],
+  "paths": {
+    "/api/quotes": {
+      "post": {
+        "summary": "Submit a quote request",
+        "description": "Creates a new quote with status 'requested'. Staff will review and respond via email. The customer receives a confirmation email. An account is auto-created from the contact email if one doesn't exist.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "contactName", "contactEmail", "contactPhone", "pillar", "subject", "description", "status"],
+                "properties": {
+                  "title": { "type": "string", "description": "Auto-generated from contactName + subject, or custom" },
+                  "contactName": { "type": "string", "description": "Customer name", "example": "John Smith" },
+                  "contactEmail": { "type": "string", "format": "email", "description": "Customer email", "example": "john@example.com" },
+                  "contactPhone": { "type": "string", "description": "Customer phone", "example": "0400 123 456" },
+                  "pillar": { "type": "string", "enum": ["marine", "automotive", "caravan-and-rv", "trade-and-industrial", "commercial"], "description": "Service area" },
+                  "subject": { "type": "string", "description": "What the quote is for", "example": "Bayliner 175 bowrider" },
+                  "description": { "type": "string", "description": "Detailed job description" },
+                  "subjectDetails": { "type": "string", "description": "Additional details (length, model, colour, etc.)" },
+                  "location": { "type": "string", "description": "Customer location", "example": "Toronto, Lake Macquarie" },
+                  "preferredDates": { "type": "string", "description": "Preferred timing", "example": "Before October" },
+                  "serviceTypes": { "type": "array", "items": { "type": "number" }, "description": "Service type IDs from /api/service-types" },
+                  "status": { "type": "string", "enum": ["requested"], "description": "Always 'requested' for new quotes" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Quote created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "doc": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "number" },
+                        "title": { "type": "string" },
+                        "status": { "type": "string" }
+                      }
+                    },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "429": {
+            "description": "Rate limited (max 3 submissions per hour per IP)"
+          }
+        }
+      }
+    },
+    "/api/service-types": {
+      "get": {
+        "summary": "List service types",
+        "description": "Returns all service types, optionally filtered by pillar.",
+        "parameters": [
+          {
+            "name": "where[pillar][equals]",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["marine", "automotive", "caravan-and-rv", "trade-and-industrial", "commercial"] },
+            "description": "Filter by pillar"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "number", "default": 200 }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": { "type": "string", "default": "title" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of service types",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "docs": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "number" },
+                          "title": { "type": "string" },
+                          "pillar": { "type": "string" },
+                          "workType": { "type": "string", "enum": ["custom", "repair"] },
+                          "intro": { "type": "string" },
+                          "slug": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

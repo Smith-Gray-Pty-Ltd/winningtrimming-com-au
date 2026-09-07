@@ -350,7 +350,7 @@ export const PillarProductTemplate: React.FC<{ data: PillarProductData }> = asyn
         )}
 
         {/* Vessel types that offer this product */}
-        <div className="mb-12">
+        <div className="mb-12 mt-16">
           <h2 className="text-2xl font-medium tracking-tight mb-5">
             Available for these {pillarLabel.toLowerCase()} types
           </h2>

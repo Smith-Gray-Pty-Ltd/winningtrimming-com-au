@@ -65,7 +65,7 @@ const PillarHero: React.FC<{
   pillar: string
   heroMedia?: Media | null
   heroRichText?: any
-  regions: { title: string; slug: string }[]
+  regions: { title: string; slug: string | null | undefined }[]
 }> = ({ pillar, heroMedia, heroRichText, regions }) => {
   const label = pillarLabel(pillar)
 

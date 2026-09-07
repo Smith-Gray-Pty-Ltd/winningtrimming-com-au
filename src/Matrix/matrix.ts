@@ -36,9 +36,9 @@ export type PillarProductData = {
 
 export const matrixUrl = (
   pillar: string,
-  assetSlug: string,
-  productSlug?: string,
-  suburbSlug?: string,
+  assetSlug: string | null | undefined,
+  productSlug?: string | null | undefined,
+  suburbSlug?: string | null | undefined,
 ) => {
   let url = `/${pillar}/${assetSlug}`
   if (productSlug) url += `/${productSlug}`
@@ -101,7 +101,7 @@ export const matrixH1 = (data: MatrixData): string => {
   const vessel = singularOf(data.assetType)
   if (data.depth === 1) {
     const products = (data.assetType.applicableProducts ?? [])
-      .filter((p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null)
+      .filter((p): p is ServiceType => typeof p === 'object' && p !== null)
       .map((p) => ({ title: p.title }))
     return `${vessel} ${workSuffix(products)}`
   }
@@ -123,7 +123,7 @@ export const matrixDescription = (data: MatrixData): string => {
     parts.push(`${vessel} ${data.productType.title.toLowerCase()}`)
   } else {
     const products = (data.assetType.applicableProducts ?? [])
-      .filter((p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null)
+      .filter((p): p is ServiceType => typeof p === 'object' && p !== null)
       .map((p) => ({ title: p.title }))
     parts.push(`${vessel} ${workSuffix(products).toLowerCase()}`)
   }

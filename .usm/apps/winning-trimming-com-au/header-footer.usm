@@ -1,0 +1,106 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/header-footer
+$type: feature
+$version: 1
+$last_updated: "2026-09-06"
+summary: >-
+  Global Header and Footer managed via Payload globals. Header has navItems array (max 12, link
+  fields with no appearances) and revalidates on change. Footer is a 4-column server component: (1)
+  Brand with logo, ABN, and serving-area description, (2) Visit & Contact with address and a
+  prominent green phone CTA button (Call 1300 799 882), (3) Hours (7am-3pm Mon-Fri, Sat by
+  appointment, Sun closed), (4) Quick Links with curated in-code links to About, Our Work, Get a
+  Quote, Blog, My Account. Admin-managed supplementary links from the Footer global render below
+  Quick Links when present. Both globals revalidate on change. anyone read access.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Let staff manage site navigation and footer links through the Payload admin panel without code
+  changes, with automatic revalidation when links are updated.
+status: built
+implementation:
+  primary: src/Header/config.ts
+  test_code: ""
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/shared-fields
+flows:
+  - id: update-nav
+    name: Update navigation
+    description: Staff edit header or footer nav items in admin.
+    steps:
+      - id: s1
+        action: navigate
+        target: Payload admin globals header or footer
+      - id: s2
+        action: set
+        target: navItems array with link fields (label, url, type)
+      - id: s3
+        action: save
+        target: afterChange hook fires revalidateHeader or revalidateFooter
+      - id: s4
+        action: revalidate
+        target: site navigation refreshed on next page load
+contracts:
+  - id: globals
+    description: Header and Footer are Payload globals, not collections
+    must_have:
+      - "Header: GlobalConfig slug header"
+      - "Footer: GlobalConfig slug footer"
+      - Both registered in payload.config.ts globals array
+  - id: public-read
+    description: Anyone can read header and footer globals
+    must_have:
+      - read returns true on both
+  - id: nav-items
+    description: navItems array of link fields
+    must_have:
+      - Header navItems max 12, link with appearances false
+      - Footer navItems max 6, link with appearances false
+  - id: revalidation
+    description: afterChange hooks revalidate on save
+    must_have:
+      - Header afterChange revalidateHeader hook
+      - Footer afterChange revalidateFooter hook
+tests:
+  - id: public-read-header
+    setup:
+      auth: none
+      global: header
+    expect:
+      - result: navItems readable
+  - id: max-rows-header
+    setup:
+      navItems: 13
+    expect:
+      - result: maxRows 12 enforced
+decisions:
+  - id: globals-over-collection
+    decision: Use Payload globals rather than a singleton collection
+    rationale: >-
+      Globals are designed for single-instance site config (nav, footer). No slug, no versions,
+      simpler admin UX than a singleton collection.
+    date: "2026-09-06"
+  - id: link-no-appearances
+    decision: Nav links use appearances false (plain links, no button styling)
+    rationale: Nav items are text links, not CTA buttons. Disabling appearances keeps the admin UI clean.
+    date: "2026-09-06"
+  - date: "2026-09-06"
+    decision: Curate the 4 footer columns in code rather than the Footer global
+    id: curated-footer-columns
+    rationale: >-
+      Footer links must stay in sync with actual routes (/about, /our-work, /quote, /posts,
+      /account). Managing these in a Payload global risks broken links when routes change. The
+      Footer global is retained for admin-managed supplementary links that render below Quick Links.
+  - date: "2026-09-06"
+    decision: Add a prominent green phone CTA button in the footer contact column
+    id: footer-phone-cta
+    rationale: >-
+      The phone number is the primary conversion action for a service business. A styled CTA button
+      (bg #607A00, brand green) draws the eye more than a plain text link. Includes a phone emoji
+      and Same-day quotes over the phone subtext.
+  - date: "2026-09-06"
+    decision: Update hours to 7am-3pm Mon-Fri, Saturday by appointment, Sunday closed
+    id: hours-update-2026-09
+    rationale: >-
+      Corrected from the previous 8am-4pm and 8am-Midday. Applies to both the site footer
+      (Footer/Component.tsx) and the email footer (utilities/email.ts) so they stay consistent.

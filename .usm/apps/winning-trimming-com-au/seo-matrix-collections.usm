@@ -1,0 +1,127 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/seo-matrix-collections
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Five Payload collections that form the SEO matrix taxonomy: AssetTypes (vessel/asset types
+  per pillar, with applicableProducts relationship), ServiceTypes (product/service types per
+  pillar, with workType custom/repair), Regions (geographic regions with pillar relevance),
+  Suburbs (localities belonging to regions, with postcode and local SEO intro), Businesses
+  (related businesses per pillar+region with type and relationship metadata). All use anyone
+  read access, authenticated write, shared pillarSelectField, slugField, and seoTab.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Provide the structured taxonomy data that the matrix resolution engine and templates query
+  to generate SEO-optimised landing pages. Each collection carries its own SEO copy so matrix
+  pages stay unique and indexable.
+status: built
+implementation:
+  primary: src/collections/AssetTypes.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/seo-matrix-resolution
+  - template-website/winning-trimming-com-au/seo-matrix-templates
+  - template-website/winning-trimming-com-au/shared-fields
+flows:
+  - id: create-asset-type
+    name: Create an asset type
+    description: Staff create a new vessel/asset type scoped to a pillar.
+    steps:
+      - {id: s1, action: set, target: 'title (e.g. Yachts), pillar (marine), singular (Yacht)'}
+      - {id: s2, action: set, target: 'intro (1-2 sentence SEO intro), seoContent (100+ words validated)'}
+      - {id: s3, action: set, target: 'applicableProducts relationship to service-types (filtered by pillar)'}
+      - {id: s4, action: set, target: 'heroImage upload, body richText (Lexical h2/h3), SEO tab'}
+      - {id: s5, action: set, target: 'slug auto-generated from title'}
+  - id: create-service-type
+    name: Create a service type
+    description: Staff create a product/service type scoped to a pillar.
+    steps:
+      - {id: s1, action: set, target: 'title (e.g. Weather Covers), pillar, workType custom/repair'}
+      - {id: s2, action: set, target: 'intro, seoContent (100+ words validated), heroImage'}
+      - {id: s3, action: set, target: 'keyFeatures array (bullet points), body richText, SEO tab'}
+  - id: create-suburb
+    name: Create a suburb
+    description: Staff create a suburb linked to a region.
+    steps:
+      - {id: s1, action: set, target: 'title (e.g. Belmont), region (required relationship), postcode'}
+      - {id: s2, action: set, target: 'intro (local SEO copy), SEO tab, slug'}
+contracts:
+  - id: access-pattern
+    description: All 5 collections use the same access pattern
+    must_have:
+      - 'read: anyone (public)'
+      - 'create: authenticated (staff)'
+      - 'update: authenticated (staff)'
+      - 'delete: authenticated (staff)'
+  - id: pillar-scoping
+    description: AssetTypes, ServiceTypes, Businesses are scoped to a pillar
+    must_have:
+      - 'pillarSelectField on AssetTypes, ServiceTypes, Businesses'
+      - 'ServiceTypes applicableProducts filterOptions by sibling pillar'
+      - 'Businesses queried by pillar + region in resolver'
+  - id: seo-content-validation
+    description: AssetTypes and ServiceTypes validate seoContent minimum 100 words
+    must_have:
+      - 'seoContent validate function counts words'
+      - 'Returns error if under 100 words'
+      - 'Optional field — only validated when filled'
+  - id: shared-fields
+    description: All 5 collections use shared field configs
+    must_have:
+      - 'slugField (auto-format from title)'
+      - 'seoTab (SEO metadata tab)'
+      - 'Lexical editor with h2/h3, fixed toolbar, inline toolbar (AssetTypes, ServiceTypes, Regions)'
+  - id: applicable-products
+    description: AssetTypes.applicableProducts controls valid matrix combinations
+    must_have:
+      - 'relationship hasMany to service-types'
+      - 'filterOptions restricts to same pillar'
+      - 'Resolver checks product slug against this list'
+  - id: region-hierarchy
+    description: Suburbs belong to Regions; Businesses belong to Regions
+    must_have:
+      - 'Suburbs.region: required relationship to regions'
+      - 'Businesses.region: required relationship to regions'
+      - 'Regions.pillars: optional hasMany select (empty means all pillars)'
+  - id: business-metadata
+    description: Businesses carry type and relationship metadata
+    must_have:
+      - 'type: select with 19 options across marine/automotive/trade/commercial/generic'
+      - 'relationship: partner, customer, supplier, referrer, informational (default informational)'
+tests:
+  - id: public-read-all-collections
+    setup: {auth: none, collections: 'asset-types, service-types, regions, suburbs, businesses'}
+    expect:
+      - {result: 'all readable'}
+  - id: seo-content-min-words
+    setup: {field: seoContent, value: 'short text under 100 words'}
+    expect:
+      - {result: 'validation error mentioning 100 words'}
+  - id: applicable-products-pillar-filter
+    setup: {pillar: marine, applicableProducts: 'service-types where pillar automotive'}
+    expect:
+      - {result: 'filterOptions excludes non-matching pillar'}
+  - id: suburb-requires-region
+    setup: {collection: suburbs, region: null}
+    expect:
+      - {result: 'validation error on required region field'}
+decisions:
+  - id: five-collections
+    decision: Five separate collections rather than one matrix config
+    rationale: Each dimension is independently editable, queryable, and reusable. Staff can add a suburb without touching asset types. Relationships keep combinations valid.
+    date: '2026-09-06'
+  - id: seo-content-validated
+    decision: Validate minimum 100 words on seoContent for AssetTypes and ServiceTypes
+    rationale: Thin pages rank poorly. Forcing 100+ words ensures every matrix page has substantive indexable content.
+    date: '2026-09-06'
+  - id: business-relationship-types
+    decision: Track 5 relationship types (partner/customer/supplier/referrer/informational)
+    rationale: Distinguishes SEO context (informational) from actual business relationships (partner/customer). Enables future directory features.
+    date: '2026-09-06'
+  - id: region-pillar-relevance
+    decision: Regions.pillars optional — empty means all pillars
+    rationale: Lake Macquarie is relevant to all pillars. Newcastle CBD might be commercial-only. Flexible without requiring every region to list all 5.
+    date: '2026-09-06'

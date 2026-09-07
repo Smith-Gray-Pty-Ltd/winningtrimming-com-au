@@ -1,0 +1,23 @@
+# Winning Trimming — AI Agent Instructions
+# https://winningtrimming.com.au/ai.txt
+
+# AI assistants, crawlers, and agents are welcome to:
+# - Read and summarise public content on this site
+# - Submit quote requests via the MCP server or POST /api/quotes
+# - Reference our business information (name, address, phone, services)
+# - Link to our service pages, project portfolio, and quote form
+
+# AI assistants, crawlers, and agents should NOT:
+# - Submit spam or fake quotes
+# - Access /admin or /api/media (upload) endpoints without legitimate use
+# - Reproduce our project photos without attribution
+# - Misrepresent our services, pricing, or service area
+
+# Business: Winning Trimming (Smith & Gray Pty Ltd, ABN 92 655 426 707)
+# Phone: 1300 799 882
+# Address: Shop 2, 25 Sara Street, Toronto NSW 2280
+# Hours: Mon–Fri 7am–3pm, Sat by appointment
+# Service area: Lake Macquarie, Newcastle, Central Coast, Hunter Valley
+
+# MCP server: npx tsx src/mcp-server/index.ts (WT_API_URL=https://winningtrimming.com.au)
+# Quote API: POST /api/quotes (JSON, no auth required)

@@ -11,6 +11,7 @@ import { CompactReviewCard } from '@/components/Reviews/ReviewsSection'
 import type { Media, Project, Review, ServiceType, AssetType } from '@/payload-types'
 import type { MatrixData } from './matrix'
 import { matrixH1, matrixUrl, singularOf } from './matrix'
+import { pillarNoun } from '@/fields/pillars'
 
 // -- Placeholder detection (shared with ServiceTypeGrid) ------------------
 
@@ -379,11 +380,12 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = async ({ data }) =
       const pillars = r.pillars ?? []
       return pillars.length === 0 || pillars.includes(pillar as any)
     })
-    .map((r) => ({ title: r.title, slug: r.slug }))
+    .filter((r) => r.slug)
+    .map((r) => ({ title: r.title, slug: r.slug as string }))
 
   // Applicable products — split by workType
   const allProducts = (assetType.applicableProducts ?? [])
-    .filter((p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null)
+    .filter((p): p is ServiceType => typeof p === 'object' && p !== null)
 
   const customProducts = allProducts.filter((p) => !p.workType || p.workType === 'custom')
   const repairProducts = allProducts.filter((p) => p.workType === 'repair')
@@ -415,7 +417,7 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = async ({ data }) =
   const vesselsWithProduct: LinkCardData[] = data.siblingAssets
     .filter((a) =>
       (a.applicableProducts ?? [])
-        .filter((p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null)
+        .filter((p): p is ServiceType => typeof p === 'object' && p !== null)
         .some((p) => p.slug === productType?.slug),
     )
     .map((a, i) => ({
@@ -577,7 +579,7 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = async ({ data }) =
             </h2>
             <p className="text-muted-foreground mb-5 max-w-2xl">
               Bespoke {vessel.toLowerCase()} covers, canvas and upholstery —
-              designed and stitched from marine-grade materials.
+              designed and stitched from {pillar === 'marine' ? 'marine-grade' : 'high-quality'} materials.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {customLinks.map((l) => (
@@ -645,11 +647,11 @@ export const MatrixTemplate: React.FC<{ data: MatrixData }> = async ({ data }) =
           />
         )}
 
-        {/* All vessel types (depth 1 & 2) */}
+        {/* All vessel/vehicle types (depth 1 & 2) */}
         {(depth === 1 || depth === 2) && vesselLinks.length > 0 && (
           <LinkGrid
-            heading="Looking for another vessel type?"
-            subtitle="We trim, cover and upholster all kinds of boats — pick yours to see what we do."
+            heading={`Looking for another ${pillarNoun[pillar] ?? 'type'} type?`}
+            subtitle={`We trim, cover and upholster all kinds of ${pillarLabel.toLowerCase()} — pick yours to see what we do.`}
             links={vesselLinks}
             columns={4}
           />

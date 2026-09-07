@@ -17,7 +17,7 @@ export const generateMeta = async (args: {
     `${getServerSideURL()}`
 
   const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Winning Trimming'
+    ? doc?.meta?.title
     : 'Winning Trimming'
 
   return {

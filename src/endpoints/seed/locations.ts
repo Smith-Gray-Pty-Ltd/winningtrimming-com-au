@@ -6,7 +6,7 @@ const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
 
-type RegionData = { title: string; description: string; pillars?: string[] }
+type RegionData = { title: string; description: string; pillars?: ('marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial')[] }
 
 const regionsData: RegionData[] = [
   {
@@ -170,7 +170,7 @@ export const seedLocations = async (payload: Payload) => {
       collection: 'suburbs',
       data: {
         title: s.title,
-        region: regionIds[s.region],
+        region: regionIds[s.region] as number,
         postcode: s.postcode ?? null,
         intro: '',
         slug: slugify(s.title),

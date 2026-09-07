@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "winning_trimming",
+  "name_for_human": "Winning Trimming",
+  "description_for_model": "Marine, automotive, caravan & RV, trade and commercial trimming, upholstery and covers specialist based in Toronto, Lake Macquarie. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast. Use this plugin to submit quote requests for custom covers, canvas, upholstery and trim work.",
+  "description_for_human": "Request quotes for marine, automotive, caravan, trade and commercial trimming, upholstery and covers.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://winningtrimming.com.au/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://winningtrimming.com.au/winning-trimming-hero.webp",
+  "contact_email": "service@winningtrimming.com.au",
+  "legal_info_url": "https://winningtrimming.com.au/about"
+}

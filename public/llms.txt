@@ -1,0 +1,67 @@
+# Winning Trimming
+
+> Marine, automotive, caravan & RV, trade and commercial trimming, upholstery and covers. Custom-made and repaired to last. Based in Toronto, Lake Macquarie. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast.
+
+## About
+
+Winning Trimming is a marine, recreational and trade trimming, upholstery and covers specialist based in Toronto, on Lake Macquarie. We combine traditional craftsmanship with modern materials to build and repair covers, canvas and trim that last.
+
+Winning Trimming is a trading name of Smith & Gray Pty Ltd (ABN 92 655 426 707).
+
+## Contact
+
+- Phone: 1300 799 882
+- Address: Shop 2, 25 Sara Street, Toronto NSW 2280
+- Email: service@winningtrimming.com.au
+- Hours: Monday–Friday 7am–3pm, Saturday by appointment
+
+## Service Areas
+
+- Marine: /marine
+- Automotive: /automotive
+- Caravan & RV: /caravan-and-rv
+- Trade & Industrial: /trade-and-industrial
+- Commercial: /commercial
+
+## Key Pages
+
+- Home: /
+- About: /about
+- Request a Quote: /quote
+- Our Work (portfolio): /our-work
+- Blog: /posts
+- Customer Portal: /account
+
+## Regions
+
+- Lake Macquarie: /marine/lake-macquarie
+- Central Coast: /marine/central-coast
+- Newcastle: /marine/newcastle
+- Hunter Valley: /marine/hunter-valley
+
+## For AI Assistants
+
+An MCP server is available for programmatic quote submission. Agents can use the following tools:
+
+- list-pillars: Returns the 5 service areas
+- list-service-types: Returns available services for a pillar
+- submit-quote: Creates a quote request
+
+MCP server config:
+```json
+{
+  "mcpServers": {
+    "winning-trimming": {
+      "command": "npx",
+      "args": ["tsx", "src/mcp-server/index.ts"],
+      "env": { "WT_API_URL": "https://winningtrimming.com.au" }
+    }
+  }
+}
+```
+
+Alternatively, quotes can be submitted via POST to /api/quotes with JSON body containing: contactName, contactEmail, contactPhone, pillar, subject, description (required), plus serviceTypes, location, preferredDates, subjectDetails (optional).
+
+## Reviews
+
+5-star reviews synced from Google Places API. See /our-work for completed projects.

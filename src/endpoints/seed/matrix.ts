@@ -147,10 +147,10 @@ export const seedMatrix = async (payload: Payload, typeIds: TypeIds, media?: Rec
         singular: asset.singular ?? '',
         pillar: 'marine',
         intro: asset.intro,
-        heroImage,
+        heroImage: heroImage as number | null,
         applicableProducts: withRepairs(asset.products)
           .map((t) => typeIds[t])
-          .filter(Boolean),
+          .filter(Boolean) as number[],
         slug: slugify(asset.title),
         slugLock: false,
       },

@@ -2,18 +2,18 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au
 $type: service
 $version: 1
-$last_updated: '2026-09-06'
+$last_updated: "2026-09-06"
 summary: >-
-  Winning Trimming website — Payload CMS + Next.js 15. Marine, automotive & general
-  trimming business serving Lake Macquarie, Newcastle, Central Coast and Hunter Valley.
-  Includes SEO matrix, project portfolio, quote pipeline with email notifications,
-  Google reviews sync, and customer self-service portal.
+  Winning Trimming website — Payload CMS + Next.js 15. Marine, automotive & general trimming
+  business serving Lake Macquarie, Newcastle, Central Coast and Hunter Valley. Includes SEO matrix,
+  project portfolio, quote pipeline with email notifications, Google reviews sync, and customer
+  self-service portal.
 $system: template-website/system
 type: web-app
 runtime: nextjs
 port: 3000
 paths:
-  - ''
+  - ""
 dev:
   command: pnpm dev
   url: http://localhost:3010
@@ -26,9 +26,9 @@ prod:
   region: au
   deployment_ref: hostinger-vps
 testing:
-  framework: ''
-  command: ''
-  coverage_target: ''
+  framework: none configured yet
+  command: ""
+  coverage_target: ""
 security:
   auth_method: payload-jwt (users + customers collections)
   secrets_ref: .env
@@ -37,38 +37,50 @@ future: []
 decisions:
   - id: payload-nextjs
     decision: Use Payload CMS v3 with Next.js 15 App Router
-    rationale: Payload provides CMS, API, auth, and admin panel out of the box. Next.js 15 with Turbopack for fast dev.
-    date: '2026-07-28'
+    rationale: >-
+      Payload provides CMS, API, auth, and admin panel out of the box. Next.js 15 with Turbopack for
+      fast dev.
+    date: "2026-07-28"
     status: accepted
   - id: seo-matrix
     decision: Build a pillar/vessel/product/suburb SEO matrix with 3-depth URL structure
-    rationale: Captures local search intent (e.g. /marine/yachts/weather-covers/lake-macquarie) for SEO/GEO. 5 pillars x 14 vessel types x 50 service types x N suburbs.
-    date: '2026-07-28'
+    rationale: >-
+      Captures local search intent (e.g. /marine/yachts/weather-covers/lake-macquarie) for SEO/GEO.
+      5 pillars x 14 vessel types x 50 service types x N suburbs.
+    date: "2026-07-28"
     status: accepted
   - id: booking-pipeline
     decision: Implement a quote-to-booking pipeline with state machine
-    rationale: Quotes flow through requested→reviewing→quoted→accepted→booking with deposit/final invoicing stages. Events collection provides audit trail.
-    date: '2026-07-28'
+    rationale: >-
+      Quotes flow through requested→reviewing→quoted→accepted→booking with deposit/final invoicing
+      stages. Events collection provides audit trail.
+    date: "2026-07-28"
     status: accepted
   - id: public-quote-form
     decision: Allow anonymous quote submissions with auto-customer creation
-    rationale: Reduces friction — no login required. Customer account auto-created from contact email so staff can track the quote.
-    date: '2026-09-06'
+    rationale: >-
+      Reduces friction — no login required. Customer account auto-created from contact email so
+      staff can track the quote.
+    date: "2026-09-06"
     status: accepted
   - id: google-reviews
     decision: Sync Google reviews via Places API with daily cron
-    rationale: Shows latest 5-star reviews on the site. Places API returns 5 most relevant reviews. Business Profile API pending approval for all reviews.
-    date: '2026-09-06'
+    rationale: >-
+      Shows latest 5-star reviews on the site. Places API returns 5 most relevant reviews. Business
+      Profile API pending approval for all reviews.
+    date: "2026-09-06"
     status: accepted
   - id: email-notifications
     decision: Use Payload's native nodemailer adapter with Google Workspace SMTP
-    rationale: Staff notified on new quotes, customers get confirmation email. Uses service@winningtrimming.com.au via App Password.
-    date: '2026-09-06'
+    rationale: >-
+      Staff notified on new quotes, customers get confirmation email. Uses
+      service@winningtrimming.com.au via App Password.
+    date: "2026-09-06"
     status: accepted
   - id: hostinger-deploy
     decision: Deploy to Hostinger VPS (not Railway)
     rationale: Full control over the environment, cron jobs for review sync, lower cost.
-    date: '2026-09-06'
+    date: "2026-09-06"
     status: accepted
 modules:
   - name: CMS Pages
@@ -82,16 +94,18 @@ modules:
       - src/collections/Posts
       - src/app/(frontend)/posts
   - name: Project Portfolio
-    purpose: Completed job showcase with featured image, gallery, before/after pairs, service type tags, pillar filtering
+    purpose: >-
+      Completed job showcase with featured image, gallery, before/after pairs, service type tags,
+      pillar filtering
     paths:
       - src/collections/Projects
       - src/Projects
       - src/app/(frontend)/our-work
   - name: SEO Matrix
     purpose: >-
-      3-depth URL matrix (pillar/vessel/product/suburb) with 5 pillars, 14 asset types,
-      50 service types, regions and suburbs. Generates SEO-optimised landing pages with
-      dynamic H1s, breadcrumbs, SEO content, project image fallbacks, and review sidebars.
+      3-depth URL matrix (pillar/vessel/product/suburb) with 5 pillars, 14 asset types, 50 service
+      types, regions and suburbs. Generates SEO-optimised landing pages with dynamic H1s,
+      breadcrumbs, SEO content, project image fallbacks, and review sidebars.
     paths:
       - src/Matrix
       - src/collections/AssetTypes
@@ -102,9 +116,9 @@ modules:
       - src/app/(frontend)/[slug]/[...matrix]
   - name: Quote Pipeline
     purpose: >-
-      Public quote request form with photo upload (max 10), honeypot anti-spam,
-      IP rate limiting (3/hour), auto-customer creation from contact email,
-      staff + customer email notifications via Google Workspace SMTP.
+      Public quote request form with photo upload (max 10), honeypot anti-spam, IP rate limiting
+      (3/hour), auto-customer creation from contact email, staff + customer email notifications via
+      Google Workspace SMTP.
     paths:
       - src/collections/Quotes
       - src/app/(frontend)/quote
@@ -130,8 +144,8 @@ modules:
       - src/app/(frontend)/account
   - name: Google Reviews
     purpose: >-
-      Syncs Google Places API reviews into Reviews collection. Daily cron script.
-      Compact cards link to Google Maps listing. Featured 5-star reviews shown on pages.
+      Syncs Google Places API reviews into Reviews collection. Daily cron script. Compact cards link
+      to Google Maps listing. Featured 5-star reviews shown on pages.
     paths:
       - src/collections/Reviews
       - src/components/Reviews
@@ -147,31 +161,58 @@ modules:
       - src/Header
       - src/Footer
   - name: Seeding
-    purpose: Database seeding endpoint for initial setup — pages, projects, matrix, locations, businesses, media
+    purpose: >-
+      Database seeding endpoint for initial setup — pages, projects, matrix, locations, businesses,
+      media
     paths:
       - src/endpoints/seed
   - name: Access Control
-    purpose: Three access tiers — anyone (public), authenticated (staff+customers), authenticatedOrPublished (published content only)
+    purpose: >-
+      Three access tiers — anyone (public), authenticated (staff+customers),
+      authenticatedOrPublished (published content only)
     paths:
       - src/access
   - name: Shared Fields
-    purpose: Reusable Payload field configs — pillars (5 values), link groups, SEO tabs, slug with auto-format, Lexical editor
+    purpose: >-
+      Reusable Payload field configs — pillars (5 values), link groups, SEO tabs, slug with
+      auto-format, Lexical editor
     paths:
       - src/fields
 project_structure: >-
   src/collections/ (17 Payload collections), src/app/(frontend)/ (Next.js App Router),
   src/app/(payload)/ (admin + API), src/Matrix/ (SEO matrix engine), src/Projects/ (portfolio),
-  src/components/ (shared UI), src/heros/ (hero variants), src/blocks/ (layout blocks),
-  src/fields/ (shared field configs), src/access/ (access control), src/utilities/ (helpers),
+  src/components/ (shared UI), src/heros/ (hero variants), src/blocks/ (layout blocks), src/fields/
+  (shared field configs), src/access/ (access control), src/utilities/ (helpers),
   src/endpoints/seed/ (database seeding), src/scripts/ (review sync), src/migrations/ (9 migrations)
-tech_stack: {}
+tech_stack:
+  runtime: Node.js >=18.20.2 <23.0.2
+  language: TypeScript 5.7.2 (strict)
+  framework: Next.js 15 (App Router, Turbopack, RSC by default)
+  cms: >-
+    Payload CMS v3 (@payloadcms/next, @payloadcms/db-postgres, @payloadcms/richtext-lexical,
+    @payloadcms/plugin-seo, plugin-nested-docs, plugin-form-builder, plugin-redirects,
+    plugin-search, storage-s3, live-preview-react, payload-cloud, ui)
+  ui: >-
+    React 19 RC, Tailwind CSS 3.4.3 + tailwindcss-animate + @tailwindcss/typography, Radix UI
+    primitives (checkbox/label/select/slot), lucide-react icons, class-variance-authority + clsx +
+    tailwind-merge, prism-react-renderer, geist font
+  database: PostgreSQL (@payloadcms/db-postgres)
+  package_manager: pnpm 9.15.4
+  build: cross-env + next build
+  lint: eslint 8 + eslint-config-next 15 + @payloadcms/eslint-config, prettier 3
+  image: sharp 0.32.6
+  auth: Payload native JWT (users + customers collections), jsonwebtoken 9.0.2
+  api: graphql 16.8.2 (Payload REST + GraphQL)
+  forms: react-hook-form 7.45.4
+  admin_bar: payload-admin-bar 1.0.6
+  compiler: babel-plugin-react-compiler 19.0.0-beta
 conventions:
   - Conventional commits (feat/fix/chore with scope)
   - pnpm for package management
   - TypeScript strict
   - Payload access control patterns (anyone/authenticated/authenticatedOrPublished)
   - 5 pillars (marine, automotive, caravan-and-rv, trade-and-industrial, commercial)
-  - Brand colours — green #607A00 (CTAs), teal #108DAF (links/accent), black footer
+  - Brand colours — green
 patterns:
   - id: server-components
     name: Server Components by Default

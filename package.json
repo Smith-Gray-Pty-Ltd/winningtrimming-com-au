@@ -20,9 +20,11 @@
     "migrate:status": "payload migrate:status",
     "migrate:reset": "payload migrate:reset",
     "migrate:fresh": "payload migrate:fresh",
-    "migrate:create": "payload migrate:create"
+    "migrate:create": "payload migrate:create",
+    "mcp": "cross-env NODE_OPTIONS=--no-deprecation npx tsx src/mcp-server/index.ts"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "@payloadcms/db-postgres": "latest",
     "@payloadcms/live-preview-react": "latest",
     "@payloadcms/next": "latest",
@@ -56,7 +58,8 @@
     "react-hook-form": "7.45.4",
     "sharp": "0.32.6",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15",
@@ -74,7 +77,8 @@
     "postcss": "^8.4.38",
     "prettier": "^3.0.3",
     "tailwindcss": "^3.4.3",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "vitepress": "^1.6.4"
   },
   "engines": {
     "node": ">=18.20.2 <23.0.0",

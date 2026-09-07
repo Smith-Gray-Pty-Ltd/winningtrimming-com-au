@@ -7,7 +7,7 @@ import { draftMode } from 'next/headers'
 import NextImage from 'next/image'
 import React, { cache } from 'react'
 
-import type { Project } from '@/payload-types'
+import type { Project, ServiceType } from '@/payload-types'
 
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
@@ -44,7 +44,7 @@ export default async function ProjectPage({ params: paramsPromise }: Args) {
   const gallery = project.gallery ?? []
   const beforeAfter = project.beforeAfter ?? []
   const serviceTypes = (project.serviceTypes ?? []).filter(
-    (s): s is NonNullable<typeof s> => typeof s === 'object',
+    (s): s is ServiceType => typeof s === 'object',
   )
 
   const completed = project.completedAt

@@ -26,25 +26,36 @@ const poppins = Poppins({
   display: 'swap',
 })
 
-// LocalBusiness structured data for local SEO (Google rich results).
+// LocalBusiness structured data for local SEO (Google rich results, AI assistants).
 const localBusinessJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'AutoWasher', // closest generic LocalBusiness type for this trade
+  '@type': 'LocalBusiness',
+  '@id': `${getServerSideURL()}/#localbusiness`,
   name: 'Winning Trimming',
   description:
-    'Marine, recreational and trade trimming, upholstery and covers. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast.',
+    'Marine, automotive, caravan & RV, trade and commercial trimming, upholstery and covers. ' +
+    'Custom-made and repaired to last. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast.',
   url: getServerSideURL(),
-  telephone: '+61 1300 799 882',
+  telephone: '+611300799882',
   image: `${getServerSideURL()}/winning-trimming-hero.webp`,
+  logo: `${getServerSideURL()}/winning-trimming-hero.webp`,
   priceRange: '$$',
+  currenciesAccepted: 'AUD',
+  paymentAccepted: 'Cash, Credit Card, Bank Transfer',
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Shop 2, 25 Sara Street',
     addressLocality: 'Toronto',
     addressRegion: 'NSW',
-    postalCode: '2280',
+    postalCode: '2283',
     addressCountry: 'AU',
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -33.0000,
+    longitude: 151.5500,
+  },
+  hasMap: 'https://www.google.com/maps/place/?q=place_id:ChIJu9-FNIklc2sRSxk7hnFqEJE',
   areaServed: [
     { '@type': 'Place', name: 'Lake Macquarie' },
     { '@type': 'Place', name: 'Newcastle' },
@@ -57,20 +68,19 @@ const localBusinessJsonLd = {
     legalName: 'Smith & Gray Pty Ltd',
     taxID: '92 655 426 707',
   },
+  sameAs: [
+    'https://www.google.com/maps/place/?q=place_id:ChIJu9-FNIklc2sRSxk7hnFqEJE',
+  ],
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '08:00',
-      closes: '16:00',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Saturday',
-      opens: '08:00',
-      closes: '12:00',
+      opens: '07:00',
+      closes: '15:00',
     },
   ],
+  // Saturday by appointment — not fixed hours, so not in openingHoursSpecification
+  // but noted in the description above.
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -110,7 +120,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
   title: {
     default: 'Winning Trimming | Marine, Recreational & Trade Upholstery',
-    template: '%s | Winning Trimming',
+    template: '%s',
   },
   description:
     'Marine, recreational and trade trimming, upholstery and covers. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast.',

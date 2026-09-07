@@ -21,7 +21,7 @@ export const contact: Partial<Page> = {
           size: 'half',
           richText: root([
             h('Visit the workshop', 'h3'),
-            p('Shop 2, 25 Sara Street, Toronto NSW 2280'),
+            p('Shop 2, 25 Sara Street, Toronto NSW 2283'),
             p('Call 1300 799 882'),
             h('Hours', 'h3'),
             p('Monday – Friday: 8am – 4pm'),

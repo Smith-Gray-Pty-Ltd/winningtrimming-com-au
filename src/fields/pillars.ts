@@ -22,8 +22,8 @@ export const pillarNoun: Record<string, string> = {
   marine: 'vessel',
   automotive: 'vehicle',
   'caravan-and-rv': 'van or RV',
-  'trade-and-industrial': 'gear',
-  commercial: 'business',
+  'trade-and-industrial': 'equipment',
+  commercial: 'space',
 }
 
 export const pillarSelectField = (overrides?: Partial<SelectField>): SelectField => ({
@@ -31,5 +31,5 @@ export const pillarSelectField = (overrides?: Partial<SelectField>): SelectField
   type: 'select',
   required: true,
   options: pillarOptions.map((o) => ({ label: o.label, value: o.value })),
-  ...overrides,
+  ...(overrides as object),
 })

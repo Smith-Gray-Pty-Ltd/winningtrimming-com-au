@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Where } from 'payload'
 
 import { authenticated } from '../access/authenticated'
 
@@ -194,8 +194,8 @@ export const Bookings: CollectionConfig = {
       type: 'relationship',
       hasMany: true,
       relationTo: 'service-types',
-      filterOptions: ({ siblingData }) => {
-        const pillar = (siblingData as Record<string, unknown>)?.pillar
+      filterOptions: ({ siblingData }): Where => {
+        const pillar = (siblingData as Record<string, unknown>)?.pillar as string | undefined
         return pillar ? { pillar: { equals: pillar } } : {}
       },
       admin: {

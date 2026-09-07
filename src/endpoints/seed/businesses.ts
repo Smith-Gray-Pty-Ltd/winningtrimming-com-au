@@ -10,8 +10,8 @@ type RegionIds = Record<string, string | number>
 
 type BusinessData = {
   title: string
-  type: string
-  relationship?: string
+  type: 'marina' | 'shipwright' | 'boatyard' | 'yacht-club' | 'sailing-club' | 'chandlery' | 'boat-ramp' | 'slipway' | 'mechanic' | 'dealership' | 'panel-beater' | 'auto-electrician' | 'hardware-supplier' | 'steel-fabricator' | 'machinery-dealer' | 'hospitality-venue' | 'property-manager' | 'office-corporate' | 'dealer' | 'other'
+  relationship?: 'partner' | 'customer' | 'supplier' | 'referrer' | 'informational'
   region: string
   suburb: string
   description?: string
@@ -242,7 +242,7 @@ export const seedBusinesses = async (payload: Payload, regionIds: RegionIds) => 
         pillar: 'marine',
         type: biz.type,
         relationship: biz.relationship ?? 'informational',
-        region: regionIds[biz.region],
+        region: regionIds[biz.region] as number,
         suburb: biz.suburb,
         description: biz.description ?? '',
         slug: slugify(biz.title),

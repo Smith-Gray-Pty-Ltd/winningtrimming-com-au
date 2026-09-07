@@ -169,7 +169,7 @@ export default function QuoteForm() {
           location: form.location,
           preferredDates: form.preferredDates,
           serviceTypes: form.serviceTypeIds,
-          subjectPhotos: photos.map((p) => ({ image: p.mediaId })),
+          subjectPhotos: photos.map((p) => ({ image: Number(p.mediaId) })),
           status: 'requested',
         }),
       })

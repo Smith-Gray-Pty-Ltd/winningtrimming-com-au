@@ -119,7 +119,7 @@ export const CompactReviewCard: React.FC<{ review: Review }> = ({ review }) => {
           <span className="shrink-0 text-xs text-muted-foreground/60">Google</span>
         )}
       </div>
-      <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-4">
+      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
         {review.text}
       </p>
     </div>

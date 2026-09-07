@@ -1,0 +1,106 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/invoices
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Thin mirror of Xero invoices linked to bookings. Three invoice types (deposit, adjustment,
+  final) with 5 statuses (draft, sent, paid, overdue, void). Stores Xero invoice ID as source
+  of truth, amount, due date, payment method, and direct Xero URL. Payments reconciled in
+  Xero (CBA bank feed or Stripe); webhook updates status here. Customers see invoices on
+  their own bookings only.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Give staff and the agent enough invoice data in Payload to operate without a Xero API call
+  on every read, while Xero remains the authoritative system for invoicing and payment
+  reconciliation.
+status: built
+implementation:
+  primary: src/collections/Invoices.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/booking-pipeline
+  - template-website/winning-trimming-com-au/event-log
+flows:
+  - id: create-deposit-invoice
+    name: Create deposit invoice
+    description: Staff create a deposit invoice in Xero, mirror it in Payload.
+    steps:
+      - {id: s1, action: create, target: 'invoice in Xero (source of truth)'}
+      - {id: s2, action: create, target: 'Invoice in Payload with type=deposit, booking=id, amount, xeroInvoiceId'}
+      - {id: s3, action: set, target: 'status=draft (will sync to sent when Xero sends it)'}
+      - {id: s4, action: create, target: 'Event: invoice_created + deposit_invoice_sent'}
+  - id: payment-sync
+    name: Payment sync via Xero webhook
+    description: Xero webhook updates invoice status when paid.
+    steps:
+      - {id: s1, action: receive, target: 'Xero webhook: invoice paid'}
+      - {id: s2, action: update, target: 'Invoice.status = paid, paidAt = now, paymentMethod from Xero'}
+      - {id: s3, action: create, target: 'Event: deposit_paid or final_paid + invoice_status_synced'}
+      - {id: s4, action: set, target: 'Booking status advances (deposit-invoiced → deposit-paid)'}
+  - id: adjustment-invoice
+    name: Create adjustment invoice
+    description: Variation to the original quote (extra materials, scope change).
+    steps:
+      - {id: s1, action: create, target: 'Invoice with type=adjustment, adjustmentDescription required'}
+      - {id: s2, action: set, target: 'amount positive (additional) or negative (discount)'}
+contracts:
+  - id: xero-as-source
+    description: Xero invoice ID is the source of truth; Payload mirrors
+    must_have:
+      - 'xeroInvoiceId: text, indexed (lookup key for webhook)'
+      - 'xeroInvoiceNumber: text (e.g. INV-0123)'
+      - 'xeroUrl: text (direct link for staff)'
+      - 'status synced FROM Xero via webhook, not edited manually'
+  - id: three-invoice-types
+    description: deposit, adjustment, final
+    must_have:
+      - 'INVOICE_TYPES: deposit, adjustment, final'
+      - 'type: required select'
+      - 'adjustmentDescription required when type=adjustment'
+  - id: five-statuses
+    description: draft, sent, paid, overdue, void
+    must_have:
+      - 'INVOICE_STATUSES: draft, sent, paid, overdue, void'
+      - 'defaultValue: draft'
+      - 'paidAt set when status becomes paid'
+  - id: read-isolation
+    description: Customers see invoices on their own bookings only
+    must_have:
+      - 'read: users → true'
+      - 'read: customers → { booking.customer.id: { equals: user.id } }'
+      - 'read: anonymous → false'
+  - id: booking-link
+    description: Every invoice belongs to a booking
+    must_have:
+      - 'booking: required relationship to bookings'
+      - 'amount: required number in AUD'
+      - 'dueDate: date (sidebar)'
+tests:
+  - id: customer-sees-own-invoices
+    setup: {auth: 'customer A', method: 'GET /api/invoices'}
+    expect:
+      - {filter: 'booking.customer.id', result: 'only own invoices'}
+  - id: adjustment-requires-description
+    setup: {type: adjustment, adjustmentDescription: null}
+    expect:
+      - {result: 'validation error on adjustmentDescription'}
+  - id: webhook-updates-status
+    setup: {xeroInvoiceId: 'xero-123', webhook: 'paid'}
+    expect:
+      - {status: paid, paidAt: set, paymentMethod: synced}
+decisions:
+  - id: mirror-not-replace
+    decision: Mirror Xero invoices in Payload rather than using Xero API live
+    rationale: Avoids Xero API latency on every admin/portal read. Webhook keeps the mirror fresh. Xero remains authoritative.
+    date: '2026-09-06'
+  - id: three-types
+    decision: Distinguish deposit, adjustment, and final invoices
+    rationale: Different points in the booking lifecycle. Deposit (50% upfront), adjustment (variations), final (remaining balance). UI and agent need to know which is which.
+    date: '2026-09-06'
+  - id: payment-method-tracking
+    decision: Track payment method (bank_transfer, card, cash, cheque, other)
+    rationale: Staff need to know how a customer paid for reconciliation. Synced from Xero.
+    date: '2026-09-06'

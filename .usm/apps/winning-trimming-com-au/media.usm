@@ -1,0 +1,104 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/media
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Image upload collection with 6 sizes (thumbnail 300, square 500x500, small 600, medium 900,
+  large 1400, xlarge 1920). Public create access for anonymous quote form photo uploads.
+  beforeChange hook guards anonymous uploads to image MIME types only. Accepted types:
+  JPEG, PNG, WebP, GIF, HEIC, HEIF. Files stored in public/media (Next.js static dir). alt
+  text field and Lexical caption. anyone read, authenticated update/delete.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Centralised image management for all collections (pages, posts, projects, reviews, quotes,
+  matrix) with public upload support for the quote form and size variants for responsive
+  delivery.
+status: built
+implementation:
+  primary: src/collections/Media.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/quote-pipeline
+  - template-website/winning-trimming-com-au/project-portfolio
+flows:
+  - id: anonymous-upload
+    name: Anonymous quote photo upload
+    description: Quote form uploads photos to /api/media before submitting the quote.
+    steps:
+      - {id: s1, action: upload, target: 'POST /api/media with multipart/form-data (no auth)'}
+      - {id: s2, action: validate, target: 'beforeChange hook checks contentType includes multipart/form-data for anonymous'}
+      - {id: s3, action: validate, target: 'upload.mimeTypes restricts to image types (JPEG PNG WebP GIF HEIC HEIF)'}
+      - {id: s4, action: generate, target: 'Payload generates 6 image sizes via sharp'}
+      - {id: s5, action: return, target: 'mediaId and thumbnail URL to frontend'}
+  - id: staff-upload
+    name: Staff upload via admin
+    description: Staff upload images through the Payload admin panel.
+    steps:
+      - {id: s1, action: authenticate, target: 'staff session'}
+      - {id: s2, action: upload, target: 'via admin media collection'}
+      - {id: s3, action: set, target: 'alt text and Lexical caption'}
+      - {id: s4, action: generate, target: '6 image sizes generated'}
+contracts:
+  - id: public-create
+    description: Anyone can upload images (for quote form)
+    must_have:
+      - 'create: () => true'
+      - 'beforeChange hook guards anonymous uploads to images only'
+      - 'Authenticated users skip the anonymous guard'
+  - id: image-only
+    description: Only image MIME types accepted
+    must_have:
+      - 'upload.mimeTypes: image/jpeg, image/png, image/webp, image/gif, image/heic, image/heif'
+      - 'beforeChange hook checks content-type for anonymous multipart uploads'
+  - id: six-sizes
+    description: 6 image sizes generated via sharp
+    must_have:
+      - 'thumbnail: width 300'
+      - 'square: width 500, height 500'
+      - 'small: width 600'
+      - 'medium: width 900'
+      - 'large: width 1400'
+      - 'xlarge: width 1920'
+  - id: public-read
+    description: Anyone can read media
+    must_have:
+      - 'read: anyone'
+      - 'update, delete: authenticated'
+  - id: static-dir
+    description: Files stored in public/media for Next.js static serving
+    must_have:
+      - 'upload.staticDir resolves to ../../public/media'
+      - 'adminThumbnail: thumbnail size'
+tests:
+  - id: anonymous-upload-image
+    setup: {auth: none, file: 'photo.jpg', method: 'POST /api/media'}
+    expect:
+      - {result: 'created', sizes: 6}
+  - id: anonymous-upload-non-image
+    setup: {auth: none, file: 'document.pdf', method: 'POST /api/media'}
+    expect:
+      - {result: 'rejected by mimeTypes config'}
+  - id: staff-can-delete
+    setup: {auth: staff, method: 'DELETE /api/media/:id'}
+    expect:
+      - {result: 'deleted'}
+  - id: sizes-generated
+    setup: {upload: 'image 2000px wide'}
+    expect:
+      - {sizes: 'thumbnail, square, small, medium, large, xlarge all generated'}
+decisions:
+  - id: public-create
+    decision: Allow anonymous uploads to Media collection
+    rationale: Quote form needs photo uploads without login. The beforeChange hook and mimeTypes config together prevent non-image uploads.
+    date: '2026-09-06'
+  - id: six-sizes
+    decision: Generate 6 sizes from thumbnail to xlarge
+    rationale: Responsive image delivery — frontend picks the appropriate size for the viewport. Square for cards, xlarge for heroes, thumbnail for admin previews.
+    date: '2026-09-06'
+  - id: public-media-dir
+    decision: Store files in public/media (Next.js static dir)
+    rationale: Files served directly by Next.js without Payload API overhead. Simpler than S3 for a single-server VPS deployment.
+    date: '2026-09-06'

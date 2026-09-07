@@ -1,0 +1,112 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/project-portfolio
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Completed job showcase at /our-work. Projects collection with pillar scoping, summary,
+  featuredImage (required), gallery array, beforeAfter pairs, Lexical content, serviceTypes
+  tags (filtered by pillar), location, materials, completedAt (month picker), featured checkbox,
+  drafts, and live preview. ProjectCard and ProjectGallery components render the filterable
+  gallery and detail pages. Used as image fallback source by the SEO matrix.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Showcase completed work to build trust with potential customers and provide real project
+  photos that the SEO matrix can use as image fallbacks for asset/service type cards.
+status: built
+implementation:
+  primary: src/collections/Projects.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/seo-matrix-templates
+  - template-website/winning-trimming-com-au/media
+  - template-website/winning-trimming-com-au/shared-fields
+flows:
+  - id: create-project
+    name: Create a portfolio project
+    description: Staff document a completed job as a portfolio entry.
+    steps:
+      - {id: s1, action: set, target: 'title, pillar, summary (1-2 sentences)'}
+      - {id: s2, action: upload, target: 'featuredImage (required), gallery array, beforeAfter pairs'}
+      - {id: s3, action: write, target: 'Lexical content (h2-h4) describing the job'}
+      - {id: s4, action: set, target: 'serviceTypes tags (filtered by pillar), location, materials, completedAt'}
+      - {id: s5, action: set, target: 'featured checkbox to pin to front of gallery'}
+      - {id: s6, action: publish, target: 'drafts with max 20 versions'}
+  - id: view-gallery
+    name: View the gallery
+    description: Visitor browses the filterable /our-work gallery.
+    steps:
+      - {id: s1, action: navigate, target: /our-work}
+      - {id: s2, action: render, target: 'ProjectGallery with filter by pillar'}
+      - {id: s3, action: render, target: 'ProjectCard for each project (featured first)'}
+      - {id: s4, action: click, target: 'project card links to detail page'}
+  - id: matrix-fallback
+    name: SEO matrix image fallback
+    description: Matrix templates query projects for card images when hero image is missing.
+    steps:
+      - {id: s1, action: query, target: 'projects matching pillar plus asset or service type'}
+      - {id: s2, action: use, target: 'featuredImage or first gallery image as card image'}
+contracts:
+  - id: access
+    description: authenticatedOrPublished read, authenticated write
+    must_have:
+      - 'read: authenticatedOrPublished'
+      - 'create, update, delete: authenticated'
+  - id: featured-image-required
+    description: Every project must have a featured image
+    must_have:
+      - 'featuredImage: upload to media, required'
+      - 'Used as card thumbnail and detail page hero'
+  - id: pillar-scoping
+    description: Projects are scoped to a pillar; serviceTypes filtered by pillar
+    must_have:
+      - 'pillarSelectField on Projects'
+      - 'serviceTypes filterOptions by sibling pillar'
+  - id: before-after
+    description: Optional beforeAfter pairs with before and after images
+    must_have:
+      - 'beforeAfter: array of pairs (before, after, caption)'
+      - 'Both before and after are required upload fields'
+      - 'initCollapsed in admin'
+  - id: featured-sorting
+    description: Featured checkbox pins projects to front of gallery
+    must_have:
+      - 'featured: checkbox, defaultValue false'
+      - 'Gallery sorts featured first'
+  - id: drafts
+    description: Drafts with max 20 versions (less than Pages/Posts 50)
+    must_have:
+      - 'versions.drafts: true'
+      - 'versions.maxPerDoc: 20'
+tests:
+  - id: featured-image-required
+    setup: {featuredImage: null}
+    expect:
+      - {result: 'validation error'}
+  - id: servicetypes-pillar-filter
+    setup: {pillar: marine, serviceTypes: 'automotive service types'}
+    expect:
+      - {result: 'filterOptions excludes non-matching pillar'}
+  - id: gallery-shows-featured-first
+    setup: {projects: 'A (featured), B (not featured)'}
+    expect:
+      - {order: 'A before B'}
+  - id: public-sees-published-only
+    setup: {auth: none}
+    expect:
+      - {result: 'only published projects'}
+decisions:
+  - id: before-after-pairs
+    decision: Support optional beforeAfter image pairs
+    rationale: Before/after photos are compelling for trimming work (canvas repairs, upholstery restoration). Not required — only added when both photos exist.
+    date: '2026-09-06'
+  - id: 20-versions
+    decision: Max 20 versions for projects (vs 50 for Pages/Posts)
+    rationale: Projects are less frequently edited than pages or posts. 20 versions is enough revision history without excessive DB storage.
+    date: '2026-09-06'
+  - id: matrix-fallback-source
+    decision: Projects are the image fallback source for the SEO matrix
+    rationale: Real work photos are more authentic than stock images. Projects already have pillar and serviceType tags, making matching straightforward.
+    date: '2026-09-06'

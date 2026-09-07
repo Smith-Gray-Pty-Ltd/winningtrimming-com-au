@@ -1,0 +1,203 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/quote-pipeline
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Public quote request form at /quote with photo uploads (max 10, JPG/PNG/WebP/HEIC, 10MB each),
+  honeypot anti-spam, in-memory IP rate limiting (3/hour), auto-customer creation from contact
+  email, and dual email notifications (staff + customer) via Google Workspace SMTP. Quotes flow
+  through a 6-status state machine (requested→reviewing→quoted→accepted|declined|expired) and
+  convert to Bookings on acceptance.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Lower friction for new leads — no login required to submit a quote — while still linking every
+  quote to a customer account so staff can track it and customers can self-serve via the portal.
+  Captures contact details, pillar, subject, service types, photos, and job description; notifies
+  staff immediately so response time stays same-day.
+status: built
+implementation:
+  primary: src/collections/Quotes.ts
+  test_code: ''
+  test_code_status: none
+see_also: []
+flows:
+  - id: anonymous-quote
+    name: Anonymous quote submission
+    description: Visitor with no account submits a quote request.
+    steps:
+      - {id: s1, action: navigate, target: /quote}
+      - {id: s2, action: fill, target: 'contactName, contactEmail, contactPhone, pillar, subject, description'}
+      - {id: s3, action: upload, target: 'up to 10 photos to /api/media (JPG/PNG/WebP/HEIC, max 10MB each)'}
+      - {id: s4, action: select, target: 'serviceTypes filtered by pillar; optionally subjectDetails, location, preferredDates'}
+      - {id: s5, action: observe, target: "hidden honeypot field 'website' is present but off-screen"}
+      - {id: s6, action: submit, target: 'POST /api/quotes with status=requested'}
+      - {id: s7, action: validate, target: "beforeChange: if honeypot filled, throw 'Quote submitted successfully.' (silent bot rejection)"}
+      - {id: s8, action: validate, target: "beforeChange: check IP rate limit (x-forwarded-for/x-real-ip); over 3/hour throws 'Too many quote requests'"}
+      - {id: s9, action: create, target: 'beforeChange: if no customer and contactEmail present, find-or-create Customer by email (overrideAccess), link quote.customer'}
+      - {id: s10, action: send, target: 'afterChange: on create only, fire notifyStaffOfQuote + notifyCustomerOfQuote in parallel (not awaited)'}
+      - {id: s11, action: navigate, target: /quote/success}
+  - id: logged-in-quote
+    name: Authenticated customer quote submission
+    description: Logged-in customer submits a quote.
+    steps:
+      - {id: s1, action: authenticate, target: 'Customers collection session'}
+      - {id: s2, action: fill, target: 'contact fields pre-filled from session'}
+      - {id: s3, action: submit, target: 'POST /api/quotes with customer relationship already set'}
+      - {id: s4, action: validate, target: 'beforeChange skips auto-customer (customer field present)'}
+      - {id: s5, action: send, target: 'afterChange emails fire as usual'}
+  - id: staff-review
+    name: Staff review and quote sending
+    description: Staff process a submitted quote through to booking conversion.
+    steps:
+      - {id: s1, action: navigate, target: 'admin (Bookings group, defaultColumns title/status/pillar/customer/quotedAmount/updatedAt)'}
+      - {id: s2, action: set, target: 'status=reviewing, fill quotedAmount, depositAmount, quoteNotes in sidebar'}
+      - {id: s3, action: set, target: 'status=quoted (sends quote to customer)'}
+      - {id: s4, action: receive, target: 'customer accepts or declines, status becomes accepted or declined'}
+      - {id: s5, action: create, target: 'staff convert accepted quote to a Booking, booking relationship set on quote'}
+contracts:
+  - id: public-create
+    description: Anyone can POST /api/quotes — create access returns true unconditionally
+    must_have:
+      - 'create: () => true'
+      - No auth required to submit
+  - id: honeypot
+    description: "Hidden 'website' field on the form; if filled, beforeChange throws an error that reads as success to the bot"
+    must_have:
+      - "Field 'website' hidden in admin and off-screen on frontend"
+      - "Throw 'Quote submitted successfully.' on honeypot filled"
+      - No quote or customer record created
+  - id: rate-limit
+    description: 'In-memory Map limits each IP to 3 submissions per hour; window resets after 1 hour; stale entries cleaned every 10 minutes'
+    must_have:
+      - 'RATE_LIMIT_WINDOW = 60*60*1000'
+      - 'RATE_LIMIT_MAX = 3'
+      - "IP from x-forwarded-for[0] || x-real-ip || 'unknown'"
+      - "Over-limit throws 'Too many quote requests. Please try again later.'"
+  - id: auto-customer
+    description: 'If customer field is empty and contactEmail is present, find-or-create a Customer by email (overrideAccess) and link quote.customer'
+    must_have:
+      - Email lowercased and trimmed before lookup
+      - 'Existing customer found via payload.find with overrideAccess:true, depth:0'
+      - 'New customer created with random password (Math.random + Date.now base36)'
+      - 'Customer creation failure is logged but does NOT block the quote — contact fields remain'
+  - id: email-notifications
+    description: 'afterChange hook fires staff + customer emails in parallel, only on operation equals create'
+    must_have:
+      - 'Promise.all([notifyStaffOfQuote, notifyCustomerOfQuote]) — not awaited'
+      - Errors swallowed (already logged inside each function)
+      - No emails on update/delete operations
+      - 'Staff email goes to SMTP_USER, replyTo set to customer contactEmail'
+      - Customer email skipped if contactEmail is falsy
+  - id: read-isolation
+    description: 'Customers can only read their own quotes; staff (users collection) see all'
+    must_have:
+      - 'read: if user.collection===users → true'
+      - 'read: if user.collection===customers → { customer.id: { equals: user.id } }'
+      - 'read: anonymous → false'
+  - id: photo-limits
+    description: Frontend enforces photo upload constraints before submitting
+    must_have:
+      - 'MAX_PHOTOS = 10'
+      - 'MAX_FILE_SIZE = 10MB per image'
+      - 'ACCEPTED_TYPES: image/jpeg, image/png, image/webp, image/heic, image/heif'
+      - Photos uploaded individually to /api/media before quote submission
+  - id: status-flow
+    description: Six valid statuses with requested as default
+    must_have:
+      - 'QUOTE_STATUSES: requested, reviewing, quoted, accepted, declined, expired'
+      - "defaultValue: 'requested'"
+      - status field in sidebar
+tests:
+  - id: honeypot-rejects-bot
+    setup:
+      method: POST
+      url: /api/quotes
+      website: bot-spam
+      pillar: marine
+      subject: test
+      description: test
+      contactName: Bot
+      contactEmail: bot@example.com
+      contactPhone: '000'
+    expect:
+      - {result: error response}
+  - id: rate-limit-blocks-fourth
+    setup:
+      ip: 203.0.113.1
+      submissions: 4
+    expect:
+      - {count: 3, result: ok}
+      - {count: 1, result: rate-limited}
+  - id: auto-customer-creates-new
+    setup:
+      method: POST
+      url: /api/quotes
+      contactEmail: newperson@example.com
+    expect:
+      - {field: quote.customer, result: linked-to-new-customer}
+  - id: auto-customer-links-existing
+    setup:
+      method: POST
+      url: /api/quotes
+      contactEmail: existing@example.com
+    expect:
+      - {duplicate_customers: 0, result: linked-to-existing-customer}
+  - id: auto-customer-failure-resilient
+    setup:
+      mock: 'payload.create(customers) throws'
+      url: /api/quotes
+    expect:
+      - {logged: customer-create-error, result: quote-persisted, thrown: false}
+  - id: emails-fire-on-create-only
+    setup:
+      mock: payload.sendEmail
+      steps: create then update
+    expect:
+      - {count: 2, operation: create}
+      - {count: 0, operation: update}
+  - id: customer-read-isolation
+    setup:
+      auth: customer A
+      method: GET
+      url: /api/quotes
+    expect:
+      - {filter: customer.id, result: only-own-quotes}
+  - id: photo-validation
+    setup:
+      cases:
+        - 11th photo
+        - '>10MB file'
+        - .gif file
+    expect:
+      - {reason: max-10-exceeded}
+      - {reason: file-too-large}
+      - {reason: unsupported-type}
+decisions:
+  - id: anonymous-over-login
+    decision: Allow anonymous submissions with auto-customer creation rather than forcing login
+    rationale: >-
+      Reduces friction and maximises lead capture. Customer can use 'forgot password' later to
+      access the portal with the auto-created account.
+    date: '2026-09-06'
+  - id: in-memory-rate-limit
+    decision: Simple Map-based IP rate limiter (3/hour) instead of Redis
+    rationale: Sufficient for single-instance VPS deployment. Revisit Redis only if scaled horizontally.
+    date: '2026-09-06'
+  - id: honeypot-over-captcha
+    decision: Use a honeypot field instead of reCAPTCHA
+    rationale: >-
+      Invisible to humans (zero UX cost), catches casual bots, no Google dependency or privacy
+      concern.
+    date: '2026-09-06'
+  - id: email-fire-and-forget
+    decision: afterChange emails fire via Promise.all without awaiting
+    rationale: >-
+      SMTP latency should not slow the form submission response. Errors are logged inside each
+      function.
+    date: '2026-09-06'
+  - id: silent-bot-rejection
+    decision: Honeypot submissions throw an error whose message reads as success
+    rationale: Fools the bot into thinking it succeeded so it does not retry with a different tactic.
+    date: '2026-09-06'

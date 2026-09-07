@@ -1,0 +1,117 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/google-reviews
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Syncs Google Places API (New) reviews into the Reviews collection via a daily cron script.
+  Reviews collection stores authorName, authorPhoto, rating (1-5), text, reviewDate, source
+  (google/manual/facebook), googleReviewId (unique, for dedup), googlePlaceUrl, featured, and
+  hidden flags. Places API returns 5 most relevant reviews; Business Profile API pending for
+  all reviews. Compact cards link to Google Maps. Featured 5-star reviews shown on matrix
+  pages. anyone read access.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Display authentic customer reviews on the site to build trust with potential customers,
+  synced automatically from Google so they stay current without manual effort.
+status: built
+implementation:
+  primary: src/scripts/fetch-google-reviews.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/seo-matrix-templates
+flows:
+  - id: daily-sync
+    name: Daily cron sync from Google Places API
+    description: Cron job fetches reviews and upserts into Payload.
+    steps:
+      - {id: s1, action: authenticate, target: 'Payload admin login via PAYLOAD_ADMIN_EMAIL and PASSWORD'}
+      - {id: s2, action: get, target: 'Places API (New) Place Details with field mask reviews,rating,userRatingCount,displayName'}
+      - {id: s3, action: parse, target: 'GoogleReview objects with authorAttribution, rating, originalText, publishTime, name'}
+      - {id: s4, action: dedupe, target: 'check existing Reviews by googleReviewId (unique indexed)'}
+      - {id: s5, action: create, target: 'new Reviews with source google, googleReviewId, googlePlaceUrl, authorPhoto from photoUri'}
+      - {id: s6, action: log, target: 'sync results to /var/log/reviews-sync.log'}
+  - id: display-featured
+    name: Display featured reviews
+    description: Matrix templates and homepage show featured 5-star reviews.
+    steps:
+      - {id: s1, action: query, target: 'Reviews where featured equals true and hidden equals false and rating equals 5'}
+      - {id: s2, action: render, target: 'compact cards with authorName, text, link to googlePlaceUrl'}
+  - id: hide-review
+    name: Hide a review without deleting
+    description: Staff hide an inappropriate review.
+    steps:
+      - {id: s1, action: set, target: 'hidden checkbox to true'}
+      - {id: s2, action: observe, target: 'review excluded from public queries but retained in DB'}
+contracts:
+  - id: anyone-read
+    description: Public can read reviews
+    must_have:
+      - 'read: anyone'
+      - 'create, update, delete: authenticated'
+  - id: deduplication
+    description: googleReviewId is unique and indexed for dedup
+    must_have:
+      - 'googleReviewId: text, index true, unique true'
+      - 'Sync script checks existing before creating'
+      - 'Manual reviews leave googleReviewId empty'
+  - id: rating-constraint
+    description: Rating 1-5, integer step
+    must_have:
+      - 'rating: number, required, min 1, max 5, step 1'
+  - id: source-tracking
+    description: Reviews from google, manual, or facebook
+    must_have:
+      - 'source: select (google, manual, facebook), defaultValue google'
+      - 'googleReviewId and googlePlaceUrl shown only when source equals google'
+  - id: hidden-flag
+    description: Hidden reviews excluded from public display
+    must_have:
+      - 'hidden: checkbox, defaultValue false'
+      - 'Public queries filter hidden false'
+  - id: featured-flag
+    description: Featured reviews shown first/on matrix pages
+    must_have:
+      - 'featured: checkbox, defaultValue false'
+      - 'Matrix templates query featured 5-star reviews'
+  - id: cron-env
+    description: Sync script requires 4 env vars
+    must_have:
+      - 'GOOGLE_PLACES_API_KEY, GOOGLE_PLACE_ID, PAYLOAD_ADMIN_EMAIL, PAYLOAD_ADMIN_PASSWORD'
+      - 'PAYLOAD_URL defaults to NEXT_PUBLIC_SERVER_URL or localhost 3000'
+tests:
+  - id: dedup-on-sync
+    setup: {existing: 'review with googleReviewId X', sync: 'same review X'}
+    expect:
+      - {result: 'not duplicated, existing retained'}
+  - id: public-read
+    setup: {auth: none}
+    expect:
+      - {result: 'reviews readable'}
+  - id: hidden-excluded
+    setup: {hidden: true}
+    expect:
+      - {result: 'excluded from public display'}
+  - id: rating-out-of-range
+    setup: {rating: 6}
+    expect:
+      - {result: 'validation error, max 5'}
+decisions:
+  - id: places-api-over-business-profile
+    decision: Use Places API (New) rather than Business Profile API
+    rationale: Places API is simpler (API key, no OAuth). Returns 5 most relevant reviews — enough for trust signals. Business Profile API pending approval for all reviews; can extend later.
+    date: '2026-09-06'
+  - id: daily-cron
+    decision: Daily cron at 6am via Hostinger VPS
+    rationale: Reviews don't change hourly. Daily sync keeps them fresh without API quota concerns. VPS cron is reliable and free.
+    date: '2026-09-06'
+  - id: hidden-over-delete
+    decision: Hide reviews rather than delete them
+    rationale: Google reviews are authentic data — hiding retains them for compliance/audit while excluding from display. Staff can unhide if needed.
+    date: '2026-09-06'
+  - id: unique-google-id
+    decision: Store googleReviewId as unique indexed field
+    rationale: Deduplication key. Google review names are long opaque strings; a unique index prevents duplicate syncs efficiently.
+    date: '2026-09-06'

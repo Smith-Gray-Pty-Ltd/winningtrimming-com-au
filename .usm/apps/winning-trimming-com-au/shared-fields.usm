@@ -1,0 +1,85 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/shared-fields
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Reusable Payload field configs: pillarSelectField (5 pillars with label/value helpers and
+  pillarNoun map), slugField (auto-format from title via formatSlugHook, slugLock checkbox,
+  custom SlugComponent), link and linkGroup fields, seoTab (plugin-seo fields with Overview,
+  MetaTitle, MetaImage, MetaDescription, Preview), and defaultLexical editor config. Used
+  across Pages, Posts, Projects, AssetTypes, ServiceTypes, Regions, Suburbs, Businesses.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Keep field configurations DRY and consistent across collections so pillar values, slug
+  format, SEO metadata, and link structures stay in sync everywhere.
+status: built
+implementation:
+  primary: src/fields
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/seo-matrix-collections
+  - template-website/winning-trimming-com-au/cms-pages
+flows: []
+contracts:
+  - id: pillar-field
+    description: pillarSelectField with 5 consistent values
+    must_have:
+      - 'pillarOptions: marine, automotive, caravan-and-rv, trade-and-industrial, commercial'
+      - 'pillarValues: array of value strings'
+      - 'pillarLabel: maps value to label (e.g. marine to Marine)'
+      - 'pillarNoun: conversational noun per pillar (marine to vessel, automotive to vehicle)'
+      - 'pillarSelectField: factory accepting overrides, required by default'
+  - id: slug-field
+    description: slugField auto-formats from title with lock checkbox
+    must_have:
+      - 'slugField factory accepts fieldToUse (default title) and overrides'
+      - 'Returns TextField and CheckboxField tuple'
+      - 'beforeValidate hook: formatSlugHook'
+      - 'slugLock checkbox: defaultValue true, hidden in admin, sidebar position'
+      - 'Custom SlugComponent with clientProps fieldToUse and checkboxFieldPath'
+  - id: seo-tab
+    description: SEO tab with plugin-seo fields
+    must_have:
+      - 'OverviewField with titlePath, descriptionPath, imagePath'
+      - 'MetaTitleField with hasGenerateFn'
+      - 'MetaImageField with relationTo media'
+      - 'MetaDescriptionField'
+      - 'PreviewField with hasGenerateFn, titlePath, descriptionPath'
+  - id: link-field
+    description: Link field for nav and CTAs
+    must_have:
+      - 'link factory with appearances option'
+      - 'Used by Header, Footer navItems, CallToAction block'
+tests:
+  - id: pillar-label-lookup
+    setup: {value: marine}
+    expect:
+      - {label: Marine}
+  - id: pillar-noun-lookup
+    setup: {value: marine}
+    expect:
+      - {noun: vessel}
+  - id: slug-auto-format
+    setup: {title: 'About Us'}
+    expect:
+      - {slug: 'about-us'}
+  - id: slug-lock-prevents-auto
+    setup: {slugLock: true, title: 'New Title'}
+    expect:
+      - {slug: 'unchanged (lock prevents auto-format)'}
+decisions:
+  - id: pillar-noun-map
+    decision: Include pillarNoun conversational map alongside pillarOptions
+    rationale: Matrix H1s and copy need a natural noun (e.g. "your vessel" not "your marine"). Centralising the mapping avoids per-template conditionals.
+    date: '2026-09-06'
+  - id: slug-lock-checkbox
+    decision: slugLock checkbox defaults true, hidden in admin
+    rationale: Prevents accidental slug changes when editing titles. Staff can unlock via the custom SlugComponent if they need to override the auto-generated slug.
+    date: '2026-09-06'
+  - id: factory-pattern
+    decision: Use factory functions (pillarSelectField, slugField, link) accepting overrides
+    rationale: Collections need slightly different field configs (e.g. pillar in sidebar for AssetTypes). Factory plus overrides keeps shared config DRY while allowing per-collection customisation.
+    date: '2026-09-06'

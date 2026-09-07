@@ -41,13 +41,13 @@ function emailFooter(): string {
             <tr>
               <td style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;">
                 <p style="margin:0 0 8px;color:#ffffff;font-weight:500;">Visit</p>
-                Shop 2, 25 Sara Street, Toronto NSW 2280<br/>
+                Shop 2, 25 Sara Street, Toronto NSW 2283<br/>
                 <a href="tel:1300799882" style="color:rgba(255,255,255,0.9);text-decoration:none;">1300 799 882</a>
               </td>
               <td style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;text-align:right;vertical-align:top;">
                 <p style="margin:0 0 8px;color:#ffffff;font-weight:500;">Hours</p>
-                Mon – Fri: 8am – 4pm<br/>
-                Sat: 8am – Midday
+                Mon – Fri: 7am – 3pm<br/>
+                Sat: By appointment
               </td>
             </tr>
             <tr>

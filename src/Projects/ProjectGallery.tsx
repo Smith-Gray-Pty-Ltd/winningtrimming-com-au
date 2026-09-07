@@ -35,7 +35,7 @@ const FilterButton: React.FC<{
 
 export const ProjectGallery: React.FC<Args> = ({ projects, serviceTypes }) => {
   const [pillar, setPillar] = useState<string>('all')
-  const [type, setType] = useState<string>('all')
+  const [type, setType] = useState<number | 'all'>('all')
 
   const availablePillars = useMemo(
     () =>

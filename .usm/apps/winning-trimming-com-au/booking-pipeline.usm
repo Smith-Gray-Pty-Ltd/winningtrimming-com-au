@@ -1,0 +1,139 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/booking-pipeline
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Job pipeline with a 13-status state machine (new→quoted→deposit-invoiced→deposit-paid→
+  in-progress→completed→final-invoiced→final-paid→closed, plus declined/cancelled terminals
+  and overdue-deposit/overdue-final exception states). beforeChange hook validates transitions
+  against VALID_TRANSITIONS and tracks previousStatus. Agent fields (nextAction, nextActionDue,
+  lastAgentRun, agentError) drive automated follow-ups. Links to originating Quote and
+  resulting Project.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Enforce a predictable job lifecycle from quote acceptance through deposit, work, final
+  invoicing, and closure — so staff and the agent always know what stage a job is in and
+  what action is due next. Invalid transitions are blocked at the data layer.
+status: built
+implementation:
+  primary: src/collections/Bookings.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/quote-pipeline
+  - template-website/winning-trimming-com-au/event-log
+  - template-website/winning-trimming-com-au/invoices
+flows:
+  - id: quote-to-booking
+    name: Quote acceptance to booking
+    description: Accepted quote is converted to a new booking.
+    steps:
+      - {id: s1, action: receive, target: 'quote status set to accepted'}
+      - {id: s2, action: create, target: 'new Booking with status=new, customer+pillar+subject+serviceTypes copied from quote'}
+      - {id: s3, action: set, target: 'booking.quote = originating quote id (sidebar)'}
+      - {id: s4, action: set, target: 'quote.booking = new booking id (reverse link)'}
+      - {id: s5, action: set, target: 'nextAction=send_quote or send_deposit_invoice, nextActionDue set by staff'}
+  - id: happy-path
+    name: Happy path lifecycle
+    description: Standard progression from new to closed.
+    steps:
+      - {id: s1, action: set, target: 'new → quoted (staff send quote amount)'}
+      - {id: s2, action: set, target: 'quoted → deposit-invoiced (deposit invoice created)'}
+      - {id: s3, action: set, target: 'deposit-invoiced → deposit-paid (payment received)'}
+      - {id: s4, action: set, target: 'deposit-paid → in-progress (work begins)'}
+      - {id: s5, action: set, target: 'in-progress → completed (work finished)'}
+      - {id: s6, action: set, target: 'completed → final-invoiced (final invoice created)'}
+      - {id: s7, action: set, target: 'final-invoiced → final-paid (final payment received)'}
+      - {id: s8, action: set, target: 'final-paid → closed (terminal)'}
+  - id: overdue-recovery
+    name: Overdue deposit/final recovery
+    description: Exception states for overdue payments with reminders.
+    steps:
+      - {id: s1, action: set, target: 'deposit-invoiced → overdue-deposit (due date passed, unpaid)'}
+      - {id: s2, action: send, target: 'agent sends deposit_reminder (nextAction=send_deposit_reminder)'}
+      - {id: s3, action: set, target: 'overdue-deposit → deposit-paid (payment received) OR → declined (give up)'}
+      - {id: s4, action: set, target: 'final-invoiced → overdue-final (final due date passed)'}
+      - {id: s5, action: send, target: 'agent sends final_reminder'}
+      - {id: s6, action: set, target: 'overdue-final → final-paid'}
+  - id: cancellation
+    name: Cancellation from any non-terminal state
+    description: Any active state can transition to cancelled (terminal).
+    steps:
+      - {id: s1, action: validate, target: 'oldStatus must be non-terminal (not closed/declined/cancelled)'}
+      - {id: s2, action: set, target: '* → cancelled'}
+      - {id: s3, action: set, target: 'previousStatus = oldStatus (audit)'}
+contracts:
+  - id: state-machine
+    description: 13 statuses with explicit forward transitions; invalid transitions throw
+    must_have:
+      - 'BOOKING_STATUSES: new, quoted, deposit-invoiced, overdue-deposit, deposit-paid, in-progress, completed, final-invoiced, overdue-final, final-paid, closed, declined, cancelled'
+      - 'VALID_TRANSITIONS map defines allowed forward transitions per status'
+      - 'Terminal states (closed, declined, cancelled) have empty transition arrays'
+      - 'validateStatusTransition throws on disallowed transition'
+  - id: beforechange-validation
+    description: beforeChange hook validates status changes and records previousStatus
+    must_have:
+      - 'beforeChange reads originalDoc.status and data.status'
+      - 'If both present and differ, call validateStatusTransition'
+      - 'Set data.previousStatus = oldStatus on valid transition'
+      - 'Throw propagates to client as error (transition blocked)'
+  - id: read-isolation
+    description: Customers see only their own bookings; staff see all
+    must_have:
+      - 'read: users → true'
+      - 'read: customers → { customer.id: { equals: user.id } }'
+      - 'read: anonymous → false'
+  - id: agent-fields
+    description: Agent automation fields drive follow-up scheduling
+    must_have:
+      - 'nextAction: select from BOOKING_ACTIONS (10 actions)'
+      - 'nextActionDue: date with dayAndTime picker, agent queries where <= now()'
+      - 'lastAgentRun: hidden date tracking last execution'
+      - 'agentError: textarea for last error, cleared on successful run'
+  - id: pricing-fields
+    description: Quoted amount, deposit, and adjustments tracked per booking
+    must_have:
+      - quotedAmount in AUD (sidebar)
+      - depositAmount in AUD (sidebar, usually 50%)
+      - adjustments array (description, amount, type: additional|discount)
+  - id: links
+    description: Relationships to quote and project
+    must_have:
+      - 'quote: relationship to quotes (originating quote)'
+      - 'project: relationship to projects (portfolio entry from this booking)'
+tests:
+  - id: valid-transition
+    setup: {from: new, to: quoted}
+    expect:
+      - {result: allowed, previousStatus: new}
+  - id: invalid-transition
+    setup: {from: new, to: deposit-paid}
+    expect:
+      - {result: thrown, error: 'Invalid booking status transition'}
+  - id: terminal-no-exit
+    setup: {from: closed, to: new}
+    expect:
+      - {result: thrown}
+  - id: cancellation-from-active
+    setup: {from: in-progress, to: cancelled}
+    expect:
+      - {result: allowed}
+  - id: customer-read-own
+    setup: {auth: customer, bookings: 'A and B'}
+    expect:
+      - {result: 'only own bookings returned'}
+decisions:
+  - id: enforced-state-machine
+    decision: Validate transitions in beforeChange hook rather than UI-only
+    rationale: Prevents invalid states regardless of client (admin UI, API, agent). Single source of truth.
+    date: '2026-09-06'
+  - id: previous-status-tracking
+    decision: Store previousStatus on every transition
+    rationale: Audit trail without needing to query Events collection for the last state.
+    date: '2026-09-06'
+  - id: overdue-as-states
+    decision: Model overdue-deposit and overdue-final as explicit statuses
+    rationale: Agent can query overdue bookings directly; UI can highlight them; no time-based calculation needed on read.
+    date: '2026-09-06'

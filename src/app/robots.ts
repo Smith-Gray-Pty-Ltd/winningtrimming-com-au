@@ -11,7 +11,28 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/api', '/next/'],
+        disallow: ['/admin', '/api/media', '/next/'],
+      },
+      // Explicitly allow common AI crawlers
+      {
+        userAgent: 'GPTBot',
+        allow: '/',
+        disallow: ['/admin', '/api/media', '/next/'],
+      },
+      {
+        userAgent: 'ClaudeBot',
+        allow: '/',
+        disallow: ['/admin', '/api/media', '/next/'],
+      },
+      {
+        userAgent: 'Google-Extended',
+        allow: '/',
+        disallow: ['/admin', '/api/media', '/next/'],
+      },
+      {
+        userAgent: 'PerplexityBot',
+        allow: '/',
+        disallow: ['/admin', '/api/media', '/next/'],
       },
     ],
     sitemap: `${host}/sitemap.xml`,

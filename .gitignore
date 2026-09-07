@@ -21,3 +21,11 @@ public/media/*
 # Data migration scripts + source data (kept locally, not in repo)
 /data-migration
 
+# USM docs build artifacts
+.usm-workspace/docs/.vitepress.pid
+.usm-workspace/docs/.vitepress.port
+.usm-workspace/docs/.vitepress/
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+

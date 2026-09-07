@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Where } from 'payload'
 
 import {
   FixedToolbarFeature,
@@ -199,8 +199,8 @@ export const Projects: CollectionConfig = {
         description: 'Sub-category tags relevant to this project.',
       },
       // Only offer service types that belong to this project's pillar
-      filterOptions: ({ siblingData }) => {
-        const pillar = (siblingData as Record<string, unknown>)?.pillar
+      filterOptions: ({ siblingData }): Where => {
+        const pillar = (siblingData as Record<string, unknown>)?.pillar as string | undefined
         return pillar ? { pillar: { equals: pillar } } : {}
       },
     },

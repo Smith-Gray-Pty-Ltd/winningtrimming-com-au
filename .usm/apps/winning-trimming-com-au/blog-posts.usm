@@ -1,0 +1,95 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/blog-posts
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Blog posts with Lexical richText content (h1-h4, Banner, Code, MediaBlock blocks, horizontal
+  rules), categories (many-to-many), authors (Users collection, denormalised via populateAuthors
+  afterRead hook for privacy), relatedPosts (self-referential, excludes self), SEO tab, drafts
+  with autosave, live preview, and publishedAt sidebar date. authenticatedOrPublished read.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Let staff publish blog content for SEO and customer engagement, with categories for
+  organisation and related posts for internal linking.
+status: built
+implementation:
+  primary: src/collections/Posts/index.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/cms-pages
+  - template-website/winning-trimming-com-au/shared-fields
+flows:
+  - id: create-post
+    name: Create and publish a blog post
+    description: Staff write a blog post, assign categories and authors, preview, publish.
+    steps:
+      - {id: s1, action: set, target: 'title (required), slug auto-generated'}
+      - {id: s2, action: write, target: 'Lexical richText content with h1-h4, blocks, inline toolbar'}
+      - {id: s3, action: set, target: 'categories (many-to-many), authors (Users), relatedPosts (excludes self)'}
+      - {id: s4, action: set, target: 'SEO tab, publishedAt date'}
+      - {id: s5, action: publish, target: 'beforeChange sets publishedAt if not set, afterChange revalidates'}
+      - {id: s6, action: afterRead, target: 'populateAuthors denormalises author names for display'}
+contracts:
+  - id: access
+    description: authenticatedOrPublished read, authenticated write
+    must_have:
+      - 'read: authenticatedOrPublished'
+      - 'create, update, delete: authenticated'
+  - id: lexical-content
+    description: Rich text editor with headings, blocks, and inline formatting
+    must_have:
+      - 'HeadingFeature h1 h2 h3 h4'
+      - 'BlocksFeature with Banner, Code, MediaBlock'
+      - 'FixedToolbarFeature, InlineToolbarFeature, HorizontalRuleFeature'
+  - id: author-privacy
+    description: Authors denormalised via populateAuthors afterRead hook
+    must_have:
+      - 'authors: relationship to users (privacy-locked collection)'
+      - 'populatedAuthors: array with id and name, update access false'
+      - 'afterRead populateAuthors hook copies author data'
+      - 'populatedAuthors admin disabled and readOnly'
+  - id: related-posts
+    description: relatedPosts self-referential, excludes current post
+    must_have:
+      - 'relatedPosts: hasMany relationship to posts'
+      - 'filterOptions excludes self via id not_in'
+  - id: categories
+    description: Many-to-many relationship to Categories collection
+    must_have:
+      - 'categories: hasMany relationship to categories'
+  - id: drafts
+    description: Drafts with autosave and live preview
+    must_have:
+      - 'versions.drafts.autosave.interval: 100'
+      - 'versions.maxPerDoc: 50'
+      - 'livePreview via generatePreviewPath'
+tests:
+  - id: public-sees-published-only
+    setup: {auth: none}
+    expect:
+      - {result: 'only published posts visible'}
+  - id: related-excludes-self
+    setup: {postId: '123', filterOptions: 'id not_in 123'}
+    expect:
+      - {result: 'post 123 not in related options'}
+  - id: publishedat-auto-set
+    setup: {status: published, publishedAt: null}
+    expect:
+      - {publishedAt: 'set to now'}
+decisions:
+  - id: denormalised-authors
+    decision: Denormalise author names via afterRead hook rather than exposing Users collection
+    rationale: >-
+      Users collection has locked access for privacy. GraphQL and API would not return mutated
+      user data. Denormalising into populatedAuthors array lets templates display author names
+      without querying Users.
+    date: '2026-09-06'
+  - id: lexical-over-markdown
+    decision: Use Lexical richText editor rather than markdown
+    rationale: >-
+      Lexical provides structured content, inline formatting, and embeddable blocks (Banner,
+      Code, Media). Better editing UX than markdown for non-technical staff.
+    date: '2026-09-06'

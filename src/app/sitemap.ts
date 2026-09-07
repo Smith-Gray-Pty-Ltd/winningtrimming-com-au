@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { getServerSideURL } from '@/utilities/getURL'
+import type { ServiceType } from '@/payload-types'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
@@ -110,7 +111,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     })
     const products = (asset.applicableProducts ?? []).filter(
-      (p): p is NonNullable<typeof p> => typeof p === 'object' && p !== null && 'slug' in p,
+      (p): p is ServiceType => typeof p === 'object' && p !== null && 'slug' in p,
     )
     for (const product of products) {
       // Depth 2: vessel + product

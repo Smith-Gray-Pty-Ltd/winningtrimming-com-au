@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Where } from 'payload'
 
 import {
   FixedToolbarFeature,
@@ -122,8 +122,8 @@ export const AssetTypes: CollectionConfig = {
                   'Which product/service types apply to this asset type. Controls the valid matrix combinations.',
               },
               // Only offer service types that belong to this asset's pillar
-              filterOptions: ({ siblingData }) => {
-                const pillar = (siblingData as Record<string, unknown>)?.pillar
+              filterOptions: ({ siblingData }): Where => {
+                const pillar = (siblingData as Record<string, unknown>)?.pillar as string | undefined
                 return pillar ? { pillar: { equals: pillar } } : {}
               },
             },

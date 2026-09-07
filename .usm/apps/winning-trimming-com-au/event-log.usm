@@ -1,0 +1,107 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/event-log
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Append-only audit trail for the booking pipeline. 18 event types covering state transitions,
+  agent actions, payments, emails, and errors. Records are never updated or deleted — the
+  source of truth for what happened and when. Used for idempotency (has a reminder been sent
+  today?), recovery (what happened before this error?), and audit (who moved this booking
+  to declined?).
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Provide an immutable record of every significant action in the booking pipeline so the
+  agent can avoid duplicate actions, staff can trace what happened, and the system has a
+  reliable recovery point after errors.
+status: built
+implementation:
+  primary: src/collections/Events.ts
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/booking-pipeline
+  - template-website/winning-trimming-com-au/invoices
+flows:
+  - id: log-transition
+    name: Log a status transition
+    description: Agent or staff triggers a booking status change; event is recorded.
+    steps:
+      - {id: s1, action: receive, target: 'booking status change (beforeChange validates)'}
+      - {id: s2, action: create, target: 'Event with eventType=status_changed, booking=id, actor=staff|agent|system'}
+      - {id: s3, action: set, target: 'metadata: {from: oldStatus, to: newStatus, previousStatus: oldStatus}'}
+      - {id: s4, action: set, target: 'description: human-readable summary'}
+  - id: idempotency-check
+    name: Agent idempotency check
+    description: Agent checks if an action was already taken today before executing.
+    steps:
+      - {id: s1, action: get, target: 'query Events where booking=id AND eventType=deposit_reminder_sent AND createdAt >= today'}
+      - {id: s2, action: observe, target: 'if results exist, skip action (already done)'}
+      - {id: s3, action: execute, target: 'if no results, perform action and log event'}
+  - id: error-recovery
+    name: Error recovery trail
+    description: After an agent error, review the event trail to understand context.
+    steps:
+      - {id: s1, action: get, target: 'query Events where booking=id AND actor=agent ORDER BY createdAt DESC'}
+      - {id: s2, action: observe, target: 'review agent_action_executed and agent_error events'}
+      - {id: s3, action: set, target: 'booking.agentError cleared on successful retry'}
+contracts:
+  - id: append-only
+    description: Events can be created and read but never updated or deleted
+    must_have:
+      - 'create: authenticated (staff + agent via API)'
+      - 'delete: () => false (never)'
+      - 'update: () => false (never)'
+      - 'read: authenticated'
+  - id: event-types
+    description: 18 defined event types as a const array
+    must_have:
+      - 'EVENTS: booking_created, status_changed, quote_issued, quote_declined, deposit_invoice_sent, deposit_paid, deposit_reminder_sent, work_scheduled, work_completed, final_invoice_sent, final_paid, final_reminder_sent, booking_closed, booking_cancelled, invoice_created, invoice_status_synced, agent_action_executed, agent_error, manual_review_required'
+      - 'eventType field is required select from EVENTS'
+  - id: actor-tracking
+    description: Every event records who or what triggered it
+    must_have:
+      - 'actor: required select (staff, customer, agent, system, xero_webhook)'
+      - 'defaultValue: system'
+      - 'actorId: optional text for user/agent ID'
+  - id: relationships
+    description: Events link to bookings and optionally invoices
+    must_have:
+      - 'booking: relationship to bookings'
+      - 'invoice: relationship to invoices (optional)'
+  - id: metadata
+    description: JSON metadata field for structured idempotency and debugging data
+    must_have:
+      - 'metadata: json field'
+      - 'Used for: {from, to} on status_changed, action details on agent_action_executed'
+tests:
+  - id: create-then-attempt-update
+    setup: {event: booking_created, then: 'PATCH /api/events/:id'}
+    expect:
+      - {result: 'update blocked'}
+  - id: create-then-attempt-delete
+    setup: {event: booking_created, then: 'DELETE /api/events/:id'}
+    expect:
+      - {result: 'delete blocked'}
+  - id: idempotent-reminder
+    setup: {existing_event: deposit_reminder_sent, today: true, agent: 'attempts again'}
+    expect:
+      - {result: 'agent skips (already sent today)'}
+  - id: anonymous-blocked
+    setup: {auth: none, method: 'GET /api/events'}
+    expect:
+      - {result: 'access denied'}
+decisions:
+  - id: append-only-design
+    decision: Make Events immutable (no update, no delete)
+    rationale: Audit trail integrity. If events could be modified, the trail could not be trusted for compliance or debugging.
+    date: '2026-09-06'
+  - id: metadata-as-json
+    decision: Use a JSON metadata field rather than typed columns for event-specific data
+    rationale: Different events need different context (from/to for transitions, action for agent, error for failures). JSON avoids schema bloat.
+    date: '2026-09-06'
+  - id: five-actor-types
+    decision: Track 5 actor types (staff, customer, agent, system, xero_webhook)
+    rationale: Distinguishes human vs automated actions, and external system (Xero) from internal system events.
+    date: '2026-09-06'

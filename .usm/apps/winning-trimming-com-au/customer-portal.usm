@@ -1,0 +1,116 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/customer-portal
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Self-service dashboard at /account for authenticated customers. Shows stats (pending quotes,
+  active bookings, unpaid invoices, total outstanding), recent quotes and bookings, and
+  tabbed views for all quotes/bookings/invoices. Customers authenticate via the Customers
+  collection (separate from staff Users). Data fetched with overrideAccess=false so Payload
+  access rules enforce isolation. revalidate=0 for always-fresh customer-specific data.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Let customers self-serve their quote/booking/invoice status without calling staff, reducing
+  admin workload while enforcing strict data isolation (customers see only their own records).
+status: built
+implementation:
+  primary: src/app/(frontend)/account/page.tsx
+  test_code: ''
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/quote-pipeline
+  - template-website/winning-trimming-com-au/booking-pipeline
+  - template-website/winning-trimming-com-au/invoices
+flows:
+  - id: view-dashboard
+    name: View dashboard
+    description: Customer logs in and sees their overview stats and recent activity.
+    steps:
+      - {id: s1, action: navigate, target: /account}
+      - {id: s2, action: authenticate, target: 'payload.auth checks user.collection equals customers, else redirect to /account/login'}
+      - {id: s3, action: get, target: 'parallel fetch quotes, bookings, invoices with overrideAccess false and where customer.id equals user.id'}
+      - {id: s4, action: compute, target: 'stats pendingQuotes, activeBookings, unpaidInvoices, totalOutstanding'}
+      - {id: s5, action: render, target: 'stats cards plus recent quotes (5) plus recent bookings (5)'}
+  - id: view-tab
+    name: View all quotes/bookings/invoices tab
+    description: Customer clicks a tab to see full lists.
+    steps:
+      - {id: s1, action: navigate, target: '/account?tab=quotes or bookings or invoices'}
+      - {id: s2, action: render, target: 'full list for the selected tab'}
+  - id: unauthenticated-redirect
+    name: Unauthenticated redirect
+    description: Visitor without customer session is redirected to login.
+    steps:
+      - {id: s1, action: navigate, target: /account}
+      - {id: s2, action: observe, target: 'no user or user.collection not customers'}
+      - {id: s3, action: navigate, target: /account/login}
+contracts:
+  - id: auth-gate
+    description: Only authenticated customers can access the dashboard; others redirect to login
+    must_have:
+      - 'payload.auth called with headers'
+      - 'If no user or user.collection not customers then redirect to /account/login'
+  - id: data-isolation
+    description: All queries use overrideAccess=false so Payload access rules enforce customer-specific reads
+    must_have:
+      - 'quotes where customer.id equals user.id, overrideAccess false'
+      - 'bookings where customer.id equals user.id, overrideAccess false'
+      - 'invoices where booking.customer.id equals user.id, overrideAccess false'
+      - 'depth 1 for relationship expansion'
+  - id: stats-computation
+    description: Dashboard computes 4 stat cards from fetched data
+    must_have:
+      - 'pendingQuotes — quotes with status in requested, reviewing, quoted'
+      - 'activeBookings — bookings with status not in closed, cancelled, declined'
+      - 'unpaidInvoices — invoices with status sent or overdue'
+      - 'totalOutstanding — sum of unpaidInvoices amounts in AUD'
+  - id: fresh-data
+    description: Always-fresh customer-specific data
+    must_have:
+      - 'revalidate equals 0'
+  - id: status-colours
+    description: Status badges have colour-coded visual states
+    must_have:
+      - 'QUOTE_STATUS_COLOURS — 6 statuses mapped to bg/text classes'
+      - 'BOOKING_STATUS_COLOURS — 13 statuses mapped to bg/text classes'
+      - 'INVOICE_STATUS_COLOURS — 5 statuses mapped to bg/text classes'
+tests:
+  - id: unauthenticated-redirects
+    setup: {auth: none, url: /account}
+    expect:
+      - {result: 'redirect to /account/login'}
+  - id: staff-redirects
+    setup: {auth: 'staff (users collection)', url: /account}
+    expect:
+      - {result: 'redirect to /account/login'}
+  - id: customer-sees-own-data
+    setup: {auth: 'customer A', fixtures: 'quotes A and B, bookings A and B, invoices A and B'}
+    expect:
+      - {quotes: 'only A', bookings: 'only A', invoices: 'only A'}
+  - id: stats-correct
+    setup: {pending: 2, active: 1, unpaid: 1, amount: 500}
+    expect:
+      - {pendingQuotes: 2, activeBookings: 1, unpaidInvoices: 1, totalOutstanding: '$500.00'}
+decisions:
+  - id: separate-customers-collection
+    decision: Customers authenticate via Customers collection, not the staff Users collection
+    rationale: >-
+      Customers log in on the website, never the Payload admin panel. Separate collection with
+      admin access set to always false.
+    date: '2026-09-06'
+  - id: overrideaccess-false
+    decision: Use overrideAccess false on all portal queries
+    rationale: >-
+      Defence in depth — even if the where clause has a bug, Payload access rules (read
+      isolation) will still filter out other customers data.
+    date: '2026-09-06'
+  - id: revalidate-zero
+    decision: Set revalidate equal to 0 on the dashboard
+    rationale: Customer-specific data must always be fresh. No caching at the page level.
+    date: '2026-09-06'
+  - id: parallel-fetch
+    decision: Fetch quotes, bookings, and invoices in parallel via Promise.all
+    rationale: Three independent queries — no need to sequence. Reduces page load time.
+    date: '2026-09-06'

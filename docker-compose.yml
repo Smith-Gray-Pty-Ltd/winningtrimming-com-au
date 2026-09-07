@@ -39,6 +39,7 @@ services:
     build:
       context: .
       target: dev
+    init: true
     restart: unless-stopped
     depends_on:
       db:

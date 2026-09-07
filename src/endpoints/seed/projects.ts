@@ -14,7 +14,7 @@ const slugify = (s: string) =>
  * Managed sub-category service types, grouped by pillar.
  * Marine product types match the SEO-matrix product list.
  */
-const serviceTypeData: { title: string; pillar: string; intro?: string }[] = [
+const serviceTypeData: { title: string; pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial'; intro?: string }[] = [
   // Marine product types
   { title: 'Weather Covers', pillar: 'marine', intro: 'Custom weather covers built to protect your vessel from sun, rain and salt.' },
   { title: 'Towing Covers', pillar: 'marine', intro: 'Heavy-duty towing covers that protect your boat on the road.' },
@@ -60,7 +60,7 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
         title: st.title,
         pillar: st.pillar,
         intro: st.intro ?? '',
-        heroImage,
+        heroImage: heroImage as number | null,
         slug,
         slugLock: false,
       },
@@ -86,7 +86,7 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
         pillar: st.pillar,
         workType: 'repair',
         intro: repairIntro,
-        heroImage: repairHeroImage,
+        heroImage: repairHeroImage as number | null,
         slug: repairSlug,
         slugLock: false,
       },

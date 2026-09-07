@@ -1,0 +1,86 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/access-control
+$type: feature
+$version: 1
+$last_updated: '2026-09-06'
+summary: >-
+  Three access control tiers used across all collections: anyone (public, returns true),
+  authenticated (any logged-in user or customer, checks Boolean(user)), and
+  authenticatedOrPublished (staff see all, public sees only _status=published). Customer-
+  specific isolation handled inline in collection read access (user.collection check plus
+  where clause filtering by customer.id).
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Provide reusable access control functions so collections declare access declaratively
+  rather than reimplementing auth checks, while supporting the three-tier model (public,
+  staff, published-only) and customer self-service isolation.
+status: built
+implementation:
+  primary: src/access
+  test_code: ''
+  test_code_status: none
+see_also: []
+flows: []
+contracts:
+  - id: anyone
+    description: Public access — always returns true
+    must_have:
+      - 'anyone: Access returns () => true'
+      - 'Used by: AssetTypes, ServiceTypes, Regions, Suburbs, Businesses, Media, Reviews (read)'
+  - id: authenticated
+    description: Any logged-in user (staff or customer) — checks Boolean(user)
+    must_have:
+      - 'authenticated: checks Boolean(req.user)'
+      - 'Used by: all collection create/update/delete (staff-only operations)'
+  - id: authenticated-or-published
+    description: Staff see all, public sees published only
+    must_have:
+      - 'If user exists, return true (staff see drafts)'
+      - 'If no user, return { _status: { equals: published } } (public sees published only)'
+      - 'Used by: Pages, Posts, Projects (read)'
+  - id: customer-isolation
+    description: Customer-specific read isolation handled inline per collection
+    must_have:
+      - 'Quotes: user.collection users then true, customers then customer.id equals user.id, else false'
+      - 'Bookings: same pattern as Quotes'
+      - 'Invoices: customers see booking.customer.id equals user.id'
+      - 'Customers collection: customers see id equals user.id only'
+  - id: no-customer-admin
+    description: Customers never access the Payload admin panel
+    must_have:
+      - 'Customers collection: admin: () => false'
+tests:
+  - id: anyone-allows-all
+    setup: {auth: none}
+    expect:
+      - {result: true}
+  - id: authenticated-no-user
+    setup: {user: null}
+    expect:
+      - {result: false}
+  - id: authenticated-with-user
+    setup: {user: 'staff or customer'}
+    expect:
+      - {result: true}
+  - id: published-only-for-public
+    setup: {user: null, doc: 'draft'}
+    expect:
+      - {result: 'filtered by _status equals published'}
+  - id: staff-see-drafts
+    setup: {user: staff, doc: 'draft'}
+    expect:
+      - {result: true}
+decisions:
+  - id: three-tier-model
+    decision: Three reusable access functions rather than per-collection inline checks
+    rationale: Most collections fit one of three patterns. Reusable functions keep access logic DRY and consistent. Customer isolation is the exception (inline) because the where clause differs per collection.
+    date: '2026-09-06'
+  - id: boolean-user-check
+    decision: authenticated checks Boolean(user) rather than checking collection
+    rationale: Any authenticated user (staff or customer) can create/update in most collections. Collection-specific restrictions (e.g. customers cannot update bookings) are handled separately.
+    date: '2026-09-06'
+  - id: customer-no-admin
+    decision: Customers collection admin access returns false
+    rationale: Customers log in on the website, never the Payload admin panel. The admin panel is for staff (Users collection) only.
+    date: '2026-09-06'
