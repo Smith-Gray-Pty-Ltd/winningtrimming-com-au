@@ -1,12 +1,12 @@
 import Link from 'next/link'
-import NextImage from 'next/image'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 
 import { CMSLink } from '@/components/Link'
+import { HeroCarousel } from '@/components/HeroCarousel'
 import { ProjectCard } from '@/Projects/ProjectCard'
-import { ReviewsSection, Stars } from '@/components/Reviews/ReviewsSection'
+import { CompactReviewCard, ReviewsSection, Stars } from '@/components/Reviews/ReviewsSection'
 import { Media } from '@/components/Media'
 import type { AssetType, Media as MediaType, Project, Review } from '@/payload-types'
 import type { AllPillarSuburbData } from './matrix'
@@ -68,7 +68,7 @@ export const AllPillarSuburbTemplate: React.FC<{ data: AllPillarSuburbData }> = 
       collection: 'reviews',
       where: { and: [{ hidden: { not_equals: true } }, { rating: { equals: 5 } }] },
       depth: 1,
-      limit: 4,
+      limit: 2,
       overrideAccess: false,
       sort: '-featured,-reviewDate',
     }),
@@ -104,28 +104,14 @@ export const AllPillarSuburbTemplate: React.FC<{ data: AllPillarSuburbData }> = 
   return (
     <div className="pb-24">
       {/* ====================================================================
-          1. HERO
+          1. HERO — carousel background
       ==================================================================== */}
       <section
         className="relative flex min-h-[55vh] items-center overflow-hidden text-white"
         data-theme="dark"
       >
-        {carouselSlides[0] && (
-          <>
-            <NextImage
-              src={carouselSlides[0].url}
-              alt={carouselSlides[0].alt}
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/30" aria-hidden="true" />
-          </>
-        )}
-        {!carouselSlides[0] && (
-          <div className="absolute inset-0 bg-accent" aria-hidden="true" />
-        )}
+        <HeroCarousel slides={carouselSlides} />
+
         <div className="container relative z-10 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="lg:col-span-2 max-w-2xl">
@@ -186,9 +172,52 @@ export const AllPillarSuburbTemplate: React.FC<{ data: AllPillarSuburbData }> = 
       </section>
 
       {/* ====================================================================
-          3. SERVICE PILLARS — link to /{pillar}/{region}/{suburb}
+          3. SEO CONTENT + GOOGLE REVIEWS (right at the top, after hero)
       ==================================================================== */}
-      <section className="py-16">
+      <section className="py-12">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-3">
+              <div className="prose dark:prose-invert max-w-3xl text-foreground/80 leading-relaxed">
+                <p>
+                  Winning Trimming provides custom and repair trimming services in {suburb.title}, {region.title}.
+                  From marine canvas and boat upholstery to automotive seat re-trims, caravan cushions,
+                  machinery covers and commercial upholstery — we handle every type of trimming work
+                  from our workshop in Toronto on Lake Macquarie.
+                </p>
+                <p>
+                  {suburb.title} is in the {region.title} area, a short drive from our Toronto workshop.
+                  For larger jobs like marine clears and canvas we can come to your marina, mooring or
+                  home to measure and fit on-site. For automotive and caravan work you can bring the
+                  vehicle to our workshop.
+                </p>
+                <p>
+                  We use premium marine-grade and automotive-grade materials — UV-stable vinyl,
+                  Sunbrella canvas, WeatherMax and high-density foams — all stitched with UV-stable
+                  thread to withstand the harsh Australian conditions. Call {PHONE} or request a quote online.
+                </p>
+              </div>
+              <div className="mt-6">
+                <CMSLink
+                  {...{ type: 'custom', label: 'Request a Quote', url: '/quote', appearance: 'default' }}
+                />
+              </div>
+            </div>
+            {reviews.length > 0 && (
+              <div className="lg:col-span-1 flex flex-col gap-4">
+                {reviews.map((review) => (
+                  <CompactReviewCard key={review.id} review={review} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          4. SERVICE PILLARS — link to /{pillar}/{region}/{suburb}
+      ==================================================================== */}
+      <section className="py-16 bg-muted/30">
         <div className="container">
           <div className="mb-10 text-center">
             <h2 className="text-3xl font-medium tracking-tight">What We Do in {suburb.title}</h2>
@@ -211,7 +240,7 @@ export const AllPillarSuburbTemplate: React.FC<{ data: AllPillarSuburbData }> = 
       </section>
 
       {/* ====================================================================
-          4. RECENT WORK
+          5. RECENT WORK
       ==================================================================== */}
       {projects.length > 0 && (
         <section className="bg-accent text-white py-16" data-theme="dark">
@@ -240,46 +269,10 @@ export const AllPillarSuburbTemplate: React.FC<{ data: AllPillarSuburbData }> = 
       )}
 
       {/* ====================================================================
-          5. SEO CONTENT + REVIEWS
-      ==================================================================== */}
-      <section className="py-16">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-3">
-              <div className="prose dark:prose-invert max-w-3xl text-foreground/80 leading-relaxed">
-                <p>
-                  Winning Trimming provides custom and repair trimming services in {suburb.title}, {region.title}.
-                  From marine canvas and boat upholstery to automotive seat re-trims, caravan cushions,
-                  machinery covers and commercial upholstery — we handle every type of trimming work
-                  from our workshop in Toronto on Lake Macquarie.
-                </p>
-                <p>
-                  {suburb.title} is in the {region.title} area, a short drive from our Toronto workshop.
-                  For larger jobs like marine clears and canvas we can come to your marina, mooring or
-                  home to measure and fit on-site. For automotive and caravan work you can bring the
-                  vehicle to our workshop.
-                </p>
-                <p>
-                  We use premium marine-grade and automotive-grade materials — UV-stable vinyl,
-                  Sunbrella canvas, WeatherMax and high-density foams — all stitched with UV-stable
-                  thread to withstand the harsh Australian conditions. Call {PHONE} or request a quote online.
-                </p>
-              </div>
-            </div>
-            {reviews.length > 0 && (
-              <div className="lg:col-span-1">
-                <ReviewsSection onTeal={false} limit={2} />
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
           6. NEARBY SUBURBS
       ==================================================================== */}
       {nearbySuburbs.length > 0 && (
-        <section className="py-8">
+        <section className="py-12">
           <div className="container">
             <h2 className="text-2xl font-medium tracking-tight mb-4">
               Nearby areas in {region.title}
