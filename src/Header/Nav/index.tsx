@@ -55,6 +55,34 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
               Request a Quote
             </Link>
             {navItems.map(({ link }, i) => {
+              // In the mobile drawer, render as plain Link with onClick
+              // to close the menu on navigation (CMSLink doesn't support onClick)
+              if (link.type === 'custom' && link.url) {
+                return (
+                  <Link
+                    key={i}
+                    href={link.url}
+                    className="min-h-[48px] flex items-center py-3 border-b border-border/60 text-base"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              }
+              if (link.type === 'reference' && link.reference) {
+                const ref = link.reference as { slug?: string; relationTo?: string }
+                const href = ref.relationTo === 'pages' && ref.slug ? `/${ref.slug}` : '/'
+                return (
+                  <Link
+                    key={i}
+                    href={href}
+                    className="min-h-[48px] flex items-center py-3 border-b border-border/60 text-base"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              }
               return (
                 <CMSLink
                   key={i}
