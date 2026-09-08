@@ -15,6 +15,8 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { AssetTypeGrid } from '@/Matrix/AssetTypeGrid'
 import { ServiceTypeGrid } from '@/Matrix/ServiceTypeGrid'
+import { AllPillarRegionTemplate } from '@/Matrix/AllPillarRegionTemplate'
+import { resolveAllPillarRegion } from '@/Matrix/matrix'
 import { isValidPillar } from '@/Matrix/matrix'
 import { pillarLabel } from '@/fields/pillars'
 import { CMSLink } from '@/components/Link'
@@ -165,10 +167,18 @@ export async function generateStaticParams() {
 
     const params = pages.docs
       ?.filter((doc) => {
-        // Exclude slugs that have their own dedicated page files —
+        // Exclude slugs that have their own dedicated page files or are
+        // region slugs handled by the all-pillar region resolver —
         // otherwise Next.js prerenders them via this catch-all template
         // and serves the cached version instead of the dedicated page.
-        return !['home', 'our-work', 'about'].includes(doc.slug || '')
+        const excludedSlugs = [
+          'home', 'our-work', 'about',
+          // Region slugs — handled by AllPillarRegionTemplate
+          'parramatta-river', 'sydney-harbour', 'middle-harbour',
+          'pittwater--hawkesbury', 'central-coast', 'lake-macquarie',
+          'newcastle--hunter', 'port-stephens',
+        ]
+        return !excludedSlugs.includes(doc.slug || '')
       })
       .map(({ slug }) => {
         return { slug }
@@ -190,6 +200,17 @@ type Args = {
 export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
+
+  // Check if this is an all-pillar region page (e.g. /lake-macquarie)
+  const regionData = await resolveAllPillarRegion(slug)
+  if (regionData) {
+    return (
+      <>
+        <PageClient />
+        <AllPillarRegionTemplate data={regionData} />
+      </>
+    )
+  }
 
   let page: PageType | null
 

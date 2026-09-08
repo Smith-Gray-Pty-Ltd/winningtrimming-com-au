@@ -1,10 +1,15 @@
 import Link from 'next/link'
+import NextImage from 'next/image'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 import React from 'react'
 
 import { CMSLink } from '@/components/Link'
+import { CompactReviewCard } from '@/components/Reviews/ReviewsSection'
 import { AssetTypeGrid } from '@/Matrix/AssetTypeGrid'
 import { ServiceTypeGrid } from '@/Matrix/ServiceTypeGrid'
 import { pillarLabel } from '@/fields/pillars'
+import type { Media, Page, Review } from '@/payload-types'
 import type { RegionSuburbData } from './matrix'
 
 const PHONE = '1300 799 882'
@@ -33,24 +38,69 @@ const regionCopy: Record<string, { custom: string; repairs: string }> = {
   },
 }
 
-export const RegionSuburbTemplate: React.FC<{ data: RegionSuburbData }> = ({ data }) => {
-  const { pillar, region, suburb, nearbySuburbs, assetTypes } = data
+export const RegionSuburbTemplate: React.FC<{ data: RegionSuburbData }> = async ({ data }) => {
+  const { pillar, region, suburb, nearbySuburbs } = data
   const label = pillarLabel(pillar)
+
+  // Fetch the pillar page's hero media and reviews (same as RegionTemplate)
+  const payload = await getPayload({ config: configPromise })
+  const [pageRes, reviewsRes] = await Promise.all([
+    payload.find({
+      collection: 'pages',
+      draft: false,
+      limit: 1,
+      overrideAccess: false,
+      where: { slug: { equals: pillar } },
+    }),
+    payload.find({
+      collection: 'reviews',
+      where: { and: [{ hidden: { not_equals: true } }, { rating: { equals: 5 } }] },
+      depth: 1,
+      limit: 2,
+      overrideAccess: false,
+      sort: '-featured,-reviewDate',
+    }),
+  ])
+
+  const pillarPage = pageRes.docs?.[0] as Page | undefined
+  const heroMedia =
+    pillarPage?.hero?.media && typeof pillarPage.hero.media === 'object'
+      ? (pillarPage.hero.media as Media)
+      : null
+  const reviews = reviewsRes.docs as Review[]
 
   return (
     <article className="pb-24">
       {/* ====================================================================
-          Hero
+          Hero — inherits the pillar page's hero image
       ==================================================================== */}
       <section
-        className="relative flex min-h-[40vh] items-end overflow-hidden bg-accent text-white"
+        className="relative flex min-h-[50vh] items-end overflow-hidden text-white"
         data-theme="dark"
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-accent/80 to-accent" aria-hidden="true" />
+        {heroMedia && (
+          <>
+            <NextImage
+              src={heroMedia.url || ''}
+              alt={heroMedia.alt || `${label} trimming in ${suburb.title}`}
+              fill
+              priority
+              className="object-cover"
+              sizes="100vw"
+            />
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/30"
+              aria-hidden="true"
+            />
+          </>
+        )}
+        {!heroMedia && (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-accent/80 to-accent" aria-hidden="true" />
+        )}
         <div className="container relative z-10 pb-16 pt-32">
           <div className="max-w-2xl">
             <p className="text-sm font-medium uppercase tracking-wide text-[#a3c44d] mb-3">
-              {region.title}
+              {suburb.title} · {region.title}
             </p>
             <h1 className="text-3xl md:text-5xl font-medium tracking-tight">
               {label} Trimming in {suburb.title}
@@ -88,30 +138,43 @@ export const RegionSuburbTemplate: React.FC<{ data: RegionSuburbData }> = ({ dat
       </nav>
 
       {/* ====================================================================
-          SEO content
+          SEO content + reviews sidebar
       ==================================================================== */}
       <div className="container mt-6">
-        <div className="prose dark:prose-invert max-w-3xl text-foreground/80 leading-relaxed">
-          <p>
-            {label} trimming services in {suburb.title}, {region.title}.{' '}
-            {regionCopy[pillar]?.custom ?? ''}{' '}
-            {regionCopy[pillar]?.repairs ?? ''}
-          </p>
-          <p>
-            Based in Toronto on Lake Macquarie, our workshop is a short drive from{' '}
-            {suburb.title}. For larger jobs we can come to you to measure and fit on-site —
-            whether that&apos;s your home, workplace, marina or mooring.
-          </p>
-        </div>
-        <div className="mt-8">
-          <CMSLink
-            {...{
-              type: 'custom',
-              label: 'Request a Quote',
-              url: '/quote',
-              appearance: 'default',
-            }}
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* SEO text — 3/4 width */}
+          <div className="lg:col-span-3">
+            <div className="prose dark:prose-invert max-w-3xl text-foreground/80 leading-relaxed">
+              <p>
+                {label} trimming services in {suburb.title}, {region.title}.{' '}
+                {regionCopy[pillar]?.custom ?? ''}{' '}
+                {regionCopy[pillar]?.repairs ?? ''}
+              </p>
+              <p>
+                Based in Toronto on Lake Macquarie, our workshop is a short drive from{' '}
+                {suburb.title}. For larger jobs we can come to you to measure and fit on-site —
+                whether that&apos;s your home, workplace, marina or mooring.
+              </p>
+            </div>
+            <div className="mt-8">
+              <CMSLink
+                {...{
+                  type: 'custom',
+                  label: 'Request a Quote',
+                  url: '/quote',
+                  appearance: 'default',
+                }}
+              />
+            </div>
+          </div>
+          {/* Google reviews sidebar — 1/4 width */}
+          {reviews.length > 0 && (
+            <div className="lg:col-span-1 flex flex-col gap-4">
+              {reviews.map((review) => (
+                <CompactReviewCard key={review.id} review={review} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

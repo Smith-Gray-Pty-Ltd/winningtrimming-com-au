@@ -8,6 +8,7 @@ import {
   resolveMatrix,
   resolveRegionPage,
   resolveRegionSuburbPage,
+  resolveAllPillarSuburb,
   resolvePillarProduct,
   matrixH1,
   matrixDescription,
@@ -16,11 +17,14 @@ import {
   pillarProductDescription,
   regionSuburbH1,
   regionSuburbDescription,
+  allPillarSuburbH1,
+  allPillarSuburbDescription,
   type MatrixData,
 } from '@/Matrix/matrix'
 import { MatrixTemplate } from '@/Matrix/MatrixTemplate'
 import { RegionTemplate } from '@/Matrix/RegionTemplate'
 import { RegionSuburbTemplate } from '@/Matrix/RegionSuburbTemplate'
+import { AllPillarSuburbTemplate } from '@/Matrix/AllPillarSuburbTemplate'
 import { PillarProductTemplate } from '@/Matrix/PillarProductTemplate'
 
 export const revalidate = 3600
@@ -83,6 +87,20 @@ export default async function MatrixPage({ params: paramsPromise }: Args) {
     }
   }
 
+  // 4. Try all-pillar region + suburb page (one segment: /lake-macquarie/toronto)
+  //     Here slug is the region (e.g. "lake-macquarie") and matrix[0] is the suburb.
+  if (matrix.length === 1) {
+    const allPillarSuburbData = await resolveAllPillarSuburb(slug, matrix[0])
+    if (allPillarSuburbData) {
+      return (
+        <>
+          <PageClient />
+          <AllPillarSuburbTemplate data={allPillarSuburbData} />
+        </>
+      )
+    }
+  }
+
   notFound()
 }
 
@@ -139,6 +157,18 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       return {
         title: `${regionSuburbH1(regionSuburbData)} | Winning Trimming`,
         description: regionSuburbDescription(regionSuburbData),
+        alternates: { canonical: `/${slug}/${matrix.join('/')}` },
+      }
+    }
+  }
+
+  // All-pillar region + suburb (e.g. /lake-macquarie/toronto)
+  if (matrix.length === 1) {
+    const allPillarSuburbData = await resolveAllPillarSuburb(slug, matrix[0])
+    if (allPillarSuburbData) {
+      return {
+        title: `${allPillarSuburbH1(allPillarSuburbData)} | Winning Trimming`,
+        description: allPillarSuburbDescription(allPillarSuburbData),
         alternates: { canonical: `/${slug}/${matrix.join('/')}` },
       }
     }

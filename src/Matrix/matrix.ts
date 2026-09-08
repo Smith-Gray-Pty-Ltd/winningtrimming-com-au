@@ -2,7 +2,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
 import type { AssetType, Business, Region, ServiceType, Suburb } from '@/payload-types'
-import { pillarLabel, pillarValues } from '@/fields/pillars'
+import { pillarLabel, pillarOptions, pillarValues } from '@/fields/pillars'
 
 export type { AssetType, Business, Region, ServiceType, Suburb }
 
@@ -528,3 +528,133 @@ export const regionSuburbH1 = (data: RegionSuburbData): string =>
 /** Meta description for a region-suburb page */
 export const regionSuburbDescription = (data: RegionSuburbData): string =>
   `${data.pillarLabel.toLowerCase()} trimming, covers and upholstery in ${data.suburb.title}, ${data.region.title}. Custom-made and repaired to last. Serving the ${data.region.title} area.`
+
+// -- All-pillar region/suburb pages ---------------------------------------
+
+export type AllPillarRegionData = {
+  region: Region
+  suburbs: Suburb[]
+  pillars: { slug: string; label: string }[]
+}
+
+export type AllPillarSuburbData = {
+  region: Region
+  suburb: Suburb
+  nearbySuburbs: Suburb[]
+  pillars: { slug: string; label: string }[]
+}
+
+/**
+ * Resolve an all-pillar region landing page: /{region-slug}
+ * Shows all service pillars available in that region.
+ * Only returns regions that serve all pillars (not marine-only regions).
+ */
+export async function resolveAllPillarRegion(
+  regionSlug: string,
+): Promise<AllPillarRegionData | null> {
+  const payload = await getPayload({ config: configPromise })
+
+  const regionRes = await payload.find({
+    collection: 'regions',
+    where: { slug: { equals: regionSlug } },
+    depth: 1,
+    limit: 1,
+    overrideAccess: false,
+  })
+  const region = regionRes.docs?.[0] as Region | undefined
+  if (!region) return null
+
+  // Only show all-pillar pages for regions that serve all pillars.
+  // Marine-only regions (Sydney Harbour, Middle Harbour, etc.) redirect to /marine/{region}.
+  const regionPillars = (region.pillars ?? []) as string[]
+  if (regionPillars.length > 0 && !regionPillars.includes('automotive')) return null
+
+  const suburbRes = await payload.find({
+    collection: 'suburbs',
+    where: { region: { equals: region.id } },
+    depth: 0,
+    limit: 100,
+    overrideAccess: false,
+    sort: 'title',
+  })
+
+  return {
+    region,
+    suburbs: suburbRes.docs as Suburb[],
+    pillars: pillarOptions.map((p) => ({ slug: p.value, label: p.label })),
+  }
+}
+
+/**
+ * Resolve an all-pillar suburb page: /{region-slug}/{suburb-slug}
+ * Shows all service pillars available in that specific suburb.
+ * Only returns for regions that serve all pillars (not marine-only regions).
+ */
+export async function resolveAllPillarSuburb(
+  regionSlug: string,
+  suburbSlug: string,
+): Promise<AllPillarSuburbData | null> {
+  const payload = await getPayload({ config: configPromise })
+
+  const regionRes = await payload.find({
+    collection: 'regions',
+    where: { slug: { equals: regionSlug } },
+    depth: 1,
+    limit: 1,
+    overrideAccess: false,
+  })
+  const region = regionRes.docs?.[0] as Region | undefined
+  if (!region) return null
+
+  // Only show all-pillar pages for regions that serve all pillars.
+  const regionPillars = (region.pillars ?? []) as string[]
+  if (regionPillars.length > 0 && !regionPillars.includes('automotive')) return null
+
+  const suburbRes = await payload.find({
+    collection: 'suburbs',
+    where: {
+      and: [
+        { slug: { equals: suburbSlug } },
+        { region: { equals: region.id } },
+      ],
+    },
+    depth: 0,
+    limit: 1,
+    overrideAccess: false,
+  })
+  const suburb = suburbRes.docs?.[0] as Suburb | undefined
+  if (!suburb) return null
+
+  const nearRes = await payload.find({
+    collection: 'suburbs',
+    where: { region: { equals: region.id } },
+    depth: 0,
+    limit: 50,
+    overrideAccess: false,
+    sort: 'title',
+  })
+  const nearbySuburbs = (nearRes.docs as Suburb[]).filter((s) => s.id !== suburb.id)
+
+  return {
+    region,
+    suburb,
+    nearbySuburbs,
+    pillars: pillarOptions.map((p) => ({ slug: p.value, label: p.label })),
+  }
+}
+
+/** H1 for an all-pillar region page */
+export const allPillarRegionH1 = (data: AllPillarRegionData): string =>
+  `Trimming Services in ${data.region.title}`
+
+/** Meta description for an all-pillar region page */
+export const allPillarRegionDescription = (data: AllPillarRegionData): string =>
+  `Marine, automotive, caravan, trade and commercial trimming services in ${data.region.title}. Custom covers, canvas, upholstery and repairs. Based in Toronto, Lake Macquarie.`
+
+/** H1 for an all-pillar suburb page */
+export const allPillarSuburbH1 = (data: AllPillarSuburbData): string =>
+  `Trimming Services in ${data.suburb.title}, ${data.region.title}`
+
+/** Meta description for an all-pillar suburb page */
+export const allPillarSuburbDescription = (data: AllPillarSuburbData): string =>
+  `Marine, automotive, caravan, trade and commercial trimming services in ${data.suburb.title}, ${data.region.title}. Custom covers, canvas, upholstery and repairs.`

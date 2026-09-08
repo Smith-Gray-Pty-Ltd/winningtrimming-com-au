@@ -384,12 +384,13 @@ export const RegionTemplate: React.FC<{ data: RegionPageData }> = async ({ data 
             </h2>
             <div className="flex flex-wrap gap-2">
               {suburbs.map((s) => (
-                <span
+                <Link
                   key={s.id}
-                  className="rounded-full border border-border bg-white px-4 py-1.5 text-sm text-foreground"
+                  href={`/${pillar}/${region.slug}/${s.slug}`}
+                  className="rounded-full border border-border bg-white px-4 py-1.5 text-sm text-foreground hover:border-primary hover:text-primary transition-colors"
                 >
                   {s.title}
-                </span>
+                </Link>
               ))}
             </div>
           </div>

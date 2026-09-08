@@ -152,7 +152,7 @@ const PillarCard: React.FC<{
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
 
-  const [projectsRes, reviewsRes, assetTypesRes, homePageGlobal] = await Promise.all([
+  const [projectsRes, reviewsRes, assetTypesRes, homePageGlobal, regionsRes] = await Promise.all([
     payload.find({
       collection: 'projects',
       depth: 2,
@@ -185,6 +185,13 @@ export default async function HomePage() {
       slug: 'home-page',
       depth: 2,
       overrideAccess: false,
+    }),
+    payload.find({
+      collection: 'regions',
+      depth: 0,
+      limit: 100,
+      overrideAccess: false,
+      sort: 'title',
     }),
   ])
 
@@ -297,15 +304,30 @@ export default async function HomePage() {
                   {PHONE}
                 </a>
 
-                {/* Areas we serve */}
+                {/* Areas we serve — links to all-pillar region pages (3 local regions only) */}
                 <div className="pt-5 border-t border-white/20">
                   <p className="text-xs uppercase tracking-wide text-white/60 mb-2">
                     Areas we serve
                   </p>
-                  <p className="text-sm text-white/85 leading-relaxed">
-                    Lake Macquarie &middot; Newcastle
-                    <br />
-                    Central Coast &middot; Hunter Valley
+                  <p className="text-sm leading-relaxed">
+                    {(regionsRes.docs as { title: string; slug: string; pillars?: string[] }[])
+                      .filter((r) => {
+                        if (!r.slug) return false
+                        // Only show all-pillar regions (no pillar restriction or includes automotive)
+                        const pillars = r.pillars ?? []
+                        return pillars.length === 0 || pillars.includes('automotive')
+                      })
+                      .map((r, i, arr) => (
+                        <span key={r.slug}>
+                          <Link
+                            href={`/${r.slug}`}
+                            className="font-medium text-white hover:text-white/70 transition-colors"
+                          >
+                            {r.title}
+                          </Link>
+                          {i < arr.length - 1 && <span className="text-white/40"> · </span>}
+                        </span>
+                      ))}
                   </p>
                 </div>
               </div>
