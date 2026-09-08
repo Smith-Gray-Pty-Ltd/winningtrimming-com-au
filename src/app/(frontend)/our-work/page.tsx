@@ -13,7 +13,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import { CMSLink } from '@/components/Link'
 import PageClient from './page.client'
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 type Args = {
   params: Promise<{ slug?: string }>

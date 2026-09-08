@@ -93,6 +93,7 @@ jobs:
               corepack enable && corepack prepare pnpm@9.15.4 --activate 2>/dev/null
               cd /build
               pnpm install --frozen-lockfile
+              pnpm generate:importmap
               pnpm build
             '
 
