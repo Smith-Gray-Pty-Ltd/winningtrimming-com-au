@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { cn } from 'src/utilities/cn'
 import { Poppins } from 'next/font/google'
 import { GeistMono } from 'geist/font/mono'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
@@ -100,8 +100,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           />
           <LivePreviewListener />
 
-          <MetaPixel />
-          <GoogleAnalytics />
+          <Suspense fallback={null}>
+            <MetaPixel />
+            <GoogleAnalytics />
+          </Suspense>
 
           {/* Full header/footer everywhere except the ad landing page (/fb-quote) */}
           <SiteChrome header={<Header />} footer={<Footer />}>

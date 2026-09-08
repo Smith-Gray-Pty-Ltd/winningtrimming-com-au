@@ -1,0 +1,80 @@
+# =============================================================================
+# Winning Trimming — production stack (Hostinger VPS / Docker Compose + Traefik)
+# =============================================================================
+# Deploy with:
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Traefik (running on the host network) discovers containers via Docker labels.
+# The `web` service joins the `winningtrimming-net` bridge network so it can
+# talk to `db`; Traefik sees it because providers.docker=true on the host.
+# =============================================================================
+
+name: winningtrimming
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-payload}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-winningtrimming}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-payload} -d ${POSTGRES_DB:-winningtrimming}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - winningtrimming-net
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    init: true
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env.production
+    environment:
+      # Postgres must be reached via the compose service name, not localhost.
+      POSTGRES_URI: postgresql://${POSTGRES_USER:-payload}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-winningtrimming}
+      NODE_ENV: production
+    volumes:
+      # Persist locally-stored uploads (media files).
+      - storage:/app/storage
+      # Persist Next.js ISR cache across restarts.
+      - next_cache:/app/.next/cache
+    networks:
+      - winningtrimming-net
+    labels:
+      - "traefik.enable=true"
+      # HTTP → HTTPS redirect is handled globally by Traefik entrypoint config.
+      # Main router (winningtrimming.com.au)
+      - "traefik.http.routers.winningtrimming.rule=Host(`winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming.entrypoints=websecure"
+      - "traefik.http.routers.winningtrimming.tls=true"
+      - "traefik.http.routers.winningtrimming.tls.certresolver=letsencrypt"
+      - "traefik.http.services.winningtrimming.loadbalancer.server.port=3000"
+      # WWW → apex redirect
+      - "traefik.http.routers.winningtrimming-www.rule=Host(`www.winningtrimming.com.au`)"
+      - "traefik.http.routers.winningtrimming-www.entrypoints=websecure"
+      - "traefik.http.routers.winningtrimming-www.tls=true"
+      - "traefik.http.routers.winningtrimming-www.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.winningtrimming-www.middlewares=www-to-apex"
+      - "traefik.http.middlewares.www-to-apex.redirectregex.regex=https://www.winningtrimming.com.au/(.*)"
+      - "traefik.http.middlewares.www-to-apex.redirectregex.replacement=https://winningtrimming.com.au/$${1}"
+      - "traefik.http.middlewares.www-to-apex.redirectregex.permanent=true"
+
+volumes:
+  db_data:
+  storage:
+  next_cache:
+
+networks:
+  winningtrimming-net:
+    driver: bridge

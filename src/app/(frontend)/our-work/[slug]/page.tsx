@@ -17,15 +17,19 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const projects = await payload.find({
-    collection: 'projects',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    select: { slug: true },
-  })
-  return projects.docs.map(({ slug }) => ({ slug }))
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const projects = await payload.find({
+      collection: 'projects',
+      draft: false,
+      limit: 1000,
+      overrideAccess: false,
+      select: { slug: true },
+    })
+    return projects.docs.map(({ slug }) => ({ slug }))
+  } catch {
+    return []
+  }
 }
 
 type Args = {

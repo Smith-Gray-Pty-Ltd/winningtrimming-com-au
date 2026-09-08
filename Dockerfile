@@ -43,3 +43,45 @@ EXPOSE 3000
 # is required for local dev. Turbopack gives fast hot-module reload over the
 # bind-mounted /app/src.
 CMD ["pnpm", "dev"]
+
+# ---------------------------------------------------------------------------
+# Prod stage: install ALL deps, build the Next.js standalone output, then
+# trim to a minimal runtime image with only production deps + the built .next.
+# ---------------------------------------------------------------------------
+FROM base AS prod-deps
+
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --prod
+
+FROM base AS prod-build
+
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
+
+COPY . .
+RUN pnpm build
+
+# ---------------------------------------------------------------------------
+# Final prod runtime — standalone Next.js + production node_modules.
+# ---------------------------------------------------------------------------
+FROM base AS prod
+
+ENV NODE_ENV=production
+
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=prod-build /app/.next ./.next
+COPY --from=prod-build /app/public ./public
+COPY --from=prod-build /app/package.json ./package.json
+COPY --from=prod-build /app/next.config.js ./next.config.js
+COPY --from=prod-build /app/redirects.js ./redirects.js
+COPY --from=prod-build /app/tsconfig.json ./tsconfig.json
+COPY --from=prod-build /app/src ./src
+
+# Persist locally-stored uploads (media) and the Next.js cache.
+VOLUME ["/app/storage", "/app/.next/cache"]
+
+EXPOSE 3000
+
+CMD ["pnpm", "start"]

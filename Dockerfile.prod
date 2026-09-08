@@ -1,0 +1,60 @@
+# syntax=docker/dockerfile:1.7
+#
+# Winning Trimming — production runtime image.
+# The Next.js build is done on the VPS (with DB access for schema sync +
+# static page generation) before building this image. This image just
+# packages the pre-built .next output with production node_modules.
+#
+# Build steps on the VPS:
+#   1. docker compose up -d db
+#   2. docker run --rm --network <net> -v $(pwd):/build ... pnpm install && npx tsx src/scripts/sync-schema.ts && pnpm build
+#   3. docker compose -f docker-compose.prod.yml build web   # ← this Dockerfile
+#   4. docker compose -f docker-compose.prod.yml up -d
+#
+FROM node:20-slim AS base
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
+
+WORKDIR /app
+
+# Symlink /build -> /app so media file paths baked into .next during the
+# build step (which runs in /build) resolve correctly at runtime (/app).
+RUN ln -s /app /build
+
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS=--no-deprecation
+
+# ---------------------------------------------------------------------------
+# Install production deps only
+# ---------------------------------------------------------------------------
+FROM base AS prod-deps
+
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --prod
+
+# ---------------------------------------------------------------------------
+# Final prod runtime — pre-built .next + production node_modules
+# ---------------------------------------------------------------------------
+FROM base AS prod
+
+ENV NODE_ENV=production
+
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY .next ./.next
+COPY public ./public
+COPY package.json ./package.json
+COPY next.config.js ./next.config.js
+COPY redirects.js ./redirects.js
+COPY tsconfig.json ./tsconfig.json
+COPY src ./src
+
+VOLUME ["/app/storage", "/app/.next/cache"]
+
+EXPOSE 3000
+
+CMD ["pnpm", "start"]
