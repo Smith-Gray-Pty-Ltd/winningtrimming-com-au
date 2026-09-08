@@ -165,7 +165,10 @@ export async function generateStaticParams() {
 
     const params = pages.docs
       ?.filter((doc) => {
-        return doc.slug !== 'home'
+        // Exclude slugs that have their own dedicated page files —
+        // otherwise Next.js prerenders them via this catch-all template
+        // and serves the cached version instead of the dedicated page.
+        return !['home', 'our-work'].includes(doc.slug)
       })
       .map(({ slug }) => {
         return { slug }
