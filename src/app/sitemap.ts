@@ -83,17 +83,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // SEO matrix entries: vessel → product → suburb
   const matrixEntries: MetadataRoute.Sitemap = []
 
-  // Region landing pages: /{pillar}/{region-slug}
+  // Region landing pages: /{pillar}/{region-slug} and /{pillar}/{region-slug}/{suburb-slug}
   const allPillars = ['marine', 'automotive', 'caravan-and-rv', 'trade-and-industrial', 'commercial']
   for (const region of regions.docs) {
     if (!region.slug) continue
     const pillars = (region.pillars ?? []).length > 0 ? (region.pillars as string[]) : allPillars
     for (const pillar of pillars) {
+      // Level 6: /{pillar}/{region}
       matrixEntries.push({
         url: `${host}/${pillar}/${region.slug}`,
         changeFrequency: 'weekly' as const,
         priority: 0.7,
       })
+
+      // Level 7: /{pillar}/{region}/{suburb} — only for suburbs in this region
+      const regionSuburbs = suburbs.docs.filter(
+        (s) => typeof s.region === 'object' && s.region !== null && s.region.id === region.id,
+      )
+      for (const suburb of regionSuburbs) {
+        if (suburb.slug) {
+          matrixEntries.push({
+            url: `${host}/${pillar}/${region.slug}/${suburb.slug}`,
+            changeFrequency: 'monthly' as const,
+            priority: 0.5,
+          })
+        }
+      }
     }
   }
 

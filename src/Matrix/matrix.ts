@@ -32,6 +32,16 @@ export type PillarProductData = {
   nearbySuburbs: Suburb[]
 }
 
+// Region + suburb page: /{pillar}/{region}/{suburb}
+export type RegionSuburbData = {
+  pillar: string
+  pillarLabel: string
+  region: Region
+  suburb: Suburb
+  assetTypes: AssetType[]
+  nearbySuburbs: Suburb[]
+}
+
 // -- URL helpers ----------------------------------------------------------
 
 export const matrixUrl = (
@@ -435,3 +445,86 @@ export const pillarProductDescription = (data: PillarProductData): string => {
   parts.push('by Winning Trimming. Custom-made and repaired to last.')
   return parts.join(' ')
 }
+
+/**
+ * Resolve a region + suburb page: /{pillar}/{region-slug}/{suburb-slug}
+ * Shows the pillar's asset types and service types available in that suburb.
+ */
+export async function resolveRegionSuburbPage(
+  pillar: string,
+  regionSlug: string,
+  suburbSlug: string,
+): Promise<RegionSuburbData | null> {
+  if (!isValidPillar(pillar)) return null
+
+  const payload = await getPayload({ config: configPromise })
+
+  // 1. Region
+  const regionRes = await payload.find({
+    collection: 'regions',
+    where: { slug: { equals: regionSlug } },
+    depth: 1,
+    limit: 1,
+    overrideAccess: false,
+  })
+  const region = regionRes.docs?.[0] as Region | undefined
+  if (!region) return null
+
+  // Check pillar relevance
+  const pillars = (region.pillars ?? []) as string[]
+  if (pillars.length > 0 && !pillars.includes(pillar)) return null
+
+  // 2. Suburb (must be in this region)
+  const suburbRes = await payload.find({
+    collection: 'suburbs',
+    where: {
+      and: [
+        { slug: { equals: suburbSlug } },
+        { region: { equals: region.id } },
+      ],
+    },
+    depth: 0,
+    limit: 1,
+    overrideAccess: false,
+  })
+  const suburb = suburbRes.docs?.[0] as Suburb | undefined
+  if (!suburb) return null
+
+  // 3. Asset types for this pillar
+  const assetRes = await payload.find({
+    collection: 'asset-types',
+    where: { pillar: { equals: pillar } },
+    depth: 1,
+    limit: 100,
+    overrideAccess: false,
+    sort: 'title',
+  })
+
+  // 4. Nearby suburbs (same region, excluding current)
+  const nearRes = await payload.find({
+    collection: 'suburbs',
+    where: { region: { equals: region.id } },
+    depth: 0,
+    limit: 50,
+    overrideAccess: false,
+    sort: 'title',
+  })
+  const nearbySuburbs = (nearRes.docs as Suburb[]).filter((s) => s.id !== suburb.id)
+
+  return {
+    pillar,
+    pillarLabel: pillarLabel(pillar),
+    region,
+    suburb,
+    assetTypes: assetRes.docs as AssetType[],
+    nearbySuburbs,
+  }
+}
+
+/** H1 for a region-suburb page */
+export const regionSuburbH1 = (data: RegionSuburbData): string =>
+  `${data.pillarLabel} Trimming in ${data.suburb.title}, ${data.region.title}`
+
+/** Meta description for a region-suburb page */
+export const regionSuburbDescription = (data: RegionSuburbData): string =>
+  `${data.pillarLabel.toLowerCase()} trimming, covers and upholstery in ${data.suburb.title}, ${data.region.title}. Custom-made and repaired to last. Serving the ${data.region.title} area.`
