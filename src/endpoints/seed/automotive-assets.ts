@@ -128,6 +128,22 @@ const automotiveAssets: AssetTypeData[] = [
     products: ['Seat Trim'],
     imagePrompt: 'A custom motorcycle with a newly upholstered black vinyl seat, parked in a workshop, professional photograph, realistic, dramatic side lighting showing stitching detail',
   },
+  {
+    title: '4WDs & Off-Road',
+    singular: '4WD',
+    intro: 'Custom and repair trimming for 4WDs, off-road vehicles and adventure rigs — seats, door trims, headlinings and tonneau covers.',
+    seoContent: `4WD and off-road vehicle trimming for four-wheel drives, adventure rigs and touring vehicles across Lake Macquarie, Newcastle, the Central Coast and the Hunter Valley. Our Toronto workshop builds and repairs seats, door trims, headlinings and tonneau covers for 4WDs that get used hard — on tracks, through creeks and across the outback.\n\nOff-road trim takes a beating — dust, mud, UV and constant vibration. We use marine-grade vinyl and UV-stable thread that shrugs off the elements, with high-density foam that holds its shape through years of corrugations. Custom seat builds for long-distance touring comfort, plus repair of worn door trims and sagging headlinings.\n\nCommon jobs include seat re-trimming with durable vinyl, door trim replacement, headlining repairs, tonneau and cargo covers, and custom seat foam reshaping. We work on everything from weekend trail rigs to full touring setups.`,
+    products: ['Seat Trim', 'Door Trims', 'Headlinings', 'Tonneau Covers'],
+    imagePrompt: 'A rugged Australian 4WD with custom black vinyl seats and door trims, parked on a dirt track with red dirt, professional photograph, realistic, golden hour lighting',
+  },
+  {
+    title: 'Custom & Hot Rods',
+    singular: 'Hot Rod',
+    intro: 'Bespoke trimming for custom cars, hot rods, classics and show vehicles — full interiors, custom seats and one-off trim work.',
+    seoContent: `Custom car and hot rod trimming for classics, street rods, restorations and show vehicles across Lake Macquarie, Newcastle, the Central Coast and the Hunter Valley. Our Toronto workshop builds bespoke interiors from scratch — custom seats, door trims, headlinings, boot trim and one-off pieces that make your build stand out.\n\nCustom trim is where craftsmanship matters most. We work with premium leather, vinyl, alcantara and period-correct materials to create interiors that match the character of your build — whether it's a traditional hot rod, a resto-mod, a classic restoration or a full custom. Every panel is patterned on the vehicle for a flawless fit.\n\nCommon jobs include full custom interiors, custom seat building and trimming, door panel fabrication, headlining and trim wrapping, boot and cargo trim, and steering wheel wrapping. Show-quality finishes with attention to every stitch.`,
+    products: ['Seat Trim', 'Door Trims', 'Headlinings'],
+    imagePrompt: 'A custom hot rod with a bespoke leather interior, stitched door panels and bucket seats, in a workshop with warm lighting, professional photograph, realistic, detailed stitching visible',
+  },
 ]
 
 // ---------------------------------------------------------------------------
