@@ -16,8 +16,10 @@ import { RenderHero } from '@/heros/RenderHero'
 import { AssetTypeGrid } from '@/Matrix/AssetTypeGrid'
 import { ServiceTypeGrid } from '@/Matrix/ServiceTypeGrid'
 import { AllPillarRegionTemplate } from '@/Matrix/AllPillarRegionTemplate'
-import { resolveAllPillarRegion } from '@/Matrix/matrix'
+import { resolveAllPillarRegion, allPillarRegionH1, allPillarRegionDescription } from '@/Matrix/matrix'
 import { isValidPillar } from '@/Matrix/matrix'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getServerSideURL } from '@/utilities/getURL'
 import { pillarLabel } from '@/fields/pillars'
 import { CMSLink } from '@/components/Link'
 import RichText from '@/components/RichText'
@@ -393,6 +395,25 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }): Promise<Metadata> {
   const { slug = 'home' } = await paramsPromise
+
+  // Check if this is an all-pillar region page (e.g. /lake-macquarie)
+  const regionData = await resolveAllPillarRegion(slug)
+  if (regionData) {
+    const host = getServerSideURL()
+    const title = allPillarRegionH1(regionData)
+    const desc = allPillarRegionDescription(regionData)
+    return {
+      title: `${title} | Winning Trimming`,
+      description: desc,
+      alternates: { canonical: `/${slug}` },
+      openGraph: mergeOpenGraph({
+        title: `${title} | Winning Trimming`,
+        description: desc,
+        url: `${host}/${slug}`,
+      }),
+    }
+  }
+
   const page = await queryPageBySlug({
     slug,
   })

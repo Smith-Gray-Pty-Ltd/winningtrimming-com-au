@@ -26,6 +26,8 @@ import { RegionTemplate } from '@/Matrix/RegionTemplate'
 import { RegionSuburbTemplate } from '@/Matrix/RegionSuburbTemplate'
 import { AllPillarSuburbTemplate } from '@/Matrix/AllPillarSuburbTemplate'
 import { PillarProductTemplate } from '@/Matrix/PillarProductTemplate'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export const revalidate = 3600
 
@@ -106,34 +108,40 @@ export default async function MatrixPage({ params: paramsPromise }: Args) {
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug, matrix } = await paramsPromise
+  const host = getServerSideURL()
+  const canonical = `/${slug}/${matrix.join('/')}`
+
+  // Helper: build full Metadata with OG tags
+  const buildMeta = (title: string, description: string, url: string): Metadata => ({
+    title: `${title} | Winning Trimming`,
+    description,
+    alternates: { canonical: url },
+    openGraph: mergeOpenGraph({
+      title: `${title} | Winning Trimming`,
+      description,
+      url: `${host}${url}`,
+    }),
+  })
 
   // Vessel matrix
   const data = await resolveMatrix(slug, matrix)
   if (data) {
     const asset = data.assetType as { meta?: { title?: string; description?: string; image?: unknown } }
     const product = data.productType as { meta?: { title?: string; description?: string } } | null
-    // SEO priority: product meta > asset meta > auto-generated
     const metaSource = product?.meta || asset.meta
-    return {
-      title: metaSource?.title || `${matrixH1(data)} | Winning Trimming`,
-      description: metaSource?.description || matrixDescription(data),
-      alternates: {
-        canonical: matrixUrl(data.pillar, data.assetType.slug, data.productType?.slug, data.suburb?.slug),
-      },
-    }
+    const title = metaSource?.title || matrixH1(data)
+    const desc = metaSource?.description || matrixDescription(data)
+    const url = matrixUrl(data.pillar, data.assetType.slug, data.productType?.slug, data.suburb?.slug)
+    return buildMeta(title, desc, url)
   }
 
   // Pillar-product
   const productData = await resolvePillarProduct(slug, matrix)
   if (productData) {
     const product = productData.productType as { meta?: { title?: string; description?: string } }
-    return {
-      title: product.meta?.title || `${pillarProductH1(productData)} | Winning Trimming`,
-      description: product.meta?.description || pillarProductDescription(productData),
-      alternates: {
-        canonical: `/${slug}/${matrix.join('/')}`,
-      },
-    }
+    const title = product.meta?.title || pillarProductH1(productData)
+    const desc = product.meta?.description || pillarProductDescription(productData)
+    return buildMeta(title, desc, canonical)
   }
 
   // Region
@@ -142,23 +150,16 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     if (regionData) {
       const region = regionData.region as { meta?: { title?: string; description?: string } }
       const title = region.meta?.title || `${regionData.pillarLabel} services in ${regionData.region.title}`
-      return {
-        title: `${title} | Winning Trimming`,
-        description: region.meta?.description || `${regionData.region.description || title}. Custom-made and repaired to last.`,
-        alternates: { canonical: `/${slug}/${matrix[0]}` },
-      }
+      const desc = region.meta?.description || `${regionData.region.description || title}. Custom-made and repaired to last.`
+      return buildMeta(title, desc, canonical)
     }
   }
 
-  // Region + suburb
+  // Region + suburb (pillar-scoped)
   if (matrix.length === 2) {
     const regionSuburbData = await resolveRegionSuburbPage(slug, matrix[0], matrix[1])
     if (regionSuburbData) {
-      return {
-        title: `${regionSuburbH1(regionSuburbData)} | Winning Trimming`,
-        description: regionSuburbDescription(regionSuburbData),
-        alternates: { canonical: `/${slug}/${matrix.join('/')}` },
-      }
+      return buildMeta(regionSuburbH1(regionSuburbData), regionSuburbDescription(regionSuburbData), canonical)
     }
   }
 
@@ -166,11 +167,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   if (matrix.length === 1) {
     const allPillarSuburbData = await resolveAllPillarSuburb(slug, matrix[0])
     if (allPillarSuburbData) {
-      return {
-        title: `${allPillarSuburbH1(allPillarSuburbData)} | Winning Trimming`,
-        description: allPillarSuburbDescription(allPillarSuburbData),
-        alternates: { canonical: `/${slug}/${matrix.join('/')}` },
-      }
+      return buildMeta(allPillarSuburbH1(allPillarSuburbData), allPillarSuburbDescription(allPillarSuburbData), canonical)
     }
   }
 
