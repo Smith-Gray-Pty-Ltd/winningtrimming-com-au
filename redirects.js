@@ -25,7 +25,12 @@ const redirects = async () => {
     },
     {
       source: '/contact-us',
-      destination: '/contact',
+      destination: '/quote',
+      permanent: true,
+    },
+    {
+      source: '/contact',
+      destination: '/quote',
       permanent: true,
     },
     {

@@ -2,22 +2,22 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/cms-pages
 $type: feature
 $version: 1
-$last_updated: '2026-09-06'
+$last_updated: "2026-09-08"
 summary: >-
   Content-managed pages with hero config, seoContent (100+ word validated), layout blocks
-  (CallToAction, Content, MediaBlock, Archive, FormBlock), SEO tab with plugin-seo fields,
-  drafts with autosave (100ms interval), live preview, and publishedAt sidebar field.
-  authenticatedOrPublished read access — public sees published only, staff see drafts.
-  afterChange revalidates the page; beforeChange populates publishedAt on first publish.
+  (CallToAction, Content, MediaBlock, Archive, FormBlock), SEO tab with plugin-seo fields, drafts
+  with autosave (100ms interval), live preview, and publishedAt sidebar field.
+  authenticatedOrPublished read access — public sees published only, staff see drafts. afterChange
+  revalidates the page; beforeChange populates publishedAt on first publish.
 $system: template-website/system
 $service: template-website/winning-trimming-com-au
 intent: >-
-  Let staff create and edit site pages (about, services, contact) with flexible layout blocks,
-  SEO metadata, and draft/live preview — without developer involvement.
+  Let staff create and edit site pages (about, services) with flexible layout blocks, SEO metadata,
+  and draft/live preview — without developer involvement.
 status: built
 implementation:
   primary: src/collections/Pages/index.ts
-  test_code: ''
+  test_code: ""
   test_code_status: none
 see_also:
   - template-website/winning-trimming-com-au/shared-fields
@@ -27,67 +27,94 @@ flows:
     name: Create and publish a page
     description: Staff create a new page, add content, preview, and publish.
     steps:
-      - {id: s1, action: set, target: 'title (required), slug auto-generated'}
-      - {id: s2, action: set, target: 'hero config (type, image, title, subtitle) on Hero tab'}
-      - {id: s3, action: set, target: 'seoContent (100+ words validated) and layout blocks on Content tab'}
-      - {id: s4, action: set, target: 'SEO tab (meta title, description, image, preview)'}
-      - {id: s5, action: preview, target: 'live preview via admin preview URL'}
-      - {id: s6, action: publish, target: 'beforeChange populates publishedAt if not set, afterChange revalidates page'}
+      - id: s1
+        action: set
+        target: title (required), slug auto-generated
+      - id: s2
+        action: set
+        target: hero config (type, image, title, subtitle) on Hero tab
+      - id: s3
+        action: set
+        target: seoContent (100+ words validated) and layout blocks on Content tab
+      - id: s4
+        action: set
+        target: SEO tab (meta title, description, image, preview)
+      - id: s5
+        action: preview
+        target: live preview via admin preview URL
+      - id: s6
+        action: publish
+        target: beforeChange populates publishedAt if not set, afterChange revalidates page
 contracts:
   - id: access
     description: authenticatedOrPublished read, authenticated write
     must_have:
-      - 'read: authenticatedOrPublished'
-      - 'create, update, delete: authenticated'
+      - "read: authenticatedOrPublished"
+      - "create, update, delete: authenticated"
   - id: layout-blocks
     description: 5 layout block types available
     must_have:
-      - 'CallToAction, Content, MediaBlock, Archive, FormBlock'
-      - 'layout: blocks field, required'
+      - CallToAction, Content, MediaBlock, Archive, FormBlock
+      - "layout: blocks field, required"
   - id: seo-content-validation
     description: seoContent validates minimum 100 words
     must_have:
-      - 'validate function counts words'
-      - 'Error if under 100 words'
-      - 'Optional — only validated when filled'
+      - validate function counts words
+      - Error if under 100 words
+      - Optional — only validated when filled
   - id: drafts-autosave
     description: Drafts with autosave at 100ms interval, max 50 versions
     must_have:
-      - 'versions.drafts.autosave.interval: 100'
-      - 'versions.maxPerDoc: 50'
+      - "versions.drafts.autosave.interval: 100"
+      - "versions.maxPerDoc: 50"
   - id: live-preview
     description: Live preview via generatePreviewPath
     must_have:
-      - 'admin.livePreview.url generates preview path'
-      - 'admin.preview returns preview URL'
+      - admin.livePreview.url generates preview path
+      - admin.preview returns preview URL
   - id: revalidation
     description: afterChange hook revalidates the page
     must_have:
-      - 'afterChange: revalidatePage hook'
-      - 'beforeChange: populatePublishedAt hook'
+      - "afterChange: revalidatePage hook"
+      - "beforeChange: populatePublishedAt hook"
 tests:
   - id: public-sees-published-only
-    setup: {auth: none, page: 'draft + published versions'}
+    setup:
+      auth: none
+      page: draft + published versions
     expect:
-      - {result: 'only published version visible'}
+      - result: only published version visible
   - id: staff-sees-drafts
-    setup: {auth: staff, page: 'draft + published versions'}
+    setup:
+      auth: staff
+      page: draft + published versions
     expect:
-      - {result: 'draft visible in admin'}
+      - result: draft visible in admin
   - id: seo-content-min-words
-    setup: {seoContent: 'short text'}
+    setup:
+      seoContent: short text
     expect:
-      - {result: 'validation error mentioning 100 words'}
+      - result: validation error mentioning 100 words
   - id: slug-auto-generated
-    setup: {title: 'About Us'}
+    setup:
+      title: About Us
     expect:
-      - {slug: 'about-us'}
+      - slug: about-us
 decisions:
   - id: layout-blocks-over-page-builder
     decision: Use 5 predefined layout blocks rather than a freeform page builder
-    rationale: Constrained blocks keep design consistent and maintainable. Staff pick from CTA, Content, Media, Archive, Form — enough flexibility without breaking the layout system.
-    date: '2026-09-06'
+    rationale: >-
+      Constrained blocks keep design consistent and maintainable. Staff pick from CTA, Content,
+      Media, Archive, Form — enough flexibility without breaking the layout system.
+    date: "2026-09-06"
   - id: seo-content-on-pages
     decision: Add seoContent field to Pages (not just matrix collections)
     rationale: Pages also need indexable body copy for SEO. Same 100-word validation as matrix collections.
-    date: '2026-09-06'
+    date: "2026-09-06"
+  - id: remove-contact-page
+    decision: Remove the contact page from the Pages collection seed and nav
+    rationale: >-
+      The contact page was superseded by the /quote page (custom React form, quote-pipeline
+      feature). /contact and /contact-us now redirect to /quote. FormBlock remains available as a
+      layout block for future use, but no seeded page uses it.
+    date: "2026-09-08"

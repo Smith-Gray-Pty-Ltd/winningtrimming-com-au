@@ -7,9 +7,12 @@ import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
+import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { Header } from '@/Header/Component'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { MetaPixel } from '@/components/MetaPixel'
 import { Providers } from '@/providers'
+import { SiteChrome } from '@/components/SiteChrome'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
@@ -97,9 +100,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           />
           <LivePreviewListener />
 
-          <Header />
-          {children}
-          <Footer />
+          <MetaPixel />
+          <GoogleAnalytics />
+
+          {/* Full header/footer everywhere except the ad landing page (/fb-quote) */}
+          <SiteChrome header={<Header />} footer={<Footer />}>
+            {children}
+          </SiteChrome>
         </Providers>
         <script
           type="application/ld+json"
@@ -138,11 +145,25 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
-    apple: '/apple-touch-icon.png',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180' },
+      { url: '/apple-touch-icon-57x57.png', sizes: '57x57' },
+      { url: '/apple-touch-icon-60x60.png', sizes: '60x60' },
+      { url: '/apple-touch-icon-72x72.png', sizes: '72x72' },
+      { url: '/apple-touch-icon-76x76.png', sizes: '76x76' },
+      { url: '/apple-touch-icon-114x114.png', sizes: '114x114' },
+      { url: '/apple-touch-icon-120x120.png', sizes: '120x120' },
+      { url: '/apple-touch-icon-144x144.png', sizes: '144x144' },
+      { url: '/apple-touch-icon-152x152.png', sizes: '152x152' },
+      { url: '/apple-touch-icon-180x180.png', sizes: '180x180' },
+    ],
   },
+  manifest: '/manifest.json',
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',

@@ -74,7 +74,7 @@ export const ProjectGallery: React.FC<Args> = ({ projects, serviceTypes }) => {
     return (
       <p className="text-muted-foreground">
         Projects will appear here soon. In the meantime,{' '}
-        <Link href="/contact" className="text-primary underline">
+        <Link href="/quote" className="text-primary underline">
           request a quote
         </Link>{' '}
         and we can share examples relevant to your project.

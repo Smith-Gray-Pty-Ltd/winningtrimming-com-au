@@ -12,7 +12,6 @@ import { CMSLink } from '@/components/Link'
 const INFO_LINKS = [
   { href: '/our-work', label: 'Our Work' },
   { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
   { href: '/quote', label: 'Request a Quote' },
 ]
 

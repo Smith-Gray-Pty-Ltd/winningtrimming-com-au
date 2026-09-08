@@ -961,6 +961,9 @@ export interface Quote {
   description: string;
   location?: string | null;
   preferredDates?: string | null;
+  source?: string | null;
+  campaign?: string | null;
+  fbclid?: string | null;
   quotedAmount?: number | null;
   depositAmount?: number | null;
   quoteNotes?: string | null;
@@ -1871,6 +1874,9 @@ export interface QuotesSelect<T extends boolean = true> {
   description?: T;
   location?: T;
   preferredDates?: T;
+  source?: T;
+  campaign?: T;
+  fbclid?: T;
   quotedAmount?: T;
   depositAmount?: T;
   quoteNotes?: T;

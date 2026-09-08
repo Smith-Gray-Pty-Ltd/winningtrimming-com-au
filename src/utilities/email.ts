@@ -27,6 +27,8 @@ type QuoteData = {
   subject?: string | null
   description?: string | null
   location?: string | null
+  source?: string | null
+  campaign?: string | null
 }
 
 /**
@@ -95,6 +97,7 @@ export async function notifyStaffOfQuote(payload: Payload, quote: QuoteData): Pr
         <tr><td style="color:#888888;vertical-align:top;">Category</td><td style="color:#222222;text-transform:capitalize;">${quote.pillar || '—'}</td></tr>
         <tr><td style="color:#888888;vertical-align:top;">Subject</td><td style="color:#222222;">${quote.subject || '—'}</td></tr>
         <tr><td style="color:#888888;vertical-align:top;">Location</td><td style="color:#222222;">${quote.location || '—'}</td></tr>
+        ${quote.source || quote.campaign ? `<tr><td style="color:#888888;vertical-align:top;">Source</td><td style="color:#222222;">${[quote.source, quote.campaign].filter(Boolean).join(' / ') || '—'}</td></tr>` : ''}
       </table>
 
       <p style="margin:28px 0 8px;font-size:13px;color:#888888;">Description</p>

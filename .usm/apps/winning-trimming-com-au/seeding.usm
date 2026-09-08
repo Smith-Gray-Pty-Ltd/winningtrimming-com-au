@@ -2,24 +2,23 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/seeding
 $type: feature
 $version: 1
-$last_updated: '2026-09-06'
+$last_updated: "2026-09-08"
 summary: >-
-  Database seeding endpoint for initial setup. Clears 13 collections and 2 globals via raw
-  SQL TRUNCATE (avoids transaction-abort cascade from deleteUserPreferences hooks), then
-  seeds: home page, pillar pages, about page, contact page, 3 blog posts, projects, matrix
-  (asset types, service types), locations (regions, suburbs), businesses, media images,
-  contact form, and header/footer nav. Accessible via Payload admin or CLI. Logs progress
-  and ignores revalidation errors when run without a server.
+  Database seeding endpoint for initial setup. Clears 13 collections and 2 globals via raw SQL
+  TRUNCATE (avoids transaction-abort cascade from deleteUserPreferences hooks), then seeds: home
+  page, pillar pages, about page, 3 blog posts, projects, matrix (asset types, service types),
+  locations (regions, suburbs), businesses, media images, and header/footer nav. Accessible via
+  Payload admin or CLI. Logs progress and ignores revalidation errors when run without a server.
 $system: template-website/system
 $service: template-website/winning-trimming-com-au
 intent: >-
-  Provide a one-command way to populate the database with realistic content for local
-  development, demos, and fresh deployments — covering all collections so the site and
-  SEO matrix render correctly out of the box.
+  Provide a one-command way to populate the database with realistic content for local development,
+  demos, and fresh deployments — covering all collections so the site and SEO matrix render
+  correctly out of the box.
 status: built
 implementation:
   primary: src/endpoints/seed/index.ts
-  test_code: ''
+  test_code: ""
   test_code_status: none
 see_also: []
 flows:
@@ -27,59 +26,97 @@ flows:
     name: Run the seed endpoint
     description: Trigger seeding via admin UI or CLI.
     steps:
-      - {id: s1, action: trigger, target: 'seed endpoint via Payload admin or CLI'}
-      - {id: s2, action: clear, target: 'raw SQL TRUNCATE 13 collections and 2 globals'}
-      - {id: s3, action: seed, target: 'media images, home page, pillar pages, about, contact'}
-      - {id: s4, action: seed, target: '3 blog posts, projects, matrix (asset types, service types)'}
-      - {id: s5, action: seed, target: 'locations (regions, suburbs), businesses, contact form, header, footer'}
-      - {id: s6, action: log, target: 'progress logged, revalidation errors ignored'}
+      - id: s1
+        action: trigger
+        target: seed endpoint via Payload admin or CLI
+      - id: s2
+        action: clear
+        target: raw SQL TRUNCATE 13 collections and 2 globals
+      - id: s3
+        action: seed
+        target: media images, home page, pillar pages, about, contact
+      - id: s4
+        action: seed
+        target: 3 blog posts, projects, matrix (asset types, service types)
+      - id: s5
+        action: seed
+        target: locations (regions, suburbs), businesses, contact form, header, footer
+      - id: s6
+        action: log
+        target: progress logged, revalidation errors ignored
 contracts:
   - id: clear-first
     description: Seeding clears existing data via raw SQL TRUNCATE
     must_have:
-      - '13 collections cleared: categories, media, pages, posts, projects, service-types, asset-types, businesses, regions, suburbs, forms, form-submissions, search'
-      - '2 globals cleared: header, footer'
-      - 'Uses raw SQL TRUNCATE not payload.delete to avoid hook cascade'
+      - >-
+        13 collections cleared: categories, media, pages, posts, projects, service-types,
+        asset-types, businesses, regions, suburbs, forms, form-submissions, search
+      - "2 globals cleared: header, footer"
+      - Uses raw SQL TRUNCATE not payload.delete to avoid hook cascade
   - id: comprehensive-coverage
     description: Seeds all major content types
     must_have:
-      - 'Pages: home, pillar pages, about, contact'
-      - 'Posts: 3 blog posts with content and categories'
-      - 'Projects: portfolio entries with images'
-      - 'Matrix: asset types and service types for SEO'
-      - 'Locations: regions and suburbs'
-      - 'Businesses: related businesses per region'
-      - 'Media: seed images (hero, post images)'
-      - 'Globals: header and footer nav'
-      - 'Form: contact form'
+      - "Pages: home, pillar pages, about, contact"
+      - "Posts: 3 blog posts with content and categories"
+      - "Projects: portfolio entries with images"
+      - "Matrix: asset types and service types for SEO"
+      - "Locations: regions and suburbs"
+      - "Businesses: related businesses per region"
+      - "Media: seed images (hero, post images)"
+      - "Globals: header and footer nav"
+      - "Form: contact form"
   - id: revalidation-tolerant
     description: Seeding works without a running server (ignores revalidation errors)
     must_have:
-      - 'Revalidation errors logged but do not fail the seed'
-      - 'Comment in code explains this is expected when running locally'
+      - Revalidation errors logged but do not fail the seed
+      - Comment in code explains this is expected when running locally
 tests:
   - id: seed-populates-all
-    setup: {trigger: 'seed endpoint'}
+    setup:
+      trigger: seed endpoint
     expect:
-      - {pages: 'home plus pillar plus about plus contact', posts: 3, projects: 'multiple', matrix: 'asset and service types'}
+      - pages: home plus pillar plus about plus contact
+        posts: 3
+        projects: multiple
+        matrix: asset and service types
   - id: seed-clears-first
-    setup: {existing: 'data in collections', trigger: 'seed'}
+    setup:
+      existing: data in collections
+      trigger: seed
     expect:
-      - {result: 'existing data truncated before seeding'}
+      - result: existing data truncated before seeding
   - id: seed-without-server
-    setup: {server: 'not running', trigger: 'seed'}
+    setup:
+      server: not running
+      trigger: seed
     expect:
-      - {result: 'seeds successfully, revalidation errors ignored'}
+      - result: seeds successfully, revalidation errors ignored
 decisions:
   - id: raw-sql-truncate
     decision: Use raw SQL TRUNCATE instead of payload.delete for clearing
-    rationale: payload.delete triggers afterDelete hooks (deleteUserPreferences) that cause transaction-abort cascades. Raw TRUNCATE is fast, reliable, and skips all hook overhead.
-    date: '2026-09-06'
+    rationale: >-
+      payload.delete triggers afterDelete hooks (deleteUserPreferences) that cause transaction-abort
+      cascades. Raw TRUNCATE is fast, reliable, and skips all hook overhead.
+    date: "2026-09-06"
   - id: modular-seed-files
-    decision: Split seed data into modular files (home.ts, pages.ts, projects.ts, matrix.ts, locations.ts, businesses.ts)
-    rationale: One monolithic seed file would be unwieldy. Modular files let staff update individual seed datasets (e.g. add a project) without touching unrelated content.
-    date: '2026-09-06'
+    decision: >-
+      Split seed data into modular files (home.ts, pages.ts, projects.ts, matrix.ts, locations.ts,
+      businesses.ts)
+    rationale: >-
+      One monolithic seed file would be unwieldy. Modular files let staff update individual seed
+      datasets (e.g. add a project) without touching unrelated content.
+    date: "2026-09-06"
   - id: revalidation-tolerant
     decision: Ignore revalidation errors during seeding
-    rationale: Seeding often runs without a server (CLI). Revalidation API routes are not available. Failing the seed on revalidation errors would make local setup impossible.
-    date: '2026-09-06'
+    rationale: >-
+      Seeding often runs without a server (CLI). Revalidation API routes are not available. Failing
+      the seed on revalidation errors would make local setup impossible.
+    date: "2026-09-06"
+  - id: remove-contact-page
+    decision: Remove contact page and enquiry form from seed (replaced by /quote)
+    rationale: >-
+      The contact page was a Form Builder enquiry form embedded via FormBlock. The /quote page is a
+      custom React form writing directly to the quotes collection and is referenced in every CTA
+      (header, footer, mobile drawer, project gallery). The contact page and its seed data files
+      (contact-page.ts, contact-form.ts) were removed; /contact and /contact-us redirect to /quote.
+    date: "2026-09-08"

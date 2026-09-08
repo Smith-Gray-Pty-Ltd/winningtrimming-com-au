@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, Suspense } from 'react'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 
@@ -58,18 +59,32 @@ function FacebookQuoteForm() {
   // Pre-select pillar from URL param (?pillar=marine)
   const initialPillar = searchParams.get('pillar') || ''
 
+  // Prefill subject/location from ad deep links (?subject=...&location=...)
+  const initialSubject = searchParams.get('subject') || ''
+  const initialLocation = searchParams.get('location') || ''
+
+  // Ad attribution: utm_source / utm_campaign / fbclid are saved on the quote
+  const attribution = {
+    source: searchParams.get('utm_source') || '',
+    campaign: searchParams.get('utm_campaign') || '',
+    fbclid: searchParams.get('fbclid') || '',
+  }
+
   const [form, setForm] = useState({
     title: '',
     pillar: initialPillar,
-    subject: '',
+    subject: initialSubject,
     subjectDetails: '',
     description: '',
-    location: '',
+    location: initialLocation,
     preferredDates: '',
     serviceTypeIds: [] as string[],
     contactName: '',
     contactEmail: '',
     contactPhone: '',
+    source: attribution.source,
+    campaign: attribution.campaign,
+    fbclid: attribution.fbclid,
   })
 
   useEffect(() => {
@@ -193,6 +208,10 @@ function FacebookQuoteForm() {
           serviceTypes: form.serviceTypeIds,
           subjectPhotos: photos.map((p) => ({ image: Number(p.mediaId) })),
           status: 'requested',
+          // Ad attribution — recorded so staff know which campaign the enquiry came from
+          source: form.source || null,
+          campaign: form.campaign || null,
+          fbclid: form.fbclid || null,
         }),
       })
       const data = await res.json()
@@ -229,7 +248,7 @@ function FacebookQuoteForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1a2e0a] via-black to-[#0a1a05] text-white">
-      {/* Facebook Pixel — loaded via script in layout */}
+      {/* Facebook Pixel — loaded via MetaPixel component in layout */}
       <div className="container py-8 pb-24 max-w-lg">
         {/* Header */}
         <div className="text-center mb-8">
@@ -242,6 +261,13 @@ function FacebookQuoteForm() {
             Lake Macquarie · Newcastle · Central Coast
           </p>
         </div>
+
+        {/* Attribution notice shown when arriving from an ad */}
+        {form.source && (
+          <p className="text-center text-[11px] text-white/30 mb-4">
+            You came from a Winning Trimming ad — thanks for enquiring!
+          </p>
+        )}
 
         {/* Trust badges */}
         <div className="flex items-center justify-center gap-4 mb-8 text-xs text-white/60">
@@ -468,7 +494,7 @@ function FacebookQuoteForm() {
           <p className="text-xs text-white/40 text-center">
             Your details are only used to provide your quote.
             <br />
-            See our <a href="/privacy-policy" className="underline hover:text-white/60">Privacy Policy</a>.
+            See our <Link href="/privacy-policy" className="underline hover:text-white/60">Privacy Policy</Link>.
           </p>
         </form>
       </div>

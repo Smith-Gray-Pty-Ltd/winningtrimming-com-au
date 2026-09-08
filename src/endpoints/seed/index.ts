@@ -2,8 +2,6 @@ import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from '
 import fs from 'fs'
 import path from 'path'
 
-import { contactForm as enquiryFormData } from './contact-form'
-import { contact as contactPageData } from './contact-page'
 import { home } from './home'
 import { pillarPages, ourWorkPage, aboutPage } from './pages'
 import { seedProjects } from './projects'
@@ -200,11 +198,6 @@ export const seed = async ({
     return JSON.parse(json)
   }
 
-  // ---- Enquiry form (created early; contact page needs its ID) ----------
-  payload.logger.info(`— Seeding enquiry form...`)
-  const enquiryForm = await payload.create({ collection: 'forms', data: JSON.parse(JSON.stringify(enquiryFormData)) })
-  const formId = payload.db.defaultIDType === 'text' ? `"${enquiryForm.id}"` : String(enquiryForm.id)
-
   // ---- Pages -------------------------------------------------------------
   payload.logger.info(`— Seeding pages...`)
   const created: Record<string, number | string> = {}
@@ -216,16 +209,13 @@ export const seed = async ({
   // Our Work + About (home references Our Work)
   created['our-work'] = (await payload.create({ collection: 'pages', data: buildPage(ourWorkPage) })).id
   created.about = (await payload.create({ collection: 'pages', data: buildPage(aboutPage) })).id
-  // Contact (uses the enquiry form)
-  const contactPageDataJson = JSON.stringify(contactPageData).split('"{{CONTACT_FORM_ID}}"').join(formId)
-  created.contact = (await payload.create({ collection: 'pages', data: JSON.parse(contactPageDataJson) })).id
   // Home last — its "See our work" link references the our-work page
   created.home = (await payload.create({ collection: 'pages', data: buildPage(home, { '{{PAGE_OUR_WORK}}': created['our-work'] }) })).id
 
   // ---- Header navigation -----------------------------------------------
   // The CMS-managed nav holds the five service pillars only. Home is the
-  // logo; Our Work / About / Contact live in the utility strip (rendered in
-  // the header component) and the mobile drawer.
+  // logo; Our Work / About live in the utility strip (rendered in the header
+  // component) and the mobile drawer, with Request a Quote as the CTA.
   payload.logger.info(`— Seeding header...`)
   const ref = (slug: string) => ({
     type: 'reference' as const,
@@ -256,7 +246,6 @@ export const seed = async ({
       navItems: [
         { link: { ...ref('our-work'), label: 'Our Work' } },
         { link: { ...ref('about'), label: 'About' } },
-        { link: { ...ref('contact'), label: 'Contact' } },
         { link: { type: 'custom', label: 'Request a Quote', url: '/quote' } },
         { link: { type: 'custom', label: 'Call 1300 799 882', url: 'tel:1300799882' } },
       ],

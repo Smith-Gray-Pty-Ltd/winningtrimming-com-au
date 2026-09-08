@@ -222,6 +222,32 @@ export const Quotes: CollectionConfig = {
       },
     },
 
+    // ── Ad attribution (which campaign the enquiry came from) ──
+    {
+      name: 'source',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'Where the enquiry came from — utm_source (e.g. meta-ads), or blank for direct.',
+      },
+    },
+    {
+      name: 'campaign',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'utm_campaign name from the ad link, if any.',
+      },
+    },
+    {
+      name: 'fbclid',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+        description: 'Facebook click ID — used for ad attribution / Conversions API later.',
+      },
+    },
+
     // ── Quoting (staff fills in) ──
     {
       name: 'quotedAmount',
