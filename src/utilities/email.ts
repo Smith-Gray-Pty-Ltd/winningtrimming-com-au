@@ -25,10 +25,14 @@ type QuoteData = {
   contactPhone?: string | null
   pillar?: string | null
   subject?: string | null
+  subjectType?: { title?: string } | string | null
+  subjectDetails?: string | null
   description?: string | null
   location?: string | null
+  preferredDates?: string | null
   source?: string | null
   campaign?: string | null
+  serviceTypes?: Array<{ title?: string } | string> | null
   subjectPhotos?: Array<{
     image?: {
       url?: string | null
@@ -93,14 +97,12 @@ export async function notifyStaffOfQuote(payload: Payload, quote: QuoteData): Pr
           ${photos.map((p, i) => {
             const img = p.image as { url: string; alt?: string; thumbnailURL?: string }
             const thumbUrl = img.thumbnailURL || img.url
-            // Wrap every 3 photos in a new row
             const cell = `<td style="width:33%;vertical-align:top;">
               <a href="${SITE_URL}${img.url}" style="text-decoration:none;">
                 <img src="${SITE_URL}${thumbUrl}" alt="${img.alt || `Photo ${i + 1}`}" style="width:100%;max-width:160px;border-radius:8px;display:block;border:1px solid #eee;" />
               </a>
               ${p.caption ? `<p style="margin:4px 0 0;font-size:11px;color:#888;">${p.caption}</p>` : ''}
             </td>`
-            // Start a new row every 3 photos
             if (i > 0 && i % 3 === 0) {
               return `</tr><tr>${cell}`
             }
@@ -109,6 +111,17 @@ export async function notifyStaffOfQuote(payload: Payload, quote: QuoteData): Pr
         </tr>
       </table>`
     : ''
+
+  // Format service types (hasMany relationship — populated objects or IDs)
+  const serviceTypeTitles = (quote.serviceTypes || [])
+    .map((st) => typeof st === 'object' && st !== null ? st.title : null)
+    .filter(Boolean)
+  const serviceTypesStr = serviceTypeTitles.length > 0 ? serviceTypeTitles.join(', ') : '—'
+
+  // Format subject type (asset type relationship)
+  const subjectTypeStr = quote.subjectType && typeof quote.subjectType === 'object'
+    ? quote.subjectType.title || '—'
+    : '—'
 
   const html = `<!DOCTYPE html>
 <html>
@@ -131,14 +144,22 @@ export async function notifyStaffOfQuote(payload: Payload, quote: QuoteData): Pr
       <p style="margin:0 0 28px;font-size:13px;color:#888888;">${new Date().toLocaleString('en-AU', { dateStyle: 'long', timeStyle: 'short' })}</p>
 
       <table style="width:100%;border-collapse:collapse;font-size:14px;line-height:1.8;">
-        <tr><td style="color:#888888;width:90px;vertical-align:top;">Name</td><td style="color:#222222;font-weight:500;">${quote.contactName || '—'}</td></tr>
+        <tr><td style="color:#888888;width:110px;vertical-align:top;">Name</td><td style="color:#222222;font-weight:500;">${quote.contactName || '—'}</td></tr>
         <tr><td style="color:#888888;vertical-align:top;">Email</td><td><a href="mailto:${quote.contactEmail}" style="color:#108DAF;text-decoration:none;">${quote.contactEmail || '—'}</a></td></tr>
         <tr><td style="color:#888888;vertical-align:top;">Phone</td><td style="color:#222222;">${quote.contactPhone || '—'}</td></tr>
         <tr><td style="color:#888888;vertical-align:top;">Category</td><td style="color:#222222;text-transform:capitalize;">${quote.pillar || '—'}</td></tr>
         <tr><td style="color:#888888;vertical-align:top;">Subject</td><td style="color:#222222;">${quote.subject || '—'}</td></tr>
+        <tr><td style="color:#888888;vertical-align:top;">Asset type</td><td style="color:#222222;">${subjectTypeStr}</td></tr>
+        <tr><td style="color:#888888;vertical-align:top;">Service types</td><td style="color:#222222;">${serviceTypesStr}</td></tr>
         <tr><td style="color:#888888;vertical-align:top;">Location</td><td style="color:#222222;">${quote.location || '—'}</td></tr>
+        <tr><td style="color:#888888;vertical-align:top;">Preferred dates</td><td style="color:#222222;">${quote.preferredDates || '—'}</td></tr>
         ${quote.source || quote.campaign ? `<tr><td style="color:#888888;vertical-align:top;">Source</td><td style="color:#222222;">${[quote.source, quote.campaign].filter(Boolean).join(' / ') || '—'}</td></tr>` : ''}
       </table>
+
+      ${quote.subjectDetails ? `
+      <p style="margin:28px 0 8px;font-size:13px;color:#888888;">Subject details</p>
+      <p style="margin:0;font-size:14px;line-height:1.7;color:#222222;white-space:pre-wrap;">${quote.subjectDetails}</p>
+      ` : ''}
 
       <p style="margin:28px 0 8px;font-size:13px;color:#888888;">Description</p>
       <p style="margin:0;font-size:14px;line-height:1.7;color:#222222;white-space:pre-wrap;">${quote.description || '—'}</p>
