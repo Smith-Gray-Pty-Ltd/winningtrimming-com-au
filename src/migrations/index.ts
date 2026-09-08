@@ -8,6 +8,7 @@ import * as migration_20260729_102112 from './20260729_102112';
 import * as migration_20260812_045633 from './20260812_045633';
 import * as migration_20260812_100000 from './20260812_100000';
 import * as migration_20260908_164135_home_page_global from './20260908_164135_home_page_global';
+import * as migration_20260908_171500_users_sessions from './20260908_171500_users_sessions';
 
 export const migrations = [
   {
@@ -59,5 +60,10 @@ export const migrations = [
     up: migration_20260908_164135_home_page_global.up,
     down: migration_20260908_164135_home_page_global.down,
     name: '20260908_164135_home_page_global',
+  },
+  {
+    up: migration_20260908_171500_users_sessions.up,
+    down: migration_20260908_171500_users_sessions.down,
+    name: '20260908_171500_users_sessions',
   },
 ];
