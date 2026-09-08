@@ -2263,13 +2263,11 @@ export interface Footer {
  */
 export interface HomePage {
   id: number;
-  pillars?:
-    | {
-        pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
-        image?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
+  marineImage?: (number | null) | Media;
+  automotiveImage?: (number | null) | Media;
+  caravanRvImage?: (number | null) | Media;
+  tradeIndustrialImage?: (number | null) | Media;
+  commercialImage?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2324,13 +2322,11 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "home-page_select".
  */
 export interface HomePageSelect<T extends boolean = true> {
-  pillars?:
-    | T
-    | {
-        pillar?: T;
-        image?: T;
-        id?: T;
-      };
+  marineImage?: T;
+  automotiveImage?: T;
+  caravanRvImage?: T;
+  tradeIndustrialImage?: T;
+  commercialImage?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

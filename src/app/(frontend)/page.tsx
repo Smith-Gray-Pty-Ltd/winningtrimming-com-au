@@ -201,11 +201,24 @@ export default async function HomePage() {
 
   // Build a map of pillar → image from the HomePage global (admin-configured).
   // Falls back to project featured image, then asset type hero image.
-  const globalPillarImages: Record<string, MediaType | null> = {}
-  for (const row of homePageGlobal?.pillars ?? []) {
-    if (row.pillar && typeof row.image === 'object' && row.image !== null) {
-      globalPillarImages[row.pillar] = row.image as MediaType
-    }
+  const globalPillarImages: Record<string, MediaType | null> = {
+    marine: typeof homePageGlobal?.marineImage === 'object' ? (homePageGlobal.marineImage as MediaType) : null,
+    automotive:
+      typeof homePageGlobal?.automotiveImage === 'object'
+        ? (homePageGlobal.automotiveImage as MediaType)
+        : null,
+    'caravan-and-rv':
+      typeof homePageGlobal?.caravanRvImage === 'object'
+        ? (homePageGlobal.caravanRvImage as MediaType)
+        : null,
+    'trade-and-industrial':
+      typeof homePageGlobal?.tradeIndustrialImage === 'object'
+        ? (homePageGlobal.tradeIndustrialImage as MediaType)
+        : null,
+    commercial:
+      typeof homePageGlobal?.commercialImage === 'object'
+        ? (homePageGlobal.commercialImage as MediaType)
+        : null,
   }
 
   const pillarImages: Record<string, MediaType | null> = {}
