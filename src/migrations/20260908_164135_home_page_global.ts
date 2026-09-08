@@ -3,12 +3,17 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 /**
  * Home Page global — admin-configurable pillar card images.
  * Stores one row per pillar with an optional media relationship.
+ *
+ * Note: Payload's dev-mode auto-push may have already created these tables.
+ * This migration is idempotent — all CREATE statements use IF NOT EXISTS.
  */
 export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   await payload.db.drizzle.execute(sql`
     CREATE TABLE IF NOT EXISTS "home_page" (
       "id" serial PRIMARY KEY NOT NULL,
-      "pillars" jsonb
+      "pillars" jsonb,
+      "updated_at" timestamp(3) with time zone default now(),
+      "created_at" timestamp(3) with time zone default now()
     );
 
     CREATE TABLE IF NOT EXISTS "home_page_pillars" (
