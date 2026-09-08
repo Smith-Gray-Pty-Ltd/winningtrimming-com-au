@@ -1,7 +1,7 @@
 # =============================================================================
 # Winning Trimming — Deploy to Hostinger VPS
 # =============================================================================
-# Builds the Next.js production image on the VPS (needs DB access for SSG),
+# Syncs code via rsync, builds on the VPS (needs DB access for SSG),
 # then restarts the Docker Compose stack. Media files persist in a Docker
 # volume and are NOT affected by rebuilds.
 #
@@ -13,8 +13,7 @@
 #
 # Triggers:
 #   - Push to main branch
-#   - Manual dispatch (workflow_dispatch) — useful for redeploying without
-#     a code change (e.g. after updating .env.production on the VPS)
+#   - Manual dispatch (workflow_dispatch)
 # =============================================================================
 name: Deploy to VPS
 
@@ -23,7 +22,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Prevent concurrent deploys — a new push cancels the in-progress run.
 concurrency:
   group: deploy-production
   cancel-in-progress: true
@@ -38,94 +36,97 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          command_timeout: 25m
-          script: |
-            set -euo pipefail
+      - name: Install SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -T 10 -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
 
-            PROJECT_DIR="${{ secrets.VPS_PROJECT_DIR }}"
-            cd "$PROJECT_DIR"
+      - name: Sync code to VPS
+        run: |
+          rsync -avz --delete \
+            --exclude 'node_modules' \
+            --exclude '.next' \
+            --exclude '.git' \
+            --exclude 'storage' \
+            --exclude 'public/media' \
+            --exclude '.env' \
+            --exclude '.env.production' \
+            --exclude '.env.local' \
+            --exclude '.DS_Store' \
+            --exclude 'data-migration' \
+            --exclude 'tsconfig.tsbuildinfo' \
+            -e "ssh -i ~/.ssh/id_ed25519" \
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PROJECT_DIR }}/
 
-            echo "=== Pulling latest code ==="
-            git fetch --all --prune
-            git reset --hard origin/main
-            git clean -fdx -- \
-              -- '.env' \
-              -- '.env.production' \
-              -- '.next/cache' \
-              -- 'storage' \
-              -- 'node_modules'
+      - name: Build and restart production containers
+        run: |
+          ssh -i ~/.ssh/id_ed25519 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'bash -s' << 'REMOTE_SCRIPT'
+          set -euo pipefail
 
-            echo "=== Ensuring DB is running ==="
-            docker compose --env-file .env.production -f docker-compose.prod.yml up -d db
-            sleep 5
+          PROJECT_DIR="${{ secrets.VPS_PROJECT_DIR }}"
+          cd "$PROJECT_DIR"
 
-            echo "=== Building Next.js (needs DB for static page generation) ==="
-            # The build runs in a sidecar container on the compose network so it
-            # can reach the `db` service. We mount the project dir so the built
-            # .next is written directly to the host filesystem.
-            #
-            # We use --env-file to pass the production env vars (POSTGRES_URI,
-            # PAYLOAD_SECRET, NEXT_PUBLIC_SERVER_URL) into the build container.
-            # The DB migration prompt (batch=-1) is avoided by keeping the
-            # payload_migrations table clean (no dev-mode entries).
-            DB_PW=$(grep POSTGRES_PASSWORD .env.production | head -1 | cut -d= -f2)
-            PAYLOAD_SECRET=$(grep PAYLOAD_SECRET .env.production | head -1 | cut -d= -f2)
-            SERVER_URL=$(grep NEXT_PUBLIC_SERVER_URL .env.production | head -1 | cut -d= -f2)
-            NET=$(docker compose --env-file .env.production -f docker-compose.prod.yml config --format json \
-              | python3 -c "import json,sys; print(json.load(sys.stdin)['networks']['winningtrimming-net'].get('name','winningtrimming_winningtrimming-net'))")
+          echo "=== Ensuring DB is running ==="
+          docker compose --env-file .env.production -f docker-compose.prod.yml up -d db
+          sleep 5
 
-            docker run --rm \
-              --network "$NET" \
-              -v "$PROJECT_DIR:/build" \
-              -w /build \
-              -e POSTGRES_URI="postgresql://payload:${DB_PW}@db:5432/winningtrimming" \
-              -e NEXT_PUBLIC_SERVER_URL="$SERVER_URL" \
-              -e PAYLOAD_SECRET="$PAYLOAD_SECRET" \
-              -e NEXT_TELEMETRY_DISABLED=1 \
-              -e NODE_OPTIONS=--no-deprecation \
-              node:20-slim bash -c '
-                apt-get update -qq && apt-get install -y -qq git curl ca-certificates > /dev/null 2>&1
-                corepack enable && corepack prepare pnpm@9.15.4 --activate 2>/dev/null
-                cd /build
-                pnpm install --frozen-lockfile
-                pnpm build
-              '
+          echo "=== Building Next.js (needs DB for static page generation) ==="
+          DB_PW=$(grep POSTGRES_PASSWORD .env.production | head -1 | cut -d= -f2)
+          PAYLOAD_SECRET=$(grep PAYLOAD_SECRET .env.production | head -1 | cut -d= -f2)
+          SERVER_URL=$(grep NEXT_PUBLIC_SERVER_URL .env.production | head -1 | cut -d= -f2)
+          NET=$(docker compose --env-file .env.production -f docker-compose.prod.yml config --format json \
+            | python3 -c "import json,sys; print(json.load(sys.stdin)['networks']['winningtrimming-net'].get('name','winningtrimming_winningtrimming-net'))")
 
-            echo "=== Verifying build ==="
-            test -f .next/BUILD_ID || { echo "ERROR: .next/BUILD_ID not found — build failed"; exit 1; }
+          docker run --rm \
+            --network "$NET" \
+            -v "$PROJECT_DIR:/build" \
+            -w /build \
+            -e POSTGRES_URI="postgresql://payload:${DB_PW}@db:5432/winningtrimming" \
+            -e NEXT_PUBLIC_SERVER_URL="$SERVER_URL" \
+            -e PAYLOAD_SECRET="$PAYLOAD_SECRET" \
+            -e NEXT_TELEMETRY_DISABLED=1 \
+            -e NODE_OPTIONS=--no-deprecation \
+            node:20-slim bash -c '
+              apt-get update -qq && apt-get install -y -qq git curl ca-certificates > /dev/null 2>&1
+              corepack enable && corepack prepare pnpm@9.15.4 --activate 2>/dev/null
+              cd /build
+              pnpm install --frozen-lockfile
+              pnpm build
+            '
 
-            echo "=== Building Docker image ==="
-            docker compose --env-file .env.production -f docker-compose.prod.yml build web
+          echo "=== Verifying build ==="
+          test -f .next/BUILD_ID || { echo "ERROR: .next/BUILD_ID not found — build failed"; exit 1; }
 
-            echo "=== Restarting stack ==="
-            docker compose --env-file .env.production -f docker-compose.prod.yml up -d
+          echo "=== Building Docker image ==="
+          docker compose --env-file .env.production -f docker-compose.prod.yml build web
 
-            echo "=== Waiting for startup ==="
-            sleep 10
-            docker compose --env-file .env.production -f docker-compose.prod.yml ps
+          echo "=== Restarting stack ==="
+          docker compose --env-file .env.production -f docker-compose.prod.yml up -d
 
-            echo "=== Health check ==="
-            for i in $(seq 1 10); do
-              STATUS=$(docker exec winningtrimming-web-1 \
-                sh -c 'curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/' 2>/dev/null || echo "000")
-              if [ "$STATUS" = "200" ]; then
-                echo "Site is up (HTTP $STATUS)"
-                break
-              fi
-              echo "Waiting for site... (attempt $i, got $STATUS)"
-              sleep 5
-            done
+          echo "=== Waiting for startup ==="
+          sleep 10
+          docker compose --env-file .env.production -f docker-compose.prod.yml ps
 
-            if [ "$STATUS" != "200" ]; then
-              echo "ERROR: Site did not come up"
-              docker logs winningtrimming-web-1 --tail 30
-              exit 1
+          echo "=== Health check ==="
+          STATUS="000"
+          for i in $(seq 1 10); do
+            STATUS=$(docker exec winningtrimming-web-1 \
+              sh -c 'curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/' 2>/dev/null || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "Site is up (HTTP $STATUS)"
+              break
             fi
+            echo "Waiting for site... (attempt $i, got $STATUS)"
+            sleep 5
+          done
 
-            echo "=== Deploy complete ==="
+          if [ "$STATUS" != "200" ]; then
+            echo "ERROR: Site did not come up"
+            docker logs winningtrimming-web-1 --tail 30
+            exit 1
+          fi
+
+          echo "=== Deploy complete ==="
+          REMOTE_SCRIPT
