@@ -6,7 +6,9 @@
 node_modules
 
 # Next.js build output
-.next
+# .next is excluded from dev builds but REQUIRED by Dockerfile.prod
+# (which COPYs a pre-built .next into the image). We keep .next in the
+# context and rely on the Dockerfile stages to handle it correctly.
 out
 
 # Local env (compose injects env via env_file; don't bake secrets into image)
@@ -15,8 +17,10 @@ out
 .env.*.local
 
 # Payload / storage
+# Exclude the old default storage dir, but NEVER exclude public/media —
+# those are the seed/upload images that must be in the build context.
 storage
-media
+/media
 
 # Docker
 Dockerfile

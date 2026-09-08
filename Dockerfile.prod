@@ -40,6 +40,12 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
 # ---------------------------------------------------------------------------
 # Final prod runtime — pre-built .next + production node_modules
 # ---------------------------------------------------------------------------
+# NOTE: public/media is NOT copied from the build context because it is
+# mounted as a Docker volume at runtime (see docker-compose.prod.yml).
+# The volume holds the seed media + user uploads and persists across
+# image rebuilds. The COPY public ./public line below brings in the
+# static assets (favicons, hero webps, logo) but the /public/media
+# subdirectory will be shadowed by the volume mount at runtime.
 FROM base AS prod
 
 ENV NODE_ENV=production
@@ -53,7 +59,10 @@ COPY redirects.js ./redirects.js
 COPY tsconfig.json ./tsconfig.json
 COPY src ./src
 
-VOLUME ["/app/storage", "/app/.next/cache"]
+# Create the media mount point so the volume has a target even on first run.
+RUN mkdir -p /app/public/media
+
+VOLUME ["/app/public/media", "/app/.next/cache"]
 
 EXPOSE 3000
 

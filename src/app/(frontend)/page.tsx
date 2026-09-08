@@ -14,7 +14,7 @@ import { ProjectCard } from '@/Projects/ProjectCard'
 import { ReviewsSection, Stars, CompactReviewCard } from '@/components/Reviews/ReviewsSection'
 import { generateMeta } from '@/utilities/generateMeta'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 // ---------------------------------------------------------------------------
 // Data queries

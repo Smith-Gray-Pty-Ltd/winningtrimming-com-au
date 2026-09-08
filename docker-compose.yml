@@ -60,8 +60,10 @@ services:
       # Exclude data-migration from the bind mount sync — it contains hundreds
       # of job photos that crush OrbStack's file sync (caused load avg ~490).
       - /app/data-migration
-      # Persist locally-stored uploads (when S3 is not configured).
-      - storage:/app/storage
+      # Persist media uploads. In dev, the bind mount (.:/app) already covers
+      # public/media, so this volume is a no-op — but it keeps the compose
+      # file structurally consistent with docker-compose.prod.yml.
+      - storage:/app/public/media
 
 volumes:
   db_data:

@@ -2,7 +2,11 @@
 # Winning Trimming — production stack (Hostinger VPS / Docker Compose + Traefik)
 # =============================================================================
 # Deploy with:
-#   docker compose -f docker-compose.prod.yml up -d --build
+#   docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+#
+# The `--env-file .env.production` flag makes Compose interpolation (${VAR})
+# read from .env.production instead of the default .env file. This is critical
+# — without it, ${POSTGRES_PASSWORD} resolves to empty on the VPS.
 #
 # Traefik (running on the host network) discovers containers via Docker labels.
 # The `web` service joins the `winningtrimming-net` bridge network so it can
@@ -17,7 +21,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-payload}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-payload}
       POSTGRES_DB: ${POSTGRES_DB:-winningtrimming}
     volumes:
       - db_data:/var/lib/postgresql/data
@@ -42,11 +46,16 @@ services:
       - .env.production
     environment:
       # Postgres must be reached via the compose service name, not localhost.
-      POSTGRES_URI: postgresql://${POSTGRES_USER:-payload}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-winningtrimming}
+      # POSTGRES_URI in .env.production points at localhost; override to use `db`.
+      POSTGRES_URI: postgresql://${POSTGRES_USER:-payload}:${POSTGRES_PASSWORD:-payload}@db:5432/${POSTGRES_DB:-winningtrimming}
       NODE_ENV: production
     volumes:
-      # Persist locally-stored uploads (media files).
-      - storage:/app/storage
+      # Persist media uploads across container rebuilds. The Media collection
+      # (src/collections/Media.ts) uses staticDir = public/media, so Payload
+      # serves files from /app/public/media at runtime. Mounting the volume
+      # here means the 3900+ seed/upload images survive `docker compose down`
+      # and image rebuilds — without this, every rebuild loses all media.
+      - storage:/app/public/media
       # Persist Next.js ISR cache across restarts.
       - next_cache:/app/.next/cache
     networks:

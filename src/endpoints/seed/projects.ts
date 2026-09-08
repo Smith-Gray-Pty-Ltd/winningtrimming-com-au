@@ -605,7 +605,7 @@ export const seedProjects = async (payload: Payload, media: MediaMap) => {
         featured: proj.featured,
         featuredImage: featuredImage as number,
         content: proj.content,
-        serviceTypes: serviceTypeIds,
+        serviceTypes: serviceTypeIds as number[],
         meta: {
           title: proj.metaTitle,
           description: proj.metaDescription,

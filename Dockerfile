@@ -80,7 +80,9 @@ COPY --from=prod-build /app/tsconfig.json ./tsconfig.json
 COPY --from=prod-build /app/src ./src
 
 # Persist locally-stored uploads (media) and the Next.js cache.
-VOLUME ["/app/storage", "/app/.next/cache"]
+# Media is served from public/media (see src/collections/Media.ts staticDir).
+RUN mkdir -p /app/public/media
+VOLUME ["/app/public/media", "/app/.next/cache"]
 
 EXPOSE 3000
 
