@@ -70,8 +70,9 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
                 )
               }
               if (link.type === 'reference' && link.reference) {
-                const ref = link.reference as { slug?: string; relationTo?: string }
-                const href = ref.relationTo === 'pages' && ref.slug ? `/${ref.slug}` : '/'
+                const ref = link.reference as { slug?: string; relationTo?: string; value?: { slug?: string } }
+                const slug = ref.value?.slug || ref.slug
+                const href = ref.relationTo === 'pages' && slug ? `/${slug}` : '/'
                 return (
                   <Link
                     key={i}
