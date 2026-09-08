@@ -151,7 +151,7 @@ const PillarCard: React.FC<{
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
 
-  const [projectsRes, reviewsRes, assetTypesRes] = await Promise.all([
+  const [projectsRes, reviewsRes, assetTypesRes, homePageGlobal] = await Promise.all([
     payload.find({
       collection: 'projects',
       depth: 2,
@@ -180,6 +180,11 @@ export default async function HomePage() {
       overrideAccess: false,
       sort: 'title',
     }),
+    payload.findGlobal({
+      slug: 'home-page',
+      depth: 2,
+      overrideAccess: false,
+    }),
   ])
 
   const projects = projectsRes.docs as Project[]
@@ -194,17 +199,29 @@ export default async function HomePage() {
     })
     .filter((s): s is { url: string; alt: string } => s !== null)
 
-  // First project image per pillar (for the "What We Do" cards)
-  // Falls back to the first asset type's hero image if no projects exist
+  // Build a map of pillar → image from the HomePage global (admin-configured).
+  // Falls back to project featured image, then asset type hero image.
+  const globalPillarImages: Record<string, MediaType | null> = {}
+  for (const row of homePageGlobal?.pillars ?? []) {
+    if (row.pillar && typeof row.image === 'object' && row.image !== null) {
+      globalPillarImages[row.pillar] = row.image as MediaType
+    }
+  }
+
   const pillarImages: Record<string, MediaType | null> = {}
   for (const pillar of SERVICE_PILLARS) {
-    // Try project featured image first
+    // 1. Admin-configured image from the HomePage global (highest priority)
+    if (globalPillarImages[pillar.slug]) {
+      pillarImages[pillar.slug] = globalPillarImages[pillar.slug]
+      continue
+    }
+    // 2. Project featured image for this pillar
     const project = projects.find((p) => p.pillar === pillar.slug)
     if (project && typeof project.featuredImage === 'object') {
       pillarImages[pillar.slug] = (project.featuredImage as MediaType)
       continue
     }
-    // Fall back to first asset type hero image for this pillar
+    // 3. First asset type hero image for this pillar
     const assetType = (assetTypesRes.docs as AssetType[]).find(
       (a) => a.pillar === pillar.slug && typeof a.heroImage === 'object' && a.heroImage !== null,
     )

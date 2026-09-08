@@ -25,6 +25,7 @@ import { Suburbs } from './collections/Suburbs'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { HomePage } from './HomePage/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -118,7 +119,7 @@ export default buildConfig({
       })
     : undefined,
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, HomePage],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

@@ -2,193 +2,234 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/hostinger-deploy
 $type: feature
 $version: 1
-$last_updated: '2026-09-07'
+$last_updated: "2026-09-08"
 summary: >-
-  Deploy the Winning Trimming site from local Docker to the Hostinger VPS (VM 1607392, IP
-  187.77.152.132) with Docker Compose and Traefik. Update GoDaddy DNS A record for
-  winningtrimming.com.au to point to the VPS, preserve Google Workspace MX records, configure
-  production env vars (Postgres, SMTP, Google Places, Payload admin), run database migration and
-  seed, and verify the site is live at https://winningtrimming.com.au.
+  Production deployment to Hostinger VPS (VM 1607392, IP 187.77.152.132) via Docker Compose +
+  Traefik. GitHub Actions CI/CD (deploy.yml) builds on the VPS via SSH, runs next build in a sidecar
+  container with DB access, builds the Docker image, and restarts the stack with --env-file
+  .env.production. Media files persist in a Docker volume mounted at /app/public/media (Payload
+  staticDir), surviving container rebuilds.
 $system: template-website/system
 $service: template-website/winning-trimming-com-au
 intent: >-
   Go live with the production site so customers can browse the SEO matrix, submit quotes, and staff
-  can manage bookings via the Payload admin panel — replacing the current Squarespace placeholder.
-status: planned
+  can manage bookings via the Payload admin panel. Automated via GitHub Actions on push to main.
+status: built
 flows:
   - description: Prepare the VPS, create production compose config, and push the code.
     id: prep-and-deploy
     name: Pre-deploy preparation
     steps:
-      - {id: s1, action: snapshot, target: 'Take a VPS snapshot before deploying'}
-      - {id: s2, action: create, target: 'Create docker-compose.prod.yml with Traefik labels, production env, and built image'}
-      - {id: s3, action: create, target: 'Create .env.production with all production credentials'}
-      - {id: s4, action: build, target: 'Build the production Docker image on the VPS'}
-      - {id: s5, action: start, target: 'Start containers with docker compose -f docker-compose.prod.yml up -d'}
+      - id: s1
+        action: snapshot
+        target: Take a VPS snapshot before deploying
+      - id: s2
+        action: create
+        target: Create docker-compose.prod.yml with Traefik labels, production env, and built image
+      - id: s3
+        action: create
+        target: Create .env.production with all production credentials
+      - id: s4
+        action: build
+        target: Build the production Docker image on the VPS
+      - id: s5
+        action: start
+        target: Start containers with docker compose -f docker-compose.prod.yml up -d
   - description: Update GoDaddy DNS to point winningtrimming.com.au to the VPS.
     id: dns-update
     name: Update GoDaddy DNS
     steps:
-      - {id: s1, action: get, target: 'Fetch current DNS records for winningtrimming.com.au via GoDaddy API'}
-      - {id: s2, action: update, target: 'Update A record @ to 187.77.152.132'}
-      - {id: s3, action: update, target: 'Update A record www to 187.77.152.132'}
-      - {id: s4, action: preserve, target: 'Preserve MX records (Google Workspace) and TXT records (SPF, domain verification)'}
-      - {id: s5, action: wait, target: 'Wait for DNS propagation (TTL 600s, should be under 10 minutes)'}
+      - id: s1
+        action: get
+        target: Fetch current DNS records for winningtrimming.com.au via GoDaddy API
+      - id: s2
+        action: update
+        target: Update A record @ to 187.77.152.132
+      - id: s3
+        action: update
+        target: Update A record www to 187.77.152.132
+      - id: s4
+        action: preserve
+        target: Preserve MX records (Google Workspace) and TXT records (SPF, domain verification)
+      - id: s5
+        action: wait
+        target: Wait for DNS propagation (TTL 600s, should be under 10 minutes)
   - description: Run database migration and seed the database.
     id: migrate-and-seed
     name: Database migration and seed
     steps:
-      - {id: s1, action: run, target: 'Run pnpm migrate inside the web container to apply all migrations'}
-      - {id: s2, action: navigate, target: 'Visit https://winningtrimming.com.au/admin and create the first admin user'}
-      - {id: s3, action: run, target: 'Run the seed endpoint to populate pages, posts, projects, matrix, regions, suburbs'}
-      - {id: s4, action: run, target: 'Run the empty-pillars seed script to create caravan/trade/commercial asset types'}
-      - {id: s5, action: run, target: 'Run the Google reviews sync script to fetch reviews from Places API'}
+      - id: s1
+        action: run
+        target: Run pnpm migrate inside the web container to apply all migrations
+      - id: s2
+        action: navigate
+        target: Visit https://winningtrimming.com.au/admin and create the first admin user
+      - id: s3
+        action: run
+        target: Run the seed endpoint to populate pages, posts, projects, matrix, regions, suburbs
+      - id: s4
+        action: run
+        target: Run the empty-pillars seed script to create caravan/trade/commercial asset types
+      - id: s5
+        action: run
+        target: Run the Google reviews sync script to fetch reviews from Places API
   - description: Configure the daily cron job for Google reviews sync.
     id: cron-setup
     name: Configure reviews cron
     steps:
-      - {id: s1, action: create, target: 'Create cron entry on VPS for daily reviews sync at 6am'}
-      - {id: s2, action: create, target: 'Ensure environment variables are available to cron'}
+      - id: s1
+        action: create
+        target: Create cron entry on VPS for daily reviews sync at 6am
+      - id: s2
+        action: create
+        target: Ensure environment variables are available to cron
   - description: Verify the site is live and all pages return 200.
     id: verify
     name: Post-deploy verification
     steps:
-      - {id: s1, action: check, target: 'curl https://winningtrimming.com.au returns 200'}
-      - {id: s2, action: check, target: 'curl https://winningtrimming.com.au/quote returns 200'}
-      - {id: s3, action: check, target: 'curl https://winningtrimming.com.au/admin returns 200'}
-      - {id: s4, action: check, target: 'curl https://winningtrimming.com.au/marine returns 200'}
-      - {id: s5, action: check, target: 'curl https://winningtrimming.com.au/sitemap.xml returns 200'}
-      - {id: s6, action: check, target: 'Verify SSL certificate is valid'}
+      - id: s1
+        action: check
+        target: curl https://winningtrimming.com.au returns 200
+      - id: s2
+        action: check
+        target: curl https://winningtrimming.com.au/quote returns 200
+      - id: s3
+        action: check
+        target: curl https://winningtrimming.com.au/admin returns 200
+      - id: s4
+        action: check
+        target: curl https://winningtrimming.com.au/marine returns 200
+      - id: s5
+        action: check
+        target: curl https://winningtrimming.com.au/sitemap.xml returns 200
+      - id: s6
+        action: check
+        target: Verify SSL certificate is valid
 contracts:
-  - id: dns-a-record
-    description: GoDaddy DNS A record for winningtrimming.com.au points to the Hostinger VPS IP
+  - description: Production docker-compose.yml on the VPS with Postgres, Next.js app, and Traefik routing
+    id: docker-compose-prod
     must_have:
-      - 'A record @ to 187.77.152.132'
-      - 'A record www to 187.77.152.132'
-      - 'MX records preserved (aspmx.l.google.com and alts)'
-      - 'TXT SPF record preserved or updated'
-      - 'TTL 600 seconds for fast propagation'
-  - id: docker-compose-prod
-    description: Production docker-compose.yml on the VPS with Postgres, Next.js app, and Traefik routing
+      - Postgres 16 service with persistent volume
+      - Web service built from Dockerfile.prod
+      - Traefik labels for winningtrimming.com.au with SSL
+      - POSTGRES_URI uses Docker service name db
+      - Compose launched with --env-file .env.production so interpolation resolves correctly
+      - Storage volume mounted at /app/public/media (Payload staticDir) not /app/storage
+      - Media files persist across container rebuilds via Docker volume
+  - description: Media files (seed images + uploads) persist across container rebuilds
+    id: media-persistence
     must_have:
-      - 'Postgres 16 service with persistent volume'
-      - 'Web service built from Dockerfile target=prod'
-      - 'Traefik labels for winningtrimming.com.au with SSL'
-      - 'POSTGRES_URI uses Docker service name db'
-      - 'Environment variables from .env.production'
-  - id: production-env
-    description: All required environment variables configured on the VPS
+      - Docker volume winningtrimming_storage mounted at /app/public/media
+      - Volume pre-populated with all seed media from local public/media tar
+      - Payload Media collection staticDir = public/media matches the volume mount
+      - New uploads survive docker compose down/up
+  - description: Next.js build runs on the VPS in a sidecar container with DB access for SSG
+    id: build-on-vps
     must_have:
-      - 'NEXT_PUBLIC_SERVER_URL=https://winningtrimming.com.au'
-      - 'POSTGRES_URI with production credentials'
-      - 'PAYLOAD_SECRET set to a strong random value'
-      - 'SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD for Google Workspace'
-      - 'GOOGLE_PLACES_API_KEY and GOOGLE_PLACE_ID'
-      - 'PAYLOAD_ADMIN_EMAIL and PAYLOAD_ADMIN_PASSWORD'
-  - id: database-migration
-    description: Database migration runs on first deploy to create all tables
+      - Build container joins the compose network to reach db service
+      - DB migration prompt (batch=-1) must not block the build
+      - .next/BUILD_ID exists after build before image is built
+      - Dockerfile.prod COPYs the pre-built .next into the image
+  - description: GitHub Actions CI/CD for automated deploys
+    id: github-actions-cicd
     must_have:
-      - 'pnpm migrate runs on container start or manually'
-      - 'All 9 migrations applied'
-      - 'Admin user created via /admin first-run setup'
-  - id: seed-data
-    description: Seed data imported so the site has content on first load
+      - "deploy.yml: SSH into VPS, pull latest, build, restart, health check"
+      - "ci.yml: lint + typecheck on PRs"
+      - "Secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY, VPS_PROJECT_DIR"
+      - "--env-file .env.production used for all compose commands"
+  - description: Traefik handles HTTPS with Let's Encrypt for winningtrimming.com.au
+    id: ssl-cert
     must_have:
-      - 'Seed endpoint called or seed script run'
-      - 'Pages, posts, projects, matrix, regions, suburbs, businesses seeded'
-      - 'Reviews synced from Google Places API'
-  - id: ssl-cert
-    description: Traefik handles HTTPS with Let's Encrypt for winningtrimming.com.au
+      - Traefik ACME configuration for Let's Encrypt
+      - Automatic redirect from HTTP to HTTPS
+      - Certificate auto-renewal
+  - description: Site is accessible and all pages return 200
+    id: verify-live
     must_have:
-      - 'Traefik ACME configuration for Let''s Encrypt'
-      - 'HTTP challenge or DNS challenge'
-      - 'Automatic redirect from HTTP to HTTPS'
-      - 'Certificate auto-renewal'
-  - id: reviews-cron
-    description: Cron job syncs Google reviews daily at 6am
-    must_have:
-      - 'Cron entry on VPS at 6am running fetch-google-reviews.ts'
-      - 'Environment variables available to cron'
-      - 'Logs to /var/log/reviews-sync.log'
-  - id: verify-live
-    description: Site is accessible and all pages return 200
-    must_have:
-      - 'https://winningtrimming.com.au returns 200'
-      - 'https://winningtrimming.com.au/quote returns 200'
-      - 'https://winningtrimming.com.au/admin returns 200'
-      - 'https://winningtrimming.com.au/marine returns 200'
-      - 'https://winningtrimming.com.au/sitemap.xml returns 200'
-      - 'https://winningtrimming.com.au/robots.txt returns 200'
-      - 'https://winningtrimming.com.au/llms.txt returns 200'
+      - https://winningtrimming.com.au returns 200
+      - https://winningtrimming.com.au/admin returns 200
+      - All 276 media files return 200 via /api/media/file/
+      - Homepage, quote, admin, pillar pages return 200
 tests:
   - id: home-page-live
-    setup: {url: 'https://winningtrimming.com.au'}
+    setup:
+      url: https://winningtrimming.com.au
     expect:
-      - {result: '200'}
+      - result: "200"
   - id: admin-accessible
-    setup: {url: 'https://winningtrimming.com.au/admin'}
+    setup:
+      url: https://winningtrimming.com.au/admin
     expect:
-      - {result: '200'}
+      - result: "200"
   - id: quote-form-live
-    setup: {url: 'https://winningtrimming.com.au/quote'}
+    setup:
+      url: https://winningtrimming.com.au/quote
     expect:
-      - {result: '200'}
+      - result: "200"
   - id: matrix-live
-    setup: {url: 'https://winningtrimming.com.au/marine/yachts'}
+    setup:
+      url: https://winningtrimming.com.au/marine/yachts
     expect:
-      - {result: '200'}
+      - result: "200"
   - id: ssl-valid
-    setup: {domain: 'winningtrimming.com.au'}
+    setup:
+      domain: winningtrimming.com.au
     expect:
-      - {result: valid-cert}
+      - result: valid-cert
   - id: db-migrated
-    setup: {check: migration-status}
+    setup:
+      check: migration-status
     expect:
-      - {count: 9, result: migrations-applied}
+      - count: 9
+        result: migrations-applied
   - id: dns-points-to-vps
-    setup: {check: 'dig A record'}
+    setup:
+      check: dig A record
     expect:
-      - {result: '187.77.152.132'}
+      - result: 187.77.152.132
   - id: mx-preserved
-    setup: {check: 'dig MX record'}
+    setup:
+      check: dig MX record
     expect:
-      - {result: 'aspmx.l.google.com'}
+      - result: aspmx.l.google.com
   - id: sitemap-live
-    setup: {url: 'https://winningtrimming.com.au/sitemap.xml'}
+    setup:
+      url: https://winningtrimming.com.au/sitemap.xml
     expect:
-      - {result: '200'}
+      - result: "200"
   - id: llms-txt-live
-    setup: {url: 'https://winningtrimming.com.au/llms.txt'}
+    setup:
+      url: https://winningtrimming.com.au/llms.txt
     expect:
-      - {result: '200'}
+      - result: "200"
 decisions:
   - id: use-existing-vps
     decision: Deploy to existing Hostinger VPS (VM 1607392) rather than a new VPS
     rationale: >-
       The existing VPS has Docker and Traefik already configured, 4 CPU and 16GB RAM which is
       sufficient, and is already running at 187.77.152.132. No need to provision new infrastructure.
-    date: '2026-09-07'
+    date: "2026-09-07"
   - id: traefik-for-ssl
     decision: Use Traefik for reverse proxy and SSL rather than nginx or Caddy
     rationale: >-
       Traefik is already installed on the VPS (Ubuntu 24.04 with Docker and Traefik template). It
       handles automatic Let's Encrypt certificates and routing via Docker labels.
-    date: '2026-09-07'
+    date: "2026-09-07"
   - id: godaddy-dns-only
     decision: Update GoDaddy DNS A record to point to VPS rather than transferring nameservers
     rationale: >-
       Domain uses GoDaddy nameservers. Only the A record needs to change from Squarespace IPs to the
       VPS IP. MX records for Google Workspace must be preserved.
-    date: '2026-09-07'
+    date: "2026-09-07"
   - id: prod-compose-separate
     decision: Use a production docker-compose.yml separate from the local dev compose
     rationale: >-
       Production needs Traefik labels, production env, no volume bind mounts, and built image.
       Keeping it separate avoids dev config in production.
-    date: '2026-09-07'
+    date: "2026-09-07"
   - id: manual-migration
     decision: Run database migration and seed manually on first deploy
     rationale: >-
       Migration and seed are one-time operations. Manual control ensures they run exactly once,
       avoiding data loss.
-    date: '2026-09-07'
+    date: "2026-09-07"

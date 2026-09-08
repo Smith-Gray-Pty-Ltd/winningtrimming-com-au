@@ -1,0 +1,92 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/home-page-pillar-images
+$type: feature
+$version: 1
+$last_updated: "2026-09-08"
+summary: >-
+  Admin-configurable pillar card images for the homepage "What We Do" section. A HomePage Payload
+  global stores one image per pillar (5 pillars), with a fallback chain: admin-configured image →
+  latest project featured image → first asset type hero image.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  Let staff override the pillar card images on the homepage from the Payload admin panel without
+  code changes, so they can swap in seasonal or promotional images at any time.
+status: built
+flows:
+  - id: admin-override
+    name: Admin sets pillar card image
+    steps:
+      - id: s1
+        action: navigate
+        target: Admin → Globals → Home Page
+      - id: s2
+        action: select
+        target: Choose a pillar row (Marine, Automotive, Caravan & RV, Trade & Industrial, Commercial)
+      - id: s3
+        action: upload
+        target: Select or upload a media image (4:3 landscape recommended)
+      - id: s4
+        action: save
+        target: Save the global — revalidateTag fires, homepage re-renders with the new image
+contracts:
+  - id: homepage-global
+    description: >-
+      A Payload global slug=home-page with a pillars array (max 5 rows), each with a pillar select
+      and image relationship to media
+    must_have:
+      - "Global slug: home-page"
+      - pillars array with maxRows 5
+      - "Each row: pillar select (5 options) + image relationship to media"
+      - afterChange hook revalidates the homepage
+      - anyone read access
+  - id: fallback-chain
+    description: Homepage pillar card images use a 3-level fallback chain
+    must_have:
+      - "1st: admin-configured image from HomePage global"
+      - "2nd: latest project featuredImage for that pillar"
+      - "3rd: first asset type heroImage for that pillar"
+      - "No image: gradient placeholder"
+  - id: migration
+    description: Migration creates the home_page + home_page_pillars tables
+    must_have:
+      - 20260908_164135_home_page_global.ts migration
+      - Creates home_page table with id serial PK
+      - Creates home_page_pillars table with pillar varchar, image_id integer, home_page_id FK
+      - Index on home_page_pillars.home_page_id
+tests:
+  - id: global-readable
+    setup:
+      check: GET /api/globals/home-page
+    expect:
+      - result: "200"
+  - id: admin-can-set-image
+    setup:
+      check: PATCH /api/globals/home-page with pillars[0].image = <media_id>
+    expect:
+      - result: "200"
+        field: pillars[0].image is the media ID
+  - id: homepage-uses-global-image
+    setup:
+      check: GET / and inspect pillar card image src
+    expect:
+      - result: uses the admin-configured image URL
+  - id: fallback-when-empty
+    setup:
+      check: Remove global image, GET / and inspect pillar card
+    expect:
+      - result: falls back to project featured image or asset type hero
+decisions:
+  - id: global-not-page-field
+    decision: Use a Payload Global (slug=home-page) rather than adding fields to the home CMS page
+    rationale: >-
+      The pillar card config is site-wide, not page content. Globals are the right pattern (matches
+      Header/Footer). Keeps the home page content clean and lets the global revalidate
+      independently.
+    date: "2026-09-08"
+  - id: fallback-chain
+    decision: Fall back to project/asset images when no admin image is set
+    rationale: >-
+      The site had working auto-derived images before this feature. Keeping the fallback ensures the
+      cards always have an image even before admin configures them.
+    date: "2026-09-08"
