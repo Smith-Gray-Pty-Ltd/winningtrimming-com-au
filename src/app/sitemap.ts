@@ -112,6 +112,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // All-pillar region pages: /{region} and /{region}/{suburb}
+  // Only for regions that serve all pillars (not marine-only regions)
+  for (const region of regions.docs) {
+    if (!region.slug) continue
+    const regionPillars = (region.pillars ?? []) as string[]
+    if (regionPillars.length > 0 && !regionPillars.includes('automotive')) continue
+
+    // /{region}
+    matrixEntries.push({
+      url: `${host}/${region.slug}`,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })
+
+    // /{region}/{suburb}
+    const regionSuburbs = suburbs.docs.filter(
+      (s) => typeof s.region === 'object' && s.region !== null && s.region.id === region.id,
+    )
+    for (const suburb of regionSuburbs) {
+      if (suburb.slug) {
+        matrixEntries.push({
+          url: `${host}/${region.slug}/${suburb.slug}`,
+          changeFrequency: 'monthly' as const,
+          priority: 0.6,
+        })
+      }
+    }
+  }
+
   // Build a set of (pillar, product-slug) pairs that have at least one asset
   // type offering that product. This filters out pillar-level product URLs
   // that would 404 because no asset type lists them in applicableProducts.
