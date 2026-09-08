@@ -6,11 +6,67 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
+export type SupportedTimezones =
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Brisbane'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
     customers: CustomerAuthOperations;
   };
+  blocks: {};
   collections: {
     pages: Page;
     posts: Post;
@@ -33,6 +89,7 @@ export interface Config {
     forms: Form;
     'form-submissions': FormSubmission;
     search: Search;
+    'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -60,6 +117,7 @@ export interface Config {
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     search: SearchSelect<false> | SearchSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -67,6 +125,7 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
+  fallbackLocale: null;
   globals: {
     header: Header;
     footer: Footer;
@@ -78,13 +137,10 @@ export interface Config {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
   };
   locale: null;
-  user:
-    | (User & {
-        collection: 'users';
-      })
-    | (Customer & {
-        collection: 'customers';
-      });
+  widgets: {
+    collections: CollectionsWidget;
+  };
+  user: User | Customer;
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -139,7 +195,7 @@ export interface Page {
       root: {
         type: string;
         children: {
-          type: string;
+          type: any;
           version: number;
           [k: string]: unknown;
         }[];
@@ -161,6 +217,9 @@ export interface Page {
             } | null;
             url?: string | null;
             label: string;
+            /**
+             * Choose how the link should be rendered.
+             */
             appearance?: ('default' | 'outline') | null;
           };
           id?: string | null;
@@ -168,10 +227,16 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
+  /**
+   * SEO/GEO body copy shown below the breadcrumbs on the page. Aim for 100–300 words covering what you do, who you serve, and the local area.
+   */
   seoContent?: string | null;
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
@@ -193,7 +258,7 @@ export interface Media {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -275,7 +340,7 @@ export interface CallToActionBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -297,6 +362,9 @@ export interface CallToActionBlock {
           } | null;
           url?: string | null;
           label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
           appearance?: ('default' | 'outline') | null;
         };
         id?: string | null;
@@ -311,16 +379,22 @@ export interface CallToActionBlock {
  * via the `definition` "ContentBlock".
  */
 export interface ContentBlock {
+  /**
+   * Full-width section background colour.
+   */
   background?: ('default' | 'teal') | null;
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        /**
+         * Optional image rendered above the text in this column.
+         */
         image?: (number | null) | Media;
         richText?: {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -341,6 +415,9 @@ export interface ContentBlock {
           } | null;
           url?: string | null;
           label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
           appearance?: ('default' | 'outline') | null;
         };
         id?: string | null;
@@ -369,7 +446,7 @@ export interface ArchiveBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -424,7 +501,7 @@ export interface Post {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -439,6 +516,9 @@ export interface Post {
   categories?: (number | Category)[] | null;
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
@@ -472,7 +552,15 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
   password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -485,7 +573,7 @@ export interface FormBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -542,7 +630,7 @@ export interface Form {
               root: {
                 type: string;
                 children: {
-                  type: string;
+                  type: any;
                   version: number;
                   [k: string]: unknown;
                 }[];
@@ -572,6 +660,7 @@ export interface Form {
             label?: string | null;
             width?: number | null;
             defaultValue?: string | null;
+            placeholder?: string | null;
             options?:
               | {
                   label: string;
@@ -621,7 +710,7 @@ export interface Form {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -647,7 +736,7 @@ export interface Form {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -672,8 +761,17 @@ export interface Project {
   id: number;
   title: string;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  /**
+   * One or two sentences shown on the project card.
+   */
   summary: string;
+  /**
+   * Card thumbnail and detail-page hero image.
+   */
   featuredImage: number | Media;
+  /**
+   * Additional photos shown on the detail page.
+   */
   gallery?:
     | {
         image: number | Media;
@@ -681,6 +779,9 @@ export interface Project {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Optional — only add pairs where you have both photos.
+   */
   beforeAfter?:
     | {
         before: number | Media;
@@ -693,7 +794,7 @@ export interface Project {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -706,13 +807,25 @@ export interface Project {
   } | null;
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
+  /**
+   * Sub-category tags relevant to this project.
+   */
   serviceTypes?: (number | ServiceType)[] | null;
   location?: string | null;
+  /**
+   * e.g. "Marine-grade vinyl, Sunbrella canvas"
+   */
   materials?: string | null;
   completedAt?: string | null;
+  /**
+   * Pin to the front of the Our Work gallery.
+   */
   featured?: boolean | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -728,16 +841,28 @@ export interface ServiceType {
   id: number;
   title: string;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  /**
+   * Custom = new builds; Repair = repair/restoration work.
+   */
   workType?: ('custom' | 'repair') | null;
+  /**
+   * 1–2 sentence SEO intro used on matrix pages.
+   */
   intro?: string | null;
+  /**
+   * SEO/GEO body copy shown below the breadcrumbs on the product landing page. Aim for 150–300 words covering what you do, who you serve, and the local area. This is the primary indexable content for the page.
+   */
   seoContent?: string | null;
+  /**
+   * Optional hero image for the pillar-level product page.
+   */
   heroImage?: (number | null) | Media;
   content?: {
     body?: {
       root: {
         type: string;
         children: {
-          type: string;
+          type: any;
           version: number;
           [k: string]: unknown;
         }[];
@@ -748,6 +873,9 @@ export interface ServiceType {
       };
       [k: string]: unknown;
     } | null;
+    /**
+     * Bullet-point features shown on matrix pages.
+     */
     keyFeatures?:
       | {
           feature: string;
@@ -757,6 +885,9 @@ export interface ServiceType {
   };
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
@@ -771,18 +902,33 @@ export interface ServiceType {
  */
 export interface AssetType {
   id: number;
+  /**
+   * e.g. "Yachts", "Catamarans", "Jet Skis"
+   */
   title: string;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  /**
+   * Singular form for titles, e.g. "Yacht" (default: title minus trailing "s").
+   */
   singular?: string | null;
+  /**
+   * 1–2 sentence SEO intro used on matrix pages.
+   */
   intro?: string | null;
+  /**
+   * SEO/GEO body copy shown below the breadcrumbs on the vessel-type landing page. Aim for 150–300 words covering what you do, who you serve, and the local area. This is the primary indexable content for the page.
+   */
   seoContent?: string | null;
+  /**
+   * Optional hero image for the asset-type landing page.
+   */
   heroImage?: (number | null) | Media;
   content?: {
     body?: {
       root: {
         type: string;
         children: {
-          type: string;
+          type: any;
           version: number;
           [k: string]: unknown;
         }[];
@@ -794,9 +940,15 @@ export interface AssetType {
       [k: string]: unknown;
     } | null;
   };
+  /**
+   * Which product/service types apply to this asset type. Controls the valid matrix combinations.
+   */
   applicableProducts?: (number | ServiceType)[] | null;
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
@@ -813,6 +965,9 @@ export interface Business {
   id: number;
   title: string;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  /**
+   * Type of business / facility.
+   */
   type?:
     | (
         | 'marina'
@@ -837,13 +992,25 @@ export interface Business {
         | 'other'
       )
     | null;
+  /**
+   * Relationship between Winning Trimming and this business. Partner = mutual referral; Customer = buys from us; Supplier = we buy from; Referrer = sends us leads; Informational = listed for SEO context only.
+   */
   relationship?: ('partner' | 'customer' | 'supplier' | 'referrer' | 'informational') | null;
   region: number | Region;
+  /**
+   * Suburb or locality where the business is located.
+   */
   suburb?: string | null;
   description?: string | null;
+  /**
+   * Full URL including https://
+   */
   website?: string | null;
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
@@ -859,14 +1026,20 @@ export interface Business {
 export interface Region {
   id: number;
   title: string;
+  /**
+   * Short description used in matrix page copy and schema.
+   */
   description?: string | null;
+  /**
+   * Which pillars this region is relevant to. Leave empty if it applies to all pillars.
+   */
   pillars?: ('marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial')[] | null;
   content?: {
     body?: {
       root: {
         type: string;
         children: {
-          type: string;
+          type: any;
           version: number;
           [k: string]: unknown;
         }[];
@@ -880,6 +1053,9 @@ export interface Region {
   };
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
@@ -894,12 +1070,21 @@ export interface Region {
  */
 export interface Suburb {
   id: number;
+  /**
+   * Suburb name, e.g. "Belmont"
+   */
   title: string;
   region: number | Region;
   postcode?: number | null;
+  /**
+   * Local SEO copy for this suburb, used on suburb-level matrix pages.
+   */
   intro?: string | null;
   meta?: {
     title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
     image?: (number | null) | Media;
     description?: string | null;
   };
@@ -915,8 +1100,17 @@ export interface Suburb {
 export interface Customer {
   id: number;
   name: string;
+  /**
+   * Best contact number for booking follow-ups.
+   */
   phone?: string | null;
+  /**
+   * Optional — business name if applicable.
+   */
   company?: string | null;
+  /**
+   * Primary pillar for this customer (for filtering / marketing).
+   */
   pillar?: ('marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial') | null;
   address?: {
     street?: string | null;
@@ -924,7 +1118,13 @@ export interface Customer {
     state?: ('NSW' | 'VIC' | 'QLD' | 'SA' | 'WA' | 'TAS' | 'ACT' | 'NT') | null;
     postcode?: string | null;
   };
+  /**
+   * Linked suburb for region-based filtering.
+   */
   suburbRef?: (number | null) | Suburb;
+  /**
+   * Internal staff notes — not visible to the customer.
+   */
   notes?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -935,7 +1135,15 @@ export interface Customer {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
   password?: string | null;
+  collection: 'customers';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -943,15 +1151,42 @@ export interface Customer {
  */
 export interface Quote {
   id: number;
+  /**
+   * Short label, auto-generated from contact name + subject if left blank.
+   */
   title?: string | null;
+  /**
+   * Customer name.
+   */
   contactName?: string | null;
+  /**
+   * Customer email.
+   */
   contactEmail?: string | null;
+  /**
+   * Customer phone.
+   */
   contactPhone?: string | null;
+  /**
+   * Linked customer account (if they were logged in when submitting).
+   */
   customer?: (number | null) | Customer;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  /**
+   * What is the job for? e.g. "Bayliner 175 bowrider", "Café booth seating", "CAT 320 excavator".
+   */
   subject: string;
+  /**
+   * Vessel type (marine jobs only).
+   */
   subjectType?: (number | null) | AssetType;
+  /**
+   * Any details about the subject — length, model, stored at, etc.
+   */
   subjectDetails?: string | null;
+  /**
+   * Photos of the subject / job site. Maximum 10 photos.
+   */
   subjectPhotos?:
     | {
         image: number | Media;
@@ -959,21 +1194,63 @@ export interface Quote {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Which services this job involves.
+   */
   serviceTypes?: (number | ServiceType)[] | null;
+  /**
+   * Customer's description of what they need.
+   */
   description: string;
+  /**
+   * Where the work is, e.g. "Toronto, Lake Macquarie" or "Our workshop".
+   */
   location?: string | null;
+  /**
+   * Customer's preferred timing, free text.
+   */
   preferredDates?: string | null;
+  /**
+   * Where the enquiry came from — utm_source (e.g. meta-ads), or blank for direct.
+   */
   source?: string | null;
+  /**
+   * utm_campaign name from the ad link, if any.
+   */
   campaign?: string | null;
+  /**
+   * Facebook click ID — used for ad attribution / Conversions API later.
+   */
   fbclid?: string | null;
+  /**
+   * Total quoted amount in AUD (excl. GST if applicable).
+   */
   quotedAmount?: number | null;
+  /**
+   * Deposit amount in AUD. Usually 50% of quoted.
+   */
   depositAmount?: number | null;
+  /**
+   * Notes included in the quote sent to the customer.
+   */
   quoteNotes?: string | null;
+  /**
+   * Quote stage. When accepted, convert to a Booking.
+   */
   status: 'requested' | 'reviewing' | 'quoted' | 'accepted' | 'declined' | 'expired';
+  /**
+   * The booking created from this quote (if accepted & converted).
+   */
   booking?: (number | null) | Booking;
+  /**
+   * What the agent should do next on this quote.
+   */
   nextAction?:
     | ('send_quote' | 'send_quote_reminder' | 'check_quote_accepted' | 'expire_quote' | 'convert_to_booking')
     | null;
+  /**
+   * When the next action should run.
+   */
   nextActionDue?: string | null;
   website?: string | null;
   updatedAt: string;
@@ -985,12 +1262,30 @@ export interface Quote {
  */
 export interface Booking {
   id: number;
+  /**
+   * Short label for admin lists, e.g. "Smith — Bimini refit".
+   */
   title: string;
+  /**
+   * The customer who requested this booking.
+   */
   customer: number | Customer;
   pillar: 'marine' | 'automotive' | 'caravan-and-rv' | 'trade-and-industrial' | 'commercial';
+  /**
+   * What is the job for? e.g. "Bayliner 175 bowrider", "Café booth seating", "CAT 320 excavator".
+   */
   subject: string;
+  /**
+   * Vessel type (marine jobs only).
+   */
   subjectType?: (number | null) | AssetType;
+  /**
+   * Any details about the subject — length, model, stored at, etc.
+   */
   subjectDetails?: string | null;
+  /**
+   * Photos of the subject / job site.
+   */
   subjectPhotos?:
     | {
         image: number | Media;
@@ -998,12 +1293,33 @@ export interface Booking {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Which services this job involves.
+   */
   serviceTypes?: (number | ServiceType)[] | null;
+  /**
+   * Customer's description of what they need.
+   */
   description: string;
+  /**
+   * Where the work is, e.g. "Toronto, Lake Macquarie" or "Our workshop".
+   */
   location?: string | null;
+  /**
+   * Customer's preferred timing, free text.
+   */
   preferredDates?: string | null;
+  /**
+   * Total quoted amount in AUD (excl. GST if applicable).
+   */
   quotedAmount?: number | null;
+  /**
+   * Deposit amount in AUD. Usually 50% of quoted.
+   */
   depositAmount?: number | null;
+  /**
+   * Variations to the original quote (extra materials, scope changes).
+   */
   adjustments?:
     | {
         description: string;
@@ -1012,6 +1328,9 @@ export interface Booking {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Current state in the booking pipeline.
+   */
   status:
     | 'new'
     | 'quoted'
@@ -1043,6 +1362,9 @@ export interface Booking {
         | 'cancelled'
       )
     | null;
+  /**
+   * What the agent should do next on this booking. Null = no action pending.
+   */
   nextAction?:
     | (
         | 'send_quote'
@@ -1057,10 +1379,22 @@ export interface Booking {
         | 'manual_review'
       )
     | null;
+  /**
+   * When the next action should run. Agent queries where this <= now().
+   */
   nextActionDue?: string | null;
   lastAgentRun?: string | null;
+  /**
+   * Last error from the agent (if any). Cleared on successful run.
+   */
   agentError?: string | null;
+  /**
+   * The originating quote (if this booking was converted from one).
+   */
   quote?: (number | null) | Quote;
+  /**
+   * Portfolio entry created from this booking (if any).
+   */
   project?: (number | null) | Project;
   updatedAt: string;
   createdAt: string;
@@ -1071,17 +1405,50 @@ export interface Booking {
  */
 export interface Invoice {
   id: number;
+  /**
+   * The booking this invoice belongs to.
+   */
   booking: number | Booking;
+  /**
+   * Deposit (50%), adjustment (variation), or final (remaining balance).
+   */
   type: 'deposit' | 'adjustment' | 'final';
+  /**
+   * Invoice amount in AUD.
+   */
   amount: number;
+  /**
+   * When payment is due.
+   */
   dueDate?: string | null;
+  /**
+   * Synced from Xero via webhook.
+   */
   status: 'draft' | 'sent' | 'paid' | 'overdue' | 'void';
   paidAt?: string | null;
+  /**
+   * How the customer paid (synced from Xero).
+   */
   paymentMethod?: ('bank_transfer' | 'card' | 'cash' | 'cheque' | 'other') | null;
+  /**
+   * Xero invoice ID — the source of truth for this invoice.
+   */
   xeroInvoiceId?: string | null;
+  /**
+   * Xero invoice number (e.g. INV-0123).
+   */
   xeroInvoiceNumber?: string | null;
+  /**
+   * Direct link to the invoice in Xero (for staff).
+   */
   xeroUrl?: string | null;
+  /**
+   * What this adjustment covers (e.g. "Extra marine vinyl — 3m").
+   */
   adjustmentDescription?: string | null;
+  /**
+   * Internal staff notes for this invoice.
+   */
   notes?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -1112,11 +1479,29 @@ export interface Event {
     | 'agent_action_executed'
     | 'agent_error'
     | 'manual_review_required';
+  /**
+   * The booking this event relates to.
+   */
   booking?: (number | null) | Booking;
+  /**
+   * The invoice this event relates to (if applicable).
+   */
   invoice?: (number | null) | Invoice;
+  /**
+   * Who or what triggered this event.
+   */
   actor: 'staff' | 'customer' | 'agent' | 'system' | 'xero_webhook';
+  /**
+   * ID of the user/agent that triggered this (if applicable).
+   */
   actorId?: string | null;
+  /**
+   * Human-readable summary of what happened.
+   */
   description?: string | null;
+  /**
+   * Structured data for idempotency checks and debugging.
+   */
   metadata?:
     | {
         [k: string]: unknown;
@@ -1135,15 +1520,42 @@ export interface Event {
  */
 export interface Review {
   id: number;
+  /**
+   * The reviewer's display name (e.g. "John Smith").
+   */
   authorName: string;
+  /**
+   * Optional profile photo from Google.
+   */
   authorPhoto?: (number | null) | Media;
+  /**
+   * Star rating from 1 to 5.
+   */
   rating: number;
+  /**
+   * The review text.
+   */
   text: string;
+  /**
+   * When the review was originally posted.
+   */
   reviewDate?: string | null;
   source?: ('google' | 'manual' | 'facebook') | null;
+  /**
+   * Google's unique ID for this review — used for deduplication. Leave empty for manual reviews.
+   */
   googleReviewId?: string | null;
+  /**
+   * Link to the review on Google Maps.
+   */
   googlePlaceUrl?: string | null;
+  /**
+   * Pin this review to show it first.
+   */
   featured?: boolean | null;
+  /**
+   * Hide this review from the public site without deleting it.
+   */
   hidden?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -1154,6 +1566,9 @@ export interface Review {
  */
 export interface Redirect {
   id: number;
+  /**
+   * You will need to rebuild the website when changing this field.
+   */
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
@@ -1189,6 +1604,8 @@ export interface FormSubmission {
   createdAt: string;
 }
 /**
+ * This is a collection of automatically created search results. These results are used by the global site search and will be updated automatically as documents in the CMS are created or updated.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "search".
  */
@@ -1215,6 +1632,23 @@ export interface Search {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv".
+ */
+export interface PayloadKv {
+  id: number;
+  key: string;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1391,91 +1825,18 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        cta?:
-          | T
-          | {
-              richText?: T;
-              links?:
-                | T
-                | {
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                          appearance?: T;
-                        };
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        content?:
-          | T
-          | {
-              background?: T;
-              columns?:
-                | T
-                | {
-                    size?: T;
-                    image?: T;
-                    richText?: T;
-                    enableLink?: T;
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          newTab?: T;
-                          reference?: T;
-                          url?: T;
-                          label?: T;
-                          appearance?: T;
-                        };
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        mediaBlock?:
-          | T
-          | {
-              media?: T;
-              id?: T;
-              blockName?: T;
-            };
-        archive?:
-          | T
-          | {
-              introContent?: T;
-              populateBy?: T;
-              relationTo?: T;
-              categories?: T;
-              limit?: T;
-              selectedDocs?: T;
-              id?: T;
-              blockName?: T;
-            };
-        formBlock?:
-          | T
-          | {
-              form?: T;
-              enableIntro?: T;
-              introContent?: T;
-              id?: T;
-              blockName?: T;
-            };
+        cta?: T | CallToActionBlockSelect<T>;
+        content?: T | ContentBlockSelect<T>;
+        mediaBlock?: T | MediaBlockSelect<T>;
+        archive?: T | ArchiveBlockSelect<T>;
+        formBlock?: T | FormBlockSelect<T>;
       };
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   publishedAt?: T;
   slug?: T;
@@ -1483,6 +1844,92 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock_select".
+ */
+export interface CallToActionBlockSelect<T extends boolean = true> {
+  richText?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock_select".
+ */
+export interface ContentBlockSelect<T extends boolean = true> {
+  background?: T;
+  columns?:
+    | T
+    | {
+        size?: T;
+        image?: T;
+        richText?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock_select".
+ */
+export interface MediaBlockSelect<T extends boolean = true> {
+  media?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArchiveBlock_select".
+ */
+export interface ArchiveBlockSelect<T extends boolean = true> {
+  introContent?: T;
+  populateBy?: T;
+  relationTo?: T;
+  categories?: T;
+  limit?: T;
+  selectedDocs?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FormBlock_select".
+ */
+export interface FormBlockSelect<T extends boolean = true> {
+  form?: T;
+  enableIntro?: T;
+  introContent?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1496,11 +1943,9 @@ export interface PostsSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   publishedAt?: T;
   authors?: T;
@@ -1544,11 +1989,9 @@ export interface ProjectsSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   serviceTypes?: T;
   location?: T;
@@ -1586,11 +2029,9 @@ export interface ServiceTypesSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   slug?: T;
   slugLock?: T;
@@ -1617,11 +2058,9 @@ export interface AssetTypesSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   slug?: T;
   slugLock?: T;
@@ -1644,11 +2083,9 @@ export interface BusinessesSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   slug?: T;
   slugLock?: T;
@@ -1671,11 +2108,9 @@ export interface RegionsSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   slug?: T;
   slugLock?: T;
@@ -1694,11 +2129,9 @@ export interface SuburbsSelect<T extends boolean = true> {
   meta?:
     | T
     | {
-        overview?: T;
         title?: T;
         image?: T;
         description?: T;
-        preview?: T;
       };
   slug?: T;
   slugLock?: T;
@@ -1821,6 +2254,13 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1850,6 +2290,13 @@ export interface CustomersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2067,6 +2514,7 @@ export interface FormsSelect<T extends boolean = true> {
               label?: T;
               width?: T;
               defaultValue?: T;
+              placeholder?: T;
               options?:
                 | T
                 | {
@@ -2158,7 +2606,6 @@ export interface SearchSelect<T extends boolean = true> {
   title?: T;
   priority?: T;
   doc?: T;
-  docUrl?: T;
   slug?: T;
   meta?:
     | T
@@ -2176,6 +2623,14 @@ export interface SearchSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-kv_select".
+ */
+export interface PayloadKvSelect<T extends boolean = true> {
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2263,10 +2718,25 @@ export interface Footer {
  */
 export interface HomePage {
   id: number;
+  /**
+   * Card image for the Marine pillar (4:3 landscape recommended).
+   */
   marineImage?: (number | null) | Media;
+  /**
+   * Card image for the Automotive pillar (4:3 landscape recommended).
+   */
   automotiveImage?: (number | null) | Media;
+  /**
+   * Card image for the Caravan & RV pillar (4:3 landscape recommended).
+   */
   caravanRvImage?: (number | null) | Media;
+  /**
+   * Card image for the Trade & Industrial pillar (4:3 landscape recommended).
+   */
   tradeIndustrialImage?: (number | null) | Media;
+  /**
+   * Card image for the Commercial pillar (4:3 landscape recommended).
+   */
   commercialImage?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2333,6 +2803,16 @@ export interface HomePageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "BannerBlock".
  */
 export interface BannerBlock {
@@ -2341,7 +2821,7 @@ export interface BannerBlock {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
