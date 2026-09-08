@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
   const host = getServerSideURL()
 
-  const [pages, posts, assets, suburbs, regions, serviceTypes] = await Promise.all([
+  const [pages, posts, projects, assets, suburbs, regions, serviceTypes] = await Promise.all([
     payload.find({
       collection: 'pages',
       where: { _status: { equals: 'published' } },
@@ -21,6 +21,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       where: { _status: { equals: 'published' } },
       limit: 0,
       draft: false,
+    }),
+    payload.find({
+      collection: 'projects',
+      where: { _status: { equals: 'published' } },
+      limit: 0,
+      draft: false,
+      overrideAccess: false,
+      sort: '-completedAt',
     }),
     payload.find({
       collection: 'asset-types',
@@ -64,6 +72,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
+  // Project entries — /our-work/{slug}
+  const projectEntries: MetadataRoute.Sitemap = projects.docs.map((p) => ({
+    url: p.slug ? `${host}/our-work/${p.slug}` : host,
+    lastModified: p.updatedAt ?? p.completedAt ?? undefined,
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
   // SEO matrix entries: vessel → product → suburb
   const matrixEntries: MetadataRoute.Sitemap = []
 
@@ -81,9 +97,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // Build a set of (pillar, product-slug) pairs that have at least one asset
+  // type offering that product. This filters out pillar-level product URLs
+  // that would 404 because no asset type lists them in applicableProducts.
+  const validPillarProducts = new Set<string>()
+  for (const asset of assets.docs) {
+    if (!asset.pillar) continue
+    const products = (asset.applicableProducts ?? []).filter(
+      (p): p is ServiceType => typeof p === 'object' && p !== null && 'slug' in p,
+    )
+    for (const product of products) {
+      validPillarProducts.add(`${asset.pillar}:${product.slug}`)
+    }
+  }
+
   // Pillar-level product pages: /{pillar}/{product} and /{pillar}/{product}/{suburb}
+  // Only include if at least one asset type in that pillar offers the product.
   for (const st of serviceTypes.docs) {
     if (!st.slug || !st.pillar) continue
+    if (!validPillarProducts.has(`${st.pillar}:${st.slug}`)) continue
     matrixEntries.push({
       url: `${host}/${st.pillar}/${st.slug}`,
       changeFrequency: 'weekly' as const,
@@ -134,8 +166,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: `${host}/`, changeFrequency: 'weekly', priority: 1 },
     { url: `${host}/posts`, changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${host}/our-work`, changeFrequency: 'weekly', priority: 0.7 },
     ...pageEntries,
     ...postEntries,
+    ...projectEntries,
     ...matrixEntries,
   ]
 }
