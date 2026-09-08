@@ -29,6 +29,15 @@ type QuoteData = {
   location?: string | null
   source?: string | null
   campaign?: string | null
+  subjectPhotos?: Array<{
+    image?: {
+      url?: string | null
+      alt?: string | null
+      filename?: string | null
+      thumbnailURL?: string | null
+    } | string | null
+    caption?: string | null
+  }> | null
 }
 
 /**
@@ -66,9 +75,40 @@ function emailFooter(): string {
 
 /**
  * Notify staff when a new quote request comes in.
+ * Includes all quote details + photo thumbnails + admin link.
  */
 export async function notifyStaffOfQuote(payload: Payload, quote: QuoteData): Promise<void> {
   const staffEmail = process.env.SMTP_USER || 'service@winningtrimming.com.au'
+  const adminUrl = `${SITE_URL}/admin/collections/quotes/${quote.id}`
+
+  // Build photo gallery HTML if photos exist
+  const photos = (quote.subjectPhotos || []).filter(
+    (p) => p.image && typeof p.image === 'object' && p.image.url,
+  )
+  const photoHtml = photos.length > 0
+    ? `
+      <p style="margin:28px 0 8px;font-size:13px;color:#888888;">Photos (${photos.length})</p>
+      <table role="presentation" style="width:100%;border-collapse:separate;border-spacing:8px;">
+        <tr>
+          ${photos.map((p, i) => {
+            const img = p.image as { url: string; alt?: string; thumbnailURL?: string }
+            const thumbUrl = img.thumbnailURL || img.url
+            // Wrap every 3 photos in a new row
+            const cell = `<td style="width:33%;vertical-align:top;">
+              <a href="${SITE_URL}${img.url}" style="text-decoration:none;">
+                <img src="${SITE_URL}${thumbUrl}" alt="${img.alt || `Photo ${i + 1}`}" style="width:100%;max-width:160px;border-radius:8px;display:block;border:1px solid #eee;" />
+              </a>
+              ${p.caption ? `<p style="margin:4px 0 0;font-size:11px;color:#888;">${p.caption}</p>` : ''}
+            </td>`
+            // Start a new row every 3 photos
+            if (i > 0 && i % 3 === 0) {
+              return `</tr><tr>${cell}`
+            }
+            return cell
+          }).join('')}
+        </tr>
+      </table>`
+    : ''
 
   const html = `<!DOCTYPE html>
 <html>
@@ -103,8 +143,10 @@ export async function notifyStaffOfQuote(payload: Payload, quote: QuoteData): Pr
       <p style="margin:28px 0 8px;font-size:13px;color:#888888;">Description</p>
       <p style="margin:0;font-size:14px;line-height:1.7;color:#222222;white-space:pre-wrap;">${quote.description || '—'}</p>
 
+      ${photoHtml}
+
       <p style="margin:36px 0 0;">
-        <a href="${SITE_URL}/admin/collections/quotes/${quote.id}" style="display:inline-block;background:#607A00;color:#ffffff;font-size:14px;font-weight:500;padding:12px 24px;border-radius:6px;text-decoration:none;">View in admin panel →</a>
+        <a href="${adminUrl}" style="display:inline-block;background:#607A00;color:#ffffff;font-size:14px;font-weight:500;padding:12px 24px;border-radius:6px;text-decoration:none;">View in admin panel →</a>
       </p>
 
     </div>

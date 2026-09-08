@@ -405,10 +405,25 @@ export const Quotes: CollectionConfig = {
 
         const quote = doc as any
 
+        // Fetch the full quote with photos populated (the afterChange doc
+        // has raw IDs for upload fields, not the media objects with URLs)
+        let quoteWithPhotos = quote
+        try {
+          const full = await req.payload.findByID({
+            collection: 'quotes',
+            id: quote.id,
+            depth: 2,
+            overrideAccess: true,
+          })
+          if (full) quoteWithPhotos = full
+        } catch {
+          // If fetch fails, fall back to the raw doc
+        }
+
         // Notify staff + customer in parallel (don't block the response)
         Promise.all([
-          notifyStaffOfQuote(req.payload, quote),
-          notifyCustomerOfQuote(req.payload, quote),
+          notifyStaffOfQuote(req.payload, quoteWithPhotos),
+          notifyCustomerOfQuote(req.payload, quoteWithPhotos),
         ]).catch(() => {
           // Errors are already logged inside the functions
         })
