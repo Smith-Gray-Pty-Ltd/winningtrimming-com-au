@@ -2,25 +2,26 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/seo-matrix-templates
 $type: feature
 $version: 1
-$last_updated: '2026-09-06'
+$last_updated: "2026-09-09"
 summary: >-
-  Three React template components that render matrix pages: MatrixTemplate (vessel-centric,
-  684 lines — breadcrumbs, H1, asset intro, applicable products grid, service type grid,
-  suburb list, project image fallback, review sidebar), PillarProductTemplate (product across
-  all vessels, 433 lines — product intro, applicable asset grid, key features, suburb list),
-  RegionTemplate (region landing, 159 lines — vessel types, suburbs, businesses). AssetTypeGrid
-  and ServiceTypeGrid are shared card components with project-image fallback when hero image
-  is a placeholder.
+  6 React template components that render matrix pages: MatrixTemplate (vessel-centric — hero,
+  breadcrumbs, SEO, asset grid, service grid, projects, reviews, suburbs, businesses, CTA),
+  PillarProductTemplate (product across all vessels), RegionTemplate (pillar-scoped region —
+  inherits pillar hero, suburbs as clickable links), RegionSuburbTemplate (pillar-scoped suburb —
+  inherits pillar hero image, reviews sidebar), AllPillarRegionTemplate (all-pillar region — mimics
+  homepage with carousel hero, trust bar, pillar cards, recent work, SEO + reviews, suburb links,
+  CTA), AllPillarSuburbTemplate (all-pillar suburb — same homepage layout with suburb-specific SEO).
+  All templates output page-specific OG meta tags via generateMetadata with mergeOpenGraph.
 $system: template-website/system
 $service: template-website/winning-trimming-com-au
 intent: >-
   Render SEO-optimised landing pages from resolved matrix data with consistent structure —
-  breadcrumbs, dynamic H1, indexable content, internal links to sibling pages, and trust
-  signals (reviews, project photos) — so every matrix URL serves a unique, useful page.
+  breadcrumbs, dynamic H1, indexable content, internal links to sibling pages, and trust signals
+  (reviews, project photos) — so every matrix URL serves a unique, useful page.
 status: built
 implementation:
   primary: src/Matrix/MatrixTemplate.tsx
-  test_code: ''
+  test_code: ""
   test_code_status: none
 see_also:
   - template-website/winning-trimming-com-au/seo-matrix-resolution
@@ -32,94 +33,138 @@ flows:
     name: Render vessel matrix page
     description: MatrixTemplate renders for a resolved vessel/product/suburb URL.
     steps:
-      - {id: s1, action: receive, target: 'MatrixData from resolveMatrix'}
-      - {id: s2, action: render, target: 'breadcrumbs pillar then asset then product then suburb'}
-      - {id: s3, action: render, target: 'H1 via matrixH1, asset intro, seoContent'}
-      - {id: s4, action: render, target: 'depth 1 — ServiceTypeGrid of applicableProducts'}
-      - {id: s5, action: render, target: 'depth 2 — AssetTypeGrid of siblingAssets, project image fallback'}
-      - {id: s6, action: render, target: 'depth 3 — suburb intro, nearbySuburbs list, review sidebar'}
+      - id: s1
+        action: receive
+        target: MatrixData from resolveMatrix
+      - id: s2
+        action: render
+        target: breadcrumbs pillar then asset then product then suburb
+      - id: s3
+        action: render
+        target: H1 via matrixH1, asset intro, seoContent
+      - id: s4
+        action: render
+        target: depth 1 — ServiceTypeGrid of applicableProducts
+      - id: s5
+        action: render
+        target: depth 2 — AssetTypeGrid of siblingAssets, project image fallback
+      - id: s6
+        action: render
+        target: depth 3 — suburb intro, nearbySuburbs list, review sidebar
   - id: render-product-page
     name: Render pillar-product page
     description: PillarProductTemplate renders for a product-across-vessels URL.
     steps:
-      - {id: s1, action: receive, target: 'PillarProductData from resolvePillarProduct'}
-      - {id: s2, action: render, target: 'H1 via pillarProductH1, product intro, seoContent'}
-      - {id: s3, action: render, target: 'applicableAssets grid (vessels that offer this product)'}
-      - {id: s4, action: render, target: 'keyFeatures from service type, suburb list if depth 2'}
+      - id: s1
+        action: receive
+        target: PillarProductData from resolvePillarProduct
+      - id: s2
+        action: render
+        target: H1 via pillarProductH1, product intro, seoContent
+      - id: s3
+        action: render
+        target: applicableAssets grid (vessels that offer this product)
+      - id: s4
+        action: render
+        target: keyFeatures from service type, suburb list if depth 2
   - id: render-region-page
     name: Render region landing page
     description: RegionTemplate renders for a pillar+region URL.
     steps:
-      - {id: s1, action: receive, target: 'RegionPageData from resolveRegionPage'}
-      - {id: s2, action: render, target: 'region title, description, body content'}
-      - {id: s3, action: render, target: 'assetTypes grid, suburbs list, businesses list'}
+      - id: s1
+        action: receive
+        target: RegionPageData from resolveRegionPage
+      - id: s2
+        action: render
+        target: region title, description, body content
+      - id: s3
+        action: render
+        target: assetTypes grid, suburbs list, businesses list
 contracts:
   - id: template-selection
     description: Page component selects template based on which resolver returns data
     must_have:
-      - 'Try resolveMatrix first, render MatrixTemplate'
-      - 'Then resolvePillarProduct, render PillarProductTemplate'
-      - 'Then resolveRegionPage single segment, render RegionTemplate'
-      - 'None match then notFound called'
+      - Try resolveMatrix first, render MatrixTemplate
+      - Then resolvePillarProduct, render PillarProductTemplate
+      - Then resolveRegionPage single segment, render RegionTemplate
+      - None match then notFound called
   - id: project-image-fallback
-    description: AssetTypeGrid and ServiceTypeGrid fall back to matching project photos when hero image is placeholder
+    description: >-
+      AssetTypeGrid and ServiceTypeGrid fall back to matching project photos when hero image is
+      placeholder
     must_have:
-      - 'If heroImage is placeholder or missing, query projects matching pillar plus asset or service type'
-      - 'Use project featured image or gallery image as card image'
-      - 'Graceful fallback to gradient or placeholder if no projects either'
+      - >-
+        If heroImage is placeholder or missing, query projects matching pillar plus asset or service
+        type
+      - Use project featured image or gallery image as card image
+      - Graceful fallback to gradient or placeholder if no projects either
   - id: internal-linking
     description: Templates link to sibling matrix pages for SEO internal linking
     must_have:
-      - 'ServiceTypeGrid links to pillar/asset/product URLs'
-      - 'AssetTypeGrid links to pillar/asset URLs'
-      - 'Suburb list links to pillar/asset/product/suburb URLs'
-      - 'Nearby suburbs link to same product plus different suburb'
+      - ServiceTypeGrid links to pillar/asset/product URLs
+      - AssetTypeGrid links to pillar/asset URLs
+      - Suburb list links to pillar/asset/product/suburb URLs
+      - Nearby suburbs link to same product plus different suburb
   - id: revalidate
     description: Matrix pages cached for 1 hour
     must_have:
-      - 'revalidate equals 3600 in page.tsx'
-      - 'Matrix content changes infrequently — hourly revalidation is sufficient'
+      - revalidate equals 3600 in page.tsx
+      - Matrix content changes infrequently — hourly revalidation is sufficient
   - id: review-sidebar
     description: MatrixTemplate includes a review sidebar showing featured Google reviews
     must_have:
-      - 'Featured 5-star reviews from Reviews collection'
-      - 'Compact cards linking to Google Maps listing'
+      - Featured 5-star reviews from Reviews collection
+      - Compact cards linking to Google Maps listing
 tests:
   - id: depth-1-renders-product-grid
-    setup: {depth: 1, assetType: yachts}
+    setup:
+      depth: 1
+      assetType: yachts
     expect:
-      - {component: 'ServiceTypeGrid', shows: 'applicableProducts for yachts'}
+      - component: ServiceTypeGrid
+        shows: applicableProducts for yachts
   - id: depth-2-renders-asset-grid
-    setup: {depth: 2, assetType: yachts, productType: 'weather-covers'}
+    setup:
+      depth: 2
+      assetType: yachts
+      productType: weather-covers
     expect:
-      - {component: 'AssetTypeGrid', shows: 'siblingAssets with fallback images'}
+      - component: AssetTypeGrid
+        shows: siblingAssets with fallback images
   - id: depth-3-renders-suburb-content
-    setup: {depth: 3, suburb: belmont}
+    setup:
+      depth: 3
+      suburb: belmont
     expect:
-      - {shows: 'suburb intro, nearbySuburbs, review sidebar'}
+      - shows: suburb intro, nearbySuburbs, review sidebar
   - id: project-fallback-when-no-hero
-    setup: {heroImage: placeholder, projects: 'matching yachts plus weather-covers'}
+    setup:
+      heroImage: placeholder
+      projects: matching yachts plus weather-covers
     expect:
-      - {cardImage: 'project photo used as fallback'}
+      - cardImage: project photo used as fallback
   - id: invalid-url-404s
-    setup: {url: '/marine/yachts/nonexistent'}
+    setup:
+      url: /marine/yachts/nonexistent
     expect:
-      - {result: 'notFound called'}
+      - result: notFound called
 decisions:
   - id: three-templates
     decision: Three separate template components rather than one conditional template
-    rationale: Each page type has distinct layout needs. Separate components keep render logic readable and avoid deeply nested conditionals.
-    date: '2026-09-06'
+    rationale: >-
+      Each page type has distinct layout needs. Separate components keep render logic readable and
+      avoid deeply nested conditionals.
+    date: "2026-09-06"
   - id: project-image-fallback
     decision: Fall back to project photos when hero image is missing
     rationale: >-
-      Matrix pages look empty without images. Project photos are real work, more authentic
-      than stock. Keeps cards visual without requiring every asset/service type to have a hero.
-    date: '2026-09-06'
+      Matrix pages look empty without images. Project photos are real work, more authentic than
+      stock. Keeps cards visual without requiring every asset/service type to have a hero.
+    date: "2026-09-06"
   - id: hourly-revalidation
     decision: revalidate equals 3600 (1 hour) on matrix pages
     rationale: >-
-      Matrix content (asset types, service types, suburbs) changes infrequently. Hourly cache
-      keeps pages fast while picking up admin edits within an hour. Unlike portal data, this
-      is not customer-specific.
-    date: '2026-09-06'
+      Matrix content (asset types, service types, suburbs) changes infrequently. Hourly cache keeps
+      pages fast while picking up admin edits within an hour. Unlike portal data, this is not
+      customer-specific.
+    date: "2026-09-06"

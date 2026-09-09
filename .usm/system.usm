@@ -2,11 +2,11 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/system
 $type: system
 $version: 1
-$last_updated: '2026-09-06'
+$last_updated: "2026-09-06"
 summary: >-
-  Winning Trimming — marine, automotive & general trimming business website and
-  booking pipeline. Payload CMS + Next.js, serving the Lake Macquarie, Newcastle,
-  Central Coast and Hunter Valley regions.
+  Winning Trimming — marine, automotive & general trimming business website and booking pipeline.
+  Payload CMS + Next.js, serving the Lake Macquarie, Newcastle, Central Coast and Hunter Valley
+  regions.
 identity:
   name: Winning Trimming
   domain: winningtrimming.com.au
@@ -26,7 +26,7 @@ apis: []
 data:
   - id: postgres
     name: PostgreSQL
-    ref: ''
+    ref: ""
 infrastructure:
   cloud: hostinger
   region: au
@@ -34,15 +34,21 @@ infrastructure:
 deployment:
   environments:
     - name: dev
-      url: http://localhost:3010
+      url: http://localhost:3000
       type: local
+      notes: >-
+        Run pnpm dev at source (not Docker). DB in Docker container on port 5434. .env.local
+        overrides POSTGRES_URI to localhost:5434.
     - name: prod
       url: https://winningtrimming.com.au
       type: vps
+      notes: >-
+        Hostinger VPS 187.77.152.132. Docker Compose + Traefik. GitHub Actions deploy on push to
+        main.
 operations:
-  monitoring: ''
-  alerts: ''
-  on_call: ''
+  monitoring: ""
+  alerts: ""
+  on_call: ""
 policies:
   refs: []
 index: []

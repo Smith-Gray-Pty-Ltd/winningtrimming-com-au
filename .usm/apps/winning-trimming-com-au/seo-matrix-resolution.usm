@@ -2,25 +2,26 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/seo-matrix-resolution
 $type: feature
 $version: 1
-$last_updated: '2026-09-06'
+$last_updated: "2026-09-09"
 summary: >-
-  URL resolution engine for the pillar/vessel/product/suburb SEO matrix. Three resolvers —
-  resolveMatrix (vessel-centric, depth 1-3), resolvePillarProduct (product across all vessels,
-  depth 1-2), resolveRegionPage (region landing, single segment). Each validates pillar,
-  checks segment existence against taxonomy collections with overrideAccess false, and enforces
-  combination validity (e.g. product must be in asset applicableProducts, suburb requires
-  product). Returns structured MatrixData or null (404). Also provides matrixH1,
-  matrixDescription, matrixUrl, pillarProductH1, pillarProductDescription text helpers.
+  URL resolution engine for the SEO matrix. 9 URL levels across pillar, asset, product, region, and
+  suburb dimensions. 7 resolvers: resolveMatrix (vessel-centric, depth 1-3), resolvePillarProduct
+  (product across all vessels, depth 1-2), resolveRegionPage (pillar-scoped region),
+  resolveRegionSuburbPage (pillar-scoped region+suburb), resolveAllPillarRegion (all-pillar region
+  landing), resolveAllPillarSuburb (all-pillar suburb). Each validates pillar, checks segment
+  existence against taxonomy collections with overrideAccess false, and enforces combination
+  validity. Returns structured data or null (404). Also provides H1, description, and URL helpers
+  for each level.
 $system: template-website/system
 $service: template-website/winning-trimming-com-au
 intent: >-
-  Turn SEO-friendly URLs into structured page data so the matrix templates can render
-  consistent, optimised landing pages. Enforce that only valid pillar/asset/product/suburb
-  combinations resolve — invalid ones 404, keeping the URL space clean for search engines.
+  Turn SEO-friendly URLs into structured page data so the matrix templates can render consistent,
+  optimised landing pages. Enforce that only valid pillar/asset/product/suburb combinations resolve
+  — invalid ones 404, keeping the URL space clean for search engines.
 status: built
 implementation:
   primary: src/Matrix/matrix.ts
-  test_code: ''
+  test_code: ""
   test_code_status: none
 see_also:
   - template-website/winning-trimming-com-au/seo-matrix-collections
@@ -28,122 +29,199 @@ see_also:
 flows:
   - id: resolve-vessel-matrix
     name: Resolve vessel matrix URL
-    description: 'URL like /marine/yachts or /marine/yachts/weather-covers or /marine/yachts/weather-covers/belmont'
+    description: >-
+      URL like /marine/yachts or /marine/yachts/weather-covers or
+      /marine/yachts/weather-covers/belmont
     steps:
-      - {id: s1, action: validate, target: 'isValidPillar(pillar) and segments length 1-3'}
-      - {id: s2, action: get, target: 'asset-types where slug and pillar match, depth 2, limit 1'}
-      - {id: s3, action: validate, target: 'assetType found else return null'}
-      - {id: s4, action: get, target: 'if segment 2, service-types where slug and pillar match'}
-      - {id: s5, action: validate, target: 'productType must be in assetType.applicableProducts slugs'}
-      - {id: s6, action: get, target: 'if segment 3, suburbs where slug match (requires productType)'}
-      - {id: s7, action: get, target: 'siblingAssets same pillar, nearbySuburbs same region'}
-      - {id: s8, action: return, target: 'MatrixData with pillar, assetType, productType, suburb, region, depth, siblings, nearby'}
+      - id: s1
+        action: validate
+        target: isValidPillar(pillar) and segments length 1-3
+      - id: s2
+        action: get
+        target: asset-types where slug and pillar match, depth 2, limit 1
+      - id: s3
+        action: validate
+        target: assetType found else return null
+      - id: s4
+        action: get
+        target: if segment 2, service-types where slug and pillar match
+      - id: s5
+        action: validate
+        target: productType must be in assetType.applicableProducts slugs
+      - id: s6
+        action: get
+        target: if segment 3, suburbs where slug match (requires productType)
+      - id: s7
+        action: get
+        target: siblingAssets same pillar, nearbySuburbs same region
+      - id: s8
+        action: return
+        target: MatrixData with pillar, assetType, productType, suburb, region, depth, siblings, nearby
   - id: resolve-pillar-product
     name: Resolve pillar-level product URL
-    description: 'URL like /marine/weather-covers or /marine/weather-covers/belmont (product across all vessels)'
+    description: URL like /marine/weather-covers or /marine/weather-covers/belmont (product across all vessels)
     steps:
-      - {id: s1, action: validate, target: 'isValidPillar and segments 1-2'}
-      - {id: s2, action: get, target: 'service-types where slug and pillar match'}
-      - {id: s3, action: get, target: 'if segment 2, suburbs where slug match'}
-      - {id: s4, action: get, target: 'all asset-types for pillar, filter to applicableAssets containing product'}
-      - {id: s5, action: validate, target: 'applicableAssets length > 0 else return null'}
-      - {id: s6, action: get, target: 'nearbySuburbs same region if suburb present'}
-      - {id: s7, action: return, target: 'PillarProductData'}
+      - id: s1
+        action: validate
+        target: isValidPillar and segments 1-2
+      - id: s2
+        action: get
+        target: service-types where slug and pillar match
+      - id: s3
+        action: get
+        target: if segment 2, suburbs where slug match
+      - id: s4
+        action: get
+        target: all asset-types for pillar, filter to applicableAssets containing product
+      - id: s5
+        action: validate
+        target: applicableAssets length > 0 else return null
+      - id: s6
+        action: get
+        target: nearbySuburbs same region if suburb present
+      - id: s7
+        action: return
+        target: PillarProductData
   - id: resolve-region
     name: Resolve region landing URL
-    description: 'URL like /marine/lake-macquarie (single segment after pillar)'
+    description: URL like /marine/lake-macquarie (single segment after pillar)
     steps:
-      - {id: s1, action: validate, target: 'isValidPillar and single segment'}
-      - {id: s2, action: get, target: 'regions where slug match'}
-      - {id: s3, action: validate, target: 'region.pillars empty or includes pillar'}
-      - {id: s4, action: get, target: 'parallel fetch suburbs, businesses, assetTypes for region+pillar'}
-      - {id: s5, action: return, target: 'RegionPageData'}
+      - id: s1
+        action: validate
+        target: isValidPillar and single segment
+      - id: s2
+        action: get
+        target: regions where slug match
+      - id: s3
+        action: validate
+        target: region.pillars empty or includes pillar
+      - id: s4
+        action: get
+        target: parallel fetch suburbs, businesses, assetTypes for region+pillar
+      - id: s5
+        action: return
+        target: RegionPageData
 contracts:
   - id: pillar-validation
     description: Pillar slug must be in the 5 valid pillar values
     must_have:
-      - 'isValidPillar checks against pillarValues (marine, automotive, caravan-and-rv, trade-and-industrial, commercial)'
-      - 'Invalid pillar returns null immediately'
+      - >-
+        isValidPillar checks against pillarValues (marine, automotive, caravan-and-rv,
+        trade-and-industrial, commercial)
+      - Invalid pillar returns null immediately
   - id: segment-count
     description: Segment count enforced per resolver
     must_have:
-      - 'resolveMatrix: 1-3 segments'
-      - 'resolvePillarProduct: 1-2 segments'
-      - 'resolveRegionPage: exactly 1 segment'
-      - 'Out of range returns null'
+      - "resolveMatrix: 1-3 segments"
+      - "resolvePillarProduct: 1-2 segments"
+      - "resolveRegionPage: exactly 1 segment"
+      - Out of range returns null
   - id: combination-validity
     description: Only valid combinations resolve; invalid ones 404
     must_have:
-      - 'Product must be in asset applicableProducts (checked via slug list)'
-      - 'Suburb requires product (suburb without product returns null)'
-      - 'Region must be relevant to pillar (pillars empty or includes pillar)'
-      - 'PillarProduct with no applicableAssets returns null'
+      - Product must be in asset applicableProducts (checked via slug list)
+      - Suburb requires product (suburb without product returns null)
+      - Region must be relevant to pillar (pillars empty or includes pillar)
+      - PillarProduct with no applicableAssets returns null
   - id: override-access-false
     description: All taxonomy queries use overrideAccess false
     must_have:
-      - 'asset-types, service-types, suburbs, regions, businesses queries all use overrideAccess false'
-      - 'Respects published/unpublished status and access rules'
+      - >-
+        asset-types, service-types, suburbs, regions, businesses queries all use overrideAccess
+        false
+      - Respects published/unpublished status and access rules
   - id: h1-generation
     description: Dynamic H1 derived from resolved data
     must_have:
-      - 'matrixH1: depth 1 uses workSuffix from applicableProducts categories, depth 2 uses product title, depth 3 adds location'
-      - 'pillarProductH1: pillarLabel + product, optionally + suburb/region'
-      - 'singularOf: uses singular field or strips trailing s (not ss)'
-      - 'productCategory maps titles to Covers, Enclosures, Canvas, Sail Covers, Seats, Cushions, Interior, Upholstery'
+      - >-
+        matrixH1: depth 1 uses workSuffix from applicableProducts categories, depth 2 uses product
+        title, depth 3 adds location
+      - "pillarProductH1: pillarLabel + product, optionally + suburb/region"
+      - "singularOf: uses singular field or strips trailing s (not ss)"
+      - >-
+        productCategory maps titles to Covers, Enclosures, Canvas, Sail Covers, Seats, Cushions,
+        Interior, Upholstery
   - id: meta-description
     description: Meta description assembled from dimensions
     must_have:
-      - 'matrixDescription: vessel + product + suburb/region + brand tagline'
-      - 'pillarProductDescription: pillarLabel + product + suburb/region + brand tagline'
+      - "matrixDescription: vessel + product + suburb/region + brand tagline"
+      - "pillarProductDescription: pillarLabel + product + suburb/region + brand tagline"
       - "Brand tagline: 'by Winning Trimming. Custom-made and repaired to last.'"
   - id: url-builder
     description: matrixUrl builds canonical URLs from segments
     must_have:
-      - 'matrixUrl(pillar, assetSlug, productSlug?, suburbSlug?)'
-      - 'Format: /pillar/asset[/product][/suburb]'
+      - matrixUrl(pillar, assetSlug, productSlug?, suburbSlug?)
+      - "Format: /pillar/asset[/product][/suburb]"
 tests:
   - id: valid-depth-1
-    setup: {pillar: marine, segments: '[yachts]'}
+    setup:
+      pillar: marine
+      segments: "[yachts]"
     expect:
-      - {depth: 1, assetType: yachts, productType: null}
+      - depth: 1
+        assetType: yachts
+        productType: null
   - id: valid-depth-3
-    setup: {pillar: marine, segments: '[yachts, weather-covers, belmont]'}
+    setup:
+      pillar: marine
+      segments: "[yachts, weather-covers, belmont]"
     expect:
-      - {depth: 3, suburb: belmont, region: 'lake-macquarie'}
+      - depth: 3
+        suburb: belmont
+        region: lake-macquarie
   - id: invalid-product
-    setup: {pillar: marine, segments: '[yachts, nonexistent-product]'}
+    setup:
+      pillar: marine
+      segments: "[yachts, nonexistent-product]"
     expect:
-      - {result: null}
+      - result: null
   - id: product-not-applicable
-    setup: {pillar: marine, segments: '[yachts, earth-moving-seat-repair]'}
+    setup:
+      pillar: marine
+      segments: "[yachts, earth-moving-seat-repair]"
     expect:
-      - {result: null, reason: 'product not in asset applicableProducts'}
+      - result: null
+        reason: product not in asset applicableProducts
   - id: suburb-without-product
-    setup: {pillar: marine, segments: '[yachts, belmont]'}
+    setup:
+      pillar: marine
+      segments: "[yachts, belmont]"
     expect:
-      - {result: null, reason: 'suburb requires product at depth 2'}
+      - result: null
+        reason: suburb requires product at depth 2
   - id: invalid-pillar
-    setup: {pillar: aerospace, segments: '[yachts]'}
+    setup:
+      pillar: aerospace
+      segments: "[yachts]"
     expect:
-      - {result: null}
+      - result: null
   - id: region-pillar-relevance
-    setup: {pillar: automotive, region: 'lake-macquarie (pillars: [marine])'}
+    setup:
+      pillar: automotive
+      region: "lake-macquarie (pillars: [marine])"
     expect:
-      - {result: null, reason: 'region not relevant to pillar'}
+      - result: null
+        reason: region not relevant to pillar
 decisions:
   - id: three-resolvers
     decision: Three separate resolvers (matrix, pillarProduct, region) rather than one mega-resolver
-    rationale: Each handles a distinct URL shape and data structure. Keeps resolution logic readable and testable. Page component tries them in order.
-    date: '2026-09-06'
+    rationale: >-
+      Each handles a distinct URL shape and data structure. Keeps resolution logic readable and
+      testable. Page component tries them in order.
+    date: "2026-09-06"
   - id: null-on-invalid
     decision: Return null for invalid combinations (page calls notFound)
-    rationale: Clean separation — resolver is pure data logic, page handles 404 response. Resolvers can be reused outside Next.js.
-    date: '2026-09-06'
+    rationale: >-
+      Clean separation — resolver is pure data logic, page handles 404 response. Resolvers can be
+      reused outside Next.js.
+    date: "2026-09-06"
   - id: workcategory-h1
     decision: Group products into categories (Covers, Canvas, Seats etc.) for concise depth-1 H1s
-    rationale: Listing 14 products in an H1 is unreadable. Grouping into max 3 categories keeps H1 concise and keyword-targeted.
-    date: '2026-09-06'
+    rationale: >-
+      Listing 14 products in an H1 is unreadable. Grouping into max 3 categories keeps H1 concise
+      and keyword-targeted.
+    date: "2026-09-06"
   - id: depth-as-type
     decision: Model depth as a union type 1 | 2 | 3
     rationale: Compile-time safety — templates can narrow on depth knowing only 3 values are possible.
-    date: '2026-09-06'
+    date: "2026-09-06"
