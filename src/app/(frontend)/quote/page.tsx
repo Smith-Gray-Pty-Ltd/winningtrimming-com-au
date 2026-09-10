@@ -30,6 +30,19 @@ export default function QuoteForm() {
   // Honeypot — bots fill this, humans don't
   const [honeypot, setHoneypot] = useState('')
 
+  // Ad / campaign attribution carried in the URL (utm_source, utm_campaign, fbclid).
+  // Read on mount so Messenger and ad traffic keeps its source in the quote record.
+  const [attribution, setAttribution] = useState({ source: '', campaign: '', fbclid: '' })
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const q = new URLSearchParams(window.location.search)
+    setAttribution({
+      source: q.get('utm_source') || '',
+      campaign: q.get('utm_campaign') || '',
+      fbclid: q.get('fbclid') || '',
+    })
+  }, [])
+
   const [form, setForm] = useState({
     title: '',
     pillar: '',
@@ -171,6 +184,10 @@ export default function QuoteForm() {
           serviceTypes: form.serviceTypeIds,
           subjectPhotos: photos.map((p) => ({ image: Number(p.mediaId) })),
           status: 'requested',
+          // Ad / campaign attribution (kept from the URL)
+          source: attribution.source || null,
+          campaign: attribution.campaign || null,
+          fbclid: attribution.fbclid || null,
         }),
       })
       const data = await res.json()
