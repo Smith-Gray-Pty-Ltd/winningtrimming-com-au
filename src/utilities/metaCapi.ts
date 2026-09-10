@@ -18,6 +18,9 @@ import crypto from 'crypto'
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || ''
 const TOKEN = process.env.META_CAPI_TOKEN || ''
 const TEST_CODE = process.env.META_CAPI_TEST_CODE || ''
+/** Standard event name. The dataset's Events Manager setup requires `LeadSubmitted`;
+ *  override with META_CAPI_EVENT_NAME (must match the browser pixel event name). */
+const EVENT_NAME = process.env.META_CAPI_EVENT_NAME || 'LeadSubmitted'
 const GRAPH_VERSION = 'v21.0'
 
 function sha256(value?: string | null): string | undefined {
@@ -90,7 +93,7 @@ export async function sendMetaLead(input: MetaLeadInput): Promise<void> {
     const body: Record<string, unknown> = {
       data: [
         {
-          event_name: 'Lead',
+          event_name: EVENT_NAME,
           event_time: Math.floor(Date.now() / 1000),
           event_id: input.eventId,
           action_source: 'website',

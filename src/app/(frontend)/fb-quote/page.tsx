@@ -19,17 +19,21 @@ type UploadedPhoto = {
 
 /**
  * Facebook Pixel tracking helper.
- * Calls fbq('track', 'Lead') on successful form submission.
+ *
+ * Event name must match the server-side Conversions API event (META_CAPI_EVENT_NAME,
+ * default `LeadSubmitted` — the event the pixel's dataset is configured for).
  *
  * Pass the created quote id so the browser event shares its event_id with the
  * server-side Conversions API event (``quote-<id>``) — Meta then de-duplicates
  * the pair instead of counting two leads.
  */
+const LEAD_EVENT = process.env.NEXT_PUBLIC_META_LEAD_EVENT || 'LeadSubmitted'
+
 function trackLead(quoteId?: number | string) {
   if (typeof window !== 'undefined' && (window as any).fbq) {
     ;(window as any).fbq(
       'track',
-      'Lead',
+      LEAD_EVENT,
       {},
       quoteId ? { eventID: `quote-${quoteId}` } : undefined,
     )
