@@ -33,8 +33,12 @@ export function GoogleAnalytics() {
     const key = pathname + '?' + searchParams.toString()
     if (firedRef.current === key) return
     firedRef.current = key
+    // NOTE: page_path must keep the '?' separator — without it the query string
+    // is glued onto the path (e.g. /fb-quotepillar=marine) and GA reports a URL
+    // that never existed.
+    const search = searchParams.toString()
     window.gtag?.('event', 'page_view', {
-      page_path: pathname + searchParams.toString(),
+      page_path: search ? `${pathname}?${search}` : pathname,
       page_location: window.location.href,
       page_title: document.title,
     })
