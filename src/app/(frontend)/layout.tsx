@@ -19,6 +19,11 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
+// Facebook App ID — from developers.facebook.com → your app → App ID.
+// Required by the Facebook Sharing Debugger for the fb:app_id meta tag.
+// Leave empty to omit (the Sharing Debugger will warn but previews still work).
+const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID || ''
+
 // Winning Trimming brand font: Poppins (body 300, headings 500). Reuses the
 // --font-geist-sans CSS variable so Tailwind's fontFamily.sans + the typography
 // plugin pick it up without further config changes.
@@ -167,6 +172,7 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   openGraph: mergeOpenGraph(),
+  ...(FB_APP_ID ? { facebook: { appId: FB_APP_ID } } : {}),
   twitter: {
     card: 'summary_large_image',
     title: 'Winning Trimming | Marine, Recreational & Trade Upholstery',
