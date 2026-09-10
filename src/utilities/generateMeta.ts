@@ -14,7 +14,9 @@ export const generateMeta = async (args: {
     typeof doc?.meta?.image === 'object' &&
     doc.meta.image !== null &&
     'url' in doc.meta.image &&
-    `${getServerSideURL()}`
+    doc.meta.image.url
+      ? `${getServerSideURL()}${doc.meta.image.url}`
+      : undefined
 
   const title = doc?.meta?.title
     ? doc?.meta?.title
