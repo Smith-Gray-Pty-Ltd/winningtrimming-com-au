@@ -20,10 +20,19 @@ type UploadedPhoto = {
 /**
  * Facebook Pixel tracking helper.
  * Calls fbq('track', 'Lead') on successful form submission.
+ *
+ * Pass the created quote id so the browser event shares its event_id with the
+ * server-side Conversions API event (``quote-<id>``) — Meta then de-duplicates
+ * the pair instead of counting two leads.
  */
-function trackLead() {
+function trackLead(quoteId?: number | string) {
   if (typeof window !== 'undefined' && (window as any).fbq) {
-    ;(window as any).fbq('track', 'Lead')
+    ;(window as any).fbq(
+      'track',
+      'Lead',
+      {},
+      quoteId ? { eventID: `quote-${quoteId}` } : undefined,
+    )
   }
 }
 
@@ -222,8 +231,8 @@ function FacebookQuoteForm() {
         return
       }
 
-      // Track Facebook Pixel Lead event
-      trackLead()
+      // Track Facebook Pixel Lead event (same event_id as the server CAPI event)
+      trackLead(data?.doc?.id)
       router.push('/quote/success')
       router.refresh()
     } catch {

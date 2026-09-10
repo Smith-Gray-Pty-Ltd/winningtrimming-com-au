@@ -2,6 +2,7 @@ import type { CollectionConfig, Where } from 'payload'
 
 import { authenticated } from '../access/authenticated'
 import { notifyStaffOfQuote, notifyCustomerOfQuote } from '../utilities/email'
+import { sendMetaLead } from '../utilities/metaCapi'
 
 /**
  * Simple in-memory rate limiter for quote submissions.
@@ -404,6 +405,36 @@ export const Quotes: CollectionConfig = {
         if (operation !== 'create') return
 
         const quote = doc as any
+
+        // Server-side Meta conversion event. Shares its event_id (`quote-<id>`)
+        // with the browser pixel Lead event so Meta de-duplicates the pair.
+        {
+          const ip =
+            req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+            req.headers.get('x-real-ip') ||
+            undefined
+          const [first, ...rest] = String(quote.contactName || '')
+            .trim()
+            .split(/\s+/)
+          void sendMetaLead({
+            eventId: `quote-${quote.id}`,
+            eventSourceUrl: `${process.env.NEXT_PUBLIC_SERVER_URL || ''}/fb-quote`,
+            email: quote.contactEmail,
+            phone: quote.contactPhone,
+            firstName: first,
+            lastName: rest.join(' ') || undefined,
+            clientIp: ip,
+            userAgent: req.headers.get('user-agent'),
+            cookieHeader: req.headers.get('cookie'),
+            fbclid: quote.fbclid,
+            customData: {
+              content_name: quote.subject || quote.title,
+              content_category: quote.pillar,
+              source: quote.source || 'website',
+              campaign: quote.campaign || undefined,
+            },
+          })
+        }
 
         // Fetch the full quote with photos populated (the afterChange doc
         // has raw IDs for upload fields, not the media objects with URLs)

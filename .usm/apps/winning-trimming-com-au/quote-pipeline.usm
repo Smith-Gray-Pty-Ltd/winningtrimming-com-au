@@ -2,12 +2,13 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/quote-pipeline
 $type: feature
 $version: 1
-$last_updated: "2026-09-09"
+$last_updated: "2026-09-10"
 summary: >-
   Public quote request form at /quote with photo uploads (max 10, JPG/PNG/WebP/HEIC, 10MB each),
   honeypot anti-spam, in-memory IP rate limiting (3/hour), auto-customer creation from contact
-  email, and dual email notifications (staff + customer) via Google Workspace SMTP. Staff email
-  includes all form fields (name, email, phone, category, subject, asset type, service types,
+  email, dual email notifications (staff + customer) via Google Workspace SMTP, and server-side Meta
+  Conversions API (CAPI) Lead event with shared event_id for browser/server de-duplication. Staff
+  email includes all form fields (name, email, phone, category, subject, asset type, service types,
   subject details, location, preferred dates, source/campaign, description), photo thumbnails in a
   3-column grid, and a direct admin panel link. Quotes flow through a 6-status state machine and
   convert to Bookings on acceptance.
@@ -108,6 +109,39 @@ flows:
       - id: s5
         action: create
         target: staff convert accepted quote to a Booking, booking relationship set on quote
+  - id: meta-capi-event
+    name: Meta conversion event (server-side)
+    description: >-
+      Server-side Lead event sent to Meta Conversions API alongside the browser pixel, de-duplicated
+      via shared event_id.
+    steps:
+      - id: s1
+        action: fire
+        target: "afterChange (create only): sendMetaLead() called via void — not awaited"
+      - id: s2
+        action: construct
+        target: event_id = `quote-<doc.id>`, action_source=website, event_source_url=<SERVER_URL>/fb-quote
+      - id: s3
+        action: hash
+        target: "SHA-256: email, phone (digits only), firstName, lastName"
+      - id: s4
+        action: attach
+        target: >-
+          user_data: em, ph, fn, ln, fbp, fbc (from cookies or reconstructed from fbclid),
+          client_ip_address, client_user_agent
+      - id: s5
+        action: attach
+        target: "custom_data: content_name (subject), content_category (pillar), source, campaign"
+      - id: s6
+        action: send
+        target: >-
+          POST graph.facebook.com/v21.0/<PIXEL_ID>/events with access_token=META_CAPI_TOKEN;
+          optional test_event_code for Test Events tab
+      - id: s7
+        action: de-duplicate
+        target: >-
+          browser fbq('track','Lead',{},{eventID:`quote-<id>`}) shares event_id — Meta counts one
+          Lead
 contracts:
   - id: public-create
     description: Anyone can POST /api/quotes — create access returns true unconditionally
@@ -167,6 +201,19 @@ contracts:
       - "QUOTE_STATUSES: requested, reviewing, quoted, accepted, declined, expired"
       - "defaultValue: 'requested'"
       - status field in sidebar
+  - id: meta-capi-lead
+    description: >-
+      afterChange hook (create only) fires sendMetaLead() server-side via Meta Conversions API,
+      sharing event_id `quote-<id>` with the browser pixel Lead event so Meta de-duplicates the pair
+    must_have:
+      - event_id is `quote-<doc.id>` — identical to browser fbq eventID
+      - "action_source: 'website', event_source_url: <NEXT_PUBLIC_SERVER_URL>/fb-quote"
+      - "PII hashed SHA-256: email, phone (digits only), firstName, lastName"
+      - _fbp and _fbc from request cookies; _fbc reconstructed from fbclid if absent
+      - client_ip_address from x-forwarded-for[0] || x-real-ip
+      - "custom_data: content_name (subject||title), content_category (pillar), source, campaign"
+      - No-op unless NEXT_PUBLIC_META_PIXEL_ID + META_CAPI_TOKEN env vars are set
+      - Called via `void` (not awaited); errors caught and logged — never blocks quote submission
 tests:
   - id: honeypot-rejects-bot
     setup:
@@ -268,3 +315,11 @@ decisions:
     decision: Honeypot submissions throw an error whose message reads as success
     rationale: Fools the bot into thinking it succeeded so it does not retry with a different tactic.
     date: "2026-09-06"
+  - id: capi-pixel-dedup
+    decision: >-
+      Send server-side Conversions API Lead event alongside browser pixel, de-duplicated via shared
+      event_id (`quote-<id>`)
+    rationale: >-
+      CAPI survives ad-blockers, cookie restrictions and iOS privacy; browser pixel captures rich
+      client context. Shared event_id lets Meta de-duplicate so only one Lead is counted.
+    date: "2026-09-10"
