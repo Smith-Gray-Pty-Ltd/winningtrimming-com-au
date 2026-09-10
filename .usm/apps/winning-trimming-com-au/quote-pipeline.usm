@@ -112,36 +112,38 @@ flows:
   - id: meta-capi-event
     name: Meta conversion event (server-side)
     description: >-
-      Server-side Lead event sent to Meta Conversions API alongside the browser pixel, de-duplicated
-      via shared event_id.
+      Server-side LeadSubmitted event sent to Meta Conversions API alongside the browser pixel,
+      de-duplicated via shared event_id.
     steps:
-      - id: s1
-        action: fire
+      - action: fire
+        id: s1
         target: "afterChange (create only): sendMetaLead() called via void — not awaited"
-      - id: s2
-        action: construct
-        target: event_id = `quote-<doc.id>`, action_source=website, event_source_url=<SERVER_URL>/fb-quote
-      - id: s3
-        action: hash
+      - action: construct
+        id: s2
+        target: >-
+          event_name=LeadSubmitted (configurable), event_id = `quote-<doc.id>`,
+          action_source=website, event_source_url=<SERVER_URL>/fb-quote
+      - action: hash
+        id: s3
         target: "SHA-256: email, phone (digits only), firstName, lastName"
-      - id: s4
-        action: attach
+      - action: attach
+        id: s4
         target: >-
           user_data: em, ph, fn, ln, fbp, fbc (from cookies or reconstructed from fbclid),
           client_ip_address, client_user_agent
-      - id: s5
-        action: attach
+      - action: attach
+        id: s5
         target: "custom_data: content_name (subject), content_category (pillar), source, campaign"
-      - id: s6
-        action: send
+      - action: send
+        id: s6
         target: >-
           POST graph.facebook.com/v21.0/<PIXEL_ID>/events with access_token=META_CAPI_TOKEN;
           optional test_event_code for Test Events tab
-      - id: s7
-        action: de-duplicate
+      - action: de-duplicate
+        id: s7
         target: >-
-          browser fbq('track','Lead',{},{eventID:`quote-<id>`}) shares event_id — Meta counts one
-          Lead
+          browser fbq('track', 'LeadSubmitted', {}, {eventID:`quote-<id>`}) shares event_id and
+          event_name — Meta counts one conversion
 contracts:
   - id: public-create
     description: Anyone can POST /api/quotes — create access returns true unconditionally
@@ -204,8 +206,13 @@ contracts:
   - id: meta-capi-lead
     description: >-
       afterChange hook (create only) fires sendMetaLead() server-side via Meta Conversions API,
-      sharing event_id `quote-<id>` with the browser pixel Lead event so Meta de-duplicates the pair
+      sharing event_id `quote-<id>` with the browser pixel LeadSubmitted event so Meta de-duplicates
+      the pair. Event name is configurable (META_CAPI_EVENT_NAME / NEXT_PUBLIC_META_LEAD_EVENT,
+      default LeadSubmitted) and must match on both sides.
     must_have:
+      - >-
+        event_name is LeadSubmitted (default) — configurable via META_CAPI_EVENT_NAME (CAPI) and
+        NEXT_PUBLIC_META_LEAD_EVENT (browser pixel); both must match for de-duplication
       - event_id is `quote-<doc.id>` — identical to browser fbq eventID
       - "action_source: 'website', event_source_url: <NEXT_PUBLIC_SERVER_URL>/fb-quote"
       - "PII hashed SHA-256: email, phone (digits only), firstName, lastName"
