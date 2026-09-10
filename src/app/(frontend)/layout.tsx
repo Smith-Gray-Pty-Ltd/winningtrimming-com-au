@@ -175,8 +175,7 @@ export const metadata: Metadata = {
   ...(FB_APP_ID ? { facebook: { appId: FB_APP_ID } } : {}),
   twitter: {
     card: 'summary_large_image',
-    title: 'Winning Trimming | Marine, Recreational & Trade Upholstery',
-    description:
-      'Where quality meets craftsmanship and customer service shines. Serving Lake Macquarie, Newcastle, the Hunter Valley and the Central Coast.',
+    // title and description intentionally omitted — Next.js auto-resolves
+    // them from openGraph so og:title and twitter:title always match.
   },
 }
