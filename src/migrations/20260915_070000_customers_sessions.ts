@@ -14,14 +14,26 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
  * in a production migration, so prod (which runs migrations only) was missing it.
  */
 export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
+  // Use a DO block with exception handling to be safe against concurrent
+  // static-generation workers that may try to run this migration at the
+  // same time during `next build`. `CREATE TABLE IF NOT EXISTS` alone is
+  // not sufficient — the associated pg_type entry can race between two
+  // transactions, producing "duplicate key value violates unique
+  // constraint pg_type_typname_nsp_index" even when the table doesn't
+  // exist yet. Wrapping in a DO block catches that race.
   await payload.db.drizzle.execute(sql`
-    CREATE TABLE IF NOT EXISTS "customers_sessions" (
-      "_order" integer NOT NULL,
-      "_parent_id" integer NOT NULL REFERENCES "customers"("id") ON DELETE CASCADE,
-      "id" varchar PRIMARY KEY NOT NULL,
-      "created_at" timestamp(3) with time zone default now(),
-      "expires_at" timestamp(3) with time zone NOT NULL
-    );
+    DO $$
+    BEGIN
+      CREATE TABLE IF NOT EXISTS "customers_sessions" (
+        "_order" integer NOT NULL,
+        "_parent_id" integer NOT NULL REFERENCES "customers"("id") ON DELETE CASCADE,
+        "id" varchar PRIMARY KEY NOT NULL,
+        "created_at" timestamp(3) with time zone default now(),
+        "expires_at" timestamp(3) with time zone NOT NULL
+      );
+    EXCEPTION WHEN duplicate_object THEN
+      NULL;
+    END $$;
 
     CREATE INDEX IF NOT EXISTS "customers_sessions_order_idx" ON "customers_sessions"("_order");
     CREATE INDEX IF NOT EXISTS "customers_sessions_parent_id_idx" ON "customers_sessions"("_parent_id");
