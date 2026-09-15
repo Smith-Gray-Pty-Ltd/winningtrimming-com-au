@@ -5,10 +5,12 @@ $version: 1
 $last_updated: "2026-09-15"
 summary: >-
   Production deployment to Hostinger VPS (VM 1607392, IP 187.77.152.132) via Docker Compose +
-  Traefik. GitHub Actions CI/CD (deploy.yml) builds on the VPS via SSH, runs next build in a sidecar
-  container with DB access, builds the Docker image, and restarts the stack with --env-file
-  .env.production. Media files persist in a Docker volume mounted at /app/public/media (Payload
-  staticDir), surviving container rebuilds.
+  Traefik. GitHub Actions CI/CD (deploy.yml) syncs code via rsync, builds Next.js on the VPS in a
+  sidecar container with DB access for SSG, builds the Docker image, and restarts the stack with
+  --env-file .env.production. Media files persist in a Docker volume mounted at /app/public/media
+  (Payload staticDir), surviving container rebuilds. The VPS is SHARED with smith-gray-ai and other
+  projects — builds must not exhaust resources. Database migrations must be run before the Next.js
+  build or the build fails on SSG pages that query missing tables.
 $system: template-website/system
 $service: template-website/winning-trimming-com-au
 intent: >-
@@ -20,91 +22,165 @@ flows:
     id: prep-and-deploy
     name: Pre-deploy preparation
     steps:
-      - id: s1
-        action: snapshot
+      - action: snapshot
+        id: s1
         target: Take a VPS snapshot before deploying
-      - id: s2
-        action: create
+      - action: create
+        id: s2
         target: Create docker-compose.prod.yml with Traefik labels, production env, and built image
-      - id: s3
-        action: create
+      - action: create
+        id: s3
         target: Create .env.production with all production credentials
-      - id: s4
-        action: build
+      - action: build
+        id: s4
         target: Build the production Docker image on the VPS
-      - id: s5
-        action: start
+      - action: start
+        id: s5
         target: Start containers with docker compose -f docker-compose.prod.yml up -d
   - description: Update GoDaddy DNS to point winningtrimming.com.au to the VPS.
     id: dns-update
     name: Update GoDaddy DNS
     steps:
-      - id: s1
-        action: get
+      - action: get
+        id: s1
         target: Fetch current DNS records for winningtrimming.com.au via GoDaddy API
-      - id: s2
-        action: update
+      - action: update
+        id: s2
         target: Update A record @ to 187.77.152.132
-      - id: s3
-        action: update
+      - action: update
+        id: s3
         target: Update A record www to 187.77.152.132
-      - id: s4
-        action: preserve
+      - action: preserve
+        id: s4
         target: Preserve MX records (Google Workspace) and TXT records (SPF, domain verification)
-      - id: s5
-        action: wait
+      - action: wait
+        id: s5
         target: Wait for DNS propagation (TTL 600s, should be under 10 minutes)
   - description: Run database migration and seed the database.
     id: migrate-and-seed
     name: Database migration and seed
     steps:
-      - id: s1
-        action: run
-        target: Run pnpm migrate inside the web container to apply all migrations
-      - id: s2
-        action: navigate
+      - action: run
+        id: s1
+        target: Run pnpm migrate inside the web container to apply all migrations (BEFORE the build)
+      - action: navigate
+        id: s2
         target: Visit https://winningtrimming.com.au/admin and create the first admin user
-      - id: s3
-        action: run
+      - action: run
+        id: s3
         target: Run the seed endpoint to populate pages, posts, projects, matrix, regions, suburbs
-      - id: s4
-        action: run
+      - action: run
+        id: s4
         target: Run the empty-pillars seed script to create caravan/trade/commercial asset types
-      - id: s5
-        action: run
+      - action: run
+        id: s5
         target: Run the Google reviews sync script to fetch reviews from Places API
   - description: Configure the daily cron job for Google reviews sync.
     id: cron-setup
     name: Configure reviews cron
     steps:
-      - id: s1
-        action: create
+      - action: create
+        id: s1
         target: Create cron entry on VPS for daily reviews sync at 6am
-      - id: s2
-        action: create
+      - action: create
+        id: s2
         target: Ensure environment variables are available to cron
   - description: Verify the site is live and all pages return 200.
     id: verify
     name: Post-deploy verification
     steps:
-      - id: s1
-        action: check
+      - action: check
+        id: s1
         target: curl https://winningtrimming.com.au returns 200
-      - id: s2
-        action: check
+      - action: check
+        id: s2
         target: curl https://winningtrimming.com.au/quote returns 200
-      - id: s3
-        action: check
+      - action: check
+        id: s3
         target: curl https://winningtrimming.com.au/admin returns 200
-      - id: s4
-        action: check
+      - action: check
+        id: s4
         target: curl https://winningtrimming.com.au/marine returns 200
-      - id: s5
-        action: check
+      - action: check
+        id: s5
         target: curl https://winningtrimming.com.au/sitemap.xml returns 200
-      - id: s6
-        action: check
+      - action: check
+        id: s6
         target: Verify SSL certificate is valid
+  - description: >-
+      Safe deploy procedure for CI/CD and manual deploys. The VPS is shared with smith-gray-ai and
+      other projects — builds must not crash the server.
+    id: safe-deploy-procedure
+    name: Safe deploy procedure (CI/CD and manual)
+    steps:
+      - action: check
+        id: s1
+        target: >-
+          SSH into VPS and check system load: `uptime`. If 1-min load average > 4.0, ABORT and retry
+          later. The VPS has 4 vCPU — load > 4 means CPU-bound.
+      - action: check
+        id: s2
+        target: >-
+          Check available memory: `free -h`. If available < 2GB, ABORT and retry later. The build
+          sidecar needs ~2GB for pnpm + Next.js.
+      - action: check
+        id: s3
+        target: >-
+          Check no other build is running: `docker ps --filter ancestor=node:20-slim -q`. If output
+          is non-empty, ABORT — another deploy is in progress.
+      - action: snapshot
+        id: s4
+        target: >-
+          Take a VPS snapshot via hapi: `hapi vps snapshots create 1607392`. This is the rollback
+          point.
+      - action: rsync
+        id: s5
+        target: >-
+          Sync code to VPS via rsync (excludes node_modules, .next, .git, storage, public/media,
+          .env*)
+      - action: run
+        id: s6
+        target: >-
+          Run database migrations INSIDE the existing web container: `docker exec
+          winningtrimming-web-1 pnpm migrate`. This ensures tables exist BEFORE the build tries to
+          query them.
+      - action: build
+        id: s7
+        target: >-
+          Start the sidecar build container with --memory=4g limit: `docker run --rm --memory=4g
+          --network <net> -v <project>:/build ...`. The memory limit prevents the build from
+          consuming all VPS RAM.
+      - action: verify
+        id: s8
+        target: >-
+          Verify .next/BUILD_ID exists after build. If not, the build failed — ABORT, do not restart
+          containers.
+      - action: build
+        id: s9
+        target: >-
+          Build the Docker image: `docker compose --env-file .env.production -f
+          docker-compose.prod.yml build web`
+      - action: restart
+        id: s10
+        target: >-
+          Restart the stack: `docker compose --env-file .env.production -f docker-compose.prod.yml
+          up -d`
+      - action: cleanup
+        id: s11
+        target: >-
+          Prune build artifacts: `docker container prune -f && docker image prune -f`. This frees
+          disk space and prevents buildup.
+      - action: health
+        id: s12
+        target: >-
+          Health check: poll http://localhost:3000/ inside the web container until 200 or timeout
+          (90s)
+      - action: cleanup
+        id: s13
+        target: >-
+          On ANY failure or cancellation: kill lingering build containers: `docker ps --filter
+          ancestor=node:20-slim --filter status=running -q | xargs -r docker kill`. This prevents
+          orphaned builds from consuming resources.
 contracts:
   - description: Production docker-compose.yml on the VPS with Postgres, Next.js app, and Traefik routing
     id: docker-compose-prod
@@ -116,6 +192,8 @@ contracts:
       - Compose launched with --env-file .env.production so interpolation resolves correctly
       - Storage volume mounted at /app/public/media (Payload staticDir) not /app/storage
       - Media files persist across container rebuilds via Docker volume
+    applies_after:
+      - compose file written
   - description: Media files (seed images + uploads) persist across container rebuilds
     id: media-persistence
     must_have:
@@ -123,6 +201,8 @@ contracts:
       - Volume pre-populated with all seed media from local public/media tar
       - Payload Media collection staticDir = public/media matches the volume mount
       - New uploads survive docker compose down/up
+    applies_after:
+      - first deploy
   - description: Next.js build runs on the VPS in a sidecar container with DB access for SSG
     id: build-on-vps
     must_have:
@@ -130,19 +210,29 @@ contracts:
       - DB migration prompt (batch=-1) must not block the build
       - .next/BUILD_ID exists after build before image is built
       - Dockerfile.prod COPYs the pre-built .next into the image
+    applies_after:
+      - build script written
   - description: GitHub Actions CI/CD for automated deploys
     id: github-actions-cicd
     must_have:
-      - "deploy.yml: SSH into VPS, pull latest, build, restart, health check"
+      - "deploy.yml: SSH into VPS, rsync code, build, restart, health check"
       - "ci.yml: lint + typecheck on PRs"
       - "Secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY, VPS_PROJECT_DIR"
       - "--env-file .env.production used for all compose commands"
+      - 30-minute timeout on the deploy job
+      - >-
+        On failure/cancellation, kill any lingering build containers: docker ps --filter name=build
+        --filter status=running -q | xargs -r docker kill
+    applies_after:
+      - workflow written
   - description: Traefik handles HTTPS with Let's Encrypt for winningtrimming.com.au
     id: ssl-cert
     must_have:
       - Traefik ACME configuration for Let's Encrypt
       - Automatic redirect from HTTP to HTTPS
       - Certificate auto-renewal
+    applies_after:
+      - Traefik configured
   - description: Site is accessible and all pages return 200
     id: verify-live
     must_have:
@@ -150,6 +240,64 @@ contracts:
       - https://winningtrimming.com.au/admin returns 200
       - All 276 media files return 200 via /api/media/file/
       - Homepage, quote, admin, pillar pages return 200
+    applies_after:
+      - deploy complete
+  - description: The VPS is a SHARED resource. Deploys must be resource-aware and not crash other projects.
+    id: vps-shared-resource-safety
+    must_have:
+      - >-
+        Before starting a build, SSH in and check `uptime` — if load average (1min) > 4.0, abort and
+        retry later
+      - Before starting a build, check `free -h` — if available memory < 2GB, abort and retry later
+      - >-
+        The deploy workflow must NOT run in parallel with other project deploys on the same VPS
+        (smith-gray-ai deploys to the same VM 1607392)
+      - >-
+        On failure or cancellation, kill any lingering build sidecar containers: docker ps --filter
+        ancestor=node:20-slim --filter status=running -q | xargs -r docker kill
+      - >-
+        The build sidecar container must have a memory limit (docker run --memory=4g) to prevent it
+        from consuming all VPS RAM
+      - >-
+        After the build completes, prune the build container and any dangling images: docker
+        container prune -f && docker image prune -f
+    applies_after:
+      - deploy workflow run
+  - description: >-
+      Database migrations must be run BEFORE the Next.js build, not after. The build generates
+      static pages that query the database.
+    id: migrate-before-build
+    must_have:
+      - >-
+        The deploy workflow runs `pnpm migrate` (or `payload migrate`) inside the web container
+        BEFORE starting the sidecar build container
+      - If a migration fails, the deploy aborts — do not build on top of a missing table
+      - >-
+        New Payload auth collections (with auth: {}) require a sessions table migration — check for
+        this when adding new auth-enabled collections
+      - >-
+        The migration step runs inside the existing web container (which has DB access), not in the
+        sidecar build container
+      - Migration output is logged to the GitHub Actions output for debugging
+    applies_after:
+      - deploy workflow run
+  - description: How to update data schemas (Payload collections) in production without breaking the site
+    id: schema-update-procedure
+    must_have:
+      - "Step 1: Create migration file locally (pnpm migrate:create)"
+      - "Step 2: Test migration locally against a fresh DB (pnpm migrate && pnpm seed)"
+      - "Step 3: Commit migration file to the repo"
+      - "Step 4: Push to main — the deploy workflow will run migrations before the build"
+      - "Step 5: Monitor the GitHub Actions run — if migration fails, SSH in and fix manually"
+      - NEVER use push:true in production postgresAdapter — always use explicit migrations
+      - >-
+        NEVER run pnpm migrate directly on the VPS outside the deploy workflow — it may conflict
+        with a concurrent deploy
+      - >-
+        If a migration adds a new table that SSG pages query, the migration MUST be in the same
+        deploy as the code that queries it
+    applies_after:
+      - schema change needed
 tests:
   - id: home-page-live
     setup:
@@ -246,4 +394,49 @@ decisions:
       migration. The users_sessions migration fixed the same gap for the users collection but the
       customers collection was missed. Both auth collections now have explicit session-table
       migrations.
+    date: "2026-09-15"
+  - id: vps-is-shared-resource
+    decision: >-
+      The VPS (VM 1607392) is a SHARED resource running 28+ containers across 5 projects
+      (smith-gray-ai, winningtrimming, conductor-academy, daangerdainger-staging, traefik). Builds
+      and deploys must be resource-aware.
+    rationale: >-
+      On 2026-09-15, a winningtrimming deploy ran a 30-minute pnpm build in a sidecar container
+      while smith-gray-ai was also building. The combined load (load average 14.24 on 4 vCPU) made
+      the VPS unresponsive — all sites returned Cloudflare 524 (origin timeout). The VPS had to be
+      force-restarted via the Hostinger API, taking down all 5 projects simultaneously. Agents
+      deploying to this VPS MUST check current load before starting a build and MUST NOT run builds
+      in parallel with other projects.
+    date: "2026-09-15"
+  - id: migrate-before-build
+    decision: >-
+      Database migrations MUST be run before the Next.js build, not after. The build process
+      generates static pages (SSG) that query the database — if tables are missing, the build fails
+      or produces broken pages.
+    rationale: >-
+      On 2026-09-15, a deploy failed because the customers_sessions table didn't exist in
+      production. The Next.js build tried to query customers during SSG, hit PostgreSQL 42P01
+      (relation does not exist), and the build either failed or generated broken pages. The fix was
+      to add the migration and ensure it runs before the build step. The deploy workflow must run
+      migrations BEFORE the sidecar build container.
+    date: "2026-09-15"
+  - id: check-vps-load-before-deploy
+    decision: >-
+      Before starting any build on the VPS, check the system load average. If load > 4.0 (1 vCPU per
+      core), abort the deploy and retry later.
+    rationale: >-
+      The VPS has 4 vCPU. A load average above 4.0 means the system is CPU-bound. Running a pnpm
+      build (which is CPU-intensive: TypeScript compilation, webpack, SSG page generation) on top of
+      an already-loaded system will cause cascading failures — Docker containers start timing out,
+      Traefik can't route, and all sites go down. The deploy workflow should SSH in, check `uptime`,
+      and abort if load is too high.
+    date: "2026-09-15"
+  - id: deploy-timeout-30min
+    decision: >-
+      The deploy workflow has a 30-minute timeout. If the build takes longer, the job is cancelled
+      but the sidecar build container may still be running on the VPS, consuming resources.
+    rationale: >-
+      On 2026-09-15, a deploy was cancelled after 30 minutes but the build container kept running,
+      consuming CPU and memory. This contributed to the VPS crash. The deploy workflow should kill
+      any lingering build containers on failure/cancellation.
     date: "2026-09-15"
