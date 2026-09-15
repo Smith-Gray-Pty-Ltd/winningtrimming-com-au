@@ -314,7 +314,7 @@ function FacebookQuoteForm() {
                 placeholder="Your name"
                 value={form.contactName}
                 onChange={(e) => setForm((f) => ({ ...f, contactName: e.target.value }))}
-                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
+                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
               />
             </div>
             <div>
@@ -324,7 +324,7 @@ function FacebookQuoteForm() {
                 placeholder="Phone number"
                 value={form.contactPhone}
                 onChange={(e) => setForm((f) => ({ ...f, contactPhone: e.target.value }))}
-                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
+                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
               />
             </div>
           </div>
@@ -336,7 +336,7 @@ function FacebookQuoteForm() {
               placeholder="Email address"
               value={form.contactEmail}
               onChange={(e) => setForm((f) => ({ ...f, contactEmail: e.target.value }))}
-              className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
+              className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
             />
           </div>
 
@@ -397,7 +397,7 @@ function FacebookQuoteForm() {
               placeholder="What is it for? (e.g. Bayliner 175, café booth, excavator seat)"
               value={form.subject}
               onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
-              className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
+              className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
             />
           </div>
 
@@ -409,7 +409,7 @@ function FacebookQuoteForm() {
               placeholder="Tell us what you need done..."
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00] resize-none"
+              className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00] resize-none"
             />
           </div>
 
@@ -421,7 +421,7 @@ function FacebookQuoteForm() {
                 placeholder="Location (optional)"
                 value={form.location}
                 onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
+                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
               />
             </div>
             <div>
@@ -430,7 +430,7 @@ function FacebookQuoteForm() {
                 placeholder="Preferred timing (optional)"
                 value={form.preferredDates}
                 onChange={(e) => setForm((f) => ({ ...f, preferredDates: e.target.value }))}
-                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
+                className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-base text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[#607A00]"
               />
             </div>
           </div>

@@ -250,7 +250,7 @@ export default function QuoteForm() {
                 placeholder="John Smith"
                 value={form.contactName}
                 onChange={(e) => setForm((f) => ({ ...f, contactName: e.target.value }))}
-                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div>
@@ -264,7 +264,7 @@ export default function QuoteForm() {
                 placeholder="0400 123 456"
                 value={form.contactPhone}
                 onChange={(e) => setForm((f) => ({ ...f, contactPhone: e.target.value }))}
-                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
           </div>
@@ -279,7 +279,7 @@ export default function QuoteForm() {
               placeholder="john@example.com"
               value={form.contactEmail}
               onChange={(e) => setForm((f) => ({ ...f, contactEmail: e.target.value }))}
-              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
 
@@ -352,7 +352,7 @@ export default function QuoteForm() {
               placeholder="e.g. Bimini replacement for Bayliner 175"
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
 
@@ -368,7 +368,7 @@ export default function QuoteForm() {
               placeholder="e.g. Bayliner 175 bowrider, café booth seating, CAT 320 excavator"
               value={form.subject}
               onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
-              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
 
@@ -384,7 +384,7 @@ export default function QuoteForm() {
               placeholder="Tell us what you need done..."
               value={form.description}
               onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
 
@@ -400,7 +400,7 @@ export default function QuoteForm() {
                 placeholder="e.g. Toronto, Lake Macquarie"
                 value={form.location}
                 onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div>
@@ -413,7 +413,7 @@ export default function QuoteForm() {
                 placeholder="e.g. Before October"
                 value={form.preferredDates}
                 onChange={(e) => setForm((f) => ({ ...f, preferredDates: e.target.value }))}
-                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
           </div>
@@ -429,7 +429,7 @@ export default function QuoteForm() {
               placeholder="Length, model, stored at, colour preferences, etc."
               value={form.subjectDetails}
               onChange={(e) => setForm((f) => ({ ...f, subjectDetails: e.target.value }))}
-              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
 
