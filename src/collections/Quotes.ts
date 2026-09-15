@@ -1,8 +1,27 @@
 import type { CollectionConfig, Where } from 'payload'
+import { email as emailValidator } from 'payload/shared'
 
 import { authenticated } from '../access/authenticated'
 import { notifyStaffOfQuote, notifyCustomerOfQuote } from '../utilities/email'
 import { sendMetaLead } from '../utilities/metaCapi'
+
+/**
+ * `contactEmail` is required for every anonymous submission EXCEPT Messenger
+ * ad leads (source = 'messenger-ad'), which routinely arrive with a phone
+ * number but no email. The public web form still requires email because its
+ * utm_source is 'meta-ads' (or blank) — only the exact string 'messenger-ad'
+ * opts out. Payload 3.x types `required` as a boolean, so the conditional
+ * requirement is enforced via a custom `validate` that delegates to the
+ * built-in email validator with a computed `required` flag.
+ */
+const isMessengerAdLead = (data?: { source?: string | null } | null): boolean =>
+  data?.source === 'messenger-ad'
+
+const validateContactEmail: (value: string | null | undefined, options: any) => true | string | Promise<true | string> = (value, options) => {
+  const required =
+    !options?.data?.customer && !isMessengerAdLead(options?.data)
+  return emailValidator(value, { ...options, required })
+}
 
 /**
  * Simple in-memory rate limiter for quote submissions.
@@ -101,9 +120,10 @@ export const Quotes: CollectionConfig = {
     {
       name: 'contactEmail',
       type: 'email',
-      required: true,
+      required: false,
+      validate: validateContactEmail,
       admin: {
-        description: 'Customer email.',
+        description: 'Customer email. Optional for Messenger leads (source = messenger-ad); required otherwise.',
         condition: (data) => !data?.customer,
       },
     },

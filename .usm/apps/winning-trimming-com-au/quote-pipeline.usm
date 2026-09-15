@@ -2,7 +2,7 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/quote-pipeline
 $type: feature
 $version: 1
-$last_updated: "2026-09-10"
+$last_updated: "2026-09-15"
 summary: >-
   Public quote request form at /quote with photo uploads (max 10, JPG/PNG/WebP/HEIC, 10MB each),
   honeypot anti-spam, in-memory IP rate limiting (3/hour), auto-customer creation from contact
@@ -11,7 +11,10 @@ summary: >-
   email includes all form fields (name, email, phone, category, subject, asset type, service types,
   subject details, location, preferred dates, source/campaign, description), photo thumbnails in a
   3-column grid, and a direct admin panel link. Quotes flow through a 6-status state machine and
-  convert to Bookings on acceptance.
+  convert to Bookings on acceptance. contactEmail is required for anonymous web submissions but
+  optional for internal Messenger-ad leads (source = 'messenger-ad'), which are lodged by an
+  internal script with a phone number but often no email; contactPhone stays mandatory for all
+  anonymous submissions.
 $system: template-website/system
 $service: template-website/winning-trimming-com-au
 intent: >-
@@ -330,3 +333,16 @@ decisions:
       CAPI survives ad-blockers, cookie restrictions and iOS privacy; browser pixel captures rich
       client context. Shared event_id lets Meta de-duplicate so only one Lead is counted.
     date: "2026-09-10"
+  - id: messenger-ad-optional-email
+    decision: >-
+      contactEmail is required for anonymous web submissions but optional when source =
+      'messenger-ad' (Facebook Messenger leads lodged by an internal script). Requirement is
+      enforced via a custom validate function that delegates to Payload's built-in email validator
+      with a computed required flag, because Payload 3.x types required as a boolean only.
+    rationale: >-
+      Messenger chats reliably give a phone number but often no email; requiring email blocked those
+      leads from being created. Phone remains the minimum bar for a lead (contactPhone stays
+      required). The public web form is unaffected — its utm_source is 'meta-ads' or blank, and only
+      the exact string 'messenger-ad' opts out of the email requirement. beforeChange auto-customer
+      creation, notifyCustomerOfQuote, and sendMetaLead all already tolerate a missing contactEmail.
+    date: "2026-09-15"
