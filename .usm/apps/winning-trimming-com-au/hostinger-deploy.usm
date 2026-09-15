@@ -2,7 +2,7 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/hostinger-deploy
 $type: feature
 $version: 1
-$last_updated: "2026-09-08"
+$last_updated: "2026-09-15"
 summary: >-
   Production deployment to Hostinger VPS (VM 1607392, IP 187.77.152.132) via Docker Compose +
   Traefik. GitHub Actions CI/CD (deploy.yml) builds on the VPS via SSH, runs next build in a sidecar
@@ -233,3 +233,17 @@ decisions:
       Migration and seed are one-time operations. Manual control ensures they run exactly once,
       avoiding data loss.
     date: "2026-09-07"
+  - id: customers-sessions-migration
+    decision: >-
+      Added migration 20260915_070000_customers_sessions to create the customers_sessions table in
+      production, mirroring the earlier users_sessions fix (20260908_171500). The customers
+      collection has auth: {}, so Payload's Postgres adapter always left-joins customers_sessions
+      when reading customer docs — even at depth=0. Without the table, every GET/POST /api/customers
+      failed with PostgreSQL 42P01 (relation does not exist), which Payload's REST layer swallowed
+      as a generic 500.
+    rationale: >-
+      The table was created by dev-mode schema-push locally but never captured in a production
+      migration. The users_sessions migration fixed the same gap for the users collection but the
+      customers collection was missed. Both auth collections now have explicit session-table
+      migrations.
+    date: "2026-09-15"
