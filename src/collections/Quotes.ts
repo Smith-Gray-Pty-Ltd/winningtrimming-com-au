@@ -365,13 +365,18 @@ export const Quotes: CollectionConfig = {
           throw new Error('Quote submitted successfully.')
         }
 
-        // Rate limiting — check IP address
-        const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-          || req.headers.get('x-real-ip')
-          || 'unknown'
+        // Rate limiting — check IP address.
+        // Authenticated requests (session or API key) bypass the rate limiter
+        // entirely — it exists to prevent anonymous spam, not to throttle
+        // known staff. See the system-api-key feature spec.
+        if (!req.user) {
+          const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+            || req.headers.get('x-real-ip')
+            || 'unknown'
 
-        if (ip !== 'unknown' && !checkRateLimit(ip)) {
-          throw new Error('Too many quote requests. Please try again later.')
+          if (ip !== 'unknown' && !checkRateLimit(ip)) {
+            throw new Error('Too many quote requests. Please try again later.')
+          }
         }
 
         // Auto-create or link a customer from contact details (for anonymous

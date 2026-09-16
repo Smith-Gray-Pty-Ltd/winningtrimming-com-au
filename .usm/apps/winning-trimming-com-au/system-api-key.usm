@@ -1,0 +1,193 @@
+$schema: https://usm.dev/schema/v1.json
+$id: template-website/winning-trimming-com-au/system-api-key
+$type: feature
+$version: 1
+$last_updated: "2026-09-17"
+summary: >-
+  Enables Payload API key authentication on the Users collection so internal automation (the
+  Messenger-to-quote marketing agent) can submit quote requests via POST /api/quotes without being
+  throttled by the anonymous IP rate limiter (3/hour). Authenticated API-key requests bypass the
+  rate limiter entirely; anonymous web submissions remain rate-limited. The API key is passed via
+  the Authorization header as 'users API-Key <key>'.
+$system: template-website/system
+$service: template-website/winning-trimming-com-au
+intent: >-
+  The marketing agent lodges Messenger-sourced quote requests (source: 'messenger-ad') through the
+  same POST /api/quotes endpoint as the public web form. Because it authenticates via session cookie
+  (POST /api/users/login), each request shares the VPS's egress IP, so the agent hits the 3/hour
+  rate limit after three quotes. An API key on the Users collection gives the agent a stable,
+  header-based credential that Payload recognises as an authenticated user, allowing the
+  beforeChange hook to skip the rate limiter for authenticated staff requests while keeping it
+  enforced for anonymous public submissions.
+status: in-progress
+implementation:
+  primary: src/collections/Users/index.ts, src/collections/Quotes.ts
+  test_code: ""
+  test_code_status: none
+see_also:
+  - template-website/winning-trimming-com-au/quote-pipeline
+  - template-website/winning-trimming-com-au/access-control
+flows:
+  - id: agent-quote-submission
+    name: Marketing agent submits a Messenger quote via API key
+    description: >-
+      The Messenger-to-quote script authenticates with an API key instead of a session cookie,
+      bypassing the IP rate limiter.
+    steps:
+      - id: s1
+        action: generate
+        target: >-
+          Admin generates an API key for a staff user via the Payload admin panel (Users collection,
+          API Key field)
+      - id: s2
+        action: configure
+        target: >-
+          API key stored in the agent's environment (e.g. WT_API_KEY in
+          ~/.config/winning-trimming/admin.env)
+      - id: s3
+        action: submit
+        target: >-
+          Agent sends POST /api/quotes with header Authorization: 'users API-Key <key>' and the
+          quote payload (source: 'messenger-ad', contactPhone required, contactEmail optional)
+      - id: s4
+        action: authenticate
+        target: >-
+          Payload's apiKey auth strategy reads the header, hashes the key (SHA-256 HMAC with payload
+          secret), finds the matching user, sets req.user with collection='users',
+          _strategy='api-key'
+      - id: s5
+        action: validate
+        target: "beforeChange: honeypot check still runs (agent does not fill the website field)"
+      - id: s6
+        action: skip
+        target: "beforeChange: rate limiter is skipped because req.user is set (authenticated request)"
+      - id: s7
+        action: create
+        target: >-
+          beforeChange: auto-customer creation runs if contactEmail is present; skipped for
+          messenger-ad leads with no email
+      - id: s8
+        action: send
+        target: >-
+          afterChange: staff notification email fires; customer email skipped if no contactEmail;
+          Meta CAPI Lead event fires
+contracts:
+  - id: users-api-key-enabled
+    description: >-
+      The Users collection has useAPIKey: true so Payload generates and validates API keys for staff
+      users
+    must_have:
+      - Users collection auth.useAPIKey = true
+      - API key field appears in the admin panel for each user
+      - "API key is passed via Authorization: 'users API-Key <key>' header"
+      - Payload's built-in apiKey auth strategy handles authentication — no custom code needed
+  - id: rate-limit-bypass-for-authenticated
+    description: >-
+      The beforeChange rate limiter skips authenticated requests (req.user is set) and only applies
+      to anonymous submissions
+    must_have:
+      - If req.user exists (any collection, any strategy), skip checkRateLimit entirely
+      - Anonymous requests (no req.user) still hit the 3/hour/IP limit
+      - The rate limit check moves from 'ip !== unknown' to 'no req.user AND ip !== unknown'
+      - Honeypot check still runs for ALL requests (authenticated or not)
+  - id: no-access-rule-changes
+    description: >-
+      No changes to collection access rules — API-key auth sets req.user the same way session auth
+      does, so existing access functions work unchanged
+    must_have:
+      - Quotes create access stays () => true
+      - Quotes read access unchanged (staff see all, customers see own)
+      - Users collection access unchanged (authenticated only)
+      - No new access functions or middleware
+  - id: agent-credential-migration
+    description: >-
+      The marketing agent script (wt_chat_to_quote.py) switches from session-cookie auth to API-key
+      header auth. Owned by the marketing agent team — documented here for completeness.
+    must_have:
+      - Agent reads WT_API_KEY from environment (admin.env)
+      - >-
+        Agent sends Authorization: 'users API-Key <key>' header instead of POST /api/users/login +
+        cookie jar
+      - >-
+        Existing session-based auth still works (not removed) — API key is an alternative, not a
+        replacement
+      - If WT_API_KEY is not set, agent falls back to session login (backward compatible)
+tests:
+  - id: anonymous-still-rate-limited
+    setup:
+      method: POST /api/quotes
+      auth: none
+      ip: 203.0.113.1
+      submissions: 4
+    expect:
+      - count: 3
+        result: ok
+      - count: 1
+        result: rate-limited
+  - id: api-key-bypasses-rate-limit
+    setup:
+      method: POST /api/quotes
+      auth: users API-Key <valid-key>
+      ip: 203.0.113.1
+      submissions: 10
+    expect:
+      - count: 10
+        result: ok
+  - id: invalid-api-key-rejected
+    setup:
+      method: POST /api/quotes
+      auth: users API-Key invalid-key
+      ip: 203.0.113.1
+    expect:
+      - result: created-as-anonymous
+      - note: >-
+          invalid key means req.user is null, so it falls through to anonymous path with rate
+          limiting
+  - id: api-key-auth-sets-req-user
+    setup:
+      method: GET /api/users/me
+      auth: users API-Key <valid-key>
+    expect:
+      - field: user.collection
+        result: users
+      - field: user._strategy
+        result: api-key
+  - id: honeypot-still-blocks-authenticated
+    setup:
+      method: POST /api/quotes
+      auth: users API-Key <valid-key>
+      website: bot-spam
+    expect:
+      - result: error response
+decisions:
+  - id: payload-built-in-api-key
+    decision: >-
+      Use Payload's built-in useAPIKey on the Users collection rather than a custom middleware or a
+      separate API-key collection
+    rationale: >-
+      Payload 3.x has first-class API key support: set auth.useAPIKey=true on the collection, and
+      the built-in apiKey auth strategy handles header parsing, HMAC hashing, and user lookup. No
+      custom code needed for authentication — only a one-line bypass in the rate limiter. The API
+      key is stored as an HMAC hash (apiKeyIndex) in the DB, so a DB leak doesn't expose the raw
+      key.
+    date: "2026-09-17"
+  - id: bypass-not-higher-limit
+    decision: Authenticated requests bypass the rate limiter entirely rather than getting a higher limit
+    rationale: >-
+      The rate limiter exists to prevent anonymous spam/abuse. Authenticated staff requests via API
+      key are trusted by definition — a higher limit (e.g. 100/hour) would just be an arbitrary
+      number that could still be hit during a busy Messenger campaign. Bypassing entirely is simpler
+      and correct: the honeypot still guards against automated abuse even for authenticated
+      requests.
+    date: "2026-09-17"
+  - id: check-req-user-not-strategy
+    decision: >-
+      The rate limiter bypass checks req.user (any authenticated user) rather than checking
+      _strategy === 'api-key' specifically
+    rationale: >-
+      The rate limiter should not run for ANY authenticated request — whether via API key, session
+      cookie, or a future auth strategy. Checking req.user is simpler, more future-proof, and
+      matches the intent (rate limiting is for anonymous public submissions only).
+      Session-authenticated customers submitting quotes are also exempt, which is correct — they are
+      known users, not anonymous spammers.
+    date: "2026-09-17"
