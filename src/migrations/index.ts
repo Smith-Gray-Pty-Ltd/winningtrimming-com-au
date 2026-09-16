@@ -10,6 +10,7 @@ import * as migration_20260812_100000 from './20260812_100000';
 import * as migration_20260908_164135_home_page_global from './20260908_164135_home_page_global';
 import * as migration_20260908_171500_users_sessions from './20260908_171500_users_sessions';
 import * as migration_20260915_070000_customers_sessions from './20260915_070000_customers_sessions';
+import * as migration_20260917_000000_users_api_key from './20260917_000000_users_api_key';
 
 export const migrations = [
   {
@@ -71,5 +72,10 @@ export const migrations = [
     up: migration_20260915_070000_customers_sessions.up,
     down: migration_20260915_070000_customers_sessions.down,
     name: '20260915_070000_customers_sessions',
+  },
+  {
+    up: migration_20260917_000000_users_api_key.up,
+    down: migration_20260917_000000_users_api_key.down,
+    name: '20260917_000000_users_api_key',
   },
 ];
