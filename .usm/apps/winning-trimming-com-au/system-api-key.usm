@@ -2,7 +2,7 @@ $schema: https://usm.dev/schema/v1.json
 $id: template-website/winning-trimming-com-au/system-api-key
 $type: feature
 $version: 1
-$last_updated: "2026-09-17"
+$last_updated: "2026-09-16"
 summary: >-
   Enables Payload API key authentication on the Users collection so internal automation (the
   Messenger-to-quote marketing agent) can submit quote requests via POST /api/quotes without being
@@ -19,9 +19,11 @@ intent: >-
   header-based credential that Payload recognises as an authenticated user, allowing the
   beforeChange hook to skip the rate limiter for authenticated staff requests while keeping it
   enforced for anonymous public submissions.
-status: in-progress
+status: built
 implementation:
-  primary: src/collections/Users/index.ts, src/collections/Quotes.ts
+  primary: >-
+    src/collections/Users/index.ts, src/collections/Quotes.ts,
+    src/migrations/20260917_000000_users_api_key.ts
   test_code: ""
   test_code_status: none
 see_also:
