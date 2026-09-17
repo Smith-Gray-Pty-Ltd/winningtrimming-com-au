@@ -114,7 +114,7 @@ jobs:
           STATUS="000"
           for i in $(seq 1 10); do
             STATUS=$(docker exec winningtrimming-web-1 \
-              sh -c 'curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/' 2>/dev/null || echo "000")
+              sh -c 'node -e "const http=require(\"http\");const r=http.get(\"http://localhost:3000/\",res=>{process.exit(res.statusCode===200?0:1)});r.on(\"error\",()=>process.exit(1));r.setTimeout(3000,()=>process.exit(1))" 2>/dev/null && echo 200 || echo "000")
             if [ "$STATUS" = "200" ]; then
               echo "Site is up (HTTP $STATUS)"
               break
