@@ -77,7 +77,10 @@ services:
       # Persist Next.js ISR cache across restarts.
       - next_cache:/app/.next/cache
       # Writable tmp for Node.js/Next.js internals (read-only fs needs this).
-      - tmpfs:/tmp
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 268435456  # 256MB limit
     networks:
       - winningtrimming-net
     labels:
