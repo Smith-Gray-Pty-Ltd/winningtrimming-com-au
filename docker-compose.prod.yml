@@ -50,26 +50,26 @@ services:
       POSTGRES_URI: postgresql://${POSTGRES_USER:-payload}:${POSTGRES_PASSWORD:-payload}@db:5432/${POSTGRES_DB:-winningtrimming}
       NODE_ENV: production
     # ── SECURITY HARDENING (2026-09-17) ──────────────────────────────────
-    # Drop ALL Linux capabilities except CHOWN (needed by the entrypoint to
-    # fix volume ownership on startup, then dropped via gosu to nextjs).
+    # Drop ALL Linux capabilities except those needed by the entrypoint
+    # (CHOWN to fix volume ownership, SETUID/SETGID for gosu to drop to nextjs).
+    # The app process itself runs as nextjs with no capabilities.
     cap_drop:
       - ALL
     cap_add:
       - CHOWN
-    # Prevent privilege escalation via setuid binaries.
-    security_opt:
-      - no-new-privileges:true
-    # Make the container's root filesystem read-only. Only the media and
-    # next_cache volumes (below) are writable. This prevents malware from
-    # persisting binaries or scripts to disk inside the container.
+      - SETUID
+      - SETGID
+    # Prevent privilege escalation. Note: gosu uses setuid() which requires
+    # SETUID cap, but no-new-privileges blocks it. We keep no-new-privileges
+    # OFF because the entrypoint needs to drop from root to nextjs via gosu.
+    # The app process (nextjs) has no capabilities anyway (cap_drop: ALL).
+    # security_opt:
+    #   - no-new-privileges:true
+    # Read-only root filesystem prevents malware from persisting to disk.
+    # Volumes and tmpfs mounts are still writable.
     read_only: true
     # Memory limit to prevent runaway processes from crashing the shared VPS.
     mem_limit: 2g
-    # Restrict outbound network access — the container only needs to reach
-    # the DB (on the compose network) and external APIs (SMTP, Meta, Google).
-    # We do NOT restrict outbound here because the app legitimately calls
-    # external APIs. Instead, the Hostinger firewall + non-root user +
-    # read-only fs + no capabilities provide defense in depth.
     volumes:
       # Persist media uploads across container rebuilds. The Media collection
       # (src/collections/Media.ts) uses staticDir = public/media, so Payload
