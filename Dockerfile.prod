@@ -66,6 +66,13 @@ RUN groupadd --gid 1001 nextjs \
 
 WORKDIR /app
 
+# Symlink /build -> /app so media file paths baked into .next during the
+# build step (which runs in /build) resolve correctly at runtime (/app).
+# The build sidecar runs at /build, so Payload's staticDir resolves to
+# /build/public/media. At runtime, this symlink redirects /build to /app
+# so /build/public/media → /app/public/media (where the volume is mounted).
+RUN ln -s /app /build
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS=--no-deprecation
