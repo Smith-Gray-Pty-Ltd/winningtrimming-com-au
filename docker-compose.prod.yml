@@ -50,9 +50,12 @@ services:
       POSTGRES_URI: postgresql://${POSTGRES_USER:-payload}:${POSTGRES_PASSWORD:-payload}@db:5432/${POSTGRES_DB:-winningtrimming}
       NODE_ENV: production
     # ── SECURITY HARDENING (2026-09-17) ──────────────────────────────────
-    # Drop ALL Linux capabilities — the container needs none for a Next.js app.
+    # Drop ALL Linux capabilities except CHOWN (needed by the entrypoint to
+    # fix volume ownership on startup, then dropped via gosu to nextjs).
     cap_drop:
       - ALL
+    cap_add:
+      - CHOWN
     # Prevent privilege escalation via setuid binaries.
     security_opt:
       - no-new-privileges:true
@@ -74,8 +77,13 @@ services:
       # here means the 3900+ seed/upload images survive `docker compose down`
       # and image rebuilds — without this, every rebuild loses all media.
       - storage:/app/public/media
-      # Persist Next.js ISR cache across restarts.
-      - next_cache:/app/.next/cache
+      # Next.js ISR/image cache — use tmpfs instead of a named volume because
+      # the old volume was created by root and the nextjs user can't write to it.
+      # Cache regenerates on first request; no persistence needed across restarts.
+      - type: tmpfs
+        target: /app/.next/cache
+        tmpfs:
+          size: 536870912  # 512MB limit
       # Writable tmp for Node.js/Next.js internals (read-only fs needs this).
       - type: tmpfs
         target: /tmp
@@ -109,7 +117,6 @@ services:
 volumes:
   db_data:
   storage:
-  next_cache:
 
 networks:
   winningtrimming-net:

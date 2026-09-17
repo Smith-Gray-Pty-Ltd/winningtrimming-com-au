@@ -80,14 +80,23 @@ COPY tsconfig.json ./tsconfig.json
 COPY src ./src
 
 # Create the media mount point so the volume has a target even on first run.
-# Must be owned by nextjs so the app can write uploaded files.
 RUN mkdir -p /app/public/media /app/.next/cache \
     && chown -R nextjs:nextjs /app
 
-VOLUME ["/app/public/media", "/app/.next/cache"]
+# Entrypoint script fixes volume ownership on startup (volumes created by
+# the old root container have root ownership). Runs as root, fixes perms,
+# then drops to nextjs via gosu before executing the CMD.
+RUN apt-get update && apt-get install -y --no-install-recommends gosu \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+VOLUME ["/app/public/media"]
 
 EXPOSE 3000
 
-USER nextjs
-
+# Don't set USER here — the entrypoint runs as root to fix volume perms,
+# then uses gosu to drop to nextjs for the actual app process.
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["dumb-init", "node", "node_modules/.bin/next", "start"]
