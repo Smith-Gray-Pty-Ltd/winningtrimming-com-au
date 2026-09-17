@@ -1,14 +1,20 @@
 # syntax=docker/dockerfile:1.7
 #
-# Winning Trimming — production runtime image.
+# Winning Trimming — production runtime image (hardened).
 # The Next.js build is done on the VPS (with DB access for schema sync +
 # static page generation) before building this image. This image just
 # packages the pre-built .next output with production node_modules.
 #
+# SECURITY HARDENING (2026-09-17):
+#   - Runs as non-root user (nextjs, uid 1001)
+#   - No curl/git/bash in the final runtime image
+#   - dumb-init for proper signal handling (no init as PID 1 issue)
+#   - Minimal production deps only
+#
 # Build steps on the VPS:
 #   1. docker compose up -d db
 #   2. docker run --rm --network <net> -v $(pwd):/build ... pnpm install && npx tsx src/scripts/sync-schema.ts && pnpm build
-#   3. docker compose -f docker-compose.prod.yml build web   # ← this Dockerfile
+#   3. docker compose -f docker-compose.prod.yml build web   # <- this Dockerfile
 #   4. docker compose -f docker-compose.prod.yml up -d
 #
 FROM node:20-slim AS base
@@ -29,7 +35,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS=--no-deprecation
 
 # ---------------------------------------------------------------------------
-# Install production deps only
+# Install production deps only (uses base with git/curl for pnpm install)
 # ---------------------------------------------------------------------------
 FROM base AS prod-deps
 
@@ -38,7 +44,7 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile --prod
 
 # ---------------------------------------------------------------------------
-# Final prod runtime — pre-built .next + production node_modules
+# Final prod runtime — hardened, non-root, no curl/git/bash
 # ---------------------------------------------------------------------------
 # NOTE: public/media is NOT copied from the build context because it is
 # mounted as a Docker volume at runtime (see docker-compose.prod.yml).
@@ -46,9 +52,23 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
 # image rebuilds. The COPY public ./public line below brings in the
 # static assets (favicons, hero webps, logo) but the /public/media
 # subdirectory will be shadowed by the volume mount at runtime.
-FROM base AS prod
+FROM node:20-slim AS prod
+
+# Install ONLY dumb-init for proper signal handling. No git, curl, or bash.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        dumb-init \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove
+
+# Create non-root user for the application process
+RUN groupadd --gid 1001 nextjs \
+    && useradd --uid 1001 --gid nextjs --shell /bin/false --create-home nextjs
+
+WORKDIR /app
 
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS=--no-deprecation
 
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY .next ./.next
@@ -60,10 +80,14 @@ COPY tsconfig.json ./tsconfig.json
 COPY src ./src
 
 # Create the media mount point so the volume has a target even on first run.
-RUN mkdir -p /app/public/media
+# Must be owned by nextjs so the app can write uploaded files.
+RUN mkdir -p /app/public/media /app/.next/cache \
+    && chown -R nextjs:nextjs /app
 
 VOLUME ["/app/public/media", "/app/.next/cache"]
 
 EXPOSE 3000
 
-CMD ["pnpm", "start"]
+USER nextjs
+
+CMD ["dumb-init", "node", "node_modules/.bin/next", "start"]
