@@ -7,7 +7,9 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
-export const dynamic = 'force-dynamic'
+// ISR rather than force-dynamic: these are public marketing pages. Serving them
+// no-store made every crawler fetch an origin render and starved the crawl budget.
+export const revalidate = 3600
 
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })

@@ -14,7 +14,9 @@ import { ProjectCard } from '@/Projects/ProjectCard'
 import { ReviewsSection, Stars, CompactReviewCard } from '@/components/Reviews/ReviewsSection'
 import { generateMeta } from '@/utilities/generateMeta'
 
-export const dynamic = 'force-dynamic'
+// ISR rather than force-dynamic: these are public marketing pages. Serving them
+// no-store made every crawler fetch an origin render and starved the crawl budget.
+export const revalidate = 3600
 
 // ---------------------------------------------------------------------------
 // Data queries

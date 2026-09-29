@@ -13,7 +13,9 @@ import { generateMeta } from '@/utilities/generateMeta'
 import { CMSLink } from '@/components/Link'
 import PageClient from './page.client'
 
-export const dynamic = 'force-dynamic'
+// ISR rather than force-dynamic: these are public marketing pages. Serving them
+// no-store made every crawler fetch an origin render and starved the crawl budget.
+export const revalidate = 3600
 
 type Args = {
   params: Promise<{ slug?: string }>
