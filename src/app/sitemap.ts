@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config })
   const host = getServerSideURL()
 
-  const [pages, posts, projects, assets, suburbs, regions, serviceTypes] = await Promise.all([
+  const [pages, posts, projects, assets, regions, serviceTypes] = await Promise.all([
     payload.find({
       collection: 'pages',
       where: { _status: { equals: 'published' } },
@@ -33,12 +33,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     payload.find({
       collection: 'asset-types',
       depth: 2,
-      limit: 0,
-      overrideAccess: false,
-    }),
-    payload.find({
-      collection: 'suburbs',
-      depth: 0,
       limit: 0,
       overrideAccess: false,
     }),
@@ -96,19 +90,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       })
 
-      // Level 7: /{pillar}/{region}/{suburb} — only for suburbs in this region
-      const regionSuburbs = suburbs.docs.filter(
-        (s) => typeof s.region === 'object' && s.region !== null && s.region.id === region.id,
-      )
-      for (const suburb of regionSuburbs) {
-        if (suburb.slug) {
-          matrixEntries.push({
-            url: `${host}/${pillar}/${region.slug}/${suburb.slug}`,
-            changeFrequency: 'monthly' as const,
-            priority: 0.5,
-          })
-        }
-      }
+      // NOTE: suburb-level pages (/{pillar}/{region}/{suburb}) are deliberately NOT
+      // advertised here. They are thin, near-duplicate templates — ~45k of them
+      // previously flooded this sitemap and stalled Google's crawl of the site.
+      // They are noindexed at the route level; advertise region pages instead.
     }
   }
 
@@ -126,19 +111,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     })
 
-    // /{region}/{suburb}
-    const regionSuburbs = suburbs.docs.filter(
-      (s) => typeof s.region === 'object' && s.region !== null && s.region.id === region.id,
-    )
-    for (const suburb of regionSuburbs) {
-      if (suburb.slug) {
-        matrixEntries.push({
-          url: `${host}/${region.slug}/${suburb.slug}`,
-          changeFrequency: 'monthly' as const,
-          priority: 0.6,
-        })
-      }
-    }
+    // Suburb-level URLs (/{region}/{suburb}) deliberately omitted — see note above.
   }
 
   // Build a set of (pillar, product-slug) pairs that have at least one asset
@@ -165,15 +138,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     })
-    for (const suburb of suburbs.docs) {
-      if (suburb.slug) {
-        matrixEntries.push({
-          url: `${host}/${st.pillar}/${st.slug}/${suburb.slug}`,
-          changeFrequency: 'monthly' as const,
-          priority: 0.5,
-        })
-      }
-    }
+    // Suburb variants (/{pillar}/{product}/{suburb}) omitted — see note above.
   }
 
   for (const asset of assets.docs) {
@@ -194,16 +159,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'monthly' as const,
         priority: 0.6,
       })
-      // Depth 3: + suburb
-      for (const suburb of suburbs.docs) {
-        if (suburb.slug) {
-          matrixEntries.push({
-            url: `${host}/${asset.pillar}/${asset.slug}/${product.slug}/${suburb.slug}`,
-            changeFrequency: 'monthly' as const,
-            priority: 0.5,
-          })
-        }
-      }
+      // Depth 3 (+ suburb) omitted — see note above.
     }
   }
 
