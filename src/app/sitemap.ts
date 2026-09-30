@@ -86,6 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Level 6: /{pillar}/{region}
       matrixEntries.push({
         url: `${host}/${pillar}/${region.slug}`,
+        lastModified: (region as { updatedAt?: string }).updatedAt,
         changeFrequency: 'weekly' as const,
         priority: 0.7,
       })
@@ -107,6 +108,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // /{region}
     matrixEntries.push({
       url: `${host}/${region.slug}`,
+      lastModified: (region as { updatedAt?: string }).updatedAt,
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     })
@@ -135,6 +137,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!validPillarProducts.has(`${st.pillar}:${st.slug}`)) continue
     matrixEntries.push({
       url: `${host}/${st.pillar}/${st.slug}`,
+      lastModified: (st as { updatedAt?: string }).updatedAt,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     })
@@ -146,6 +149,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Depth 1: vessel type
     matrixEntries.push({
       url: `${host}/${asset.pillar}/${asset.slug}`,
+      lastModified: (asset as { updatedAt?: string }).updatedAt,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     })
@@ -156,6 +160,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Depth 2: vessel + product
       matrixEntries.push({
         url: `${host}/${asset.pillar}/${asset.slug}/${product.slug}`,
+        lastModified: (asset as { updatedAt?: string }).updatedAt,
         changeFrequency: 'monthly' as const,
         priority: 0.6,
       })
